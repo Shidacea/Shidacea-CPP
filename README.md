@@ -28,5 +28,11 @@ The following programs need to be installed and inside your path variable (Windo
 
 # Planned features
 
-* Collision routines
-* Imgui support (if I get it to work)
+* Map routines
+* Simple state machine for scenes
+* Imgui support (if I can get it to work)
+* Tiles support
+* Game physics
+* Basic game logic
+* Implement 
+* Collision detection routines
