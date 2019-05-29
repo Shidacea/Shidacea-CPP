@@ -2,7 +2,7 @@ def main_routine(scene_class)
 
 	begin
 
-		$window = Window.new('Inuhh Shinvasion 2', 800, 600)
+		$window = Window.new('My Shidacea Project', 800, 600)
 		$window.enable_vertical_sync
 
 		$scene = scene_class.new

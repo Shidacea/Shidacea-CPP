@@ -12,7 +12,8 @@ add_definitions(-DMRB_USE_FLOAT)
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
 # Project name
-project(InuhhShinvasion2)
+project(NewProject)
+set(EXECUTABLE_NAME "NewProject")
 
 # C++ Standard
 
@@ -124,6 +125,6 @@ set(SOURCES
 
 # Create executable and link libraries
 
-add_executable(InuhhShinvasion2 ${SOURCES})
-add_dependencies(InuhhShinvasion2 mruby ${RUBY_COMPILED_TARGETS})
-target_link_libraries(InuhhShinvasion2 ${MRUBY_LIBRARIES} sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)
+add_executable(${EXECUTABLE_NAME} ${SOURCES})
+add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
+target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)
