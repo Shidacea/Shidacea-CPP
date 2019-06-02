@@ -38,14 +38,12 @@ mrb_value ruby_window_display(mrb_state* mrb, mrb_value self) {
 
 	auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, self, "@_window");
 	
-
+	//! DEBUG, will be gone soon!
 
 	sf::Event event;
 	while (window->pollEvent(event)) if (event.key.code == sf::Keyboard::Escape) exit(1);
 
-
-
-
+	//! DEBUG END
 
 	window->display();
 

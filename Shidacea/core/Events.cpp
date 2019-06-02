@@ -2,7 +2,33 @@
 
 void setup_ruby_events(mrb_state* mrb) {
 
-	auto module_key = mrb_define_module(mrb, "Key");
+	auto module_type = mrb_define_module(mrb, "EventType");
+
+	REGISTER_TYPE(mrb, module_type, Closed);
+	REGISTER_TYPE(mrb, module_type, Resized);
+	REGISTER_TYPE(mrb, module_type, LostFocus);
+	REGISTER_TYPE(mrb, module_type, GainedFocus);
+	REGISTER_TYPE(mrb, module_type, TextEntered);
+	REGISTER_TYPE(mrb, module_type, KeyPressed);
+	REGISTER_TYPE(mrb, module_type, KeyReleased);
+	REGISTER_TYPE(mrb, module_type, MouseWheelMoved);
+	REGISTER_TYPE(mrb, module_type, MouseWheelScrolled);
+	REGISTER_TYPE(mrb, module_type, MouseButtonPressed);
+	REGISTER_TYPE(mrb, module_type, MouseButtonReleased);
+	REGISTER_TYPE(mrb, module_type, MouseMoved);
+	REGISTER_TYPE(mrb, module_type, MouseEntered);
+	REGISTER_TYPE(mrb, module_type, MouseLeft);
+	REGISTER_TYPE(mrb, module_type, JoystickButtonPressed);
+	REGISTER_TYPE(mrb, module_type, JoystickButtonReleased);
+	REGISTER_TYPE(mrb, module_type, JoystickMoved);
+	REGISTER_TYPE(mrb, module_type, JoystickConnected);
+	REGISTER_TYPE(mrb, module_type, JoystickDisconnected);
+	REGISTER_TYPE(mrb, module_type, TouchBegan);
+	REGISTER_TYPE(mrb, module_type, TouchMoved);
+	REGISTER_TYPE(mrb, module_type, TouchEnded);
+	REGISTER_TYPE(mrb, module_type, SensorChanged);
+
+	auto module_key = mrb_define_module(mrb, "EventKey");
 
 	REGISTER_KEY(mrb, module_key, Unknown);
 
@@ -118,7 +144,7 @@ void setup_ruby_events(mrb_state* mrb) {
 
 	REGISTER_KEY(mrb, module_key, Pause);
 
-	auto module_mouse = mrb_define_module(mrb, "Mouse");
+	auto module_mouse = mrb_define_module(mrb, "EventMouse");
 
 	REGISTER_BUTTON(mrb, module_mouse, Left);
 	REGISTER_BUTTON(mrb, module_mouse, Right);
@@ -129,5 +155,151 @@ void setup_ruby_events(mrb_state* mrb) {
 
 	REGISTER_WHEEL(mrb, module_mouse, VerticalWheel);
 	REGISTER_WHEEL(mrb, module_mouse, HorizontalWheel);
+
+}
+
+mrb_value ruby_event_init(mrb_state* mrb, mrb_value self) {
+
+	MrbWrap::convert_to_instance_variable<sf::Event>(mrb, self, "@_event", "event");
+
+	return self;
+
+}
+
+mrb_value ruby_event_type(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(static_cast<int>(event->type));
+
+}
+
+mrb_value ruby_event_key_code(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(static_cast<int>(event->key.code));
+
+}
+
+mrb_value ruby_event_key_alt(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_bool_value(event->key.alt);
+
+}
+
+mrb_value ruby_event_key_control(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_bool_value(event->key.control);
+
+}
+
+mrb_value ruby_event_key_shift(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_bool_value(event->key.shift);
+
+}
+
+mrb_value ruby_event_key_system(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_bool_value(event->key.system);
+
+}
+
+mrb_value ruby_event_mouse_button_code(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(static_cast<int>(event->mouseButton.button));
+
+}
+
+mrb_value ruby_event_mouse_button_x(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(event->mouseButton.x);
+
+}
+
+mrb_value ruby_event_mouse_button_y(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(event->mouseButton.y);
+
+}
+
+mrb_value ruby_event_mouse_move_x(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(event->mouseMove.x);
+
+}
+
+mrb_value ruby_event_mouse_move_y(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(event->mouseMove.y);
+
+}
+
+mrb_value ruby_event_mouse_scroll_wheel(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(static_cast<int>(event->mouseWheelScroll.wheel));
+
+}
+
+mrb_value ruby_event_mouse_scroll_delta(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_float_value(mrb, event->mouseWheelScroll.delta);
+
+}
+
+mrb_value ruby_event_mouse_scroll_x(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(event->mouseWheelScroll.x);
+
+}
+
+mrb_value ruby_event_mouse_scroll_y(mrb_state* mrb, mrb_value self) {
+
+	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+
+	return mrb_fixnum_value(event->mouseWheelScroll.y);
+
+}
+
+void setup_ruby_class_event(mrb_state* mrb) {
+
+	auto ruby_event_class = mrb_define_class(mrb, "Event", mrb->object_class);
+
+	mrb_define_method(mrb, ruby_event_class, "initialize", ruby_event_init, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_event_class, "type", ruby_event_type, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_event_class, "key_code", ruby_event_key_code, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_alt?", ruby_event_key_code, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_control?", ruby_event_key_code, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_shift?", ruby_event_key_code, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_system?", ruby_event_key_code, MRB_ARGS_NONE());
+	
+	//! TODO: Other methods
 
 }
