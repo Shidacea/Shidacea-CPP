@@ -12,6 +12,7 @@ int main() {
 
 	MRB_LOAD_SCRIPT(mrb, GlobalContainer);
 
+	setup_ruby_events(mrb);
 	setup_ruby_class_texture(mrb);
 	setup_ruby_class_core_entity(mrb);
 

@@ -20,6 +20,7 @@
 #include "ResourceManager.h"
 #include "Coordinates.h"
 #include "CoreEntity.h"
+#include "Events.h"
 #include "Window.h"
 #include "Texture.h"
 #include "Map.h"

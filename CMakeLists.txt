@@ -100,6 +100,7 @@ set(MAP_SOURCES
 set(CORE_SOURCES
 	Shidacea/core/Coordinates.cpp
 	Shidacea/core/CoreEntity.cpp
+	Shidacea/core/Events.cpp
 )
 
 set(SCRIPTING_SOURCES
