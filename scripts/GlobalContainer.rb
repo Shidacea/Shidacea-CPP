@@ -1,3 +1,6 @@
+# Utility class for the entity design in this project
+# Nothing more than an extended container with support for different classes
+
 class GlobalContainer
 
 	def initialize

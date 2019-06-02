@@ -1,8 +1,11 @@
-def main_routine(scene_class)
+# This file is a template for a basic game loop
+# It can be used in its current form or it can be modified
+
+def main_routine(scene_class, title, width, height)
 
 	begin
 
-		$window = Window.new('My Shidacea Project', 800, 600)
+		$window = Window.new(title, width, height)
 		$window.enable_vertical_sync
 
 		$scene = scene_class.new

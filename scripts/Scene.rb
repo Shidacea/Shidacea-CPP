@@ -1,3 +1,6 @@
+# Base class for scenes
+
+# DEBUG
 class TestEntity < Entity
 
 	attr_reader :boxes

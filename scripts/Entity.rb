@@ -1,3 +1,5 @@
+# Base entity class
+
 class Entity < CoreEntity
 
 	@@boxes = GlobalContainer.new
