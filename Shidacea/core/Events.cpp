@@ -295,11 +295,21 @@ void setup_ruby_class_event(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_event_class, "type", ruby_event_type, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_event_class, "key_code", ruby_event_key_code, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_alt?", ruby_event_key_code, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_control?", ruby_event_key_code, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_shift?", ruby_event_key_code, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_system?", ruby_event_key_code, MRB_ARGS_NONE());
-	
-	//! TODO: Other methods
+	mrb_define_method(mrb, ruby_event_class, "key_alt?", ruby_event_key_alt, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_control?", ruby_event_key_control, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_shift?", ruby_event_key_shift, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "key_system?", ruby_event_key_system, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_event_class, "mouse_button_code", ruby_event_mouse_button_code, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "mouse_button_x", ruby_event_mouse_button_x, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "mouse_button_y", ruby_event_mouse_button_y, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_event_class, "mouse_move_x", ruby_event_mouse_move_x, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "mouse_move_y", ruby_event_mouse_move_y, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_wheel", ruby_event_mouse_scroll_wheel, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_delta", ruby_event_mouse_scroll_delta, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_x", ruby_event_mouse_scroll_x, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_y", ruby_event_mouse_scroll_y, MRB_ARGS_NONE());
 
 }
