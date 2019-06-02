@@ -7,6 +7,7 @@
 #include <mruby/compile.h>
 #include <mruby/class.h>
 #include <string>
+#include <filesystem>
 
 //! Preprocessor shenanigans to switch between script file loading and pre-compiled bytecode
 //! If debug mode is on (NDEBUG not defined), the macro will directly load the script file "scripts/XXX.rb"
@@ -41,6 +42,9 @@ namespace MrbWrap {
 	//! Execute embedded bytecode from a C array
 	//! Fastest way to load a script, but needs some setup work
 	void execute_bytecode(mrb_state* mrb, const uint8_t* symbol_array);
+
+	//! Load mods
+	void load_mods(mrb_state* mrb);
 
 	static void free_data(mrb_state* mrb, void* object_ptr) {
 

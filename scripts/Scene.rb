@@ -1,19 +1,5 @@
 # Base class for scenes
 
-# DEBUG
-class TestEntity < Entity
-
-	attr_reader :boxes
-
-	add_box("Hello")
-	add_box("Bla", index: 2)
-
-	def initialize
-		super
-	end
-
-end
-
 class Scene
 
 	# Methods for internal stuff, don't change these if inherited
@@ -36,14 +22,7 @@ class Scene
 	# Change these at will if inherited
 
 	def at_init
-		a = CoreEntity.new(@sprites)
-		b = CoreEntity.new(@sprites)
-		c = CoreEntity.new(@sprites)
-		b.delete
-		d = CoreEntity.new(@sprites)
-		a.delete
-		c.delete
-		d.delete
+
 	end
 
 	def at_exit
