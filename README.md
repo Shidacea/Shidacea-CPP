@@ -24,6 +24,7 @@ The following programs need to be installed and inside your path variable (Windo
 * Scripting support using mruby
 * Wrapped SFML classes for use with mruby
 * Basic game classes
+* Simple event handling
 * Modding support
 
 # Planned features

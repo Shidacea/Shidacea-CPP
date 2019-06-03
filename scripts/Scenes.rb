@@ -11,4 +11,12 @@ class SceneTest < Scene
 		end
 	end
 
+	def update
+		if EventKey::is_pressed?(EventKey::A) then
+			EventMouse::set_position([300, 200], $window)
+		elsif EventKey::is_pressed?(EventKey::B) then
+			puts EventMouse::get_position($window)
+		end
+	end
+
 end

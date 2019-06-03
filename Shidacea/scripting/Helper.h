@@ -6,6 +6,7 @@
 #include <mruby/data.h>
 #include <mruby/compile.h>
 #include <mruby/class.h>
+#include <mruby/array.h>
 #include <string>
 #include <filesystem>
 

@@ -15,7 +15,7 @@ mrb_value ruby_texture_load_from_file(mrb_state* mrb, mrb_value self) {
 	mrb_get_args(mrb, "z", &filename);
 
 	auto texture = MrbWrap::convert_from_instance_variable<sf::Texture>(mrb, self, "@_texture");
-	texture->loadFromFile(filename);
+	texture->loadFromFile(filename);	//! TODO: Find out why this yields a warning
 
 	return self;
 
