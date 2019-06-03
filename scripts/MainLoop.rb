@@ -9,11 +9,18 @@ def main_routine(scene_class, title, width, height)
 		$window.enable_vertical_sync
 
 		$scene = scene_class.new
+		$next_scene = true
 
 		while $window.is_open? do
 			$scene.main_draw
 			$scene.process_events
-			$scene.main_update
+			$scene.main_update 
+
+			if !$next_scene then	# Terminate program
+				break
+			elsif $next_scene != true then	# Change scene
+				$scene = $next_scene.new
+			end
 
 			# The frequency of the Garbage Collector may be subject to change
 			GC.start

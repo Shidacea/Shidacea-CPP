@@ -14,4 +14,14 @@ class SceneTest < Scene
 		d.delete
 	end
 
+	def process_events
+		while event = $window.poll_event do
+			if event.type == EventType::KeyPressed then
+				puts "Key Code = " + event.key_code.to_s
+			elsif event.type == EventType::Closed
+				$next_scene = nil
+			end
+		end
+	end
+
 end

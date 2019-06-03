@@ -65,7 +65,7 @@ mrb_value ruby_coordinates_plus(mrb_state* mrb, mrb_value self) {
 	auto this_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
 	auto other_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, other_value, "@_vector");
 
-	//! No need to call this over and over again
+	//! TODO: No need to call this over and over again. Find all of them!
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
