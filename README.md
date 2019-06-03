@@ -25,15 +25,12 @@ The following programs need to be installed and inside your path variable (Windo
 * Wrapped SFML classes for use with mruby
 * Basic game classes
 * Simple event handling
+* Simple state machine for scenes
 * Modding support
 
 # Planned features
 
-* Map routines
-* Simple state machine for scenes
+* Map routines (Tiled support)
 * Imgui support (if I can get it to work)
-* Tiles support
 * Game physics
-* Basic game logic
-* Implement 
 * Collision detection routines

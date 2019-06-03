@@ -1,4 +1,4 @@
-# This is where you want to do the most
+# This is where you want to do the most work
 # Each relevant scene can be defined here
 
 class SceneTest < Scene 
