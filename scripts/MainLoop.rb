@@ -4,7 +4,6 @@
 def main_routine(scene_class, title, width, height)
 
 	begin
-
 		$window = Window.new(title, width, height)
 		$window.enable_vertical_sync
 
@@ -17,9 +16,13 @@ def main_routine(scene_class, title, width, height)
 			$scene.main_update 
 
 			if !$next_scene then	# Terminate program
+				$scene.at_exit
+				$scene = nil
 				break
 			elsif $next_scene != true then	# Change scene
+				$scene.at_exit
 				$scene = $next_scene.new
+				$scene.at_init
 			end
 
 			# The frequency of the Garbage Collector may be subject to change
@@ -29,7 +32,6 @@ def main_routine(scene_class, title, width, height)
 		$window.close
 
 	rescue Exception => exc
-
 		f = File.open("log.txt", "a")
 
 		f.puts "Error in main loop at #{Time.now}:"
@@ -41,7 +43,6 @@ def main_routine(scene_class, title, width, height)
 		puts exc.inspect
 
 		raise exc
-
 	end
 
 end
