@@ -12,11 +12,15 @@ This repository is a template for game projects. Depending on your level of know
 
 # Requirements
 
-The following programs need to be installed and inside your path variable (Windows):
+The following programs need to be installed:
 
 * CMake
 * Ruby
 * Bison
+
+For Windows you need to make sure that the paths leading to ruby.exe and bison.exe are in the PATH variable.
+CMake can be obtained using Visual Studio, which is the recommended option.
+Also make sure to avoid path names with spaces in them, as mruby might fail to compile otherwise.
 
 # Features
 
