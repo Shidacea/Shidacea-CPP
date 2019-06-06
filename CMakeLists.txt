@@ -50,7 +50,7 @@ add_subdirectory(SFML)
 
 include_directories(${CMAKE_BINARY_DIR})
 
-file(GLOB RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
+file(GLOB_RECURSE RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
 
 set(RUBY_COMPILED_TARGETS "")
 
