@@ -10,6 +10,17 @@ This repository is a template for game projects. Depending on your level of know
 * Dive into mruby and SFML and modify them
 * Disassemble the whole thing, write some assembly code and segfault yourself into oblivion (not recommended)
 
+Overall, this engine was designed to appeal to many people instead of a single group. 
+However, a certain degree of knowledge about Ruby is needed.
+
+# Idea and history
+
+This project was inspired by the RPG Maker series from Enterbrain and complications with previous games written in Ruby. 
+It aims to combine the beauty of Ruby for scripting with the speed of C++ for critical procedures while maintaining platform independency.
+
+The original purpose of this engine was to serve as a backbone to Inuhh Shinvasion 2, but it quickly became its own thing.
+Even if the original idea was to create a Jump'n'run game, it can technically be used for any 2D project.
+
 # Requirements
 
 The following programs need to be installed:
