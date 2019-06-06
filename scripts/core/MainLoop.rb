@@ -26,7 +26,7 @@ def main_routine(scene_class, title, width, height)
 			end
 
 			# The frequency of the Garbage Collector may be subject to change
-			#GC.start
+			GC.start
 		end
 
 		$window.close
