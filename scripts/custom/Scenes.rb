@@ -16,7 +16,18 @@ class SceneTest < Scene
 			EventMouse::set_position([300, 200], $window)
 		elsif EventKey::is_pressed?(EventKey::B) then
 			puts EventMouse::get_position($window)
+		elsif EventKey::is_pressed?(EventKey::C) then
+			@test_entity.position += Coordinates.new((rand*10 - 5).to_i, (rand*10 - 5).to_i)
 		end
+	end
+
+	def at_init
+		@test_entity = TestEntity.new(@sprites)
+		@test_entity.position = Coordinates.new(400, 400)
+	end
+
+	def draw
+		@test_entity.draw($window)
 	end
 
 end

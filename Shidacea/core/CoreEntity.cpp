@@ -40,7 +40,7 @@ mrb_value ruby_core_entity_link_texture(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_texture);
 
-	auto sprite = MrbWrap::convert_from_instance_variable<sf::Sprite>(mrb, self, "@_sprite");
+	auto sprite = get_sprite(mrb, self);
 	auto texture = MrbWrap::convert_from_instance_variable<sf::Texture>(mrb, ruby_texture, "@_texture");
 
 	sprite->setTexture(*texture);
@@ -51,7 +51,7 @@ mrb_value ruby_core_entity_link_texture(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_core_entity_position(mrb_state* mrb, mrb_value self) {
 
-	auto sprite = MrbWrap::convert_from_instance_variable<sf::Sprite>(mrb, self, "@_sprite");
+	auto sprite = get_sprite(mrb, self);
 
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
@@ -70,7 +70,7 @@ mrb_value ruby_core_entity_position_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_coordinates);
 
-	auto sprite = MrbWrap::convert_from_instance_variable<sf::Sprite>(mrb, self, "@_sprite");
+	auto sprite = get_sprite(mrb, self);
 	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
 
 	sprite->setPosition(*coordinates);
@@ -85,12 +85,25 @@ mrb_value ruby_core_entity_draw(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_window);
 
-	auto sprite = MrbWrap::convert_from_instance_variable<sf::Sprite>(mrb, self, "@_sprite");
+	auto sprite = get_sprite(mrb, self);
 	auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, ruby_window, "@_window");
 
 	window->draw(*sprite);
 
 	return mrb_true_value();
+
+}
+
+static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
+
+	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
+	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
+	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
+
+	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
+	auto sprite_index = mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
+
+	return resource_manager->access_sprite(sprite_index);
 
 }
 

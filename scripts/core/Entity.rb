@@ -18,13 +18,19 @@ class Entity < CoreEntity
 		@@textures.add(self, texture, index)
 	end
 
-	def initialize
+	def initialize(resource_manager)
 		# Call the CoreEntity super method to initialize the underlying C++ structure
-		super
+		super(resource_manager)
 
 		load_boxes
 		load_shapes
 		load_textures
+
+		at_init
+	end
+
+	def at_init
+
 	end
 
 	# Create local copies of all boxes/shapes/...

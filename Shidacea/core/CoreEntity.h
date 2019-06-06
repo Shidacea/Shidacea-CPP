@@ -15,4 +15,6 @@ mrb_value ruby_core_entity_position_equals(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_core_entity_draw(mrb_state* mrb, mrb_value self);
 
+static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self);
+
 void setup_ruby_class_core_entity(mrb_state* mrb);
