@@ -86,6 +86,25 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 
 endforeach(RUBYSCRIPT)
 
+file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/assets/*.*")
+
+set(TRUNCATED_ASSET_NAMES "")
+
+# Copy all asset files and preserve their tree structure
+
+foreach(ASSET_FILE ${ASSET_FILES})
+
+	string(REPLACE "${CMAKE_SOURCE_DIR}/" "" TRUNCATED_ASSET_FILE ${ASSET_FILE})
+
+	configure_file(
+	
+		${TRUNCATED_ASSET_FILE}
+		${TRUNCATED_ASSET_FILE}
+
+	COPYONLY)
+
+endforeach(ASSET_FILE)
+
 # Source files
 
 set(GRAPHICS_SOURCES

@@ -10,9 +10,9 @@ mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
 	auto sprite_index = resource_manager->add_sprite();
 
-	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
+	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	mrb_iv_set(mrb, self, symbol, mrb_fixnum_value(sprite_index));
-	static auto symbol_2 = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));	//! TODO: Cache this
+	static auto symbol_2 = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	mrb_iv_set(mrb, self, symbol_2, ruby_resource_manager);
 
 	return self;
@@ -21,11 +21,11 @@ mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_core_entity_delete(mrb_state* mrb, mrb_value self) {
 
-	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));	//! TODO: Cache this
+	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
 	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
 
-	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));	//! TODO: Cache this
+	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
 	resource_manager->delete_sprite(sprite_index);
