@@ -56,4 +56,10 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 
 Do not give mruby scripts same names, even if they are in different subdirectories of the `scripts`-directory. The subdirectory structure is ONLY for convenience reasons! The final build scripts will NOT follow this structure!
 
-It is adviced to create a separate directory inside the scripts-directory for your own additions if you plan to add new scripts. Also use prefixes for your files, e.g. `scripts/my_project/my_project_test.rb` instead of `scripts/custom/test.rb`.
+It is adviced to create a separate directory inside the `scripts`-directory for your own additions if you plan to add new scripts. Also use prefixes for your files, e.g. `scripts/my_project/my_project_test.rb` instead of `scripts/custom/test.rb`.
+
+## Loading other mruby script files
+
+Unless you change the selection of files in the `Main.h` and `Main.cpp` files, other script files (besides mods) can't be loaded.
+
+The ruby instruction `require` is NOT available (adding it as a gem would be possible, but not applicable to the concept of pre-compiled bytecode).
