@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include <SFML/Graphics.hpp>
-
 #include <filesystem>
 #include <iostream>
 
@@ -24,3 +22,4 @@
 #include "Window.h"
 #include "Texture.h"
 #include "Map.h"
+#include "ImGuiWrapper.h"

@@ -45,6 +45,13 @@ include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory(SFML)
 
+# Load ImGui-SFML, may be a bit hacky, but works
+
+set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/imgui")
+set(SFML_DIR "${CMAKE_BINARY_DIR}")
+set(IMGUI_SFML_FIND_SFML OFF)
+add_subdirectory(imgui-sfml)
+
 # If this is a debug build, copy the ruby files to the build directory
 # Otherwise compile them to bytecode
 
@@ -111,6 +118,7 @@ set(GRAPHICS_SOURCES
 	Shidacea/graphics/ResourceManager.cpp
 	Shidacea/graphics/Window.cpp
 	Shidacea/graphics/Texture.cpp
+	Shidacea/graphics/ImGuiWrapper.cpp
 )
 
 set(MAP_SOURCES
@@ -148,4 +156,4 @@ set(SOURCES
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
-target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)
+target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)

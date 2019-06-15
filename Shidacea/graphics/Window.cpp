@@ -9,17 +9,23 @@ mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "zii|b", &title, &width, &height, &fullscreen);
 
+	sf::RenderWindow* window;
+
 	if (fullscreen) {
 
-		MrbWrap::convert_to_instance_variable<sf::RenderWindow>(mrb, self, "@_window", "window", 
+		window = MrbWrap::convert_to_instance_variable<sf::RenderWindow>(mrb, self, "@_window", "window", 
 			sf::VideoMode(width, height), title, sf::Style::Fullscreen);
 
 	} else {
 
-		MrbWrap::convert_to_instance_variable<sf::RenderWindow>(mrb, self, "@_window", "window", 
+		window = MrbWrap::convert_to_instance_variable<sf::RenderWindow>(mrb, self, "@_window", "window", 
 			sf::VideoMode(width, height), title);
 
 	}
+
+	MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock", "clock");
+
+	ImGui::SFML::Init(*window);
 
 	return self;
 
@@ -38,7 +44,20 @@ mrb_value ruby_window_display(mrb_state* mrb, mrb_value self) {
 
 	auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, self, "@_window");
 
+	ImGui::SFML::Render(*window);
+
 	window->display();
+
+	return mrb_nil_value();
+
+}
+
+mrb_value ruby_window_imgui_update(mrb_state* mrb, mrb_value self) {
+
+	auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, self, "@_window");
+	auto clock = MrbWrap::convert_from_instance_variable<sf::Clock>(mrb, self, "@_clock");
+
+	ImGui::SFML::Update(*window, clock->restart());
 
 	return mrb_nil_value();
 
@@ -66,6 +85,8 @@ mrb_value ruby_window_close(mrb_state* mrb, mrb_value self) {
 	auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, self, "@_window");
 	window->close();
 
+	ImGui::SFML::Shutdown();
+
 	return mrb_nil_value();
 
 }
@@ -83,6 +104,7 @@ mrb_value ruby_window_poll_event(mrb_state* mrb, mrb_value self) {
 
 	if(success) {
 
+		ImGui::SFML::ProcessEvent(*event);
 		return new_event;
 
 	} else {
@@ -101,6 +123,7 @@ void setup_ruby_class_window(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_window_class, "clear", ruby_window_clear, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_window_class, "display", ruby_window_display, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_window_class, "imgui_update", ruby_window_imgui_update, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_window_class, "enable_vertical_sync", ruby_window_enable_vertical_sync, MRB_ARGS_NONE());
 

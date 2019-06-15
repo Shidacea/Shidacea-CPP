@@ -56,7 +56,7 @@ namespace MrbWrap {
 	//! Creates a C++ instance of the class 'T' and wraps it directly into the ruby instance variable of the ruby object 'self'
 	//! Constructor arguments can be given as 'TArgs', if needed
 	//! DO NOT destroy the created object manually, the mruby garbage collector will do this for you!
-	template <class T, class ... TArgs> void convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
+	template <class T, class ... TArgs> T* convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
 
 		auto new_object = new T(args...);
 
@@ -72,6 +72,8 @@ namespace MrbWrap {
 		auto wrapper = Data_Wrap_Struct(mrb, mrb->object_class, &data_type, new_object);
 
 		mrb_iv_set(mrb, self, symbol, mrb_obj_value(wrapper));
+
+		return new_object;
 
 	}
 

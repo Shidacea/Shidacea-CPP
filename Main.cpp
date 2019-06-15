@@ -21,6 +21,7 @@ int main() {
 	MRB_LOAD_SCRIPT(mrb, Entity);
 
 	setup_ruby_class_window(mrb);
+	setup_ruby_imgui(mrb);
 
 	MRB_LOAD_SCRIPT(mrb, Scene);
 

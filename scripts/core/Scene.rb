@@ -16,6 +16,10 @@ class Scene
 	def main_draw
 		$window.clear
 		draw
+
+		$window.imgui_update
+		draw_imgui
+
 		$window.display
 	end
 
@@ -51,6 +55,11 @@ class Scene
 
 	# This method gets called once every tick, use it for drawing
 	def draw
+
+	end
+
+	# This method draws an ImGui overlay after the initial drawing procedure
+	def draw_imgui
 
 	end
 
