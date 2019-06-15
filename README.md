@@ -42,11 +42,11 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 * Simple event handling
 * Simple state machine for scenes
 * Modding support
+* Wrapped ImGui methods
 
 # Planned features
 
 * Map routines (Tiled support)
-* Imgui support (if I can get it to work)
 * Game physics
 * Collision detection routines
 
