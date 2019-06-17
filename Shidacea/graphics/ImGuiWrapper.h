@@ -11,5 +11,6 @@ mrb_value ruby_imgui_begin(mrb_state* mrb, mrb_value self);
 mrb_value ruby_imgui_button(mrb_state* mrb, mrb_value self);
 mrb_value ruby_imgui_text(mrb_state* mrb, mrb_value self);
 mrb_value ruby_imgui_begin_child(mrb_state* mrb, mrb_value self);
+mrb_value ruby_imgui_same_line(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_imgui(mrb_state* mrb);

@@ -18,6 +18,8 @@ class SceneTest < Scene
 			puts EventMouse::get_position($window)
 		elsif EventKey::is_pressed?(EventKey::C) then
 			@test_entity.position += Coordinates.new((rand*10 - 5).to_i, (rand*10 - 5).to_i)
+		elsif EventKey::is_pressed?(EventKey::D) then
+			@inspected_entity = $scene
 		end
 	end
 
@@ -25,6 +27,7 @@ class SceneTest < Scene
 		@test_entity = TestEntity.new(@sprites)
 		@test_entity.position = Coordinates.new(400, 400)
 		@test_toggle = false
+		@inspected_entity = nil
 	end
 
 	def draw
@@ -41,6 +44,17 @@ class SceneTest < Scene
 					ImGui.text "Oh yes, that button was pushed!"
 				end
 				ImGui.text "This text signifies that."
+			end
+		end
+		if @inspected_entity then
+			ImGui.begin "Entity inspector" do
+				ImGui.text "Value: #{@inspected_entity}"
+				ImGui.text "Instance variables:"
+				@inspected_entity.instance_variables.each do |iv|
+					@inspected_entity.instance_variable_set(iv, nil) if ImGui.button "X###{iv}"
+					ImGui.same_line
+					ImGui.text "Name: #{iv}, Value: #{@inspected_entity.instance_variable_get(iv)}"
+				end
 			end
 		end
 	end

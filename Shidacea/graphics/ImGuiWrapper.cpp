@@ -60,6 +60,14 @@ mrb_value ruby_imgui_begin_child(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_imgui_same_line(mrb_state* mrb, mrb_value self) {
+
+	ImGui::SameLine();
+
+	return mrb_nil_value();
+
+}
+
 void setup_ruby_imgui(mrb_state* mrb) {
 
 	auto ruby_imgui_module = mrb_define_module(mrb, "ImGui");
@@ -68,5 +76,6 @@ void setup_ruby_imgui(mrb_state* mrb) {
 	mrb_define_module_function(mrb, ruby_imgui_module, "button", ruby_imgui_button, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "text", ruby_imgui_text, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "begin_child", ruby_imgui_begin_child, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, ruby_imgui_module, "same_line", ruby_imgui_same_line, MRB_ARGS_NONE());
 
 }
