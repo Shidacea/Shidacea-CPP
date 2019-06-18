@@ -28,6 +28,8 @@ class SceneTest < Scene
 		@test_entity.position = Coordinates.new(400, 400)
 		@test_toggle = false
 		@inspected_entity = nil
+		@test_value = 4
+		@test_array = [1, 2, 3]
 	end
 
 	def draw
@@ -45,6 +47,8 @@ class SceneTest < Scene
 				end
 				ImGui.text "This text signifies that."
 			end
+			ImGui.input_int("Array", @test_array)
+			ImGui.input_instance_variable_int("Value", self, :@test_value)
 		end
 		if @inspected_entity then
 			ImGui.begin "Entity inspector" do
