@@ -92,6 +92,27 @@ mrb_value ruby_imgui_input_instance_variable_int(mrb_state* mrb, mrb_value self)
 
 }
 
+mrb_value ruby_imgui_input_instance_variable_string(mrb_state* mrb, mrb_value self) {
+
+	char* label;
+	mrb_value object;
+	mrb_sym symbol;
+
+	//! TODO: Variable buffer length, realized using malloc
+
+	char content[100];
+
+	mrb_get_args(mrb, "zon", &label, &object, &symbol);
+
+	auto str_value = mrb_iv_get(mrb, object, symbol);
+	strncpy(content, mrb_str_to_cstr(mrb, str_value), 100);
+	auto return_value = ImGui::InputText(label, content, 100);
+	mrb_iv_set(mrb, object, symbol, mrb_str_new(mrb, content, strlen(content)));
+
+	return mrb_bool_value(return_value);
+
+}
+
 mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 	//! TODO: Make this more usable!!!
@@ -156,5 +177,6 @@ void setup_ruby_imgui(mrb_state* mrb) {
 	mrb_define_module_function(mrb, ruby_imgui_module, "new_line", ruby_imgui_new_line, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, ruby_imgui_module, "input_int", ruby_imgui_input_int, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, ruby_imgui_module, "input_instance_variable_int", ruby_imgui_input_instance_variable_int, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, ruby_imgui_module, "input_instance_variable_string", ruby_imgui_input_instance_variable_string, MRB_ARGS_REQ(3));
 
 }

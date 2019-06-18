@@ -15,5 +15,6 @@ mrb_value ruby_imgui_same_line(mrb_state* mrb, mrb_value self);
 mrb_value ruby_imgui_new_line(mrb_state* mrb, mrb_value self);
 mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self);
 mrb_value ruby_imgui_input_instance_variable_int(mrb_state* mrb, mrb_value self);
+mrb_value ruby_imgui_input_instance_variable_string(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_imgui(mrb_state* mrb);

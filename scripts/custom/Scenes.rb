@@ -30,6 +30,8 @@ class SceneTest < Scene
 		@inspected_entity = nil
 		@test_value = 4
 		@test_array = [1, 2, 3]
+		@test_string = "Hello"
+		@test_string2 = "Derp"
 	end
 
 	def draw
@@ -49,7 +51,10 @@ class SceneTest < Scene
 			end
 			ImGui.input_int("Array", @test_array)
 			ImGui.input_instance_variable_int("Value", self, :@test_value)
+			ImGui.input_instance_variable_string("String", self, :@test_string)
+			ImGui.input_instance_variable_string("String2", self, :@test_string2)
 		end
+
 		if @inspected_entity then
 			ImGui.begin "Entity inspector" do
 				ImGui.text "Value: #{@inspected_entity}"
