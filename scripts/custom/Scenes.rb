@@ -50,19 +50,32 @@ class SceneTest < Scene
 				ImGui.text "This text signifies that."
 			end
 			ImGui.input_int("Array", @test_array)
-			ImGui.input_instance_variable_int("Value", self, :@test_value)
-			ImGui.input_instance_variable_string("String", self, :@test_string)
-			ImGui.input_instance_variable_string("String2", self, :@test_string2)
 		end
 
 		if @inspected_entity then
-			ImGui.begin "Entity inspector" do
+			ImGui.begin "Scene inspector###{self.object_id}" do
+				@inspected_entity = self if ImGui.button "Back to self"
+				ImGui.new_line
 				ImGui.text "Value: #{@inspected_entity}"
 				ImGui.text "Instance variables:"
 				@inspected_entity.instance_variables.each do |iv|
-					@inspected_entity.instance_variable_set(iv, nil) if ImGui.button "X###{iv}"
-					ImGui.same_line
-					ImGui.text "Name: #{iv}, Value: #{@inspected_entity.instance_variable_get(iv)}"
+					value = @inspected_entity.instance_variable_get(iv)
+					if value.is_a? String then
+						ImGui.input_instance_variable_string(iv.to_s, @inspected_entity, iv)
+					elsif value.is_a? Fixnum then
+						ImGui.input_instance_variable_int(iv.to_s, @inspected_entity, iv)
+					elsif [TrueClass, FalseClass].include? value.class then
+						@inspected_entity.instance_variable_set(iv, !value) if ImGui.button("#{value}###{iv}")
+						ImGui.same_line
+						ImGui.text(iv.to_s)
+					else
+						if ImGui.button("Inspect###{iv}") then
+							@inspected_entity = value 
+							break
+						end
+						ImGui.same_line
+						ImGui.text(iv.to_s)
+					end
 				end
 			end
 		end
