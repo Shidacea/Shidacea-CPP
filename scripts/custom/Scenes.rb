@@ -43,18 +43,21 @@ class SceneTest < Scene
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end
+
 			if @test_toggle then
 				ImGui.begin_child "Some child" do
 					ImGui.text "Oh yes, that button was pushed!"
 				end
 				ImGui.text "This text signifies that."
 			end
+
 			ImGui.input_int("Array", @test_array)
 		end
 
 		if @inspected_entity then
 			ImGui.begin "Scene inspector###{self.object_id}" do
 				@inspected_entity = self if ImGui.button "Back to self"
+
 				ImGui.new_line
 				ImGui.text "Value: #{@inspected_entity}"
 				ImGui.text "Instance variables:"
@@ -69,14 +72,15 @@ class SceneTest < Scene
 
 					elsif [TrueClass, FalseClass].include? value.class then
 						@inspected_entity.instance_variable_set(iv, !value) if ImGui.button("#{value}###{iv}")
+						
 						ImGui.same_line
 						ImGui.text(iv.to_s)
 
 					else
 						if ImGui.button("Inspect###{iv}") then
 							@inspected_entity = value 
-							break
 						end
+
 						ImGui.same_line
 						ImGui.text(iv.to_s)
 					end
