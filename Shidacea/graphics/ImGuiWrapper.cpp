@@ -113,6 +113,8 @@ mrb_value ruby_imgui_input_instance_variable_string(mrb_state* mrb, mrb_value se
 
 }
 
+//! TODO: Slider
+
 mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 	//! TODO: Make this more usable!!!

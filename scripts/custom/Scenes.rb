@@ -58,6 +58,9 @@ class SceneTest < Scene
 			ImGui.begin "Scene inspector###{self.object_id}" do
 				@inspected_entity = self if ImGui.button "Back to self"
 
+				# TODO: Add float support
+				# TOOD: Add array support by treating arrays with separate inspections
+
 				ImGui.new_line
 				ImGui.text "Value: #{@inspected_entity}"
 				ImGui.text "Instance variables:"
@@ -79,6 +82,8 @@ class SceneTest < Scene
 					else
 						if ImGui.button("Inspect###{iv}") then
 							@inspected_entity = value
+							
+							# Avoid any complications resulting from an invalidated iterator
 							break
 						end
 

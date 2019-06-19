@@ -39,7 +39,7 @@ void ResourceManager::delete_sprite(int index) {
 
 sf::Sprite* ResourceManager::access_sprite(int index) {
 
-	return contents[index].get();
+	return contents.at(index).get();
 
 }
 
