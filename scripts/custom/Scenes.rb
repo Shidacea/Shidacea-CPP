@@ -78,7 +78,8 @@ class SceneTest < Scene
 
 					else
 						if ImGui.button("Inspect###{iv}") then
-							@inspected_entity = value 
+							@inspected_entity = value
+							break
 						end
 
 						ImGui.same_line
