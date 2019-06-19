@@ -58,16 +58,20 @@ class SceneTest < Scene
 				ImGui.new_line
 				ImGui.text "Value: #{@inspected_entity}"
 				ImGui.text "Instance variables:"
+
 				@inspected_entity.instance_variables.each do |iv|
 					value = @inspected_entity.instance_variable_get(iv)
 					if value.is_a? String then
 						ImGui.input_instance_variable_string(iv.to_s, @inspected_entity, iv)
+
 					elsif value.is_a? Fixnum then
 						ImGui.input_instance_variable_int(iv.to_s, @inspected_entity, iv)
+
 					elsif [TrueClass, FalseClass].include? value.class then
 						@inspected_entity.instance_variable_set(iv, !value) if ImGui.button("#{value}###{iv}")
 						ImGui.same_line
 						ImGui.text(iv.to_s)
+
 					else
 						if ImGui.button("Inspect###{iv}") then
 							@inspected_entity = value 
