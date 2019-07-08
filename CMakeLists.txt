@@ -125,10 +125,12 @@ set(MAP_SOURCES
 )
 
 set(CORE_SOURCES
+	Shidacea/core/IntRect.cpp
 	Shidacea/core/Coordinates.cpp
 	Shidacea/core/CoreEntity.cpp
 	Shidacea/core/Events.cpp
 	Shidacea/core/Shape.cpp
+	Shidacea/core/Collisions.cpp
 )
 
 set(SCRIPTING_SOURCES

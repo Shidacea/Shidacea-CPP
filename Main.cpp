@@ -5,10 +5,13 @@ int main() {
 	auto mrb = mrb_open();
 
 	//! Load wrapped classes and Ruby scripts
+	//! These are the core of Shidacea, so you should know what you're doing if you change these
 	
+	setup_ruby_class_intrect(mrb);
 	setup_ruby_class_resource_manager(mrb);
 
 	setup_ruby_class_coordinates(mrb);
+	setup_ruby_collider(mrb);
 
 	MRB_LOAD_SCRIPT(mrb, GlobalContainer);
 
@@ -26,6 +29,9 @@ int main() {
 	MRB_LOAD_SCRIPT(mrb, Scene);
 
 	//! Load main scripts
+	//! If you want to add something, put it here
+	//! These are ordered, so don't just put it anywhere if it depends on other scripts
+	//! If you want to add compiled Ruby scripts, you also need to include them in the header file
 
 	MRB_LOAD_SCRIPT(mrb, Entities);
 	MRB_LOAD_SCRIPT(mrb, Scenes);
@@ -39,6 +45,8 @@ int main() {
 	//! Start main script with the game loop
 
 	MRB_LOAD_SCRIPT(mrb, Main);
+
+	//! Clean up the Ruby interpreter
 
 	mrb_close(mrb);
 

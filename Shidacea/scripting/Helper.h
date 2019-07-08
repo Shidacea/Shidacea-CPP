@@ -83,6 +83,7 @@ namespace MrbWrap {
 	template <class T> T* convert_from_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str) {
 
 		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
+		mrb_iv_get(mrb, self, symbol);
 		auto type = DATA_TYPE(mrb_iv_get(mrb, self, symbol));
 
 		return static_cast<T*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
