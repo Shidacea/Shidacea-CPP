@@ -52,6 +52,11 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 
 # Caveats
 
+## Submodules
+
+If you download this repository, make sure to download the submodules as well, since a simple download won't include them.
+The best way to use Shidacea is to fork it and use Git for maintaining it and updating the submodules.
+
 ## Script naming conventions
 
 Do not give mruby scripts same names, even if they are in different subdirectories of the `scripts`-directory. The subdirectory structure is ONLY for convenience reasons! The final build scripts will NOT follow this structure!
