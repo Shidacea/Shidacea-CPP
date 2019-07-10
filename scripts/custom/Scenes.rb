@@ -37,8 +37,8 @@ class SceneTest < Scene
 		@test_string = "Hello"
 		@test_string2 = "Derp"
 
-		@test_box = ShapeCircle.new(25.0)
-		@test_box_2 = ShapeCircle.new(25.0)
+		@test_box = ShapeBox.new(Coordinates.new(50.0, 50.0))
+		@test_box_2 = ShapeBox.new(Coordinates.new(50.0, 50.0))
 	end
 
 	def draw

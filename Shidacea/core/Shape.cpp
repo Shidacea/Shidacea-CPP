@@ -1,48 +1,6 @@
 #include "Shape.h"
 
-DEFINE_COLLISION(ShapeCircle, ShapeCircle) {
-
-	GET_POSITIONS
-
-	auto r1 = shape1.radius;
-	auto r2 = shape2.radius;
-
-	return collision_circle_circle(x1, y1, r1, x2, y2, r2);
-
-}
-
-DEFINE_COLLISION(ShapeBox, ShapeBox) {
-
-	GET_POSITIONS
-
-	auto w1 = shape1.width;
-	auto h1 = shape1.height;
-
-	auto w2 = shape2.width;
-	auto h2 = shape2.height;
-
-	return collision_box_box(x1, y1, w1, h1, x2, y2, w2, h2);
-
-}
-
-DEFINE_COLLISION(ShapeCircle, ShapeBox) {
-
-	return false;	// TODO: Implement this
-
-}
-
-ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape) {
-
-	return ShapeType::Circle;
-
-	static auto ruby_class_shape_circle = mrb_class_get(mrb, "ShapeCircle");
-	static auto ruby_class_shape_box = mrb_class_get(mrb, "ShapeBox");
-
-	if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_circle)) return ShapeType::Circle;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_box)) return ShapeType::Box;
-	else return ShapeType::Unknown;
-
-}
+#include "ShapeCollisions.cpp"
 
 mrb_value ruby_collider_test(mrb_state* mrb, mrb_value self) {
 
@@ -66,12 +24,59 @@ mrb_value ruby_collider_test(mrb_state* mrb, mrb_value self) {
 	//! A bit hacky, but we don't want to repeat ourselves too many times
 	//! Also, this makes the code MUCH more readable and extendable
 
-	TEST_COLLISION_CASE(Circle, Circle)
-	else TEST_COLLISION_CASE(Circle, Box)
-	else TEST_COLLISION_CASE_REVERSE(Circle, Box)
+	TEST_COLLISION_CASE(Point, Point)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Point, Line)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Point, Circle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Point, Box)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Point, Triangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Point, Quadrangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Point, Ellipse)
+	else TEST_COLLISION_CASE(Line, Line)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Line, Circle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Line, Box)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Line, Triangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Line, Quadrangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Line, Ellipse)
+	else TEST_COLLISION_CASE(Circle, Circle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Circle, Box)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Circle, Triangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Circle, Quadrangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Circle, Ellipse)
 	else TEST_COLLISION_CASE(Box, Box)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Box, Triangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Box, Quadrangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Box, Ellipse)
+	else TEST_COLLISION_CASE(Triangle, Triangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Triangle, Quadrangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Triangle, Ellipse)
+	else TEST_COLLISION_CASE(Quadrangle, Quadrangle)
+	else TEST_COLLISION_CASE_WITH_REVERSE(Quadrangle, Ellipse)
+	else TEST_COLLISION_CASE(Ellipse, Ellipse)
+
+	//! Other invalid cases will only yield false for now
 
 	return mrb_bool_value(result);
+
+}
+
+ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape) {
+
+	static auto ruby_class_shape_point = mrb_class_get(mrb, "ShapePoint");
+	static auto ruby_class_shape_line = mrb_class_get(mrb, "ShapeLine");
+	static auto ruby_class_shape_circle = mrb_class_get(mrb, "ShapeCircle");
+	static auto ruby_class_shape_box = mrb_class_get(mrb, "ShapeBox");
+	static auto ruby_class_shape_triangle = mrb_class_get(mrb, "ShapeTriangle");
+	static auto ruby_class_shape_quadrangle = mrb_class_get(mrb, "ShapeQuadrangle");
+	static auto ruby_class_shape_ellipse = mrb_class_get(mrb, "ShapeEllipse");
+
+	if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_point)) return ShapeType::Point;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_line)) return ShapeType::Line;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_circle)) return ShapeType::Circle;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_box)) return ShapeType::Box;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_triangle)) return ShapeType::Triangle;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_quadrangle)) return ShapeType::Quadrangle;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_ellipse)) return ShapeType::Ellipse;
+	else return ShapeType::Unknown;
 
 }
 
@@ -81,12 +86,33 @@ mrb_value ruby_shape_class_init(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_shape_point_class_init(mrb_state* mrb, mrb_value self) {
+
+	auto shape = MrbWrap::convert_to_instance_variable<ShapePoint>(mrb, self, "@_shape", "shape");
+	return self;
+
+}
+
+mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_coordinates;
+
+	mrb_get_args(mrb, "o", &ruby_coordinates);
+
+	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
+
+	auto shape = MrbWrap::convert_to_instance_variable<ShapeLine>(mrb, self, "@_shape", "shape");
+	shape->line = *coordinates;
+
+	return self;
+
+}
+
 mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
-	float radius = 0.0;
+	float radius;
 
-	//! Default arguments yield a zero vector
-	mrb_get_args(mrb, "|f", &radius);
+	mrb_get_args(mrb, "f", &radius);
 
 	auto shape = MrbWrap::convert_to_instance_variable<ShapeCircle>(mrb, self, "@_shape", "shape");
 	shape->radius = radius;
@@ -97,14 +123,47 @@ mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 
-	float width = 0.0;
-	float height = 0.0;
+	mrb_value ruby_coordinates;
 
-	mrb_get_args(mrb, "|f", &width, &height);
+	mrb_get_args(mrb, "o", &ruby_coordinates);
+
+	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
 
 	auto shape = MrbWrap::convert_to_instance_variable<ShapeBox>(mrb, self, "@_shape", "shape");
-	shape->width = width;
-	shape->height = height;
+	shape->diagonal = *coordinates;
+
+	return self;
+
+}
+
+mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self) {
+
+	//! TODO
+
+	auto shape = MrbWrap::convert_to_instance_variable<ShapeTriangle>(mrb, self, "@_shape", "shape");
+	return self;
+
+}
+
+mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self) {
+
+	//! TODO
+
+	auto shape = MrbWrap::convert_to_instance_variable<ShapeQuadrangle>(mrb, self, "@_shape", "shape");
+	return self;
+
+}
+
+mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_coordinates;
+
+	mrb_get_args(mrb, "o", &ruby_coordinates);
+
+	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
+
+	auto shape = MrbWrap::convert_to_instance_variable<ShapeEllipse>(mrb, self, "@_shape", "shape");
+	shape->semiaxes = *coordinates;
 
 	return self;
 
@@ -113,14 +172,24 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 void setup_ruby_collider(mrb_state* mrb) {
 
 	auto module_collider = mrb_define_module(mrb, "Collider");
-	
 	auto ruby_shape_class = mrb_define_class(mrb, "Shape", mrb->object_class);
-	auto ruby_shape_circle_class = mrb_define_class(mrb, "ShapeCircle", mrb->object_class);
+
+	auto ruby_shape_point_class = mrb_define_class(mrb, "ShapePoint", ruby_shape_class);
+	auto ruby_shape_line_class = mrb_define_class(mrb, "ShapeLine", ruby_shape_class);
+	auto ruby_shape_circle_class = mrb_define_class(mrb, "ShapeCircle", ruby_shape_class);
 	auto ruby_shape_box_class = mrb_define_class(mrb, "ShapeBox", ruby_shape_class);
+	auto ruby_shape_triangle_class = mrb_define_class(mrb, "ShapeTriangle", ruby_shape_class);
+	auto ruby_shape_quadrangle_class = mrb_define_class(mrb, "ShapeQuadrangle", ruby_shape_class);
+	auto ruby_shape_ellipse_class = mrb_define_class(mrb, "ShapeEllipse", ruby_shape_class);
 
 	mrb_define_method(mrb, ruby_shape_class, "initialize", ruby_shape_class_init, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_shape_circle_class, "initialize", ruby_shape_circle_class_init, MRB_ARGS_OPT(1));
-	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_OPT(2));
+	mrb_define_method(mrb, ruby_shape_point_class, "initialize", ruby_shape_point_class_init, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_shape_line_class, "initialize", ruby_shape_line_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_circle_class, "initialize", ruby_shape_circle_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_triangle_class, "initialize", ruby_shape_triangle_class_init, MRB_ARGS_NONE());	//! TODO
+	mrb_define_method(mrb, ruby_shape_quadrangle_class, "initialize", ruby_shape_quadrangle_class_init, MRB_ARGS_NONE());	//! TODO
+	mrb_define_method(mrb, ruby_shape_ellipse_class, "initialize", ruby_shape_ellipse_class_init, MRB_ARGS_REQ(1));
 
 	mrb_define_module_function(mrb, module_collider, "test", ruby_collider_test, MRB_ARGS_REQ(4));
 
