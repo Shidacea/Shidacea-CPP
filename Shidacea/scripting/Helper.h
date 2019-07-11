@@ -90,4 +90,7 @@ namespace MrbWrap {
 
 	}
 
+	//! TODO: Optimize wrappers by adding direct structure setting without instance variables
+	//! This may be much more complex, but the substitutions should not be problematic
+
 }
