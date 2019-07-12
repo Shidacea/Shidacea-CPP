@@ -23,6 +23,10 @@ mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 
 	}
 
+	//sf::View view;
+	//view.setViewport(sf::FloatRect(0.0, 0.0, 2.0, 8.0/6.0*2.0));
+	//window->setView(view);
+
 	MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock", "clock");
 
 	ImGui::SFML::Init(*window);
@@ -58,6 +62,17 @@ mrb_value ruby_window_imgui_update(mrb_state* mrb, mrb_value self) {
 	auto clock = MrbWrap::convert_from_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
 	ImGui::SFML::Update(*window, clock->restart());
+
+	return mrb_nil_value();
+
+}
+
+mrb_value ruby_set_imgui_scale(mrb_state* mrb, mrb_value self) {
+
+	float scale;
+	mrb_get_args(mrb, "f", &scale);
+
+	ImGui::GetIO().FontGlobalScale = scale;
 
 	return mrb_nil_value();
 
@@ -124,6 +139,8 @@ void setup_ruby_class_window(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_window_class, "clear", ruby_window_clear, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_window_class, "display", ruby_window_display, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_window_class, "imgui_update", ruby_window_imgui_update, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_window_class, "set_imgui_scale", ruby_set_imgui_scale, MRB_ARGS_REQ(1));
 
 	mrb_define_method(mrb, ruby_window_class, "enable_vertical_sync", ruby_window_enable_vertical_sync, MRB_ARGS_NONE());
 

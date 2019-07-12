@@ -15,7 +15,7 @@ bool collision_circle_circle(float x1, float y1, float r1, float x2, float y2, f
 	auto combined_radius = r1 + r2;
 
 	if(dx * dx + dy * dy GREATER_THAN combined_radius * combined_radius) return false;
-	else return false;
+	else return true;
 
 }
 

@@ -20,6 +20,8 @@ class SceneTest < Scene
 			@test_entity.position += Coordinates.new(-5, -2)
 		elsif EventKey::is_pressed?(EventKey::D) then
 			@inspected_entity = $scene
+		elsif EventKey::is_pressed?(EventKey::E) then
+			$window.set_imgui_scale(2.0)
 		end
 	end
 
@@ -37,8 +39,7 @@ class SceneTest < Scene
 		@test_string = "Hello"
 		@test_string2 = "Derp"
 
-		@test_box = ShapeBox.new(Coordinates.new(50.0, 50.0))
-		@test_box_2 = ShapeBox.new(Coordinates.new(50.0, 50.0))
+		@test_box = ShapeCircle.new(25)
 	end
 
 	def draw
@@ -48,7 +49,7 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Collision: #{Collider.test(@test_box, @test_entity.position, @test_box_2, @test_entity_2.position)}"
+			ImGui.text "Collision: #{Collider.test(@test_box, @test_entity.position, @test_box, @test_entity_2.position)}"
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end
