@@ -46,9 +46,10 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 
 # Planned features
 
-* Map routines (Tiled support)
 * Game physics
 * Collision detection routines
+* A special level editor written using this engine
+* Examples
 
 # Caveats
 
