@@ -82,7 +82,7 @@ foreach(RUBYSCRIPT ${RUBYSCRIPTS})
 
 		add_custom_target(Target${COMPILED_SCRIPT}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -Bcompiled_ruby_${COMPILED_SCRIPT} -o ${CMAKE_BINARY_DIR}/compiled_scripts/${COMPILED_SCRIPT}.h ${RUBYSCRIPT}
+			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${COMPILED_SCRIPT} -o ${CMAKE_BINARY_DIR}/compiled_scripts/${COMPILED_SCRIPT}.h ${RUBYSCRIPT}
 			DEPENDS ${RUBYSCRIPT} mruby
 			VERBATIM
 		)
@@ -118,6 +118,7 @@ set(GRAPHICS_SOURCES
 	Shidacea/graphics/ResourceManager.cpp
 	Shidacea/graphics/Window.cpp
 	Shidacea/graphics/Texture.cpp
+	Shidacea/graphics/Sprite.cpp
 	Shidacea/graphics/ImGuiWrapper.cpp
 )
 
@@ -127,7 +128,6 @@ set(MAP_SOURCES
 set(CORE_SOURCES
 	Shidacea/core/IntRect.cpp
 	Shidacea/core/Coordinates.cpp
-	Shidacea/core/CoreEntity.cpp
 	Shidacea/core/Events.cpp
 	Shidacea/core/Shape.cpp
 	Shidacea/core/Collisions.cpp

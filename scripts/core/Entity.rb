@@ -1,32 +1,49 @@
 # Base entity class
 
-class Entity < CoreEntity
-
-	@@boxes = GlobalContainer.new
-	@@shapes = GlobalContainer.new
-	@@textures = GlobalContainer.new
+class Entity
 	
 	def self.add_box(box, index: nil)
-		@@boxes.add(self, box, index)
+		@boxes = SpecialContainer.new if !@boxes
+		@boxes.add(box, index)
 	end
 
 	def self.add_shape(shape, index: nil)
-		@@shapes.add(self, shape, index)
+		@shapes = SpecialContainer.new if !@shapes
+		@shapes.add(shape, index)
 	end
 
 	def self.add_texture(texture, index: nil)
-		@@textures.add(self, texture, index)
+		@textures = SpecialContainer.new if !@textures
+		@textures.add(texture, index)
+	end
+
+	def self.all_boxes
+		@boxes = SpecialContainer.new if !@boxes
+		return @boxes
+	end
+
+	def self.all_shapes
+		@shapes = SpecialContainer.new if !@shapes
+		return @shapes
+	end
+
+	def self.all_textures
+		@textures = SpecialContainer.new if !@textures
+		return @textures
 	end
 
 	def initialize(resource_manager)
-		# Call the CoreEntity super method to initialize the underlying C++ structure
-		super(resource_manager)
+		@resource_manager = resource_manager
 
 		load_boxes
 		load_shapes
 		load_textures
 
 		at_init
+	end
+
+	def draw(window)
+		# TODO
 	end
 
 	def at_init
@@ -37,30 +54,30 @@ class Entity < CoreEntity
 
 	def load_boxes
 		@boxes = []
-		subclass = self.class
+		all_boxes = self.class.all_boxes
 
-		0.upto(@@boxes.size(subclass) - 1) do |i|
-			element = @@boxes.get(subclass, i)
+		0.upto(all_boxes.size - 1) do |i|
+			element = all_boxes.get(i)
 			@boxes[i] = element.dup if element
 		end
 	end
 
 	def load_shapes
 		@shapes = []
-		subclass = self.class
+		all_shapes = self.class.all_shapes
 
-		0.upto(@@shapes.size(subclass) - 1) do |i|
-			element = @@shapes.get(subclass, i)
+		0.upto(all_shapes.size - 1) do |i|
+			element = all_shapes.get(i)
 			@shapes[i] = element.dup if element
 		end
 	end
 
 	def load_textures
 		@textures = []
-		subclass = self.class
+		all_textures = self.class.all_textures
 
-		0.upto(@@textures.size(subclass) - 1) do |i|
-			element = @@textures.get(subclass, i)
+		0.upto(all_textures.size - 1) do |i|
+			element = all_textures.get(i)
 
 			# Don't duplicate textures but use a reference instead!
 			# Textures should not be changed, but the internal sprite properties may be changed in exchange.

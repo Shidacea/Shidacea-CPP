@@ -13,13 +13,13 @@ int main() {
 	setup_ruby_class_coordinates(mrb);
 	setup_ruby_collider(mrb);
 
-	MRB_LOAD_SCRIPT(mrb, GlobalContainer);
+	MRB_LOAD_SCRIPT(mrb, SpecialContainer);
 
 	setup_ruby_events(mrb);
 	setup_ruby_class_event(mrb);
 
 	setup_ruby_class_texture(mrb);
-	setup_ruby_class_core_entity(mrb);
+	setup_ruby_class_sprite(mrb);
 
 	MRB_LOAD_SCRIPT(mrb, Entity);
 

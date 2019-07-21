@@ -13,7 +13,7 @@
 #ifdef NDEBUG
 #include "compiled_scripts/Scene.h"
 #include "compiled_scripts/Scenes.h"
-#include "compiled_scripts/GlobalContainer.h"
+#include "compiled_scripts/SpecialContainer.h"
 #include "compiled_scripts/Entity.h"
 #include "compiled_scripts/Entities.h"
 #include "compiled_scripts/MainLoop.h"
@@ -27,7 +27,7 @@
 #include "Shape.h"
 #include "IntRect.h"
 #include "Coordinates.h"
-#include "CoreEntity.h"
+#include "Sprite.h"
 #include "Events.h"
 #include "Window.h"
 #include "Texture.h"

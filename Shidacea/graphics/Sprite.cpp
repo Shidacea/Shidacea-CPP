@@ -1,7 +1,6 @@
-#include "CoreEntity.h"
+#include "Sprite.h"
 
-
-mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_value ruby_resource_manager;
 
@@ -19,7 +18,7 @@ mrb_value ruby_core_entity_init(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_core_entity_delete(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_delete(mrb_state* mrb, mrb_value self) {
 
 	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
@@ -34,7 +33,7 @@ mrb_value ruby_core_entity_delete(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_core_entity_link_texture(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_link_texture(mrb_state* mrb, mrb_value self) {
 
 	mrb_value ruby_texture;
 
@@ -49,7 +48,7 @@ mrb_value ruby_core_entity_link_texture(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_core_entity_position(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_position(mrb_state* mrb, mrb_value self) {
 
 	auto sprite = get_sprite(mrb, self);
 
@@ -64,7 +63,7 @@ mrb_value ruby_core_entity_position(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_core_entity_position_equals(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_position_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_value ruby_coordinates;
 
@@ -79,7 +78,7 @@ mrb_value ruby_core_entity_position_equals(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_core_entity_draw(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_draw(mrb_state* mrb, mrb_value self) {
 
 	mrb_value ruby_window;
 
@@ -107,18 +106,18 @@ static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_core_entity(mrb_state* mrb) {
+void setup_ruby_class_sprite(mrb_state* mrb) {
 
-	auto ruby_core_entity_class = mrb_define_class(mrb, "CoreEntity", mrb->object_class);
+	auto ruby_sprite_class = mrb_define_class(mrb, "Sprite", mrb->object_class);
 
-	mrb_define_method(mrb, ruby_core_entity_class, "initialize", ruby_core_entity_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_core_entity_class, "delete", ruby_core_entity_delete, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "initialize", ruby_sprite_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_sprite_class, "delete", ruby_sprite_delete, MRB_ARGS_NONE());
 	
-	mrb_define_method(mrb, ruby_core_entity_class, "link_texture", ruby_core_entity_link_texture, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_sprite_class, "link_texture", ruby_sprite_link_texture, MRB_ARGS_REQ(1));
 
-	mrb_define_method(mrb, ruby_core_entity_class, "position", ruby_core_entity_position, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_core_entity_class, "position=", ruby_core_entity_position_equals, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_sprite_class, "position", ruby_sprite_position, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "position=", ruby_sprite_position_equals, MRB_ARGS_REQ(1));
 
-	mrb_define_method(mrb, ruby_core_entity_class, "draw", ruby_core_entity_draw, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_sprite_class, "draw", ruby_sprite_draw, MRB_ARGS_REQ(1));
 
 }
