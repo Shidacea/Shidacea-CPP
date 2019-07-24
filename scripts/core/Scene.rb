@@ -5,7 +5,9 @@ class Scene
 	# Methods for internal stuff, don't change these if inherited
 
 	def initialize
-		@sprites = ResourceManager.new
+		# Sprite resource manager
+		@resource_manager = ResourceManager.new
+
 		at_init
 	end
 
@@ -34,6 +36,12 @@ class Scene
 		while event = $window.poll_event do
 			yield event
 		end
+	end
+
+	# Other helper Methods
+
+	def create(entity_class)
+		return entity_class.new(@resource_manager)
 	end
 
 	# Change these at will if inherited
