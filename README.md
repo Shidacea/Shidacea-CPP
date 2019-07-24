@@ -33,16 +33,19 @@ For Windows you need to make sure that the paths leading to ruby.exe and bison.e
 CMake can be obtained using Visual Studio, which is the recommended option.
 Also make sure to avoid path names with spaces in them, as mruby might fail to compile otherwise.
 
-# Features
+# Properties
 
 * Platform independency (technically, but not tested yet)
 * Scripting support using mruby
 * Wrapped SFML classes for use with mruby
-* Basic game classes
+* Modding support
+
+# Features
+
 * Simple event handling
 * Simple state machine for scenes
-* Modding support
-* Wrapped ImGui methods
+* Basic game classes
+* Wrapped ImGui methods for debugging
 
 # Planned features
 

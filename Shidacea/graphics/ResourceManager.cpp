@@ -3,8 +3,8 @@
 ResourceManager::ResourceManager() {
 
 	//! Reserve some spots to ensure faster access
-	//! 1000 should be the absolutely maximal number of entities in the world
-	contents.reserve(1000);
+	//! 10000 should be the absolutely maximal number of sprites in the world
+	contents.reserve(10000);
 
 }
 
