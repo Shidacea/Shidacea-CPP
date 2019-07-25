@@ -2,6 +2,14 @@
 
 class Entity
 
+	# Accessor methods for content arrays (except for textures)
+
+	attr_accessor :sprites, :boxes, :shapes
+
+	# Other accessor methods
+
+	attr_accessor :position
+
 	# Class methods for adding different objects to any entity
 	
 	def self.add_box(index: nil, size: nil)
@@ -148,6 +156,8 @@ class Entity
 	def initialize(resource_manager)
 		@resource_manager = resource_manager
 
+		@position = Coordinates.new
+
 		load_boxes
 		load_shapes
 		load_textures
@@ -157,6 +167,8 @@ class Entity
 	end
 
 	def draw(window)
+		# TODO: Translate sprites according to own position
+
 		@sprites.each do |sprite|
 			sprite.draw(window)
 		end
