@@ -48,7 +48,8 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Collision: #{Collider.test(@entities[0].get_shape(0), @entities[0].sprite_position(0), @entities[1].get_shape(0), @entities[1].sprite_position(0))}"
+			ImGui.text "Shape Collision: #{Collider.test(@entities[0].get_shape(0), @entities[0].sprite_position(0), @entities[1].get_shape(0), @entities[1].sprite_position(0))}"
+			ImGui.text "Box Collision:   #{Collider.test(@entities[0].get_box(0), @entities[0].sprite_position(0), @entities[1].get_box(0), @entities[1].sprite_position(0))}"
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end
