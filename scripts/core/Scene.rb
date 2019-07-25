@@ -38,7 +38,7 @@ class Scene
 		end
 	end
 
-	# Other helper Methods
+	# Other helper methods
 
 	def create(entity_class)
 		return entity_class.new(@resource_manager)

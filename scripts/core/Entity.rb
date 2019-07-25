@@ -90,6 +90,10 @@ class Entity
 
 	# Create local copies of all boxes/shapes/...
 
+	# TODO: Deep copy the parameters
+	# This can be done either inside the C++ method by defining initialize_dup
+	# or by doing something like @boxes[i].duplicate_parameters or so
+
 	def load_boxes
 		@boxes = []
 		all_boxes = self.class.all_boxes
