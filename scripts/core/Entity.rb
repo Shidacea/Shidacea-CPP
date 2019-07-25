@@ -4,22 +4,56 @@ class Entity
 
 	# Class methods for adding different objects to any entity
 	
-	def self.add_box(box, index: nil)
+	def self.add_box(index: nil, size: nil)
+		if !size then
+			raise("No size given for box with index #{index}")
+		end
+
 		@boxes = SpecialContainer.new if !@boxes
-		@boxes.add(box, index)
+		@boxes.add(ShapeBox.new(size), index)
 	end
 
-	def self.add_shape(shape, index: nil)
+	def self.add_shape(index: nil, type: nil, radius: nil, size: nil, semiaxes: nil, direction: nil)
 		@shapes = SpecialContainer.new if !@shapes
+		shape = nil
+
+		if type == ShapePoint then
+			shape = type.new
+		elsif type == ShapeLine then
+			raise("Direction not defined for line shape with index #{index}") if !direction
+			shape = type.new(direction)
+		elsif type == ShapeCircle then
+			raise("Radius not defined for line shape with index #{index}") if !radius
+			shape = type.new(radius)
+		elsif type == ShapeBox then
+			raise("Size not defined for line shape with index #{index}") if !size
+			shape = type.new(size)
+		elsif type == ShapeTriangle then
+			# TODO
+			shape = type.new
+		elsif type == ShapeQuadrangle then
+			# TODO
+			shape = type.new
+		elsif type == ShapeEllipse then
+			raise("Semiaxes not defined for line shape with index #{index}") if !semiaxes
+			shape = type.new(axes)
+		else
+			raise("Unknown shape type #{type} for shape index #{index}")
+		end
+
 		@shapes.add(shape, index)
 	end
 
-	def self.add_texture(texture, index: nil)
+	def self.add_texture(index: nil, filename: nil, rect: nil)
+		if !filename then
+			raise("No filename given for texture with index #{index}")
+		end
+		
 		@textures = SpecialContainer.new if !@textures
-		@textures.add(texture, index)
+		@textures.add(Texture.new.load_from_file(filename, rect), index)
 	end
 
-	def self.add_sprite(texture_index: nil, index: nil)
+	def self.add_sprite(index: nil, texture_index: nil)
 		@sprites = SpecialContainer.new if !@sprites
 		@sprites.add([texture_index], index)
 	end

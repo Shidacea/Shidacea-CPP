@@ -40,8 +40,6 @@ class SceneTest < Scene
 		@test_array = [1, 2, 3]
 		@test_string = "Hello"
 		@test_string2 = "Derp"
-
-		@test_box = ShapeCircle.new(25)
 	end
 
 	def draw
@@ -50,7 +48,7 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Collision: #{Collider.test(@test_box, @entities[0].sprite_position(0), @test_box, @entities[1].sprite_position(0))}"
+			ImGui.text "Collision: #{Collider.test(@entities[0].get_shape(0), @entities[0].sprite_position(0), @entities[1].get_shape(0), @entities[1].sprite_position(0))}"
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end
@@ -73,25 +71,14 @@ class SceneTest < Scene
 				# TOOD: Add array support by treating arrays with separate inspections
 
 				ImGui.new_line
-				ImGui.text "Value: #{@inspected_entity}"
-				ImGui.text "Instance variables:"
 
-				@inspected_entity.instance_variables.each do |iv|
-					value = @inspected_entity.instance_variable_get(iv)
-					if value.is_a? String then
-						ImGui.input_instance_variable_string(iv.to_s, @inspected_entity, iv)
+				if @inspected_entity.is_a? Array then
+					ImGui.text "Array elements:"
 
-					elsif value.is_a? Fixnum then
-						ImGui.input_instance_variable_int(iv.to_s, @inspected_entity, iv)
+					0.upto(@inspected_entity.size - 1) do |i|
+						value = @inspected_entity[i]
 
-					elsif [TrueClass, FalseClass].include? value.class then
-						@inspected_entity.instance_variable_set(iv, !value) if ImGui.button("#{value}###{iv}")
-						
-						ImGui.same_line
-						ImGui.text(iv.to_s)
-
-					else
-						if ImGui.button("Inspect###{iv}") then
+						if ImGui.button("Inspect index #{i}") then
 							@inspected_entity = value
 							
 							# Avoid any complications resulting from an invalidated iterator
@@ -99,9 +86,41 @@ class SceneTest < Scene
 						end
 
 						ImGui.same_line
-						ImGui.text(iv.to_s)
+						ImGui.text(value.to_s)
+					end
+				else
+					ImGui.text "Class: #{@inspected_entity.class}"
+					ImGui.text "Instance variables:"
+
+					@inspected_entity.instance_variables.each do |iv|
+						value = @inspected_entity.instance_variable_get(iv)
+
+						if value.is_a? String then
+							ImGui.input_instance_variable_string(iv.to_s, @inspected_entity, iv)
+
+						elsif value.is_a? Fixnum then
+							ImGui.input_instance_variable_int(iv.to_s, @inspected_entity, iv)
+
+						elsif [TrueClass, FalseClass].include? value.class then
+							@inspected_entity.instance_variable_set(iv, !value) if ImGui.button("#{value}###{iv}")
+						
+							ImGui.same_line
+							ImGui.text(iv.to_s)
+
+						else
+							if ImGui.button("Inspect###{iv}") then
+								@inspected_entity = value
+
+								break
+							end
+
+							ImGui.same_line
+							ImGui.text(iv.to_s)
+						end
 					end
 				end
+
+				
 			end
 		end
 	end
