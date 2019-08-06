@@ -35,7 +35,9 @@ class SceneTest < Scene
 		@entities.push(create(TestEntity))
 
 		@entities[0].sprites[0].position = Coordinates.new(400, 400)
-		@entities[1].sprites[0].position = Coordinates.new(200, 300)
+
+		@entities[1].sprites[0].x = 200
+		@entities[1].sprites[0].y = 300
 
 		@test_toggle = false
 		@inspected_entity = nil

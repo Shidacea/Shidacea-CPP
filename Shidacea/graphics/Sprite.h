@@ -13,6 +13,12 @@ mrb_value ruby_sprite_link_texture(mrb_state* mrb, mrb_value self);
 mrb_value ruby_sprite_position(mrb_state* mrb, mrb_value self);
 mrb_value ruby_sprite_position_equals(mrb_state* mrb, mrb_value self);
 
+mrb_value ruby_sprite_x(mrb_state* mrb, mrb_value self);
+mrb_value ruby_sprite_x_equals(mrb_state* mrb, mrb_value self);
+
+mrb_value ruby_sprite_y(mrb_state* mrb, mrb_value self);
+mrb_value ruby_sprite_y_equals(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_sprite_draw(mrb_state* mrb, mrb_value self);
 
 static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self);

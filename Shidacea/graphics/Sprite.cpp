@@ -69,12 +69,58 @@ mrb_value ruby_sprite_position_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_coordinates);
 
+	//! TODO: Either remove this function or duplicate the given coordinates
+
 	auto sprite = get_sprite(mrb, self);
 	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
 
 	sprite->setPosition(*coordinates);
 
 	return ruby_coordinates;
+
+}
+
+mrb_value ruby_sprite_x(mrb_state* mrb, mrb_value self) {
+
+	auto sprite = get_sprite(mrb, self);
+
+	return mrb_float_value(mrb, sprite->getPosition().x);
+
+}
+
+mrb_value ruby_sprite_x_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_value new_x;
+
+	mrb_get_args(mrb, "f", &new_x);
+
+	auto sprite = get_sprite(mrb, self);
+
+	sprite->setPosition(mrb_float(new_x), sprite->getPosition().y);
+
+	return new_x;
+
+}
+
+mrb_value ruby_sprite_y(mrb_state* mrb, mrb_value self) {
+
+	auto sprite = get_sprite(mrb, self);
+
+	return mrb_float_value(mrb, sprite->getPosition().y);
+
+}
+
+mrb_value ruby_sprite_y_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_value new_y;
+
+	mrb_get_args(mrb, "f", &new_y);
+
+	auto sprite = get_sprite(mrb, self);
+
+	sprite->setPosition(sprite->getPosition().x, mrb_float(new_y));
+
+	return new_y;
 
 }
 
@@ -117,6 +163,12 @@ void setup_ruby_class_sprite(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_sprite_class, "position", ruby_sprite_position, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_sprite_class, "position=", ruby_sprite_position_equals, MRB_ARGS_REQ(1));
+
+	mrb_define_method(mrb, ruby_sprite_class, "x", ruby_sprite_x, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "x=", ruby_sprite_x_equals, MRB_ARGS_REQ(1));
+
+	mrb_define_method(mrb, ruby_sprite_class, "y", ruby_sprite_y, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "y=", ruby_sprite_y_equals, MRB_ARGS_REQ(1));
 
 	mrb_define_method(mrb, ruby_sprite_class, "draw", ruby_sprite_draw, MRB_ARGS_REQ(1));
 
