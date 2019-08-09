@@ -71,3 +71,14 @@ void MrbWrap::load_mods(mrb_state* mrb) {
 	}
 
 }
+
+RClass* MrbWrap::define_data_class(mrb_state* mrb, const char* name, RClass* super_class) {
+
+	if (!super_class) super_class = mrb->object_class;
+
+	auto ruby_class = mrb_define_class(mrb, name, super_class);
+	MRB_SET_INSTANCE_TT(ruby_class, MRB_TT_DATA);
+
+	return ruby_class;
+
+}

@@ -8,7 +8,7 @@ mrb_value ruby_coordinates_init(mrb_state* mrb, mrb_value self) {
 	//! Default arguments yield a zero vector
 	mrb_get_args(mrb, "|ff", &x, &y);
 
-	MrbWrap::convert_to_instance_variable<sf::Vector2f>(mrb, self, "@_vector", "vector", x, y);
+	MrbWrap::convert_to_object<sf::Vector2f>(mrb, self, "vector", x, y);
 
 	return self;
 
@@ -16,7 +16,7 @@ mrb_value ruby_coordinates_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_x(mrb_state* mrb, mrb_value self) {
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 	
 	return mrb_float_value(mrb, content->x);
 
@@ -24,7 +24,7 @@ mrb_value ruby_coordinates_x(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_y(mrb_state* mrb, mrb_value self) {
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
 	return mrb_float_value(mrb, content->y);
 
@@ -36,7 +36,7 @@ mrb_value ruby_coordinates_x_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "f", &new_value);
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 	content->x = new_value;
 
 	return mrb_float_value(mrb, new_value);
@@ -49,7 +49,7 @@ mrb_value ruby_coordinates_y_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "f", &new_value);
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 	content->y = new_value;
 
 	return mrb_float_value(mrb, new_value);
@@ -62,13 +62,13 @@ mrb_value ruby_coordinates_plus(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &other_value);
 
-	auto this_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
-	auto other_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, other_value, "@_vector");
+	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
+	auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-	auto new_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, new_value, "@_vector");
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
 
 	//! The SFML vector has overloaded operators, so we can just do this the easy way
 	//! Technically, the whole methods just creates an empty Coordinates object and then directly modifies its contents
@@ -84,13 +84,13 @@ mrb_value ruby_coordinates_minus(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &other_value);
 
-	auto this_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
-	auto other_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, other_value, "@_vector");
+	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
+	auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-	auto new_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, new_value, "@_vector");
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
 
 	*new_vector = *this_vector - *other_vector;
 
@@ -104,12 +104,12 @@ mrb_value ruby_coordinates_times(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "f", &scalar);
 
-	auto this_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-	auto new_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, new_value, "@_vector");
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
 
 	*new_vector = *this_vector * scalar;
 
@@ -123,8 +123,8 @@ mrb_value ruby_coordinates_dot_product(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &other_value);
 
-	auto this_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
-	auto other_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, other_value, "@_vector");
+	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
+	auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
 	return mrb_float_value(mrb, this_vector->x * other_vector->x + this_vector->y * other_vector->y);
 
@@ -132,14 +132,14 @@ mrb_value ruby_coordinates_dot_product(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_squared_norm(mrb_state* mrb, mrb_value self) {
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
 	return mrb_float_value(mrb, content->x * content->x + content->y * content->y);
 }
 
 mrb_value ruby_coordinates_to_s(mrb_state* mrb, mrb_value self) {
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
 	char buffer[32];
 	snprintf(buffer, 32, "%.8g %.8g", content->x, content->y);
@@ -150,7 +150,7 @@ mrb_value ruby_coordinates_to_s(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_inspect(mrb_state* mrb, mrb_value self) {
 
-	auto content = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, self, "@_vector");
+	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
 	char buffer[32];
 	snprintf(buffer, 32, "(%.8g | %.8g)", content->x, content->y);
@@ -161,7 +161,7 @@ mrb_value ruby_coordinates_inspect(mrb_state* mrb, mrb_value self) {
 
 void setup_ruby_class_coordinates(mrb_state* mrb) {
 
-	auto ruby_coordinates_class = mrb_define_class(mrb, "Coordinates", mrb->object_class);
+	auto ruby_coordinates_class = MrbWrap::define_data_class(mrb, "Coordinates");
 
 	mrb_define_method(mrb, ruby_coordinates_class, "initialize", ruby_coordinates_init, MRB_ARGS_OPT(2));
 

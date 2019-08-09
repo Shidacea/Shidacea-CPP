@@ -54,9 +54,42 @@ namespace MrbWrap {
 
 	}
 
-	//! Creates a C++ instance of the class 'T' and wraps it directly into the ruby instance variable of the ruby object 'self'
+	// Create and returns a ruby class which can be used as a C++ class wrapper
+	RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr);
+
+	//! Creates a direct ruby wrapper for any C++ object and stores it in 'self'
 	//! Constructor arguments can be given as 'TArgs', if needed
 	//! DO NOT destroy the created object manually, the mruby garbage collector will do this for you!
+	//! IMPORTANT: This works only with ruby classes specifically declared as data object
+	//! Do this by using the function 'define_data_class' defined here
+	template <class T, class ... TArgs> T* convert_to_object(mrb_state* mrb, mrb_value self, const char* data_type_c_str, TArgs ... args) {
+
+		auto new_object = new T(args...);
+
+		static const struct mrb_data_type data_type = {
+
+			data_type_c_str, free_data
+
+		};
+		
+		DATA_PTR(self) = new_object;
+		DATA_TYPE(self) = &data_type;
+
+		return new_object;
+
+	}
+
+	//! Return the wrapped C++ object of class 'T' from 'self'
+	//! This can be used to modify the internal properties of a wrapped C++ object
+	template <class T> T* convert_from_object(mrb_state* mrb, mrb_value self) {
+
+		auto type = DATA_TYPE(self);
+
+		return static_cast<T*>(mrb_data_get_ptr(mrb, self, type));
+
+	}
+
+	//! Creates a C++ instance of the class 'T' and wraps it directly into the ruby instance variable of the ruby object 'self'
 	template <class T, class ... TArgs> T* convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
 
 		auto new_object = new T(args...);
@@ -79,7 +112,6 @@ namespace MrbWrap {
 	}
 
 	//! Obtains a pointer to the C++ object of class 'T' back from the instance variable with name 'var_c_str' from the ruby object 'self'
-	//! This can be used to modify the internal properties of a wrapped C++ object
 	template <class T> T* convert_from_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str) {
 
 		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
@@ -89,8 +121,5 @@ namespace MrbWrap {
 		return static_cast<T*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
 
 	}
-
-	//! TODO: Optimize wrappers by adding direct structure setting without instance variables
-	//! This may be much more complex, but the substitutions should not be problematic
 
 }

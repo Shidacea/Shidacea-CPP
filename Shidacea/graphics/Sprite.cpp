@@ -6,7 +6,7 @@ mrb_value ruby_sprite_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_resource_manager);
 
-	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
+	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
 	auto sprite_index = resource_manager->add_sprite();
 
 	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
@@ -22,7 +22,7 @@ mrb_value ruby_sprite_delete(mrb_state* mrb, mrb_value self) {
 
 	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
-	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
+	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
 
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
@@ -40,7 +40,7 @@ mrb_value ruby_sprite_link_texture(mrb_state* mrb, mrb_value self) {
 	mrb_get_args(mrb, "o", &ruby_texture);
 
 	auto sprite = get_sprite(mrb, self);
-	auto texture = MrbWrap::convert_from_instance_variable<sf::Texture>(mrb, ruby_texture, "@_texture");
+	auto texture = MrbWrap::convert_from_object<sf::Texture>(mrb, ruby_texture);
 
 	sprite->setTexture(*texture);
 
@@ -55,7 +55,7 @@ mrb_value ruby_sprite_position(mrb_state* mrb, mrb_value self) {
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-	auto new_vector = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, new_coordinates, "@_vector");
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
 
 	*new_vector = sprite->getPosition();
 
@@ -72,7 +72,7 @@ mrb_value ruby_sprite_position_equals(mrb_state* mrb, mrb_value self) {
 	//! TODO: Either remove this function or duplicate the given coordinates
 
 	auto sprite = get_sprite(mrb, self);
-	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	sprite->setPosition(*coordinates);
 
@@ -143,7 +143,7 @@ static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
 
 	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
-	auto resource_manager = MrbWrap::convert_from_instance_variable<ResourceManager>(mrb, ruby_resource_manager, "@_manager");
+	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
 
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index = mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));

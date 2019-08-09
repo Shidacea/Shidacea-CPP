@@ -16,8 +16,8 @@ mrb_value ruby_collider_test(mrb_state* mrb, mrb_value self) {
 	auto type_1 = get_type_of_ruby_shape(mrb, ruby_shape_1);
 	auto type_2 = get_type_of_ruby_shape(mrb, ruby_shape_2);
 
-	auto pos_1 = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_pos_1, "@_vector");
-	auto pos_2 = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_pos_2, "@_vector");
+	auto pos_1 = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_pos_1);
+	auto pos_2 = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_pos_2);
 
 	auto result = false;
 	
@@ -99,7 +99,7 @@ mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_coordinates);
 
-	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_instance_variable<ShapeLine>(mrb, self, "@_shape", "shape");
 	shape->line = *coordinates;
@@ -127,7 +127,7 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_coordinates);
 
-	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_instance_variable<ShapeBox>(mrb, self, "@_shape", "shape");
 	shape->diagonal = *coordinates;
@@ -160,7 +160,7 @@ mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_coordinates);
 
-	auto coordinates = MrbWrap::convert_from_instance_variable<sf::Vector2f>(mrb, ruby_coordinates, "@_vector");
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_instance_variable<ShapeEllipse>(mrb, self, "@_shape", "shape");
 	shape->semiaxes = *coordinates;
