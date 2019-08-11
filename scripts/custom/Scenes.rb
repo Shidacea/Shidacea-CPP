@@ -26,6 +26,10 @@ class SceneTest < Scene
 
 		elsif EventKey::is_pressed?(EventKey::E) then
 			$window.set_imgui_scale(2.0)
+		
+		elsif EventKey::is_pressed?(EventKey::F) then
+			do_stuff_which_does_not_exist
+
 		end
 	end
 

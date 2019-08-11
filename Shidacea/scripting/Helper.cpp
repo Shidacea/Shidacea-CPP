@@ -40,7 +40,13 @@ void MrbWrap::execute_script_file(mrb_state* mrb, std::string const& filename) {
 
 	}
 
-	mrb_load_file(mrb, f);
+	auto new_context = mrbc_context_new(mrb);
+	mrbc_filename(mrb, new_context, filename.c_str());
+	mrb_load_file_cxt(mrb, f, new_context);
+
+	if (mrb->exc) {
+		mrb_print_error(mrb);
+	}
 
 	if(f) fclose(f);
 
