@@ -131,7 +131,7 @@ mrb_value ruby_sprite_draw(mrb_state* mrb, mrb_value self) {
 	mrb_get_args(mrb, "o", &ruby_window);
 
 	auto sprite = get_sprite(mrb, self);
-	auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, ruby_window, "@_window");
+	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
 
 	window->draw(*sprite);
 

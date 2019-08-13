@@ -66,7 +66,7 @@ namespace MrbWrap {
 
 		auto new_object = new T(args...);
 
-		static const struct mrb_data_type data_type = {
+		static const mrb_data_type data_type = {
 
 			data_type_c_str, free_data
 
@@ -86,6 +86,20 @@ namespace MrbWrap {
 		auto type = DATA_TYPE(self);
 
 		return static_cast<T*>(mrb_data_get_ptr(mrb, self, type));
+
+	}
+
+	//! Copy the content of the wrapped C++ structure to the new wrapper in 'self'
+	template <class T> void copy_object(mrb_state* mrb, mrb_value self, const char* data_type_c_str) {
+
+		mrb_value original;
+
+		mrb_get_args(mrb, "o", &original);
+
+		auto old_value = MrbWrap::convert_from_object<T>(mrb, original);
+		auto new_value = MrbWrap::convert_to_object<T>(mrb, self, data_type_c_str);
+
+		*new_value = *old_value;
 
 	}
 

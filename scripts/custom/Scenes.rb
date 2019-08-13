@@ -30,6 +30,16 @@ class SceneTest < Scene
 		elsif EventKey::is_pressed?(EventKey::F) then
 			do_stuff_which_does_not_exist
 
+		elsif EventKey::is_pressed?(EventKey::G) then
+			a = Coordinates.new(3, 2)
+			b = a.dup
+			puts "a = #{a}"
+			puts "b = #{b}"
+			a += Coordinates.new(1, 9)
+			b += Coordinates.new(2, 19)
+			puts "a' = #{a}"
+			puts "b' = #{b}"
+
 		end
 	end
 

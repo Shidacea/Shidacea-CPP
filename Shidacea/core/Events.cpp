@@ -188,7 +188,7 @@ mrb_value ruby_event_mouse_get_position(mrb_state* mrb, mrb_value self) {
 
 	} else {
 
-		auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, ruby_window, "@_window");
+		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
 
 		mouse_position = sf::Mouse::getPosition(*window);
 
@@ -228,7 +228,7 @@ mrb_value ruby_event_mouse_set_position(mrb_state* mrb, mrb_value self) {
 
 	} else {
 
-		auto window = MrbWrap::convert_from_instance_variable<sf::RenderWindow>(mrb, ruby_window, "@_window");
+		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
 
 		sf::Mouse::setPosition(new_position, *window);
 
@@ -240,7 +240,7 @@ mrb_value ruby_event_mouse_set_position(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_instance_variable<sf::Event>(mrb, self, "@_event", "event");
+	MrbWrap::convert_to_object<sf::Event>(mrb, self, "event");
 
 	return self;
 
@@ -248,7 +248,7 @@ mrb_value ruby_event_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_type(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(static_cast<int>(event->type));
 
@@ -256,7 +256,7 @@ mrb_value ruby_event_type(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_key_code(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(static_cast<int>(event->key.code));
 
@@ -264,7 +264,7 @@ mrb_value ruby_event_key_code(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_key_alt(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_bool_value(event->key.alt);
 
@@ -272,7 +272,7 @@ mrb_value ruby_event_key_alt(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_key_control(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_bool_value(event->key.control);
 
@@ -280,7 +280,7 @@ mrb_value ruby_event_key_control(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_key_shift(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_bool_value(event->key.shift);
 
@@ -288,7 +288,7 @@ mrb_value ruby_event_key_shift(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_key_system(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_bool_value(event->key.system);
 
@@ -296,7 +296,7 @@ mrb_value ruby_event_key_system(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_button_code(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(static_cast<int>(event->mouseButton.button));
 
@@ -304,7 +304,7 @@ mrb_value ruby_event_mouse_button_code(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_button_x(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(event->mouseButton.x);
 
@@ -312,7 +312,7 @@ mrb_value ruby_event_mouse_button_x(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_button_y(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(event->mouseButton.y);
 
@@ -320,7 +320,7 @@ mrb_value ruby_event_mouse_button_y(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_move_x(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(event->mouseMove.x);
 
@@ -328,7 +328,7 @@ mrb_value ruby_event_mouse_move_x(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_move_y(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(event->mouseMove.y);
 
@@ -336,7 +336,7 @@ mrb_value ruby_event_mouse_move_y(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_scroll_wheel(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(static_cast<int>(event->mouseWheelScroll.wheel));
 
@@ -344,7 +344,7 @@ mrb_value ruby_event_mouse_scroll_wheel(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_scroll_delta(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_float_value(mrb, event->mouseWheelScroll.delta);
 
@@ -352,7 +352,7 @@ mrb_value ruby_event_mouse_scroll_delta(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_scroll_x(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(event->mouseWheelScroll.x);
 
@@ -360,7 +360,7 @@ mrb_value ruby_event_mouse_scroll_x(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_scroll_y(mrb_state* mrb, mrb_value self) {
 
-	auto event = MrbWrap::convert_from_instance_variable<sf::Event>(mrb, self, "@_event");
+	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
 	return mrb_fixnum_value(event->mouseWheelScroll.y);
 
@@ -368,7 +368,7 @@ mrb_value ruby_event_mouse_scroll_y(mrb_state* mrb, mrb_value self) {
 
 void setup_ruby_class_event(mrb_state* mrb) {
 
-	auto ruby_event_class = mrb_define_class(mrb, "Event", mrb->object_class);
+	auto ruby_event_class = MrbWrap::define_data_class(mrb, "Event");
 
 	mrb_define_method(mrb, ruby_event_class, "initialize", ruby_event_init, MRB_ARGS_NONE());
 
