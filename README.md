@@ -61,14 +61,10 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 If you download this repository, make sure to download the submodules as well, since a simple download won't include them.
 The best way to use Shidacea is to fork it and use Git for maintaining it and updating the submodules.
 
-## Script naming conventions
-
-Do not give mruby scripts same names, even if they are in different subdirectories of the `scripts`-directory. The subdirectory structure is ONLY for convenience reasons! The final build scripts will NOT follow this structure!
-
-It is adviced to create a separate directory inside the `scripts`-directory for your own additions if you plan to add new scripts. Also use prefixes for your files, e.g. `scripts/my_project/my_project_test.rb` instead of `scripts/custom/test.rb`.
-
 ## Loading other mruby script files
 
-Unless you change the selection of files in the `Main.h` and `Main.cpp` files, other script files (besides mods) can't be loaded.
-
 The ruby instruction `require` is NOT available (adding it as a gem would be possible, but not applicable to the concept of pre-compiled bytecode).
+This means that you need to write files with no direct dependencies, as they could be loaded in an arbitrary order.
+Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
+
+The order of loading the script folders is: core -> custom/scenes -> custom/entities -> custom/Main.rb

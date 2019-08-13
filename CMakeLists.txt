@@ -60,7 +60,7 @@ file(GLOB_RECURSE RUBYSCRIPTS_CORE "${CMAKE_SOURCE_DIR}/scripts/core/*.rb")
 file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_SCENES "${CMAKE_SOURCE_DIR}/scripts/custom/scenes/*.rb")
 file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_ENTITIES "${CMAKE_SOURCE_DIR}/scripts/custom/entities/*.rb")
 
-set(MAIN_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/main.rb")
+set(RUBY_MAIN_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Main.rb")
 
 # If this is a debug build, copy the ruby files to the build directory
 # Otherwise compile them to bytecode
@@ -89,6 +89,8 @@ foreach(RUBYSCRIPT_CORE ${RUBYSCRIPTS_CORE})
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
+		message(${TRUNCATED_SCRIPT_NAME})
+
 		configure_file(
 			${RUBYSCRIPT_CORE}
 			${CMAKE_BINARY_DIR}/scripts/core/${TRUNCATED_SCRIPT_NAME}
@@ -96,7 +98,7 @@ foreach(RUBYSCRIPT_CORE ${RUBYSCRIPTS_CORE})
 
 	else()
 
-		set(COMPILED_RUBY_CORE_SCRIPTS ${TRUNCATED_SCRIPT_NAME} ${COMPILED_RUBY_CORE_SCRIPTS})
+		set(COMPILED_RUBY_CORE_SCRIPTS ${RUBYSCRIPT_CORE} ${COMPILED_RUBY_CORE_SCRIPTS})
 
 	endif()
 
@@ -116,7 +118,7 @@ foreach(RUBYSCRIPT_SCENE ${RUBYSCRIPTS_CUSTOM_SCENES})
 
 	else()
 
-		set(COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS ${TRUNCATED_SCRIPT_NAME} ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS})
+		set(COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS ${RUBYSCRIPT_SCENE} ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS})
 
 	endif()
 
@@ -136,7 +138,7 @@ foreach(RUBYSCRIPT_ENTITY ${RUBYSCRIPTS_CUSTOM_ENTITIES})
 
 	else()
 
-		set(COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS ${TRUNCATED_SCRIPT_NAME} ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS})
+		set(COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS ${RUBYSCRIPT_ENTITY} ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS})
 
 	endif()
 
@@ -167,7 +169,14 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 		VERBATIM
 	)
 
-	set(RUBY_COMPILED_TARGETS TargetRubyCore TargetRubyCustomScenes TargetRubyCustomEntities ${RUBY_COMPILED_TARGETS})
+	add_custom_target(TargetRubyMain
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -BCompiledRubyMain -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyMain.h ${RUBY_MAIN_SCRIPT}
+		DEPENDS ${RUBY_MAIN_SCRIPT} mruby
+		VERBATIM
+	)
+
+	set(RUBY_COMPILED_TARGETS TargetRubyCore TargetRubyCustomScenes TargetRubyCustomEntities TargetRubyMain ${RUBY_COMPILED_TARGETS})
 
 endif()
 
