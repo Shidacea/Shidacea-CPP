@@ -22,6 +22,9 @@
 #define MRB_LOAD_SCRIPT(mrb, name) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 
+//! TODO: Rewrite functions above and includes so that only the core and the custom scenes and entities need to be loaded
+//! TODO: Do this by defining macros which may either load one single header or a folder with scripts recursively
+
 #include <iostream>
 
 namespace MrbWrap {
