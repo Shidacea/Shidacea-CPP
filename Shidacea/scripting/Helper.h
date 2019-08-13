@@ -48,27 +48,41 @@ namespace MrbWrap {
 	//! Load mods
 	void load_mods(mrb_state* mrb);
 
+	//! Universal destructor wrapped into a C representation
+	//! Will be used as callback for ruby object deallocation
 	static void free_data(mrb_state* mrb, void* object_ptr) {
 
 		delete object_ptr;
 
 	}
 
-	// Create and returns a ruby class which can be used as a C++ class wrapper
+	//! Create and returns a ruby class which can be used as a C++ class wrapper
+	//! Use this when setting up a ruby class
 	RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr);
+
+	//! Define a copy method automatically for any wrapped C++ object
+	//! Use this when setting up a ruby class
+	template <class T> void define_default_copy_init(mrb_state* mrb, RClass* ruby_class) {
+
+		mrb_define_method(mrb, ruby_class, "initialize_copy", MrbWrap::ruby_class_default_init_copy<T>, MRB_ARGS_REQ(1));
+
+	}
 
 	//! Creates a direct ruby wrapper for any C++ object and stores it in 'self'
 	//! Constructor arguments can be given as 'TArgs', if needed
+	//! The name of the class T will be used as the argument for the ruby-internal name
+	//! This may cause some weird names from certain compilers, but this shouldn't pose a problem
 	//! DO NOT destroy the created object manually, the mruby garbage collector will do this for you!
 	//! IMPORTANT: This works only with ruby classes specifically declared as data object
 	//! Do this by using the function 'define_data_class' defined here
-	template <class T, class ... TArgs> T* convert_to_object(mrb_state* mrb, mrb_value self, const char* data_type_c_str, TArgs ... args) {
+	//! Use this in callbacks
+	template <class T, class ... TArgs> T* convert_to_object(mrb_state* mrb, mrb_value self, TArgs ... args) {
 
 		auto new_object = new T(args...);
 
 		static const mrb_data_type data_type = {
 
-			data_type_c_str, free_data
+			typeid(T).name(), free_data
 
 		};
 		
@@ -81,6 +95,7 @@ namespace MrbWrap {
 
 	//! Return the wrapped C++ object of class 'T' from 'self'
 	//! This can be used to modify the internal properties of a wrapped C++ object
+	//! Use this in callbacks
 	template <class T> T* convert_from_object(mrb_state* mrb, mrb_value self) {
 
 		auto type = DATA_TYPE(self);
@@ -90,27 +105,38 @@ namespace MrbWrap {
 	}
 
 	//! Copy the content of the wrapped C++ structure to the new wrapper in 'self'
-	template <class T> void copy_object(mrb_state* mrb, mrb_value self, const char* data_type_c_str) {
+	//! Use this in callbacks
+	template <class T> void copy_object(mrb_state* mrb, mrb_value self) {
 
 		mrb_value original;
 
 		mrb_get_args(mrb, "o", &original);
 
 		auto old_value = MrbWrap::convert_from_object<T>(mrb, original);
-		auto new_value = MrbWrap::convert_to_object<T>(mrb, self, data_type_c_str);
+		auto new_value = MrbWrap::convert_to_object<T>(mrb, self);
 
 		*new_value = *old_value;
 
 	}
 
+	//! Default copy routine which can be used for trivial copy constructors
+	//! Use this as a callback routine
+	template <class T> mrb_value ruby_class_default_init_copy(mrb_state* mrb, mrb_value self) {
+
+		MrbWrap::copy_object<T>(mrb, self);
+
+		return self;
+	}
+
 	//! Creates a C++ instance of the class 'T' and wraps it directly into the ruby instance variable of the ruby object 'self'
-	template <class T, class ... TArgs> T* convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, const char* data_type_c_str, TArgs ... args) {
+	//! Use this in callbacks
+	template <class T, class ... TArgs> T* convert_to_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str, TArgs ... args) {
 
 		auto new_object = new T(args...);
 
 		static const struct mrb_data_type data_type = {
 
-			data_type_c_str, free_data
+			typeid(T).name(), free_data
 
 		};
 
@@ -126,6 +152,7 @@ namespace MrbWrap {
 	}
 
 	//! Obtains a pointer to the C++ object of class 'T' back from the instance variable with name 'var_c_str' from the ruby object 'self'
+	//! Use this in callbacks
 	template <class T> T* convert_from_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str) {
 
 		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));

@@ -2,7 +2,7 @@
 
 mrb_value ruby_texture_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_object<sf::Texture>(mrb, self, "texture");
+	MrbWrap::convert_to_object<sf::Texture>(mrb, self);
 
 	return self;
 

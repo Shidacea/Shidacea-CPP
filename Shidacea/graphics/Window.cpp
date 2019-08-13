@@ -13,13 +13,11 @@ mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 
 	if (fullscreen) {
 
-		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, "window",
-			sf::VideoMode(width, height), title, sf::Style::Fullscreen);
+		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(width, height), title, sf::Style::Fullscreen);
 
 	} else {
 
-		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, "window", 
-			sf::VideoMode(width, height), title);
+		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(width, height), title);
 
 	}
 
@@ -27,7 +25,7 @@ mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 	//view.setViewport(sf::FloatRect(0.0, 0.0, 2.0, 8.0/6.0*2.0));
 	//window->setView(view);
 
-	MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock", "clock");
+	MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
 	ImGui::SFML::Init(*window);
 

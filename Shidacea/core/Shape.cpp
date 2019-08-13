@@ -88,15 +88,7 @@ mrb_value ruby_shape_class_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_shape_point_class_init(mrb_state* mrb, mrb_value self) {
 
-	auto shape = MrbWrap::convert_to_object<ShapePoint>(mrb, self, "shape_point");
-	return self;
-
-}
-
-mrb_value ruby_shape_point_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapePoint>(mrb, self, "shape_point");
-
+	auto shape = MrbWrap::convert_to_object<ShapePoint>(mrb, self);
 	return self;
 
 }
@@ -109,16 +101,8 @@ mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self) {
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
-	auto shape = MrbWrap::convert_to_object<ShapeLine>(mrb, self, "shape_line");
+	auto shape = MrbWrap::convert_to_object<ShapeLine>(mrb, self);
 	shape->line = *coordinates;
-
-	return self;
-
-}
-
-mrb_value ruby_shape_line_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapeLine>(mrb, self, "shape_line");
 
 	return self;
 
@@ -130,16 +114,8 @@ mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "f", &radius);
 
-	auto shape = MrbWrap::convert_to_object<ShapeCircle>(mrb, self, "shape_circle");
+	auto shape = MrbWrap::convert_to_object<ShapeCircle>(mrb, self);
 	shape->radius = radius;
-
-	return self;
-
-}
-
-mrb_value ruby_shape_circle_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapeCircle>(mrb, self, "shape_circle");
 
 	return self;
 
@@ -153,16 +129,8 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
-	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self, "shape_box");
+	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
 	shape->diagonal = *coordinates;
-
-	return self;
-
-}
-
-mrb_value ruby_shape_box_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapeBox>(mrb, self, "shape_box");
 
 	return self;
 
@@ -172,15 +140,7 @@ mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self) {
 
 	//! TODO
 
-	auto shape = MrbWrap::convert_to_object<ShapeTriangle>(mrb, self, "shape_triangle");
-	return self;
-
-}
-
-mrb_value ruby_shape_triangle_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapeTriangle>(mrb, self, "shape_triangle");
-
+	auto shape = MrbWrap::convert_to_object<ShapeTriangle>(mrb, self);
 	return self;
 
 }
@@ -189,15 +149,7 @@ mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self) {
 
 	//! TODO
 
-	auto shape = MrbWrap::convert_to_object<ShapeQuadrangle>(mrb, self, "shape_quadrangle");
-	return self;
-
-}
-
-mrb_value ruby_shape_quadrangle_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapeQuadrangle>(mrb, self, "shape_quadrangle");
-
+	auto shape = MrbWrap::convert_to_object<ShapeQuadrangle>(mrb, self);
 	return self;
 
 }
@@ -210,16 +162,8 @@ mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self) {
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
-	auto shape = MrbWrap::convert_to_object<ShapeEllipse>(mrb, self, "shape_ellipse");
+	auto shape = MrbWrap::convert_to_object<ShapeEllipse>(mrb, self);
 	shape->semiaxes = *coordinates;
-
-	return self;
-
-}
-
-mrb_value ruby_shape_ellipse_class_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<ShapeEllipse>(mrb, self, "shape_ellipse");
 
 	return self;
 
@@ -241,25 +185,25 @@ void setup_ruby_collider(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_shape_class, "initialize", ruby_shape_class_init, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_shape_point_class, "initialize", ruby_shape_point_class_init, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_shape_point_class, "initialize_copy", ruby_shape_point_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapePoint>(mrb, ruby_shape_point_class);
 
 	mrb_define_method(mrb, ruby_shape_line_class, "initialize", ruby_shape_line_class_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_shape_line_class, "initialize_copy", ruby_shape_line_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapeLine>(mrb, ruby_shape_line_class);
 
 	mrb_define_method(mrb, ruby_shape_circle_class, "initialize", ruby_shape_circle_class_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_shape_circle_class, "initialize_copy", ruby_shape_circle_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapeCircle>(mrb, ruby_shape_circle_class);
 
 	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_shape_box_class, "initialize_copy", ruby_shape_box_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapeBox>(mrb, ruby_shape_box_class);
 
 	mrb_define_method(mrb, ruby_shape_triangle_class, "initialize", ruby_shape_triangle_class_init, MRB_ARGS_NONE());	//! TODO
-	mrb_define_method(mrb, ruby_shape_triangle_class, "initialize_copy", ruby_shape_triangle_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapeTriangle>(mrb, ruby_shape_triangle_class);
 
 	mrb_define_method(mrb, ruby_shape_quadrangle_class, "initialize", ruby_shape_quadrangle_class_init, MRB_ARGS_NONE());	//! TODO
-	mrb_define_method(mrb, ruby_shape_quadrangle_class, "initialize_copy", ruby_shape_quadrangle_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapeQuadrangle>(mrb, ruby_shape_quadrangle_class);
 
 	mrb_define_method(mrb, ruby_shape_ellipse_class, "initialize", ruby_shape_ellipse_class_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_shape_ellipse_class, "initialize_copy", ruby_shape_ellipse_class_init_copy, MRB_ARGS_REQ(1));
+	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb, ruby_shape_ellipse_class);
 
 	mrb_define_module_function(mrb, module_collider, "test", ruby_collider_test, MRB_ARGS_REQ(4));
 

@@ -5,7 +5,6 @@
 #include <SFML/Graphics.hpp>
 
 mrb_value ruby_coordinates_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_coordinates_init_copy(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_coordinates_x(mrb_state* mrb, mrb_value self);
 mrb_value ruby_coordinates_y(mrb_state* mrb, mrb_value self);

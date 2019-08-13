@@ -240,7 +240,7 @@ mrb_value ruby_event_mouse_set_position(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_object<sf::Event>(mrb, self, "event");
+	MrbWrap::convert_to_object<sf::Event>(mrb, self);
 
 	return self;
 

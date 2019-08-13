@@ -98,24 +98,11 @@ ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape);
 mrb_value ruby_shape_class_init(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_shape_point_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_point_class_init_copy(mrb_state* mrb, mrb_value self);
-
 mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_line_class_init_copy(mrb_state* mrb, mrb_value self);
-
 mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_circle_class_init_copy(mrb_state* mrb, mrb_value self);
-
 mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_box_class_init_copy(mrb_state* mrb, mrb_value self);
-
 mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_triangle_class_init_copy(mrb_state* mrb, mrb_value self);
-
 mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_quadrangle_class_init_copy(mrb_state* mrb, mrb_value self);
-
 mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_ellipse_class_init_copy(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_collider(mrb_state* mrb);

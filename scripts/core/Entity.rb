@@ -160,6 +160,10 @@ class Entity
 	def initialize(resource_manager)
 		@resource_manager = resource_manager
 
+		initialization_procedure
+	end
+
+	def initialization_procedure
 		@position = Coordinates.new
 
 		load_boxes

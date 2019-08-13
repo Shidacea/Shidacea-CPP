@@ -45,7 +45,7 @@ sf::Sprite* ResourceManager::access_sprite(int index) {
 
 mrb_value ruby_resource_manager_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_object<ResourceManager>(mrb, self, "manager");
+	MrbWrap::convert_to_object<ResourceManager>(mrb, self);
 
 	return self;
 

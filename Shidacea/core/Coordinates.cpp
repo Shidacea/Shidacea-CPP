@@ -8,15 +8,7 @@ mrb_value ruby_coordinates_init(mrb_state* mrb, mrb_value self) {
 	//! Default arguments yield a zero vector
 	mrb_get_args(mrb, "|ff", &x, &y);
 
-	MrbWrap::convert_to_object<sf::Vector2f>(mrb, self, "vector", x, y);
-
-	return self;
-
-}
-
-mrb_value ruby_coordinates_init_copy(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::copy_object<sf::Vector2f>(mrb, self, "vector");
+	MrbWrap::convert_to_object<sf::Vector2f>(mrb, self, x, y);
 
 	return self;
 
@@ -172,7 +164,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb) {
 	auto ruby_coordinates_class = MrbWrap::define_data_class(mrb, "Coordinates");
 
 	mrb_define_method(mrb, ruby_coordinates_class, "initialize", ruby_coordinates_init, MRB_ARGS_OPT(2));
-	mrb_define_method(mrb, ruby_coordinates_class, "initialize_copy", ruby_coordinates_init_copy, MRB_ARGS_OPT(2));
+	MrbWrap::define_default_copy_init<sf::Vector2f>(mrb, ruby_coordinates_class);
 
 	mrb_define_method(mrb, ruby_coordinates_class, "x", ruby_coordinates_x, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_coordinates_class, "y", ruby_coordinates_y, MRB_ARGS_NONE());
