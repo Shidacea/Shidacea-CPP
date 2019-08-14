@@ -89,8 +89,6 @@ foreach(RUBYSCRIPT_CORE ${RUBYSCRIPTS_CORE})
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-		message(${TRUNCATED_SCRIPT_NAME})
-
 		configure_file(
 			${RUBYSCRIPT_CORE}
 			${CMAKE_BINARY_DIR}/scripts/core/${TRUNCATED_SCRIPT_NAME}
@@ -144,34 +142,43 @@ foreach(RUBYSCRIPT_ENTITY ${RUBYSCRIPTS_CUSTOM_ENTITIES})
 
 endforeach(RUBYSCRIPT_ENTITY)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+		configure_file(
+			${RUBY_MAIN_SCRIPT}
+			${CMAKE_BINARY_DIR}/scripts/custom/Main.rb
+		)
+
+endif()
+
 # Compile ruby scripts if necessary
 
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 	add_custom_target(TargetRubyCore
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -BCompiledRubyCore -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCore.h ${COMPILED_RUBY_CORE_SCRIPTS}
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_core -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCore.h ${COMPILED_RUBY_CORE_SCRIPTS}
 		DEPENDS ${COMPILED_RUBY_CORE_SCRIPTS} mruby
 		VERBATIM
 	)
 
 	add_custom_target(TargetRubyCustomScenes
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -BCompiledRubyCustomScenes -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomScenes.h ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS}
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_custom_scenes -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomScenes.h ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS}
 		DEPENDS ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS} mruby
 		VERBATIM
 	)
 
 	add_custom_target(TargetRubyCustomEntities
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -BCompiledRubyCustomEntities -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomEntities.h ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS}
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_custom_entities -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomEntities.h ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS}
 		DEPENDS ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS} mruby
 		VERBATIM
 	)
 
 	add_custom_target(TargetRubyMain
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -BCompiledRubyMain -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyMain.h ${RUBY_MAIN_SCRIPT}
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_main -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyMain.h ${RUBY_MAIN_SCRIPT}
 		DEPENDS ${RUBY_MAIN_SCRIPT} mruby
 		VERBATIM
 	)
@@ -179,21 +186,6 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 	set(RUBY_COMPILED_TARGETS TargetRubyCore TargetRubyCustomScenes TargetRubyCustomEntities TargetRubyMain ${RUBY_COMPILED_TARGETS})
 
 endif()
-
-foreach(RUBYSCRIPT ${RUBYSCRIPTS})
-
-	get_filename_component(COMPILED_SCRIPT ${RUBYSCRIPT} NAME_WE)
-
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBYSCRIPT}
-			${CMAKE_BINARY_DIR}/scripts/${COMPILED_SCRIPT}.rb
-		COPYONLY)
-
-	endif()
-
-endforeach(RUBYSCRIPT)
 
 # Copy all asset files and preserve their tree structure
 

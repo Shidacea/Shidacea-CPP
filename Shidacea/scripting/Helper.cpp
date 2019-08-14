@@ -36,6 +36,7 @@ void MrbWrap::execute_script_file(mrb_state* mrb, std::string const& filename) {
 
 	if (error_code != 0) {
 
+		std::cerr << "ERROR loading file: " << filename << std::endl;
 		//! TODO: Error handling
 
 	}
@@ -66,11 +67,33 @@ void MrbWrap::load_mods(mrb_state* mrb) {
 
 		std::clog << "Mod folder found. Loading mod files..." << std::endl;
 
-		for (const auto& entry : std::filesystem::directory_iterator(mod_path)) {
+		for (const auto& entry : std::filesystem::recursive_directory_iterator(mod_path)) {
 
 			std::cout << "Loading file: " << entry << std::endl;
 			const std::string str = entry.path().string();
 			MrbWrap::execute_script_file(mrb, str);
+
+		}
+
+	}
+
+}
+
+void MrbWrap::load_all_scripts_recursively(mrb_state* mrb, std::string path) {
+
+	auto current_path = std::filesystem::current_path();
+	auto complete_path = current_path / path;
+
+	if (!std::filesystem::exists(complete_path)) {
+
+		//! TODO: Error message
+
+	} else {
+
+		for(const auto& entry : std::filesystem::recursive_directory_iterator(complete_path)) {
+
+			const std::string filename = entry.path().string();
+			MrbWrap::execute_script_file(mrb, filename);
 
 		}
 

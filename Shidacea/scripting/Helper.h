@@ -17,9 +17,15 @@
 //! In the latter case, don't forget to include "compiled_scripts/XXX.h" (but ONLY then), or else the array will not be defined
 //! Sadly, there is no easy way to circumwent the conditioned include directive
 #ifndef NDEBUG
-#define MRB_LOAD_SCRIPT(mrb, name) MrbWrap::execute_script_file(mrb, "scripts/" #name ".rb")
+#define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, "scripts/" #path ".rb")
 #else
-#define MRB_LOAD_SCRIPT(mrb, name) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#endif
+
+#ifndef NDEBUG
+#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, "scripts/" #path)
+#else
+#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 
 //! TODO: Rewrite functions above and includes so that only the core and the custom scenes and entities need to be loaded
@@ -50,6 +56,9 @@ namespace MrbWrap {
 
 	//! Load mods
 	void load_mods(mrb_state* mrb);
+
+	//! Load all scripts in a given path
+	void load_all_scripts_recursively(mrb_state* mrb, std::string path);
 
 	//! Universal destructor wrapped into a C representation
 	//! Will be used as callback for ruby object deallocation

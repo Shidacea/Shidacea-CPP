@@ -11,13 +11,10 @@
 //! If you want to add any compiled Ruby script, you need to add it here
 
 #ifdef NDEBUG
-#include "compiled_scripts/Scene.h"
-#include "compiled_scripts/Scenes.h"
-#include "compiled_scripts/SpecialContainer.h"
-#include "compiled_scripts/Entity.h"
-#include "compiled_scripts/Entities.h"
-#include "compiled_scripts/MainLoop.h"
-#include "compiled_scripts/Main.h"
+#include "compiled_scripts/CompiledRubyCore.h"
+#include "compiled_scripts/CompiledRubyCustomScenes.h"
+#include "compiled_scripts/CompiledRubyCustomEntities.h"
+#include "compiled_scripts/CompiledRubyMain.h"
 #endif
 
 //! Other included classes and functions
