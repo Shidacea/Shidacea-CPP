@@ -95,14 +95,18 @@ mrb_value ruby_shape_point_class_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self) {
 
+	mrb_value ruby_offset;
 	mrb_value ruby_coordinates;
 
-	mrb_get_args(mrb, "o", &ruby_coordinates);
+	mrb_get_args(mrb, "oo", &ruby_offset, &ruby_coordinates);
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_object<ShapeLine>(mrb, self);
 	shape->line = *coordinates;
+
+	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
+	shape->offset = *offset;
 
 	return self;
 
@@ -110,12 +114,16 @@ mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
+	mrb_value ruby_offset;
 	float radius;
 
-	mrb_get_args(mrb, "f", &radius);
+	mrb_get_args(mrb, "of", &ruby_offset, &radius);
 
 	auto shape = MrbWrap::convert_to_object<ShapeCircle>(mrb, self);
 	shape->radius = radius;
+
+	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
+	shape->offset = *offset;
 
 	return self;
 
@@ -123,14 +131,18 @@ mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 
+	mrb_value ruby_offset;
 	mrb_value ruby_coordinates;
 
-	mrb_get_args(mrb, "o", &ruby_coordinates);
+	mrb_get_args(mrb, "oo", &ruby_offset, &ruby_coordinates);
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
 	shape->diagonal = *coordinates;
+
+	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
+	shape->offset = *offset;
 
 	return self;
 
@@ -141,6 +153,10 @@ mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self) {
 	//! TODO
 
 	auto shape = MrbWrap::convert_to_object<ShapeTriangle>(mrb, self);
+
+	//auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
+	//shape->offset = *offset;
+
 	return self;
 
 }
@@ -150,22 +166,60 @@ mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self) {
 	//! TODO
 
 	auto shape = MrbWrap::convert_to_object<ShapeQuadrangle>(mrb, self);
+
+	//auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
+	//shape->offset = *offset;
+
 	return self;
 
 }
 
 mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self) {
 
+	mrb_value ruby_offset;
 	mrb_value ruby_coordinates;
 
-	mrb_get_args(mrb, "o", &ruby_coordinates);
+	mrb_get_args(mrb, "oo", &ruby_offset, &ruby_coordinates);
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_object<ShapeEllipse>(mrb, self);
 	shape->semiaxes = *coordinates;
 
+	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
+	shape->offset = *offset;
+
 	return self;
+
+}
+
+mrb_value ruby_shape_class_offset(mrb_state* mrb, mrb_value self) {
+
+	auto shape = MrbWrap::convert_from_object<Shape>(mrb, self);
+
+	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+
+	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
+
+	*new_vector = shape->offset;
+
+	return new_coordinates;
+
+}
+
+mrb_value ruby_shape_class_offset_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_coordinates;
+
+	mrb_get_args(mrb, "o", &ruby_coordinates);
+
+	auto shape = MrbWrap::convert_from_object<Shape>(mrb, self);
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+
+	shape->offset = *coordinates;
+
+	return ruby_coordinates;
 
 }
 
@@ -184,16 +238,16 @@ void setup_ruby_collider(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_shape_class, "initialize", ruby_shape_class_init, MRB_ARGS_NONE());
 
-	mrb_define_method(mrb, ruby_shape_point_class, "initialize", ruby_shape_point_class_init, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_shape_point_class, "initialize", ruby_shape_point_class_init, MRB_ARGS_REQ(1));
 	MrbWrap::define_default_copy_init<ShapePoint>(mrb, ruby_shape_point_class);
 
-	mrb_define_method(mrb, ruby_shape_line_class, "initialize", ruby_shape_line_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_line_class, "initialize", ruby_shape_line_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeLine>(mrb, ruby_shape_line_class);
 
-	mrb_define_method(mrb, ruby_shape_circle_class, "initialize", ruby_shape_circle_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_circle_class, "initialize", ruby_shape_circle_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeCircle>(mrb, ruby_shape_circle_class);
 
-	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeBox>(mrb, ruby_shape_box_class);
 
 	mrb_define_method(mrb, ruby_shape_triangle_class, "initialize", ruby_shape_triangle_class_init, MRB_ARGS_NONE());	//! TODO
@@ -202,8 +256,11 @@ void setup_ruby_collider(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_shape_quadrangle_class, "initialize", ruby_shape_quadrangle_class_init, MRB_ARGS_NONE());	//! TODO
 	MrbWrap::define_default_copy_init<ShapeQuadrangle>(mrb, ruby_shape_quadrangle_class);
 
-	mrb_define_method(mrb, ruby_shape_ellipse_class, "initialize", ruby_shape_ellipse_class_init, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_ellipse_class, "initialize", ruby_shape_ellipse_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb, ruby_shape_ellipse_class);
+
+	mrb_define_method(mrb, ruby_shape_class, "offset", ruby_shape_class_offset, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_shape_class, "offset=", ruby_shape_class_offset_equals, MRB_ARGS_REQ(1));
 
 	mrb_define_module_function(mrb, module_collider, "test", ruby_collider_test, MRB_ARGS_REQ(4));
 

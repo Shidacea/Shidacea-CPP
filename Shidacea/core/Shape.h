@@ -17,7 +17,9 @@ auto y2 = pos2.y;
 if (type_1 == ShapeType::##type1 && type_2 == ShapeType::##type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_2); \
-result = check_collision(*shape_1, *shape_2, *pos_1, *pos_2); \
+auto offset_1 = shape_1->offset; \
+auto offset_2 = shape_2->offset; \
+result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_2); \
 }
 
 //! A lot of code just to define the same function in reverse
@@ -27,51 +29,77 @@ result = check_collision(*shape_1, *shape_2, *pos_1, *pos_2); \
 if (type_1 == ShapeType::##type1 && type_2 == ShapeType::##type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_2); \
-result = check_collision(*shape_1, *shape_2, *pos_1, *pos_2); \
+auto offset_1 = shape_1->offset; \
+auto offset_2 = shape_2->offset; \
+result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_2); \
 } \
 else if (type_1 == ShapeType::##type2 && type_2 == ShapeType::##type1) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_2); \
-result = check_collision(*shape_2, *shape_1, *pos_2, *pos_1); \
+auto offset_1 = shape_1->offset; \
+auto offset_2 = shape_2->offset; \
+result = check_collision(*shape_2, *shape_1, *pos_2 + offset_2, *pos_1 + offset_1); \
 }
 
-struct ShapePoint {
+class Shape {
 
-	//! Deliberately empty
+public:
+
+	sf::Vector2f offset;
 
 };
 
-struct ShapeLine {
+class ShapePoint : public Shape {
+
+public:
+
+	sf::Vector2f offset;
+
+};
+
+class ShapeLine : public Shape {
+
+public:
 
 	sf::Vector2f line;
 
 };
 
-struct ShapeCircle {
+class ShapeCircle : public Shape {
 
-	float radius;
+public:
+
+	float radius = 0.0;
 
 };
 
-struct ShapeBox {
+class ShapeBox : public Shape {
+
+public:
 
 	sf::Vector2f diagonal;
 
 };
 
-struct ShapeTriangle {
+struct ShapeTriangle : public Shape {
+
+public:
 
 	//! TODO
 
 };
 
-struct ShapeQuadrangle {
+struct ShapeQuadrangle : public Shape {
+
+public:
 
 	//! TODO
 
 };
 
-struct ShapeEllipse {
+struct ShapeEllipse : public Shape {
+
+public:
 
 	sf::Vector2f semiaxes;
 
@@ -104,5 +132,8 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self);
+
+mrb_value ruby_shape_class_offset(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_class_offset_equals(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_collider(mrb_state* mrb);

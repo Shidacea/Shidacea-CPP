@@ -40,8 +40,6 @@ def main_routine(scene_class, title, width, height)
 
 		f.close
 
-		puts exc.inspect
-
 		raise exc
 	end
 

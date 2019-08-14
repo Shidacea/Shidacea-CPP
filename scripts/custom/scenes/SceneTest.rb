@@ -25,17 +25,11 @@ class SceneTest < Scene
 			$window.set_imgui_scale(2.0)
 		
 		elsif EventKey::is_pressed?(EventKey::F) then
+			# Should trigger an error with backtrace
 			do_stuff_which_does_not_exist
 
 		elsif EventKey::is_pressed?(EventKey::G) then
-			a = Coordinates.new(3, 2)
-			b = a.dup
-			puts "a = #{a}"
-			puts "b = #{b}"
-			a += Coordinates.new(1, 9)
-			b += Coordinates.new(2, 19)
-			puts "a' = #{a}"
-			puts "b' = #{b}"
+			# Can be used for testing stuff
 
 		end
 	end

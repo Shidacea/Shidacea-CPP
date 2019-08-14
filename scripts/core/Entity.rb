@@ -12,30 +12,30 @@ class Entity
 
 	# Class methods for adding different objects to any entity
 	
-	def self.add_box(index: nil, size: nil)
+	def self.add_box(index: nil, offset: Coordinates.new, size: nil)
 		if !size then
 			raise("No size given for box with index #{index}")
 		end
 
 		@boxes = SpecialContainer.new if !@boxes
-		@boxes.add(ShapeBox.new(size), index)
+		@boxes.add(ShapeBox.new(offset, size), index)
 	end
 
-	def self.add_shape(index: nil, type: nil, radius: nil, size: nil, semiaxes: nil, direction: nil)
+	def self.add_shape(index: nil, type: nil, offset: Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil)
 		@shapes = SpecialContainer.new if !@shapes
 		shape = nil
 
 		if type == ShapePoint then
-			shape = type.new
+			shape = type.new(offset)
 		elsif type == ShapeLine then
 			raise("Direction not defined for line shape with index #{index}") if !direction
-			shape = type.new(direction)
+			shape = type.new(offset, direction)
 		elsif type == ShapeCircle then
 			raise("Radius not defined for line shape with index #{index}") if !radius
-			shape = type.new(radius)
+			shape = type.new(offset, radius)
 		elsif type == ShapeBox then
 			raise("Size not defined for line shape with index #{index}") if !size
-			shape = type.new(size)
+			shape = type.new(offset, size)
 		elsif type == ShapeTriangle then
 			# TODO
 			shape = type.new
@@ -44,7 +44,7 @@ class Entity
 			shape = type.new
 		elsif type == ShapeEllipse then
 			raise("Semiaxes not defined for line shape with index #{index}") if !semiaxes
-			shape = type.new(axes)
+			shape = type.new(offset, axes)
 		else
 			raise("Unknown shape type #{type} for shape index #{index}")
 		end
