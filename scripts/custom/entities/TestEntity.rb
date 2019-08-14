@@ -1,5 +1,3 @@
-# Edit this file to define entities for your game
-
 class TestEntity < Entity
 	add_shape(type: ShapeCircle, radius: 25.0)
 	add_box(size: Coordinates.new(50.0, 50.0))
