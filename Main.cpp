@@ -10,6 +10,7 @@ int main() {
 	setup_ruby_class_intrect(mrb);
 
 	setup_ruby_class_resource_manager(mrb);
+	setup_ruby_class_render_states(mrb);
 
 	setup_ruby_class_coordinates(mrb);
 	

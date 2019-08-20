@@ -21,6 +21,7 @@
 //! These may also include wrapped classes and functions
 
 #include "ResourceManager.h"
+#include "RenderStates.h"
 #include "Shape.h"
 #include "IntRect.h"
 #include "Coordinates.h"

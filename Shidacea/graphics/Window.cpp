@@ -128,6 +128,54 @@ mrb_value ruby_window_poll_event(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_window_draw(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_sprite;
+	mrb_value ruby_render_states = mrb_nil_value();
+
+	mrb_get_args(mrb, "o|o", &ruby_sprite, &ruby_render_states);
+
+	auto sprite = get_sprite(mrb, ruby_sprite);
+	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+
+	if (mrb_nil_p(ruby_render_states)) {
+
+		window->draw(*sprite);
+
+	} else {
+
+		auto render_states = MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
+		window->draw(*sprite, *render_states);
+
+	}
+
+	return mrb_true_value();
+
+}
+
+mrb_value ruby_window_draw_translated(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_sprite;
+	mrb_value ruby_coordinates;
+
+	//! TODO: Add custom render states as optional ruby argument
+
+	mrb_get_args(mrb, "oo", &ruby_sprite, &ruby_coordinates);
+
+	auto sprite = get_sprite(mrb, ruby_sprite);
+	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+
+	sf::Transform transform;
+	transform.translate(*coordinates);
+	sf::RenderStates render_states(transform);
+
+	window->draw(*sprite, render_states);
+
+	return mrb_true_value();
+
+}
+
 void setup_ruby_class_window(mrb_state* mrb) {
 
 	auto ruby_window_class = MrbWrap::define_data_class(mrb, "Window");
@@ -147,5 +195,8 @@ void setup_ruby_class_window(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_window_class, "close", ruby_window_close, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_window_class, "poll_event", ruby_window_poll_event, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_window_class, "draw", ruby_window_draw, MRB_ARGS_ARG(1, 1));
+	mrb_define_method(mrb, ruby_window_class, "draw_translated", ruby_window_draw_translated, MRB_ARGS_REQ(2));
 
 }

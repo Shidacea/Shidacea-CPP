@@ -210,6 +210,7 @@ endforeach(ASSET_FILE)
 
 set(GRAPHICS_SOURCES
 	Shidacea/graphics/ResourceManager.cpp
+	Shidacea/graphics/RenderStates.cpp
 	Shidacea/graphics/Window.cpp
 	Shidacea/graphics/Texture.cpp
 	Shidacea/graphics/Sprite.cpp

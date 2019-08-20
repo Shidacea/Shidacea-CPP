@@ -19,8 +19,6 @@ mrb_value ruby_sprite_x_equals(mrb_state* mrb, mrb_value self);
 mrb_value ruby_sprite_y(mrb_state* mrb, mrb_value self);
 mrb_value ruby_sprite_y_equals(mrb_state* mrb, mrb_value self);
 
-mrb_value ruby_sprite_draw(mrb_state* mrb, mrb_value self);
-
-static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self);
+sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_class_sprite(mrb_state* mrb);

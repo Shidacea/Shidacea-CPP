@@ -175,10 +175,11 @@ class Entity
 	end
 
 	def draw(window)
-		# TODO: Translate sprites according to own position
+		# This function draws each sprite at its designated position
+		# The offset of the sprite position relative to the entity position is included
 
 		@sprites.each do |sprite|
-			sprite.draw(window)
+			window.draw_translated(sprite, @position)
 		end
 	end
 

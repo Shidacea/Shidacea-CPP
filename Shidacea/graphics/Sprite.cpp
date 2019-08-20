@@ -124,22 +124,7 @@ mrb_value ruby_sprite_y_equals(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_sprite_draw(mrb_state* mrb, mrb_value self) {
-
-	mrb_value ruby_window;
-
-	mrb_get_args(mrb, "o", &ruby_window);
-
-	auto sprite = get_sprite(mrb, self);
-	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
-
-	window->draw(*sprite);
-
-	return mrb_true_value();
-
-}
-
-static sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
+sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
 
 	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
@@ -169,7 +154,5 @@ void setup_ruby_class_sprite(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_sprite_class, "y", ruby_sprite_y, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_sprite_class, "y=", ruby_sprite_y_equals, MRB_ARGS_REQ(1));
-
-	mrb_define_method(mrb, ruby_sprite_class, "draw", ruby_sprite_draw, MRB_ARGS_REQ(1));
 
 }

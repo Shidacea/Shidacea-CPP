@@ -16,7 +16,7 @@ class SceneTest < Scene
 			puts EventMouse::get_position($window)
 
 		elsif EventKey::is_pressed?(EventKey::C) then
-			@entities[0].sprites[0].position += Coordinates.new(-5, -2)
+			@entities[0].position += Coordinates.new(-5, -2)
 
 		elsif EventKey::is_pressed?(EventKey::D) then
 			@inspected_entity = $scene
@@ -39,10 +39,10 @@ class SceneTest < Scene
 		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
 
-		@entities[0].sprites[0].position = Coordinates.new(400, 400)
+		@entities[0].position = Coordinates.new(400, 400)
 
-		@entities[1].sprites[0].x = 200
-		@entities[1].sprites[0].y = 300
+		@entities[1].position.x = 200
+		@entities[1].position.y = 300
 
 		@test_toggle = false
 		@inspected_entity = nil
@@ -58,8 +58,8 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].sprites[0].position, @entities[1].shapes[0], @entities[1].sprites[0].position)}"
-			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].sprites[0].position, @entities[1].boxes[0], @entities[1].sprites[0].position)}"
+			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].sprites[0].position + @entities[0].position, @entities[1].shapes[0], @entities[1].sprites[0].position + @entities[1].position)}"
+			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].sprites[0].position + @entities[0].position, @entities[1].boxes[0], @entities[1].sprites[0].position + @entities[1].position)}"
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end

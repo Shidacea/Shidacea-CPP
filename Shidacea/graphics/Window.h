@@ -7,6 +7,8 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
+#include "Sprite.h"
+
 mrb_value ruby_window_init(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_window_clear(mrb_state* mrb, mrb_value self);
@@ -17,5 +19,7 @@ mrb_value ruby_window_is_open(mrb_state* mrb, mrb_value self);
 mrb_value ruby_window_close(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_window_poll_event(mrb_state* mrb, mrb_value self);
+
+mrb_value ruby_window_draw(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_class_window(mrb_state* mrb);
