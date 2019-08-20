@@ -159,6 +159,7 @@ mrb_value ruby_window_draw_translated(mrb_state* mrb, mrb_value self) {
 	mrb_value ruby_coordinates;
 
 	//! TODO: Add custom render states as optional ruby argument
+	//! TODO: Add differentiation between different object types (e.g. Sprite and Vertex Array)
 
 	mrb_get_args(mrb, "oo", &ruby_sprite, &ruby_coordinates);
 
