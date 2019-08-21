@@ -51,10 +51,6 @@ public:
 
 class ShapePoint : public Shape {
 
-public:
-
-	sf::Vector2f offset;
-
 };
 
 class ShapeLine : public Shape {
@@ -70,6 +66,7 @@ class ShapeCircle : public Shape {
 public:
 
 	float radius = 0.0;
+	float initial_radius = 0.0;
 
 };
 
@@ -78,6 +75,7 @@ class ShapeBox : public Shape {
 public:
 
 	sf::Vector2f diagonal;
+	sf::Vector2f initial_diagonal;
 
 };
 
@@ -126,11 +124,23 @@ ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape);
 mrb_value ruby_shape_class_init(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_shape_point_class_init(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_circle_class_radius(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_circle_class_scale(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_circle_class_reset(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_box_class_scale(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_box_class_diagonal(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_box_class_reset(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self);
+
 mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_shape_class_offset(mrb_state* mrb, mrb_value self);

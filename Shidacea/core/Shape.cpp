@@ -121,12 +121,43 @@ mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
 	auto shape = MrbWrap::convert_to_object<ShapeCircle>(mrb, self);
 	shape->radius = radius;
+	shape->initial_radius = radius;
 
 	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
 	shape->offset = *offset;
 
 	return self;
 
+}
+
+mrb_value ruby_shape_circle_class_radius(mrb_state* mrb, mrb_value self) {
+
+	auto shape = MrbWrap::convert_from_object<ShapeCircle>(mrb, self);
+
+	return mrb_float_value(mrb, shape->radius);
+
+}
+
+mrb_value ruby_shape_circle_class_scale(mrb_state* mrb, mrb_value self) {
+
+	float factor;
+
+	mrb_get_args(mrb, "f", &factor);
+
+	auto shape = MrbWrap::convert_from_object<ShapeCircle>(mrb, self);
+	shape->radius *= factor;
+
+	return mrb_nil_value();
+
+}
+
+mrb_value ruby_shape_circle_class_reset(mrb_state* mrb, mrb_value self) {
+
+	auto shape = MrbWrap::convert_from_object<ShapeCircle>(mrb, self);
+	shape->radius = shape->initial_radius;
+
+	return mrb_nil_value();
+	
 }
 
 mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
@@ -140,11 +171,61 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 
 	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
 	shape->diagonal = *coordinates;
+	shape->initial_diagonal = *coordinates;
 
 	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
 	shape->offset = *offset;
 
 	return self;
+
+}
+
+mrb_value ruby_shape_box_class_diagonal(mrb_state* mrb, mrb_value self) {
+
+	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
+
+	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+
+	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
+
+	*new_vector = shape->diagonal;
+
+	return new_coordinates;
+
+}
+
+mrb_value ruby_shape_box_class_scale(mrb_state* mrb, mrb_value self) {
+
+	mrb_value factors;
+
+	mrb_get_args(mrb, "o", &factors);
+
+	auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
+
+	if (mrb_float_p(factors)) {
+
+		auto factor = mrb_float(factors);
+		shape->diagonal *= static_cast<float>(factor);
+
+	}
+	else {
+
+		auto factor_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, factors);
+		shape->diagonal.x *= factor_vector->x;
+		shape->diagonal.y *= factor_vector->y;
+	}
+
+	return mrb_nil_value();
+
+}
+
+mrb_value ruby_shape_box_class_reset(mrb_state* mrb, mrb_value self) {
+
+	auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
+	shape->diagonal = shape->initial_diagonal;
+
+	return mrb_nil_value();
 
 }
 
@@ -246,9 +327,15 @@ void setup_ruby_collider(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_shape_circle_class, "initialize", ruby_shape_circle_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeCircle>(mrb, ruby_shape_circle_class);
+	mrb_define_method(mrb, ruby_shape_circle_class, "radius", ruby_shape_circle_class_radius, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_shape_circle_class, "scale", ruby_shape_circle_class_scale, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_circle_class, "reset", ruby_shape_circle_class_reset, MRB_ARGS_NONE());	//! TODO: Replace this all with attribute accessors
 
 	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeBox>(mrb, ruby_shape_box_class);
+	mrb_define_method(mrb, ruby_shape_box_class, "diagonal", ruby_shape_box_class_diagonal, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_shape_box_class, "scale", ruby_shape_box_class_scale, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_shape_box_class, "reset", ruby_shape_box_class_reset, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_shape_triangle_class, "initialize", ruby_shape_triangle_class_init, MRB_ARGS_NONE());	//! TODO
 	MrbWrap::define_default_copy_init<ShapeTriangle>(mrb, ruby_shape_triangle_class);

@@ -29,7 +29,16 @@ class SceneTest < Scene
 			do_stuff_which_does_not_exist
 
 		elsif EventKey::is_pressed?(EventKey::G) then
-			# Can be used for testing stuff
+			@entities[0].shapes[0].scale(1.1)
+			@entities[0].boxes[0].scale(1.1)
+			@entities[0].sprites[0].scale(1.1)
+			@entities[0].sprites[0].position *= 1.1
+
+		elsif EventKey::is_pressed?(EventKey::H) then
+			@entities[0].shapes[0].reset
+			@entities[0].boxes[0].reset
+			@entities[0].sprites[0].set_scale(1.0)
+			@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
 
 		end
 	end
@@ -58,8 +67,8 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].sprites[0].position + @entities[0].position, @entities[1].shapes[0], @entities[1].sprites[0].position + @entities[1].position)}"
-			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].sprites[0].position + @entities[0].position, @entities[1].boxes[0], @entities[1].sprites[0].position + @entities[1].position)}"
+			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].position, @entities[1].shapes[0], @entities[1].position)}"
+			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].position, @entities[1].boxes[0], @entities[1].position)}"
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end

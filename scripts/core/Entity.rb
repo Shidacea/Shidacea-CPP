@@ -61,9 +61,9 @@ class Entity
 		@textures.add(Texture.new.load_from_file(filename, rect), index)
 	end
 
-	def self.add_sprite(index: nil, texture_index: nil)
+	def self.add_sprite(index: nil, texture_index: nil, offset: Coordinates.new)
 		@sprites = SpecialContainer.new if !@sprites
-		@sprites.add([texture_index], index)
+		@sprites.add([texture_index, offset], index)
 	end
 
 	# Class getter methods for utility and code readability
@@ -143,6 +143,7 @@ class Entity
 			if element then
 				texture_index = element[0]
 				@sprites[i] = Sprite.new(@resource_manager)
+				@sprites[i].position = element[1]
 
 				if texture_index then
 					if texture_index >= 0 && texture_index < @textures.size then
