@@ -37,9 +37,13 @@ int main() {
 	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_scenes, custom/scenes);
 	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_entities, custom/entities);
 
+#ifdef MOD_LOADING
+
 	//! Load potential mods
 
 	MrbWrap::load_mods(mrb);
+
+#endif
 
 	//! Start main script with the game loop
 

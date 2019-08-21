@@ -22,10 +22,18 @@
 #define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 
+//! If there are any scripts in the scripts folder of the release version, load them if DYNAMIC_LOADING is set
+//! This way scripts can be loaded at runtime, e.g. for a precompiled engine
+
 #ifndef NDEBUG
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, "scripts/" #path)
 #else
+#ifdef DYNAMIC_LOADING
+#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name); \
+MrbWrap::load_all_scripts_recursively(mrb, "scripts/" #path)
+#else
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#endif
 #endif
 
 //! TODO: Rewrite functions above and includes so that only the core and the custom scenes and entities need to be loaded

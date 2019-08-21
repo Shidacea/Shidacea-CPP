@@ -5,6 +5,14 @@
 #include <filesystem>
 #include <iostream>
 
+//! Uncomment the following line if you want to allow dynamic script loading
+
+//#define DYNAMIC_LOADING
+
+//! Uncomment the following line if you want to allow mod loading
+
+//#define MOD_LOADING
+
 #include "Helper.h"
 
 //! Includes for compiled Ruby scripts
