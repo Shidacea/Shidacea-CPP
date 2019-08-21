@@ -36,6 +36,7 @@ def main_routine(scene_class, title, width, height)
 
 		f.puts "Error in main loop at #{Time.now}:"
 		f.puts exc.inspect
+		f.puts exc.backtrace.join("\n")
 		f.puts ""
 
 		f.close
