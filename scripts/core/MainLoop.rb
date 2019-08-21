@@ -22,6 +22,7 @@ def main_routine(scene_class, title, width, height)
 			elsif $next_scene != true then	# Change scene
 				$scene.at_exit
 				$scene = $next_scene.new
+				$next_scene = true
 				$scene.at_init
 			end
 
