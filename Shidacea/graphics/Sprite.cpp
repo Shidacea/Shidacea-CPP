@@ -205,4 +205,6 @@ void setup_ruby_class_sprite(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_sprite_class, "scale", ruby_sprite_scale, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_sprite_class, "set_scale", ruby_sprite_set_scale, MRB_ARGS_REQ(1));
 
+	//! TODO: Consider implementing origin methods (e.g. 25.0, 25.0 for the example object for scaling)
+
 }
