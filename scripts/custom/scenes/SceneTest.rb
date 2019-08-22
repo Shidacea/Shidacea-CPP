@@ -36,15 +36,17 @@ class SceneTest < Scene
 
 		elsif EventKey::is_pressed?(EventKey::H) then
 			@entities[0].shapes[0].scale = 1.0
-			@entities[0].boxes[0].scale = 1.0
-			@entities[0].sprites[0].scale = 1.0
+			@entities[0].boxes[0].scale = Coordinates.new(1.0, 1.0)
+			@entities[0].sprites[0].scale = Coordinates.new(1.0, 1.0)
 			@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
 
 		end
+
 	end
 
 	def at_init
 		@entities = []
+		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
 
@@ -52,6 +54,9 @@ class SceneTest < Scene
 
 		@entities[1].position.x = 200
 		@entities[1].position.y = 300
+
+		@entities[0].set_child(@entities[2])
+		@entities[2].position = Coordinates.new(10, 10)
 
 		@test_toggle = false
 		@inspected_entity = nil
@@ -67,8 +72,8 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].position, @entities[1].shapes[0], @entities[1].position)}"
-			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].position, @entities[1].boxes[0], @entities[1].position)}"
+			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].absolute_position, @entities[1].shapes[0], @entities[1].absolute_position)}"
+			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].absolute_position, @entities[1].boxes[0], @entities[1].absolute_position)}"
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end

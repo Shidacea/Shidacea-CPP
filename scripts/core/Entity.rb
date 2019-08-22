@@ -165,6 +165,8 @@ class Entity
 	end
 
 	def initialization_procedure
+		@parent = nil
+		@children = []
 		@position = Coordinates.new
 
 		load_boxes
@@ -175,12 +177,25 @@ class Entity
 		at_init
 	end
 
+	def absolute_position
+		return (@parent ? @position + @parent.absolute_position : @position)
+	end
+
+	def set_parent(entity)
+		@parent = entity
+	end
+
+	def set_child(entity)
+		@children.push(entity)
+		entity.set_parent(self)
+	end
+
 	def draw(window)
 		# This function draws each sprite at its designated position
 		# The offset of the sprite position relative to the entity position is included
 
 		@sprites.each do |sprite|
-			window.draw_translated(sprite, @position)
+			window.draw_translated(sprite, absolute_position)
 		end
 	end
 
