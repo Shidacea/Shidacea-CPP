@@ -68,3 +68,7 @@ This means that you need to write files with no direct dependencies, as they cou
 Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
 
 The order of loading the script folders is: core -> custom/scenes -> custom/entities -> custom/Main.rb
+
+## 64 bit support
+
+At the moment, this program doesn't support compilation in 64 bit yet.

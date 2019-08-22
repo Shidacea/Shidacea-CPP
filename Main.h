@@ -13,6 +13,7 @@
 
 //#define MOD_LOADING
 
+#include "Definitions.h"
 #include "Helper.h"
 
 //! Includes for compiled Ruby scripts

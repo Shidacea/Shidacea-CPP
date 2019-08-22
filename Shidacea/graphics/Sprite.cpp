@@ -126,28 +126,20 @@ mrb_value ruby_sprite_y_equals(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_sprite_scale(mrb_state* mrb, mrb_value self) {
 
-	mrb_value factors;
-
-	mrb_get_args(mrb, "o", &factors);
-
 	auto sprite = get_sprite(mrb, self);
 
-	if(mrb_float_p(factors)) {
+	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
-		auto factor = mrb_float(factors);
-		sprite->scale(sf::Vector2f(factor, factor));
+	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
+	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
 
-	} else {
+	*new_vector = sprite->getScale();
 
-		auto factor_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, factors);
-		sprite->scale(*factor_vector);
-	}
-
-	return mrb_nil_value();
+	return new_coordinates;
 
 }
 
-mrb_value ruby_sprite_set_scale(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_sprite_scale_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_value factors;
 
@@ -155,19 +147,10 @@ mrb_value ruby_sprite_set_scale(mrb_state* mrb, mrb_value self) {
 
 	auto sprite = get_sprite(mrb, self);
 
-	if (mrb_float_p(factors)) {
+	auto factor_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, factors);
+	sprite->setScale(*factor_vector);
 
-		auto factor = mrb_float(factors);
-		sprite->setScale(sf::Vector2f(factor, factor));
-
-	}
-	else {
-
-		auto factor_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, factors);
-		sprite->setScale(*factor_vector);
-	}
-
-	return mrb_nil_value();
+	return factors;
 
 }
 
@@ -202,8 +185,8 @@ void setup_ruby_class_sprite(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_sprite_class, "y", ruby_sprite_y, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_sprite_class, "y=", ruby_sprite_y_equals, MRB_ARGS_REQ(1));
 
-	mrb_define_method(mrb, ruby_sprite_class, "scale", ruby_sprite_scale, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_sprite_class, "set_scale", ruby_sprite_set_scale, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_sprite_class, "scale", ruby_sprite_scale, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "scale=", ruby_sprite_scale_equals, MRB_ARGS_REQ(1));
 
 	//! TODO: Consider implementing origin methods (e.g. 25.0, 25.0 for the example object for scaling)
 

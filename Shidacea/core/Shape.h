@@ -66,7 +66,7 @@ class ShapeCircle : public Shape {
 public:
 
 	float radius = 0.0;
-	float initial_radius = 0.0;
+	float scale = 1.0;
 
 };
 
@@ -75,7 +75,7 @@ class ShapeBox : public Shape {
 public:
 
 	sf::Vector2f diagonal;
-	sf::Vector2f initial_diagonal;
+	sf::Vector2f scale = {1.0, 1.0};
 
 };
 
@@ -130,12 +130,12 @@ mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_circle_class_radius(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_circle_class_scale(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_circle_class_reset(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_circle_class_scale_equals(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_box_class_scale(mrb_state* mrb, mrb_value self);
 mrb_value ruby_shape_box_class_diagonal(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_box_class_reset(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_box_class_scale(mrb_state* mrb, mrb_value self);
+mrb_value ruby_shape_box_class_scale_equals(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self);
 

@@ -20,7 +20,7 @@ mrb_value ruby_sprite_y(mrb_state* mrb, mrb_value self);
 mrb_value ruby_sprite_y_equals(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_sprite_scale(mrb_state* mrb, mrb_value self);
-mrb_value ruby_sprite_set_scale(mrb_state* mrb, mrb_value self);
+mrb_value ruby_sprite_scale_equals(mrb_state* mrb, mrb_value self);
 
 sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self);
 
