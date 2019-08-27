@@ -9,7 +9,7 @@ class SceneTest < Scene
 	end
 
 	def update
-		if EventKey::is_pressed?(EventKey::A) then
+		if EventKey::is_pressed?(EventKey::X) then
 			EventMouse::set_position([300, 200], $window)
 
 		elsif EventKey::is_pressed?(EventKey::B) then
@@ -18,7 +18,7 @@ class SceneTest < Scene
 		elsif EventKey::is_pressed?(EventKey::C) then
 			@entities[0].position += Coordinates.new(-5, -2)
 
-		elsif EventKey::is_pressed?(EventKey::D) then
+		elsif EventKey::is_pressed?(EventKey::Y) then
 			@inspected_entity = $scene
 
 		elsif EventKey::is_pressed?(EventKey::E) then
@@ -39,8 +39,15 @@ class SceneTest < Scene
 			@entities[0].boxes[0].scale = Coordinates.new(1.0, 1.0)
 			@entities[0].sprites[0].scale = Coordinates.new(1.0, 1.0)
 			@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
-
+		
 		end
+
+		dx = (EventKey::is_pressed?(EventKey::A) ? -5.0 : 0.0) + (EventKey::is_pressed?(EventKey::D) ? 5.0 : 0.0)
+		dy = (EventKey::is_pressed?(EventKey::W) ? -5.0 : 0.0) + (EventKey::is_pressed?(EventKey::S) ? 5.0 : 0.0)
+
+		@entities[0].accelerate(Coordinates.new(dx, dy) * 1000.0)
+
+		@entities.each {|entity| entity.update}
 
 	end
 
@@ -56,7 +63,7 @@ class SceneTest < Scene
 		@entities[1].position.y = 300
 
 		@entities[0].set_child(@entities[2])
-		@entities[2].position = Coordinates.new(10, 10)
+		@entities[2].position = Coordinates.new(50, 10)
 
 		@test_toggle = false
 		@inspected_entity = nil
@@ -72,8 +79,25 @@ class SceneTest < Scene
 
 	def draw_imgui
 		ImGui.begin "Glorious Test Dialog Number 1" do
-			ImGui.text "Shape Collision: #{Collider.test(@entities[0].shapes[0], @entities[0].absolute_position, @entities[1].shapes[0], @entities[1].absolute_position)}"
-			ImGui.text "Box Collision:   #{Collider.test(@entities[0].boxes[0], @entities[0].absolute_position, @entities[1].boxes[0], @entities[1].absolute_position)}"
+
+			shape_collision_no = 0
+			box_collision_no = 0
+
+			@entities.each do |entity|
+				@entities.each do |other_entity|
+
+					# Avoid collisions between identical entities and its children
+					next if entity.magic_number == other_entity.magic_number
+
+					shape_collision_no += 1 if entity.test_shape_collision_with(other_entity)
+					box_collision_no += 1 if entity.test_box_collision_with(other_entity)
+				end
+			end
+
+			# Filter double collisions
+			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
+			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
+
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle
 			end

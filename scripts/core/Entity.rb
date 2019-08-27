@@ -8,7 +8,9 @@ class Entity
 
 	# Other accessor methods
 
-	attr_accessor :position
+	attr_accessor :position, :velocity
+
+	attr_reader :magic_number
 
 	# Class methods for adding different objects to any entity
 	
@@ -168,6 +170,10 @@ class Entity
 		@parent = nil
 		@children = []
 		@position = Coordinates.new
+		@velocity = Coordinates.new
+
+		# Set a magic number to identify parent-child-structures
+		@magic_number = self.object_id
 
 		load_boxes
 		load_shapes
@@ -177,17 +183,54 @@ class Entity
 		at_init
 	end
 
+	def physics
+		@velocity += Coordinates.new(0.0, 9.81 * 0.01)
+		@position += @velocity * 0.01
+	end
+
+	def accelerate(vector)
+		@velocity += vector * 0.01
+	end
+
 	def absolute_position
 		return (@parent ? @position + @parent.absolute_position : @position)
 	end
 
 	def set_parent(entity)
 		@parent = entity
+		broadcast_magic_number(entity.magic_number)
 	end
 
 	def set_child(entity)
 		@children.push(entity)
 		entity.set_parent(self)
+	end
+
+	def broadcast_magic_number(number)
+		@magic_number = number
+		@children.each {|child| child.cascade_magic_number(number)}
+	end
+
+	def test_box_collision_with(other_entity)
+		@boxes.each do |box|
+			other_entity.boxes.each do |other_box|
+				result = Collider.test(box, absolute_position, other_box, other_entity.absolute_position)
+				return other_box if result
+			end
+		end
+
+		return nil
+	end
+
+	def test_shape_collision_with(other_entity)
+		@shapes.each do |shape|
+			other_entity.shapes.each do |other_shape|
+				result = Collider.test(shape, absolute_position, other_shape, other_entity.absolute_position)
+				return other_shape if result
+			end
+		end
+
+		return nil
 	end
 
 	def draw(window)
