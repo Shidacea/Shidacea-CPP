@@ -175,7 +175,7 @@ void setup_ruby_imgui(mrb_state* mrb) {
 	auto ruby_imgui_module = mrb_define_module(mrb, "ImGui");
 
 	mrb_define_module_function(mrb, ruby_imgui_module, "begin", ruby_imgui_begin, MRB_ARGS_REQ(1));
-	mrb_define_module_function(mrb, ruby_imgui_module, "button", ruby_imgui_button, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, ruby_imgui_module, "button", ruby_imgui_button, MRB_ARGS_ARG(1, 1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "text", ruby_imgui_text, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "begin_child", ruby_imgui_begin_child, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "same_line", ruby_imgui_same_line, MRB_ARGS_NONE());
