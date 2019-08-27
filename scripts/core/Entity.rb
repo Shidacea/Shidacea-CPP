@@ -184,12 +184,12 @@ class Entity
 	end
 
 	def physics
-		@velocity += Coordinates.new(0.0, 9.81 * 0.01)
-		@position += @velocity * 0.01
+		@velocity += $game.gravity * $game.dt
+		@position += @velocity * $game.dt
 	end
 
 	def accelerate(vector)
-		@velocity += vector * 0.01
+		@velocity += vector * $game.dt
 	end
 
 	def absolute_position

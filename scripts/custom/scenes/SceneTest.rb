@@ -2,7 +2,7 @@ class SceneTest < Scene
 
 	def handle_event(event)
 		if event.type == EventType::KeyPressed then
-			puts "Key Code = " + event.key_code.to_s
+			@last_key_code = event.key_code.to_s
 		elsif event.type == EventType::Closed
 			$next_scene = nil
 		end
@@ -52,6 +52,8 @@ class SceneTest < Scene
 	end
 
 	def at_init
+		@last_key_code = nil
+
 		@entities = []
 		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
@@ -97,6 +99,7 @@ class SceneTest < Scene
 			# Filter double collisions
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
+			ImGui.text "Last key code: #{@last_key_code}"
 
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle

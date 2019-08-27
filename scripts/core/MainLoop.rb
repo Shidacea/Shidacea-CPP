@@ -7,6 +7,8 @@ def main_routine(scene_class, title, width, height)
 		$window = Window.new(title, width, height)
 		$window.enable_vertical_sync
 
+		$game = Game.new
+
 		$scene = scene_class.new
 		$next_scene = true
 

@@ -61,6 +61,7 @@ file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_SCENES "${CMAKE_SOURCE_DIR}/scripts/custom/
 file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_ENTITIES "${CMAKE_SOURCE_DIR}/scripts/custom/entities/*.rb")
 
 set(RUBY_MAIN_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Main.rb")
+set(RUBY_GAME_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Game.rb")
 
 # If this is a debug build, copy the ruby files to the build directory
 # Otherwise compile them to bytecode
@@ -149,6 +150,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 			${CMAKE_BINARY_DIR}/scripts/custom/Main.rb
 		)
 
+		configure_file(
+			${RUBY_GAME_SCRIPT}
+			${CMAKE_BINARY_DIR}/scripts/custom/Game.rb
+		)
+
 endif()
 
 # Compile ruby scripts if necessary
@@ -183,7 +189,14 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 		VERBATIM
 	)
 
-	set(RUBY_COMPILED_TARGETS TargetRubyCore TargetRubyCustomScenes TargetRubyCustomEntities TargetRubyMain ${RUBY_COMPILED_TARGETS})
+	add_custom_target(TargetRubyGame
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
+		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_game -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyGame.h ${RUBY_GAME_SCRIPT}
+		DEPENDS ${RUBY_GAME_SCRIPT} mruby
+		VERBATIM
+	)
+
+	set(RUBY_COMPILED_TARGETS TargetRubyCore TargetRubyCustomScenes TargetRubyCustomEntities TargetRubyMain TargetRubyGame ${RUBY_COMPILED_TARGETS})
 
 endif()
 

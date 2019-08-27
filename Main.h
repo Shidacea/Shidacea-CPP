@@ -23,6 +23,7 @@
 #include "compiled_scripts/CompiledRubyCore.h"
 #include "compiled_scripts/CompiledRubyCustomScenes.h"
 #include "compiled_scripts/CompiledRubyCustomEntities.h"
+#include "compiled_scripts/CompiledRubyGame.h"
 #include "compiled_scripts/CompiledRubyMain.h"
 #endif
 
