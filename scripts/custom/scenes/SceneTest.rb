@@ -9,37 +9,14 @@ class SceneTest < Scene
 	end
 
 	def update
-		if EventKey::is_pressed?(EventKey::X) then
-			EventMouse::set_position([300, 200], $window)
 
-		elsif EventKey::is_pressed?(EventKey::B) then
-			puts EventMouse::get_position($window)
-
-		elsif EventKey::is_pressed?(EventKey::C) then
-			@entities[0].position += Coordinates.new(-5, -2)
-
-		elsif EventKey::is_pressed?(EventKey::Y) then
-			@inspected_entity = $scene
-
-		elsif EventKey::is_pressed?(EventKey::E) then
+		if EventKey::is_pressed?(EventKey::F10) then
 			$window.set_imgui_scale(2.0)
 		
-		elsif EventKey::is_pressed?(EventKey::F) then
+		elsif EventKey::is_pressed?(EventKey::F1) then
 			# Should trigger an error with backtrace
 			do_stuff_which_does_not_exist
 
-		elsif EventKey::is_pressed?(EventKey::G) then
-			@entities[0].shapes[0].scale *= 1.1
-			@entities[0].boxes[0].scale *= 1.1
-			@entities[0].sprites[0].scale *= 1.1
-			@entities[0].sprites[0].position *= 1.1
-
-		elsif EventKey::is_pressed?(EventKey::H) then
-			@entities[0].shapes[0].scale = 1.0
-			@entities[0].boxes[0].scale = Coordinates.new(1.0, 1.0)
-			@entities[0].sprites[0].scale = Coordinates.new(1.0, 1.0)
-			@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
-		
 		end
 
 		dx = (EventKey::is_pressed?(EventKey::A) ? -5.0 : 0.0) + (EventKey::is_pressed?(EventKey::D) ? 5.0 : 0.0)
@@ -100,6 +77,21 @@ class SceneTest < Scene
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
 			ImGui.text "Last key code: #{@last_key_code}"
+			ImGui.button "Reset mouse" {EventMouse::set_position([300, 200], $window)}
+			ImGui.button "Get mouse pos" {puts EventMouse::get_position($window)}
+			ImGui.button "Inspect $scene" {@inspected_entity = $scene}
+			ImGui.button "Rescale entity" do
+				@entities[0].shapes[0].scale *= 1.1
+				@entities[0].boxes[0].scale *= 1.1
+				@entities[0].sprites[0].scale *= 1.1
+				@entities[0].sprites[0].position *= 1.1
+			end
+			ImGui.button "Reset entity" do
+				@entities[0].shapes[0].scale = 1.0
+				@entities[0].boxes[0].scale = Coordinates.new(1.0, 1.0)
+				@entities[0].sprites[0].scale = Coordinates.new(1.0, 1.0)
+				@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
+			end
 
 			if ImGui.button "Glorious Test Button Number 1" then
 				@test_toggle = !@test_toggle

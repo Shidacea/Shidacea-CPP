@@ -47,7 +47,7 @@ int main() {
 
 	//! Load game class
 
-	MRB_LOAD_SCRIPT(mrb, game, custom / Game);
+	MRB_LOAD_SCRIPT(mrb, game, custom/Game);
 
 	//! Start main script with the game loop
 

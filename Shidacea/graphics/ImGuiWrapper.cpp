@@ -20,10 +20,13 @@ mrb_value ruby_imgui_begin(mrb_state* mrb, mrb_value self) {
 mrb_value ruby_imgui_button(mrb_state* mrb, mrb_value self) {
 
 	char* label;
+	mrb_value block = mrb_nil_value();
 
-	mrb_get_args(mrb, "z", &label);	//! TODO: More arguments
+	mrb_get_args(mrb, "z|&", &label, &block);	//! TODO: More arguments
 
 	auto return_value = ImGui::Button(label);
+
+	if (return_value && !mrb_nil_p(block)) mrb_yield(mrb, block, mrb_nil_value());
 
 	return mrb_bool_value(return_value);
 
