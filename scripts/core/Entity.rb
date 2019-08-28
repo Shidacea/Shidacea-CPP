@@ -171,6 +171,7 @@ class Entity
 		@children = []
 		@position = Coordinates.new
 		@velocity = Coordinates.new
+		@acceleration = Coordinates.new
 
 		# Set a magic number to identify parent-child-structures
 		@magic_number = self.object_id
@@ -184,12 +185,23 @@ class Entity
 	end
 
 	def physics
-		@velocity += $game.gravity * $game.dt
+		accelerate($game.gravity)
+
+		@velocity += @acceleration * $game.dt
 		@position += @velocity * $game.dt
+
+		# Debug floor
+		if @position.y > 500.0 then
+			@position.y = 500.0
+			@velocity.y = 0.0
+		end
+
+		@acceleration.x = 0.0
+		@acceleration.y = 0.0
 	end
 
 	def accelerate(vector)
-		@velocity += vector * $game.dt
+		@acceleration += vector
 	end
 
 	def absolute_position

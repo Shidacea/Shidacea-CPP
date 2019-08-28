@@ -2,6 +2,9 @@ class SceneTest < Scene
 
 	def handle_event(event)
 		if event.type == EventType::KeyPressed then
+			if event.key_code == EventKey::W then
+				@entities[0].accelerate(Coordinates.new(0.0, -1000.0 * $game.meter))
+			end
 			@last_key_code = event.key_code.to_s
 		elsif event.type == EventType::Closed
 			$next_scene = nil
@@ -19,10 +22,11 @@ class SceneTest < Scene
 
 		end
 
-		dx = (EventKey::is_pressed?(EventKey::A) ? -5.0 : 0.0) + (EventKey::is_pressed?(EventKey::D) ? 5.0 : 0.0)
-		dy = (EventKey::is_pressed?(EventKey::W) ? -5.0 : 0.0) + (EventKey::is_pressed?(EventKey::S) ? 5.0 : 0.0)
+		v = 5.0 * $game.meter
+		dx = (EventKey::is_pressed?(EventKey::A) ? -v : 0.0) + (EventKey::is_pressed?(EventKey::D) ? v : 0.0)
+		dy = (EventKey::is_pressed?(EventKey::S) ? v : 0.0)
 
-		@entities[0].accelerate(Coordinates.new(dx, dy) * 1000.0)
+		@entities[0].accelerate(Coordinates.new(dx, dy))
 
 		@entities.each {|entity| entity.update}
 
