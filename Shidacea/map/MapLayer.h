@@ -4,7 +4,7 @@
 
 #include "Tile.h"
 
-class Map_Layer : public sf::Drawable, public sf::Transformable {
+class MapLayer : public sf::Drawable, public sf::Transformable {
 
 public:
 
@@ -18,13 +18,13 @@ private:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	unsigned int width;
-	unsigned int height;
+	unsigned int width = 0;
+	unsigned int height = 0;
 
-	unsigned int view_width;
-	unsigned int view_height;
+	unsigned int view_width = 0;
+	unsigned int view_height = 0;
 
-	unsigned int background_tile;
+	unsigned int background_tile = 0;
 
 	std::vector<std::vector<unsigned int>> tiles;
 	sf::VertexArray vertices;

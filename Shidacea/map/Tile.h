@@ -24,9 +24,9 @@ private:
 	bool solid = false;
 	bool animation_frame = false;
 
-	unsigned int index_of_first_animation_frame;
-	unsigned int index_of_first_other_animation_frame;
-	unsigned int number_of_animation_frames;
-	unsigned int time_per_animation_frame;
+	unsigned int index_of_first_animation_frame = 0;
+	unsigned int index_of_first_other_animation_frame = 0;
+	unsigned int number_of_animation_frames = 0;
+	unsigned int time_per_animation_frame = 0;
 
 };

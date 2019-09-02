@@ -8,6 +8,7 @@
 #include "imgui-SFML.h"
 
 #include "Sprite.h"
+#include "Map.h"
 
 mrb_value ruby_window_init(mrb_state* mrb, mrb_value self);
 

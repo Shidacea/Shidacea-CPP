@@ -46,6 +46,11 @@ mrb_value ruby_window_display(mrb_state* mrb, mrb_value self) {
 
 	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
+	//auto map = Map();
+	//map.load(1000, 1000);
+	//map.reload_layers(100, 100);
+	//window->draw(map, sf::BlendAlpha);
+
 	ImGui::SFML::Render(*window);
 
 	window->display();
@@ -130,22 +135,35 @@ mrb_value ruby_window_poll_event(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_window_draw(mrb_state* mrb, mrb_value self) {
 
-	mrb_value ruby_sprite;
+	mrb_value ruby_draw_object;
 	mrb_value ruby_render_states = mrb_nil_value();
 
-	mrb_get_args(mrb, "o|o", &ruby_sprite, &ruby_render_states);
+	static auto sprite_class = mrb_class_get(mrb, "Sprite");
+	static auto map_class = mrb_class_get(mrb, "Map");
 
-	auto sprite = get_sprite(mrb, ruby_sprite);
+	mrb_get_args(mrb, "o|o", &ruby_draw_object, &ruby_render_states);
+
+	auto object_class = mrb_obj_class(mrb, ruby_draw_object);
+
 	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
-	if (mrb_nil_p(ruby_render_states)) {
+	sf::RenderStates* render_states = nullptr;
 
-		window->draw(*sprite);
+	if(!mrb_nil_p(ruby_render_states)) render_states = MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
+
+	if(object_class == sprite_class) {
+
+		auto sprite = get_sprite(mrb, ruby_draw_object);
+		window->draw(*sprite, render_states ? *render_states : sf::RenderStates::Default);
+
+	} else if(object_class == map_class) {
+
+		auto map = MrbWrap::convert_from_object<Map>(mrb, ruby_draw_object);
+		window->draw(*map, render_states ? *render_states : sf::RenderStates::Default);
 
 	} else {
 
-		auto render_states = MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
-		window->draw(*sprite, *render_states);
+		//! TODO: Error message
 
 	}
 

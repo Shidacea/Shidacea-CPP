@@ -12,7 +12,6 @@ class SceneTest < Scene
 	end
 
 	def update
-
 		if EventKey::is_pressed?(EventKey::F10) then
 			$window.set_imgui_scale(2.0)
 		
@@ -34,6 +33,8 @@ class SceneTest < Scene
 
 	def at_init
 		@last_key_code = nil
+
+		@test_map = Map.new(100, 100, 4, 4)
 
 		@entities = []
 		@entities.push(create(TestEntity))
@@ -57,6 +58,8 @@ class SceneTest < Scene
 	end
 
 	def draw
+		@test_map.reload(@entities[0].position)
+		$window.draw(@test_map)
 		@entities.each {|entity| entity.draw($window)}
 	end
 

@@ -204,6 +204,8 @@ endif()
 
 file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/assets/*.*")
 
+message(${ASSET_FILES})
+
 set(TRUNCATED_ASSET_NAMES "")
 
 foreach(ASSET_FILE ${ASSET_FILES})
@@ -231,6 +233,9 @@ set(GRAPHICS_SOURCES
 )
 
 set(MAP_SOURCES
+	Shidacea/map/Tile.cpp
+	Shidacea/map/MapLayer.cpp
+	Shidacea/map/Map.cpp
 )
 
 set(CORE_SOURCES

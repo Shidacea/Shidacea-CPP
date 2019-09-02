@@ -1,8 +1,8 @@
-#include "Map_Layer.h"
+#include "MapLayer.h"
 
 #include <iostream>
 
-void Map_Layer::initialize_mesh(unsigned int view_width, unsigned int view_height) {
+void MapLayer::initialize_mesh(unsigned int view_width, unsigned int view_height) {
 
 	vertices.setPrimitiveType(sf::Quads);
 	vertices.resize(view_width * view_height * 4);	//! 4 Vertices per quad
@@ -12,7 +12,7 @@ void Map_Layer::initialize_mesh(unsigned int view_width, unsigned int view_heigh
 
 }
 
-void Map_Layer::generate_mesh(float cam_x, float cam_y) {
+void MapLayer::generate_mesh(float cam_x, float cam_y) {
 
 	//! The mesh will be aligned to the camera position
 	//! Only the tiles touching the mesh will be drawn
@@ -98,10 +98,10 @@ void Map_Layer::generate_mesh(float cam_x, float cam_y) {
 
 }
 
-void Map_Layer::load_tiles(unsigned int width, unsigned int height, std::shared_ptr<unsigned int> frame_counter_ptr) {
+void MapLayer::load_tiles(unsigned int width, unsigned int height, std::shared_ptr<unsigned int> frame_counter_ptr) {
 
 	//! TODO: Don't load this file more than ONE SINGLE TIME
-	if (!tileset.loadFromFile("media/graphics/Tileset.png")) {
+	if (!tileset.loadFromFile("assets/graphics/maptest/Tileset.png")) {
 
 		exit(-1);
 		//! TODO: Error handling
@@ -148,13 +148,13 @@ void Map_Layer::load_tiles(unsigned int width, unsigned int height, std::shared_
 
 }
 
-void Map_Layer::set_tile(unsigned int x, unsigned int y, unsigned int tile_id) {
+void MapLayer::set_tile(unsigned int x, unsigned int y, unsigned int tile_id) {
 
 	tiles[x][y] = tile_id;
 
 }
 
-void Map_Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 	states.transform *= getTransform();
 	states.texture = &tileset;
