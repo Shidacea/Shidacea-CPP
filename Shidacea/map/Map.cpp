@@ -5,11 +5,9 @@ void Map::load(unsigned int width, unsigned int height, unsigned int view_width,
 	this->width = width;
 	this->height = height;
 
-	frame_counter_ptr = std::make_shared<unsigned int>(0);
-
 	for (auto& map_layer : map_layers) {
 
-		map_layer.load_tiles(width, height, frame_counter_ptr);
+		map_layer.load_tiles(width, height);
 		map_layer.initialize_mesh(view_width + 1, view_height + 1);
 
 	}
@@ -19,8 +17,6 @@ void Map::load(unsigned int width, unsigned int height, unsigned int view_width,
 }
 
 void Map::update() {
-
-	(*frame_counter_ptr)++;
 
 }
 

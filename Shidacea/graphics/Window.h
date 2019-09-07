@@ -23,4 +23,6 @@ mrb_value ruby_window_poll_event(mrb_state* mrb, mrb_value self);
 
 mrb_value ruby_window_draw(mrb_state* mrb, mrb_value self);
 
+void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object);
+
 void setup_ruby_class_window(mrb_state* mrb);

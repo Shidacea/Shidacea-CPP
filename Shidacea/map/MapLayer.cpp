@@ -59,7 +59,7 @@ void MapLayer::generate_mesh(float cam_x, float cam_y) {
 			auto tile_info = tile_data[tile_id];
 			if (tile_info.is_animation_frame()) {
 
-				actual_tile_id = tile_info.get_animation_frame(*frame_counter_ptr);
+				actual_tile_id = tile_info.get_animation_frame(frame_counter);
 
 			}
 
@@ -96,9 +96,11 @@ void MapLayer::generate_mesh(float cam_x, float cam_y) {
 		}
 	}
 
+	frame_counter++;
+
 }
 
-void MapLayer::load_tiles(unsigned int width, unsigned int height, std::shared_ptr<unsigned int> frame_counter_ptr) {
+void MapLayer::load_tiles(unsigned int width, unsigned int height) {
 
 	//! TODO: Don't load this file more than ONE SINGLE TIME
 	if (!tileset.loadFromFile("assets/graphics/maptest/Tileset.png")) {
@@ -128,8 +130,6 @@ void MapLayer::load_tiles(unsigned int width, unsigned int height, std::shared_p
 	this->height = height;
 
 	unsigned int debug_counter = 0;
-
-	this->frame_counter_ptr = frame_counter_ptr;
 
 	tiles.resize(this->width);
 	for (auto& column : tiles) {

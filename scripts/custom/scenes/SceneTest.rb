@@ -59,7 +59,7 @@ class SceneTest < Scene
 
 	def draw
 		@test_map.reload(@entities[0].position)
-		$window.draw(@test_map)
+		$window.draw_translated(@test_map, Coordinates.new(100, 100))
 		@entities.each {|entity| entity.draw($window)}
 	end
 

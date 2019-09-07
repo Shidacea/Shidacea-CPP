@@ -28,8 +28,6 @@ private:
 	//! Layers: 0 - Ground, 1 - Ground Decoration, 2 - Objects
 	std::array<MapLayer, 3> map_layers;
 
-	std::shared_ptr<unsigned int> frame_counter_ptr;
-
 };
 
 mrb_value ruby_map_init(mrb_state* mrb, mrb_value self);

@@ -138,34 +138,14 @@ mrb_value ruby_window_draw(mrb_state* mrb, mrb_value self) {
 	mrb_value ruby_draw_object;
 	mrb_value ruby_render_states = mrb_nil_value();
 
-	static auto sprite_class = mrb_class_get(mrb, "Sprite");
-	static auto map_class = mrb_class_get(mrb, "Map");
-
 	mrb_get_args(mrb, "o|o", &ruby_draw_object, &ruby_render_states);
-
-	auto object_class = mrb_obj_class(mrb, ruby_draw_object);
 
 	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
-	sf::RenderStates* render_states = nullptr;
+	sf::RenderStates render_states = sf::RenderStates::Default;
+	if(!mrb_nil_p(ruby_render_states)) render_states = *MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
 
-	if(!mrb_nil_p(ruby_render_states)) render_states = MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
-
-	if(object_class == sprite_class) {
-
-		auto sprite = get_sprite(mrb, ruby_draw_object);
-		window->draw(*sprite, render_states ? *render_states : sf::RenderStates::Default);
-
-	} else if(object_class == map_class) {
-
-		auto map = MrbWrap::convert_from_object<Map>(mrb, ruby_draw_object);
-		window->draw(*map, render_states ? *render_states : sf::RenderStates::Default);
-
-	} else {
-
-		//! TODO: Error message
-
-	}
+	draw_object(window, render_states, mrb, ruby_draw_object);
 
 	return mrb_true_value();
 
@@ -173,25 +153,52 @@ mrb_value ruby_window_draw(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_window_draw_translated(mrb_state* mrb, mrb_value self) {
 
-	mrb_value ruby_sprite;
+	mrb_value ruby_draw_object;
 	mrb_value ruby_coordinates;
+	mrb_value ruby_render_states = mrb_nil_value();
 
-	//! TODO: Add custom render states as optional ruby argument
-	//! TODO: Add differentiation between different object types (e.g. Sprite and Vertex Array)
+	mrb_get_args(mrb, "oo|o", &ruby_draw_object, &ruby_coordinates, &ruby_render_states);
 
-	mrb_get_args(mrb, "oo", &ruby_sprite, &ruby_coordinates);
-
-	auto sprite = get_sprite(mrb, ruby_sprite);
 	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
+	sf::RenderStates render_states = sf::RenderStates::Default;
+	if (!mrb_nil_p(ruby_render_states)) render_states = *MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
+
 	sf::Transform transform;
 	transform.translate(*coordinates);
-	sf::RenderStates render_states(transform);
+	render_states.transform *= transform;
 
-	window->draw(*sprite, render_states);
+	draw_object(window, render_states, mrb, ruby_draw_object);
 
 	return mrb_true_value();
+
+}
+
+void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object) {
+
+	static auto sprite_class = mrb_class_get(mrb, "Sprite");
+	static auto map_class = mrb_class_get(mrb, "Map");
+
+	auto object_class = mrb_obj_class(mrb, draw_object);
+
+	if (object_class == sprite_class) {
+
+		auto sprite = get_sprite(mrb, draw_object);
+		window->draw(*sprite, render_states);
+
+	}
+	else if (object_class == map_class) {
+
+		auto map = MrbWrap::convert_from_object<Map>(mrb, draw_object);
+		window->draw(*map, render_states);
+
+	}
+	else {
+
+		//! TODO: Error message
+
+	}
 
 }
 
@@ -216,6 +223,6 @@ void setup_ruby_class_window(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_window_class, "poll_event", ruby_window_poll_event, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_window_class, "draw", ruby_window_draw, MRB_ARGS_ARG(1, 1));
-	mrb_define_method(mrb, ruby_window_class, "draw_translated", ruby_window_draw_translated, MRB_ARGS_REQ(2));
+	mrb_define_method(mrb, ruby_window_class, "draw_translated", ruby_window_draw_translated, MRB_ARGS_ARG(2, 1));
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-//! NOTE: Not yet implemented fully
+//! TODO: Implement more than a dummy constructor
 
 #include "Helper.h"
 #include "ResourceManager.h"
