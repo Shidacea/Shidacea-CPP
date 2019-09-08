@@ -166,7 +166,7 @@ void setup_ruby_events(mrb_state* mrb) {
 
 mrb_value ruby_event_key_is_pressed(mrb_state* mrb, mrb_value self) {
 
-	int key_value;
+	mrb_int key_value;
 
 	mrb_get_args(mrb, "i", &key_value);
 
@@ -202,7 +202,7 @@ mrb_value ruby_event_mouse_get_position(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_event_mouse_is_button_pressed(mrb_state* mrb, mrb_value self) {
 
-	int button_value;
+	mrb_int button_value;
 
 	mrb_get_args(mrb, "i", &button_value);
 

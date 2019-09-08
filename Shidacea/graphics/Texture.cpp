@@ -23,8 +23,8 @@ mrb_value ruby_texture_load_from_file(mrb_state* mrb, mrb_value self) {
 	
 	} else {
 
-		auto intrect_value = MrbWrap::convert_from_object<sf::IntRect>(mrb, intrect);
-		texture->loadFromFile(filename, *intrect_value);
+		auto intrect_value = MrbWrap::convert_from_object<MrbIntRect>(mrb, intrect);
+		texture->loadFromFile(filename, static_cast<sf::IntRect>(*intrect_value));
 
 	}
 

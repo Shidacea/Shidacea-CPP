@@ -2,8 +2,8 @@
 
 mrb_value ruby_coordinates_init(mrb_state* mrb, mrb_value self) {
 
-	float x = 0.0;
-	float y = 0.0;
+	mrb_float x = 0.0;
+	mrb_float y = 0.0;
 
 	//! Default arguments yield a zero vector
 	mrb_get_args(mrb, "|ff", &x, &y);
@@ -32,7 +32,7 @@ mrb_value ruby_coordinates_y(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_x_equals(mrb_state* mrb, mrb_value self) {
 
-	float new_value;
+	mrb_float new_value;
 
 	mrb_get_args(mrb, "f", &new_value);
 
@@ -45,7 +45,7 @@ mrb_value ruby_coordinates_x_equals(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_y_equals(mrb_state* mrb, mrb_value self) {
 
-	float new_value;
+	mrb_float new_value;
 
 	mrb_get_args(mrb, "f", &new_value);
 
@@ -100,7 +100,7 @@ mrb_value ruby_coordinates_minus(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_coordinates_times(mrb_state* mrb, mrb_value self) {
 
-	float scalar;
+	mrb_float scalar;
 
 	mrb_get_args(mrb, "f", &scalar);
 

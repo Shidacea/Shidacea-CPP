@@ -87,9 +87,12 @@ mrb_value ruby_imgui_input_instance_variable_int(mrb_state* mrb, mrb_value self)
 
 	mrb_get_args(mrb, "zon", &label, &object, &symbol);
 
-	auto int_value = mrb_iv_get(mrb, object, symbol);
-	auto return_value = ImGui::InputInt(label, &mrb_fixnum(int_value));
-	mrb_iv_set(mrb, object, symbol, int_value);
+	auto ruby_int_value = mrb_iv_get(mrb, object, symbol);
+	auto int_value = static_cast<int>(mrb_fixnum(ruby_int_value));
+
+	auto return_value = ImGui::InputInt(label, &int_value);
+
+	mrb_iv_set(mrb, object, symbol, ruby_int_value);
 
 	return mrb_bool_value(return_value);
 
@@ -126,7 +129,7 @@ mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 	char* label;
 	mrb_value* v;
-	int count;
+	mrb_int count;
 
 	mrb_get_args(mrb, "za", &label, &v, &count);
 
@@ -134,7 +137,8 @@ mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 	if (count == 1) {
 
-		return_value = ImGui::InputInt(label, &mrb_fixnum(v[0]));
+		auto int_value = static_cast<int>(mrb_fixnum(v[0]));
+		return_value = ImGui::InputInt(label, &int_value);
 
 	} else if(count == 2) {
 

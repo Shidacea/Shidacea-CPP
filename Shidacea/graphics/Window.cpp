@@ -3,8 +3,8 @@
 mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 
 	char* title;
-	int width;
-	int height;
+	mrb_int width;
+	mrb_int height;
 	bool fullscreen = false;
 
 	mrb_get_args(mrb, "zii|b", &title, &width, &height, &fullscreen);
@@ -72,7 +72,7 @@ mrb_value ruby_window_imgui_update(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_set_imgui_scale(mrb_state* mrb, mrb_value self) {
 
-	float scale;
+	mrb_float scale;
 	mrb_get_args(mrb, "f", &scale);
 
 	ImGui::GetIO().FontGlobalScale = scale;

@@ -163,10 +163,10 @@ void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 mrb_value ruby_map_layer_init(mrb_state* mrb, mrb_value self) {
 
-	int width;
-	int height;
-	int view_width;
-	int view_height;
+	mrb_int width;
+	mrb_int height;
+	mrb_int view_width;
+	mrb_int view_height;
 	
 	mrb_get_args(mrb, "iiii", &width, &height, &view_width, &view_height);
 

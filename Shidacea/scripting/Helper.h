@@ -12,6 +12,10 @@
 #include <string>
 #include <filesystem>
 
+#include <SFML/Graphics.hpp>
+
+using MrbIntRect = sf::Rect<mrb_int>;
+
 //! Preprocessor shenanigans to switch between script file loading and pre-compiled bytecode
 //! If debug mode is on (NDEBUG not defined), the macro will directly load the script file "scripts/XXX.rb"
 //! If debug mode is off, the macro will execute the bytecode in the respective array compiled_ruby_XXX

@@ -115,7 +115,7 @@ mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self) {
 mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self) {
 
 	mrb_value ruby_offset;
-	float radius;
+	mrb_float radius;
 
 	mrb_get_args(mrb, "of", &ruby_offset, &radius);
 
@@ -147,7 +147,7 @@ mrb_value ruby_shape_circle_class_scale(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_shape_circle_class_scale_equals(mrb_state* mrb, mrb_value self) {
 
-	float scale;
+	mrb_float scale;
 
 	mrb_get_args(mrb, "f", &scale);
 
