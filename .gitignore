@@ -3,3 +3,4 @@ bin
 CMakeFiles
 CMakeSettings.json
 out
+*.txt
