@@ -2,17 +2,19 @@
 
 #include <iostream>
 
-void MapLayer::initialize_mesh(unsigned int view_width, unsigned int view_height) {
+MapLayer::MapLayer(unsigned int width, unsigned int height, unsigned int view_width, unsigned int view_height) {
+
+	this->width = width;
+	this->height = height;
+	this->view_width = view_width;
+	this->view_height = view_height;
 
 	vertices.setPrimitiveType(sf::Quads);
 	vertices.resize(view_width * view_height * 4);	//! 4 Vertices per quad
 
-	this->view_width = view_width;
-	this->view_height = view_height;
-
 }
 
-void MapLayer::generate_mesh(float cam_x, float cam_y) {
+void MapLayer::reload(float cam_x, float cam_y) {
 
 	//! The mesh will be aligned to the camera position
 	//! Only the tiles touching the mesh will be drawn
@@ -100,7 +102,7 @@ void MapLayer::generate_mesh(float cam_x, float cam_y) {
 
 }
 
-void MapLayer::load_tiles(unsigned int width, unsigned int height) {
+void MapLayer::load_test_map() {
 
 	//! TODO: Don't load this file more than ONE SINGLE TIME
 	if (!tileset.loadFromFile("assets/graphics/maptest/Tileset.png")) {
@@ -125,9 +127,6 @@ void MapLayer::load_tiles(unsigned int width, unsigned int height) {
 	tile_data[5].set_as_solid();
 
 	background_tile = 2;
-
-	this->width = width;
-	this->height = height;
 
 	unsigned int debug_counter = 0;
 
@@ -159,5 +158,55 @@ void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	states.transform *= getTransform();
 	states.texture = &tileset;
 	target.draw(vertices, states);
+
+}
+
+mrb_value ruby_map_layer_init(mrb_state* mrb, mrb_value self) {
+
+	int width;
+	int height;
+	int view_width;
+	int view_height;
+	
+	mrb_get_args(mrb, "iiii", &width, &height, &view_width, &view_height);
+
+	auto map_layer = MrbWrap::convert_to_object<MapLayer>(mrb, self, 
+		static_cast<unsigned int>(width), static_cast<unsigned int>(height), 
+		static_cast<unsigned int>(view_width), static_cast<unsigned int>(view_height));
+
+	return self;
+
+}
+
+mrb_value ruby_map_layer_reload(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_coordinates;
+
+	mrb_get_args(mrb, "o", &ruby_coordinates);
+
+	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+
+	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+	map_layer->reload(coordinates->x, coordinates->y);
+
+	return mrb_true_value();
+
+}
+
+mrb_value ruby_map_layer_load_test_map(mrb_state* mrb, mrb_value self) {
+
+	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+	map_layer->load_test_map();
+
+	return mrb_nil_value();
+}
+
+void setup_ruby_class_map_layer(mrb_state* mrb) {
+
+	auto ruby_map_layer_class = MrbWrap::define_data_class(mrb, "MapLayer");
+
+	mrb_define_method(mrb, ruby_map_layer_class, "initialize", ruby_map_layer_init, MRB_ARGS_REQ(4));
+	mrb_define_method(mrb, ruby_map_layer_class, "reload", ruby_map_layer_reload, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_map_layer_class, "load_test_map", ruby_map_layer_load_test_map, MRB_ARGS_NONE());
 
 }

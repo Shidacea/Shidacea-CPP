@@ -21,7 +21,7 @@ int main() {
 
 	setup_ruby_class_texture(mrb);
 	setup_ruby_class_sprite(mrb);
-	setup_ruby_class_map(mrb);
+	setup_ruby_class_map_layer(mrb);
 	setup_ruby_class_window(mrb);
 
 	setup_ruby_imgui(mrb);

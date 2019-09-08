@@ -1,10 +1,6 @@
-# TODO: This is only a placeholder for the C++ wrapper class of MapLayer
-class MapLayer
-end
+class Map
 
-class Map2
-
-	def initialize(view_width, view_height)
+	def initialize(view_width: 20, view_height: 20)
 		@view_width = view_width
 		@view_height = view_height
 
@@ -20,16 +16,17 @@ class Map2
 		@number_of_layers.times do
 			new_layer = MapLayer.new(@width, @height, @view_width, @view_height)
 			# TODO: Load tiles into map layer and initialize the mesh
+			new_layer.load_test_map
 			@map_layers.push(new_layer)
 		end
 	end
 
-	def update
-
+	def update(position)
+		reload(position)
 	end
 
-	def reload
-		@map_layers.each {|layer| layer.reload}
+	def reload(position)
+		@map_layers.each {|layer| layer.reload(position)}
 	end
 
 	def draw(window, offset)

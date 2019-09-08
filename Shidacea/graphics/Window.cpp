@@ -178,7 +178,7 @@ mrb_value ruby_window_draw_translated(mrb_state* mrb, mrb_value self) {
 void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object) {
 
 	static auto sprite_class = mrb_class_get(mrb, "Sprite");
-	static auto map_class = mrb_class_get(mrb, "Map");
+	static auto map_layer_class = mrb_class_get(mrb, "MapLayer");
 
 	auto object_class = mrb_obj_class(mrb, draw_object);
 
@@ -187,14 +187,12 @@ void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_
 		auto sprite = get_sprite(mrb, draw_object);
 		window->draw(*sprite, render_states);
 
-	}
-	else if (object_class == map_class) {
+	} else if (object_class == map_layer_class) {
 
-		auto map = MrbWrap::convert_from_object<Map>(mrb, draw_object);
-		window->draw(*map, render_states);
+		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
+		window->draw(*map_layer, render_states);
 
-	}
-	else {
+	} else {
 
 		//! TODO: Error message
 

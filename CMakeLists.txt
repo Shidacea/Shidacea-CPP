@@ -235,7 +235,6 @@ set(GRAPHICS_SOURCES
 set(MAP_SOURCES
 	Shidacea/map/Tile.cpp
 	Shidacea/map/MapLayer.cpp
-	Shidacea/map/Map.cpp
 )
 
 set(CORE_SOURCES

@@ -34,7 +34,8 @@ class SceneTest < Scene
 	def at_init
 		@last_key_code = nil
 
-		@test_map = Map.new(100, 100, 4, 4)
+		@test_map = Map.new(view_width: 30, view_height: 20)
+		@test_map.load_from_file("dummy")
 
 		@entities = []
 		@entities.push(create(TestEntity))
@@ -59,7 +60,7 @@ class SceneTest < Scene
 
 	def draw
 		@test_map.reload(@entities[0].position)
-		$window.draw_translated(@test_map, Coordinates.new(100, 100))
+		@test_map.draw($window, @entities[0].position)
 		@entities.each {|entity| entity.draw($window)}
 	end
 

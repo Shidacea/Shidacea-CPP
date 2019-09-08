@@ -39,5 +39,5 @@
 #include "Events.h"
 #include "Window.h"
 #include "Texture.h"
-#include "Map.h"
+#include "MapLayer.h"
 #include "ImGuiWrapper.h"
