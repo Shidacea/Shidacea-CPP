@@ -88,9 +88,7 @@ mrb_value ruby_imgui_input_instance_variable_int(mrb_state* mrb, mrb_value self)
 	mrb_get_args(mrb, "zon", &label, &object, &symbol);
 
 	auto ruby_int_value = mrb_iv_get(mrb, object, symbol);
-	auto int_value = static_cast<int>(mrb_fixnum(ruby_int_value));
-
-	auto return_value = ImGui::InputInt(label, &int_value);
+	auto return_value = ImGui::InputInt(label, reinterpret_cast<int*>(&mrb_fixnum(ruby_int_value)));
 
 	mrb_iv_set(mrb, object, symbol, ruby_int_value);
 
@@ -137,14 +135,14 @@ mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 	if (count == 1) {
 
-		auto int_value = static_cast<int>(mrb_fixnum(v[0]));
-		return_value = ImGui::InputInt(label, &int_value);
+		auto int_value = mrb_fixnum(v[0]);
+		return_value = ImGui::InputInt(label, reinterpret_cast<int*>(&int_value));
 
 	} else if(count == 2) {
 
 		int values[2];
 
-		for(unsigned int i = 0; i < 2; i++) values[i] = mrb_fixnum(v[i]);
+		for(unsigned int i = 0; i < 2; i++) values[i] = static_cast<int>(mrb_fixnum(v[i]));
 		return_value = ImGui::InputInt2(label, values);
 		for(unsigned int i = 0; i < 2; i++) mrb_fixnum(v[i]) = values[i];
 
@@ -152,7 +150,7 @@ mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 		int values[3];
 
-		for (unsigned int i = 0; i < 3; i++) values[i] = mrb_fixnum(v[i]);
+		for (unsigned int i = 0; i < 3; i++) values[i] = static_cast<int>(mrb_fixnum(v[i]));
 		return_value = ImGui::InputInt3(label, values);
 		for (unsigned int i = 0; i < 3; i++) mrb_fixnum(v[i]) = values[i];
 
@@ -160,7 +158,7 @@ mrb_value ruby_imgui_input_int(mrb_state* mrb, mrb_value self) {
 
 		int values[4];
 
-		for (unsigned int i = 0; i < 4; i++) values[i] = mrb_fixnum(v[i]);
+		for (unsigned int i = 0; i < 4; i++) values[i] = static_cast<int>(mrb_fixnum(v[i]));
 		return_value = ImGui::InputInt4(label, values);
 		for (unsigned int i = 0; i < 4; i++) mrb_fixnum(v[i]) = values[i];
 
