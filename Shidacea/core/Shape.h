@@ -14,7 +14,7 @@ auto y2 = pos2.y;
 #define DEFINE_COLLISION(type1, type2) template <> bool check_collision(type1 shape1, type2 shape2, sf::Vector2f pos1, sf::Vector2f pos2)
 
 #define TEST_COLLISION_CASE(type1, type2) \
-if (type_1 == ShapeType::##type1 && type_2 == ShapeType::##type2) { \
+if (type_1 == ShapeType::type1 && type_2 == ShapeType::type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_2); \
 auto offset_1 = shape_1->offset; \
@@ -26,14 +26,14 @@ result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_
 //! This macro is just a concatenation of the part above together with its reversed form
 
 #define TEST_COLLISION_CASE_WITH_REVERSE(type1, type2) \
-if (type_1 == ShapeType::##type1 && type_2 == ShapeType::##type2) { \
+if (type_1 == ShapeType::type1 && type_2 == ShapeType::type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_2); \
 auto offset_1 = shape_1->offset; \
 auto offset_2 = shape_2->offset; \
 result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_2); \
 } \
-else if (type_1 == ShapeType::##type2 && type_2 == ShapeType::##type1) { \
+else if (type_1 == ShapeType::type2 && type_2 == ShapeType::type1) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_2); \
 auto offset_1 = shape_1->offset; \

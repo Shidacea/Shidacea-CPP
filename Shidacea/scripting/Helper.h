@@ -8,6 +8,7 @@
 #include <mruby/class.h>
 #include <mruby/array.h>
 #include <mruby/string.h>
+#include <cstring>
 #include <string>
 #include <filesystem>
 
@@ -43,6 +44,9 @@ MrbWrap::load_all_scripts_recursively(mrb, "scripts/" #path)
 
 namespace MrbWrap {
 
+	//! Will be defined below
+	template <class T> mrb_value ruby_class_default_init_copy(mrb_state* mrb, mrb_value self);
+
 	//! Some different ways to execute mruby code
 
 	//! Execute a string containing mruby code
@@ -70,9 +74,9 @@ namespace MrbWrap {
 
 	//! Universal destructor wrapped into a C representation
 	//! Will be used as callback for ruby object deallocation
-	static void free_data(mrb_state* mrb, void* object_ptr) {
+	template <class T> static void free_data(mrb_state* mrb, void* object_ptr) {
 
-		delete object_ptr;
+		delete static_cast<T*>(object_ptr);
 
 	}
 
@@ -102,7 +106,7 @@ namespace MrbWrap {
 
 		static const mrb_data_type data_type = {
 
-			typeid(T).name(), free_data
+			typeid(T).name(), free_data<T>
 
 		};
 		
@@ -156,7 +160,7 @@ namespace MrbWrap {
 
 		static const struct mrb_data_type data_type = {
 
-			typeid(T).name(), free_data
+			typeid(T).name(), free_data<T>
 
 		};
 

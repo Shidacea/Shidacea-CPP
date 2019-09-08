@@ -152,8 +152,8 @@ mrb_value ruby_coordinates_inspect(mrb_state* mrb, mrb_value self) {
 
 	auto content = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
-	char buffer[32];
-	snprintf(buffer, 32, "(%.8g | %.8g)", content->x, content->y);
+	char buffer[36];
+	snprintf(buffer, 36, "(%.8g | %.8g)", content->x, content->y);
 
 	return mrb_str_new_cstr(mrb, buffer);
 

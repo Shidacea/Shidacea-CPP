@@ -12,7 +12,7 @@ add_definitions(-DMRB_USE_FLOAT)
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
 # Project name
-project(NewProject CXX C)
+project(NewProject)
 set(EXECUTABLE_NAME "NewProject")
 
 # C++ Standard
