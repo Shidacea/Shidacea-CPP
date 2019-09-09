@@ -8,10 +8,9 @@ void MrbWrap::execute_string(mrb_state* mrb, std::string const& code) {
 
 void MrbWrap::execute_bytecode_file(mrb_state* mrb, std::string const& filename) {
 
-	FILE* f;
-	auto error_code = fopen_s(&f, filename.c_str(), "r");
+	auto f = fopen(filename.c_str(), "r");
 	
-	if (error_code != 0) {
+	if (!f) {
 
 		//! TODO: Error handling
 
@@ -31,10 +30,9 @@ void MrbWrap::execute_bytecode(mrb_state* mrb, const uint8_t* symbol_array) {
 
 void MrbWrap::execute_script_file(mrb_state* mrb, std::string const& filename) {
 
-	FILE* f;
-	auto error_code = fopen_s(&f, filename.c_str(), "r");
+	auto f = fopen(filename.c_str(), "r");
 
-	if (error_code != 0) {
+	if (!f) {
 
 		std::cerr << "ERROR loading file: " << filename << std::endl;
 		//! TODO: Error handling

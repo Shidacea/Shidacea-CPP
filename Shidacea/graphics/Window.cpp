@@ -13,11 +13,11 @@ mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 
 	if (fullscreen) {
 
-		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(width, height), title, sf::Style::Fullscreen);
+		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(static_cast<unsigned int>(width), static_cast<unsigned int>(height)), title, sf::Style::Fullscreen);
 
 	} else {
 
-		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(width, height), title);
+		window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(static_cast<unsigned int>(width), static_cast<unsigned int>(height)), title);
 
 	}
 

@@ -1,4 +1,5 @@
 ﻿# Minimum cmake version
+
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_SHARED_LINKER_FLAGS
@@ -7,11 +8,26 @@ set(CMAKE_SHARED_LINKER_FLAGS
 set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS}")
 
+# Define platform dependent libraries
+
+if(WIN32)
+	
+	set(ADDITIONAL_LIBRARIES sfml-main Ws2_32)
+	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.lib")
+
+else()
+
+	set(ADDITIONAL_LIBRARIES stdc++fs)
+	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.a" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.a")
+
+endif()
+
 add_definitions(-DMRB_USE_FLOAT)
 
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
 # Project name
+
 project(NewProject)
 set(EXECUTABLE_NAME "NewProject")
 
@@ -26,8 +42,6 @@ find_program(RUBY_EXECUTABLE ruby)
 find_program(BISON_EXECUTABLE bison)
 
 # Load mRuby
-
-set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.lib")
 
 ExternalProject_Add(mruby
   PREFIX "${CMAKE_BINARY_DIR}/mruby"
@@ -271,4 +285,4 @@ set(SOURCES
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
-target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-main sfml-system sfml-window sfml-graphics sfml-audio Ws2_32)
+target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-system sfml-window sfml-graphics sfml-audio ${ADDITIONAL_LIBRARIES})

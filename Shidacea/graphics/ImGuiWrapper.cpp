@@ -109,7 +109,7 @@ mrb_value ruby_imgui_input_instance_variable_string(mrb_state* mrb, mrb_value se
 	mrb_get_args(mrb, "zon", &label, &object, &symbol);
 
 	auto str_value = mrb_iv_get(mrb, object, symbol);
-	strncpy_s(content, 100, mrb_str_to_cstr(mrb, str_value), 100);
+	strncpy(content, mrb_str_to_cstr(mrb, str_value), 100);
 	auto return_value = ImGui::InputText(label, content, 100);
 	mrb_iv_set(mrb, object, symbol, mrb_str_new(mrb, content, strlen(content)));
 

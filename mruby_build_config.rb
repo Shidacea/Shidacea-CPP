@@ -49,8 +49,6 @@ MRuby::Build.new('test') do |conf|
   end
 
   enable_debug
-  conf.enable_bintest
-  conf.enable_test
 
   conf.gembox 'default'
 

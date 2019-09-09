@@ -10,7 +10,7 @@ MapLayer::MapLayer(unsigned int width, unsigned int height, unsigned int view_wi
 	this->view_height = view_height;
 
 	vertices.setPrimitiveType(sf::Quads);
-	vertices.resize(view_width * view_height * 4);	//! 4 Vertices per quad
+	vertices.resize(static_cast<size_t>(view_width) * view_height * 4);	//! 4 Vertices per quad
 
 }
 
@@ -77,7 +77,7 @@ void MapLayer::reload(float cam_x, float cam_y) {
 				unsigned int dx = (c == 1 || c == 2);
 				unsigned int dy = (c == 2 || c == 3);
 
-				auto& vertex = vertices[(x * view_height + y) * 4 + c];
+				auto& vertex = vertices[(static_cast<size_t>(x) * view_height + y) * 4 + c];
 
 				//! Set the position of the mesh vertices
 
