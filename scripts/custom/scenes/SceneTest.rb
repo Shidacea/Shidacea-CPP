@@ -73,8 +73,8 @@ class SceneTest < Scene
 			@entities.each do |entity|
 				@entities.each do |other_entity|
 
-					# Avoid collisions between identical entities and its children
-					next if entity.magic_number == other_entity.magic_number
+					# TODO: Process these
+					entity.get_colliding_action_shapes_with(other_entity)
 
 					shape_collision_no += 1 if entity.test_shape_collision_with(other_entity)
 					box_collision_no += 1 if entity.test_box_collision_with(other_entity)

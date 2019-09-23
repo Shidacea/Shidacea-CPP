@@ -4,7 +4,7 @@ class Entity
 
 	# Accessor methods for content arrays (except for textures)
 
-	attr_accessor :sprites, :boxes, :shapes
+	attr_accessor :sprites, :boxes, :shapes, :hitshapes, :hurtshapes
 
 	# Other accessor methods
 
@@ -68,6 +68,16 @@ class Entity
 		@sprites.add([texture_index, offset], index)
 	end
 
+	def self.set_hitshape(index: nil, active: true, shape_index: nil, damage: 0)
+		@hitshapes = SpecialContainer.new if !@hitshapes
+		@hitshapes.add(Hitshape.new(damage: damage, shape_index: shape_index, active: active), index)
+	end
+
+	def self.set_hurtshape(index: nil, active: true, shape_index: nil)
+		@hurtshapes = SpecialContainer.new if !@hurtshapes
+		@hurtshapes.add(Hurtshape.new(active: active, shape_index: shape_index), index)
+	end
+
 	# Class getter methods for utility and code readability
 
 	def self.all_boxes
@@ -90,11 +100,17 @@ class Entity
 		return @sprites
 	end
 
-	# Create local copies of all boxes/shapes/...
+	def self.all_hitshapes
+		@hitshapes = SpecialContainer.new if !@hitshapes
+		return @hitshapes
+	end
 
-	# TODO: Deep copy the parameters
-	# This can be done either inside the C++ method by defining initialize_dup
-	# or by doing something like @boxes[i].duplicate_parameters or so
+	def self.all_hurtshapes
+		@hurtshapes = SpecialContainer.new if !@hurtshapes
+		return @hurtshapes
+	end
+
+	# Create local copies of all boxes/shapes/...
 
 	def load_boxes
 		@boxes = []
@@ -156,6 +172,29 @@ class Entity
 				end
 			end
 		end
+
+		def load_hitshapes
+			@hitshapes = []
+			all_hitshapes = self.class.all_hitshapes
+
+			0.upto(all_hitshapes.size - 1) do |i|
+				element = all_hitshapes.get(i)
+
+				@hitshapes[i] = element.dup if element
+			end
+		end
+
+		def load_hurtshapes
+			@hurtshapes = []
+			all_hurtshapes = self.class.all_hurtshapes
+
+			0.upto(all_hurtshapes.size - 1) do |i|
+				element = all_hurtshapes.get(i)
+
+				@hurtshapes[i] = element.dup if element
+			end
+		end
+
 	end
 
 	# Actual instance methods which should not be changed
@@ -180,6 +219,8 @@ class Entity
 		load_shapes
 		load_textures
 		load_sprites
+		load_hitshapes
+		load_hurtshapes
 
 		at_init
 	end
@@ -224,6 +265,9 @@ class Entity
 	end
 
 	def test_box_collision_with(other_entity)
+		# Avoid collisions between identical entities and its children
+		return nil if magic_number == other_entity.magic_number
+
 		@boxes.each do |box|
 			other_entity.boxes.each do |other_box|
 				result = Collider.test(box, absolute_position, other_box, other_entity.absolute_position)
@@ -235,6 +279,8 @@ class Entity
 	end
 
 	def test_shape_collision_with(other_entity)
+		return nil if magic_number == other_entity.magic_number
+
 		@shapes.each do |shape|
 			other_entity.shapes.each do |other_shape|
 				result = Collider.test(shape, absolute_position, other_shape, other_entity.absolute_position)
@@ -243,6 +289,13 @@ class Entity
 		end
 
 		return nil
+	end
+
+	def get_colliding_action_shapes_with(other_entity)
+		return nil if magic_number == other_entity.magic_number
+
+		# TODO: Get all hurtshapes of this entity and the respective hitshapes of the other entity colliding with them.
+		# TODO: Also implement hooks and methods for how to handle these.
 	end
 
 	def draw(window)
@@ -265,6 +318,14 @@ class Entity
 	end
 
 	def custom_draw
+
+	end
+
+	def at_entity_collision(other_entity, hurtboxes)
+
+	end
+
+	def at_tile_collision(tile)
 
 	end
 
