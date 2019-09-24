@@ -1,0 +1,6 @@
+Current Shidacea version: 0.0.1d
+
+Version history:
+
+0.0.1
+- First versioning

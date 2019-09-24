@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+constexpr char* VERSION = "0.0.1d";
+
 //! Mandatory includes if you want anything to work at all
 
 #include <filesystem>
@@ -36,6 +38,8 @@
 #include "IntRect.h"
 #include "Coordinates.h"
 #include "Sprite.h"
+#include "Socket.h"
+#include "Listener.h"
 #include "Events.h"
 #include "Window.h"
 #include "Texture.h"

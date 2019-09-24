@@ -113,6 +113,23 @@ class SceneTest < Scene
 			end
 
 			ImGui.input_int("Array", @test_array)
+
+			ImGui.button "Test socket" do
+				puts "Socket"
+				@socket = Socket.new
+				puts @socket.connect("127.0.0.1", 293)
+				puts @socket.send_message("TestBla")
+			end
+
+			ImGui.button "Test listener" do
+				puts "Listener"
+				@listener = Listener.new
+				@socket = Socket.new
+				puts @listener.listen(293)
+				puts @listener.accept(@socket)
+				puts @socket.receive(100)
+				puts @socket.last_message
+			end
 		end
 
 		if @inspected_entity then

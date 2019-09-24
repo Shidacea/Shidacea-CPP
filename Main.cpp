@@ -1,6 +1,23 @@
 ﻿#include "Main.h"
 
-int main() {
+int main(int argc, char** argv) {
+
+	if (argc > 1) {
+
+		for (int arg = 1; arg < argc; arg++) {
+
+			auto argument = argv[arg];
+
+			if (!strncmp(argument, "-v", 2) || !strncmp(argument, "--version", 9)) {
+
+				std::cout << "Shidacea Version: " << VERSION << std::endl;
+
+			}
+
+		}
+
+		return 0;
+	}
 
 	auto mrb = mrb_open();
 
@@ -23,6 +40,9 @@ int main() {
 	setup_ruby_class_sprite(mrb);
 	setup_ruby_class_map_layer(mrb);
 	setup_ruby_class_window(mrb);
+
+	setup_ruby_class_socket(mrb);
+	setup_ruby_class_listener(mrb);
 
 	setup_ruby_imgui(mrb);
 

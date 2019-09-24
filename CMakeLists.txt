@@ -247,6 +247,11 @@ set(GRAPHICS_SOURCES
 	Shidacea/graphics/ImGuiWrapper.cpp
 )
 
+set(NETWORK_SOURCES
+	Shidacea/network/Socket.cpp
+	Shidacea/network/Listener.cpp
+)
+
 set(MAP_SOURCES
 	Shidacea/map/Tile.cpp
 	Shidacea/map/MapLayer.cpp
@@ -267,6 +272,7 @@ set(SCRIPTING_SOURCES
 include_directories(
 	Shidacea/core 
 	Shidacea/graphics
+	Shidacea/network
 	Shidacea/map
 	Shidacea/scripting
 )
@@ -275,6 +281,7 @@ include_directories(
 
 set(SOURCES 
 	${GRAPHICS_SOURCES}
+	${NETWORK_SOURCES}
 	${MAP_SOURCES}
 	${CORE_SOURCES}
 	${SCRIPTING_SOURCES}
@@ -285,4 +292,9 @@ set(SOURCES
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
-target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-system sfml-window sfml-graphics sfml-audio ${ADDITIONAL_LIBRARIES})
+target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-system sfml-window sfml-graphics sfml-audio sfml-network ${ADDITIONAL_LIBRARIES})
+
+configure_file(
+	Changelog.txt
+	Changelog.txt
+)
