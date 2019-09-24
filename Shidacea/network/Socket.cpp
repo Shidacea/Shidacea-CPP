@@ -80,6 +80,50 @@ mrb_value ruby_socket_last_message(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_socket_blocking(mrb_state* mrb, mrb_value self) {
+
+	auto socket = MrbWrap::convert_from_object<sf::TcpSocket>(mrb, self);
+	return mrb_bool_value(socket->isBlocking());
+
+}
+
+mrb_value ruby_socket_blocking_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_bool blocking;
+	mrb_get_args(mrb, "b", &blocking);
+
+	auto socket = MrbWrap::convert_from_object<sf::TcpSocket>(mrb, self);
+	socket->setBlocking(blocking);
+
+	return mrb_bool_value(blocking);
+
+}
+
+mrb_value ruby_socket_remote_address(mrb_state* mrb, mrb_value self) {
+
+	//! TODO: May need testing
+
+	auto socket = MrbWrap::convert_from_object<sf::TcpSocket>(mrb, self);
+	auto address = socket->getRemoteAddress().toString().c_str();
+
+	return mrb_str_new_cstr(mrb, address);
+
+}
+
+mrb_value ruby_socket_remote_port(mrb_state* mrb, mrb_value self) {
+
+	auto socket = MrbWrap::convert_from_object<sf::TcpSocket>(mrb, self);
+	return mrb_fixnum_value(socket->getRemotePort());
+
+}
+
+mrb_value ruby_socket_local_port(mrb_state* mrb, mrb_value self) {
+
+	auto socket = MrbWrap::convert_from_object<sf::TcpSocket>(mrb, self);
+	return mrb_fixnum_value(socket->getLocalPort());
+
+}
+
 void setup_ruby_class_socket(mrb_state* mrb) {
 
 	auto ruby_socket_class = MrbWrap::define_data_class(mrb, "Socket");
@@ -97,5 +141,10 @@ void setup_ruby_class_socket(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_socket_class, "send_message", ruby_socket_send_message, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_socket_class, "receive", ruby_socket_receive, MRB_ARGS_OPT(1));
 	mrb_define_method(mrb, ruby_socket_class, "last_message", ruby_socket_last_message, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_socket_class, "blocking?", ruby_socket_blocking, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_socket_class, "blocking=", ruby_socket_blocking_equals, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_socket_class, "remote_address", ruby_socket_remote_address, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_socket_class, "remote_port", ruby_socket_remote_port, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_socket_class, "local_port", ruby_socket_local_port, MRB_ARGS_NONE());
 
 }

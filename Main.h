@@ -40,6 +40,7 @@ constexpr char* VERSION = "0.0.1d";
 #include "Sprite.h"
 #include "Socket.h"
 #include "Listener.h"
+#include "Http.h"
 #include "Events.h"
 #include "Window.h"
 #include "Texture.h"

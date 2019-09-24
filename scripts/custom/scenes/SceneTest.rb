@@ -118,6 +118,9 @@ class SceneTest < Scene
 				puts "Socket"
 				@socket = Socket.new
 				puts @socket.connect("127.0.0.1", 293)
+				puts @socket.remote_address
+				puts @socket.remote_port
+				puts @socket.local_port
 				puts @socket.send_message("TestBla")
 			end
 
@@ -127,6 +130,9 @@ class SceneTest < Scene
 				@socket = Socket.new
 				puts @listener.listen(293)
 				puts @listener.accept(@socket)
+				puts @socket.remote_address
+				puts @socket.remote_port
+				puts @socket.local_port
 				puts @socket.receive(100)
 				puts @socket.last_message
 			end

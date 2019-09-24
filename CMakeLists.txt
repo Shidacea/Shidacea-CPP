@@ -250,6 +250,7 @@ set(GRAPHICS_SOURCES
 set(NETWORK_SOURCES
 	Shidacea/network/Socket.cpp
 	Shidacea/network/Listener.cpp
+	Shidacea/network/Http.cpp
 )
 
 set(MAP_SOURCES
