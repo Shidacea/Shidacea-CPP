@@ -27,6 +27,14 @@ class SceneTest < Scene
 
 		@entities[0].accelerate(Coordinates.new(dx, dy))
 
+		@entities.each do |entity|
+			@entities.each do |other_entity|
+				entity.each_colliding_action_shape(other_entity) do |hurtshape, hitshape|
+					entity.collision_with_entity(other_entity, hurtshape, hitshape)
+				end
+			end
+		end
+
 		@entities.each {|entity| entity.update}
 
 	end
@@ -73,17 +81,16 @@ class SceneTest < Scene
 			@entities.each do |entity|
 				@entities.each do |other_entity|
 
-					# TODO: Process these
-					entity.get_colliding_action_shapes_with(other_entity)
-
 					shape_collision_no += 1 if entity.test_shape_collision_with(other_entity)
 					box_collision_no += 1 if entity.test_box_collision_with(other_entity)
+
 				end
 			end
 
 			# Filter double collisions
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
+			ImGui.text "HP of entity 0: #{@entities[0].hp}"
 			ImGui.text "Last key code: #{@last_key_code}"
 			ImGui.button "Reset mouse" {EventMouse::set_position([300, 200], $window)}
 			ImGui.button "Get mouse pos" {puts EventMouse::get_position($window)}

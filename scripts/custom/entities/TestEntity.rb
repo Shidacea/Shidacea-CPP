@@ -8,7 +8,15 @@ class TestEntity < Entity
 	set_hitshape(index: 7, shape_index: 0, damage: 1)
 	set_hurtshape(index: 13, shape_index: 0)
 
-	def update
-		physics if !@parent
+	self.living = true
+	self.max_hp = 20
+	self.gravity_multiplier = 2.0
+
+	def custom_update
+		
+	end
+
+	def at_entity_collision(other_entity, hurtshape, hitshape)
+		
 	end
 end

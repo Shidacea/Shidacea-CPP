@@ -17,6 +17,8 @@ end
 
 class Hitshape < Actionshape
 
+	attr_accessor :damage
+
 	def initialize(active: true, shape_index: nil, damage: 0)
 		super(active: active, shape_index: shape_index)
 		@damage = damage

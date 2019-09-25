@@ -6,11 +6,34 @@ class Entity
 
 	attr_accessor :sprites, :boxes, :shapes, :hitshapes, :hurtshapes
 
-	# Other accessor methods
+	# Physics-based accessor methods
 
 	attr_accessor :position, :velocity
+	
+	# Accessor methods for living entities
+	
+	attr_accessor :hp
+
+	# Other accessor methods
 
 	attr_reader :magic_number
+
+	# Metaprogramming magic for class methods
+
+	def self.define_class_property(symbol, default)
+		define_singleton_method(symbol) do
+			val = instance_variable_get("@#{symbol}")
+			if val then
+				return val
+			else
+				val = default
+				return default
+			end
+		end
+		define_singleton_method("#{symbol}=") do |value|
+			instance_variable_set("@#{symbol}", value)
+		end
+	end
 
 	# Class methods for adding different objects to any entity
 	
@@ -109,6 +132,13 @@ class Entity
 		@hurtshapes = SpecialContainer.new if !@hurtshapes
 		return @hurtshapes
 	end
+
+	# Other class properties.
+	# You may easily add your own properties.
+
+	self.define_class_property(:living, false)
+	self.define_class_property(:max_hp, 0)
+	self.define_class_property(:gravity_multiplier, 1.0)
 
 	# Create local copies of all boxes/shapes/...
 
@@ -222,11 +252,17 @@ class Entity
 		load_hitshapes
 		load_hurtshapes
 
+		if self.class.living then
+			@hp = self.class.max_hp
+			@invincibility_frame_counter = 0
+			@invincibility_next_frame = false
+		end
+
 		at_init
 	end
 
 	def physics
-		accelerate($game.gravity)
+		accelerate($game.gravity * self.class.gravity_multiplier)
 
 		@velocity += @acceleration * $game.dt
 		@position += @velocity * $game.dt
@@ -239,6 +275,27 @@ class Entity
 
 		@acceleration.x = 0.0
 		@acceleration.y = 0.0
+	end
+
+	def basic_hit(hurtshape, hitshape)
+		if @invincibility_frame_counter == 0 then
+			total_damage = hitshape.damage
+			inflict_damage(total_damage)
+		end
+	end
+
+	def inflict_damage(value)
+		@hp -= value
+		@hp = 0 if @hp <= 0
+		@invincibility_next_frame = true
+	end
+
+	def living_procedure
+		@invincibility_frame_counter -= 1 if @invincibility_frame_counter > 0
+		if @invincibility_next_frame then
+			@invincibility_next_frame = false
+			@invincibility_frame_counter = 60
+		end
 	end
 
 	def accelerate(vector)
@@ -291,11 +348,28 @@ class Entity
 		return nil
 	end
 
-	def get_colliding_action_shapes_with(other_entity)
+	def each_colliding_action_shape(other_entity)
 		return nil if magic_number == other_entity.magic_number
 
-		# TODO: Get all hurtshapes of this entity and the respective hitshapes of the other entity colliding with them.
-		# TODO: Also implement hooks and methods for how to handle these.
+		other_position = other_entity.absolute_position
+
+		0.upto(@hurtshapes.size - 1) do |hurtshape_index|
+			hurtshape = @hurtshapes[hurtshape_index]
+			next if !hurtshape || !hurtshape.active
+
+			shape = @shapes[hurtshape.shape_index]
+
+			0.upto(other_entity.hitshapes.size - 1) do |hitshape_index|
+				hitshape = other_entity.hitshapes[hitshape_index]
+				next if !hitshape || !hitshape.active
+
+				other_shape = other_entity.shapes[hitshape.shape_index]
+
+				if Collider.test(shape, absolute_position, other_shape, other_position) then
+					yield hurtshape, hitshape
+				end
+			end
+		end
 	end
 
 	def draw(window)
@@ -307,13 +381,26 @@ class Entity
 		end
 	end
 
+	def update
+		living_procedure
+		physics if !@parent
+	end
+
+	def collision_with_entity(other_entity, hurtshape, hitshape)
+		if self.class.living then
+			basic_hit(hurtshape, hitshape)
+		end
+
+		at_entity_collision(other_entity, hurtshape, hitshape)
+	end
+
 	# Custom routines which can be redefined for inherited objects
 
 	def at_init
-
+		
 	end
 
-	def update
+	def custom_update
 
 	end
 
@@ -321,8 +408,8 @@ class Entity
 
 	end
 
-	def at_entity_collision(other_entity, hurtboxes)
-
+	def at_entity_collision(other_entity, hurtshape, hitshape)
+		
 	end
 
 	def at_tile_collision(tile)
