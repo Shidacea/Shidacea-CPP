@@ -4,8 +4,8 @@ What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasio
 
 This repository is a template for game projects. Depending on your level of knowledge and desire to mess around with my code, you can do several things:
 
-* Just change the main mruby scripts and some configuration files to build your game
-* Change the core mruby scripts and add new ones in the C++ core files
+* Just change the main mruby scripts and some configuration files to launch your game directly
+* Change the core mruby scripts and add new ones
 * Change stuff in the C++ wrapper files
 * Dive into mruby and SFML and modify them
 * Disassemble the whole thing, write some assembly code and segfault yourself into oblivion (not recommended)
@@ -25,6 +25,7 @@ Even if the original idea was to create a Jump'n'run game, it can technically be
 
 The following programs need to be installed:
 
+* Compiler with C++17 support
 * CMake
 * Ruby
 * Bison
@@ -38,21 +39,22 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 * Platform independency (technically, but not tested yet)
 * Scripting support using mruby
 * Wrapped SFML classes for use with mruby
+* Can be extended easily with mrbgems
 * Modding support
 
 # Features
 
 * Simple event handling
 * Simple state machine for scenes
-* Basic game classes
+* Basic game classes and physics
+* Intuitive and simple system for entity properties
 * Wrapped ImGui methods for debugging
 
 # Planned features
 
-* Game physics
-* Collision detection routines
-* A special level editor written using this engine
-* Examples
+* More collision detection routines
+* A special level editor written using this engine (Hyashi)
+* Separate example project
 
 # Caveats
 
@@ -68,3 +70,11 @@ This means that you need to write files with no direct dependencies, as they cou
 Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
 
 The order of loading the script folders is: core -> custom/scenes -> custom/entities -> custom/Game.rb -> custom/Main.rb
+
+## Linux
+
+This project should (read: SHOULD) run on Linux systems.
+However, several libraries are required to do so (see documentation for SFML).
+
+Tested distributions:
+* WSL Ubuntu 18.04 (yep, it DOES work, but only if you install GCC 8)
