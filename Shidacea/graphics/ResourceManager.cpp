@@ -17,7 +17,7 @@ int ResourceManager::add_sprite() {
 	if (free_spots.empty()) {
 
 		contents.push_back(std::make_unique<sf::Sprite>());
-		return contents.size() - 1;
+		return static_cast<int>(contents.size() - 1);
 
 	} else {
 

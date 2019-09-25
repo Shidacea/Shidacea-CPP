@@ -27,7 +27,7 @@ mrb_value ruby_sprite_delete(mrb_state* mrb, mrb_value self) {
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
-	resource_manager->delete_sprite(sprite_index);
+	resource_manager->delete_sprite(static_cast<int>(sprite_index));
 
 	return mrb_true_value();
 
@@ -117,7 +117,7 @@ sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index = mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
-	return resource_manager->access_sprite(sprite_index);
+	return resource_manager->access_sprite(static_cast<int>(sprite_index));
 
 }
 

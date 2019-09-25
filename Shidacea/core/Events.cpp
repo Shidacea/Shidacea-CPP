@@ -220,7 +220,7 @@ mrb_value ruby_event_mouse_set_position(mrb_state* mrb, mrb_value self) {
 	auto x = mrb_fixnum(mrb_ary_entry(val, 0));
 	auto y = mrb_fixnum(mrb_ary_entry(val, 1));
 
-	auto new_position = sf::Vector2i(x, y);
+	auto new_position = sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
 
 	if(mrb_nil_p(ruby_window)) {
 
