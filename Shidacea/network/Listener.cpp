@@ -13,7 +13,7 @@ mrb_value ruby_listener_listen(mrb_state* mrb, mrb_value self) {
 	mrb_int port;
 	mrb_value address;
 
-	mrb_get_args(mrb, "i|z", &port, &address);
+	mrb_get_args(mrb, "i|o", &port, &address);
 
 	sf::IpAddress address_to_listen_on = sf::IpAddress::Any;
 	if(mrb_string_p(address)) address_to_listen_on = sf::IpAddress(mrb_str_to_cstr(mrb, address));

@@ -136,6 +136,7 @@ class SceneTest < Scene
 				puts @socket.receive(100)
 				puts @socket.last_message
 			end
+
 		end
 
 		if @inspected_entity then

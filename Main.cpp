@@ -43,7 +43,6 @@ int main(int argc, char** argv) {
 
 	setup_ruby_class_socket(mrb);
 	setup_ruby_class_listener(mrb);
-	setup_ruby_class_http(mrb);
 
 	setup_ruby_imgui(mrb);
 
