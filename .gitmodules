@@ -11,6 +11,3 @@
 [submodule "imgui-sfml"]
 	path = imgui-sfml
 	url = https://github.com/eliasdaler/imgui-sfml
-[submodule "gems/mruby-json"]
-	path = gems/mruby-json
-	url = https://github.com/mattn/mruby-json
