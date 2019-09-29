@@ -34,6 +34,9 @@ For Windows you need to make sure that the paths leading to ruby.exe and bison.e
 CMake can be obtained using Visual Studio, which is the recommended option.
 Also make sure to avoid path names with spaces in them, as mruby might fail to compile otherwise.
 
+For the time being use "-DCMAKE_BUILD_TYPE=Debug" or "-DCMAKE_BUILD_TYPE=Release" as option for CMake.
+This will be fixed at a later time.
+
 # Properties
 
 * Platform independency (technically, but not tested yet)
@@ -77,4 +80,5 @@ This project should (read: SHOULD) run on Linux systems.
 However, several libraries are required to do so (see documentation for SFML).
 
 Tested distributions:
-* WSL Ubuntu 18.04 (yep, it DOES work, but only if you install GCC 8)
+* WSL Ubuntu 18.04 (yep, it DOES work, but only if you install GCC 8 and all libraries required for SFML, and you also need an XServer)
+* Manjaro 18.1.0 (works out of the box, only CMake was missing)
