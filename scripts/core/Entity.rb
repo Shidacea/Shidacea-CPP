@@ -4,7 +4,7 @@ class Entity
 
 	# Accessor methods for content arrays (except for textures)
 
-	attr_accessor :sprites, :boxes, :shapes, :hitshapes, :hurtshapes
+	attr_accessor :sprites, :boxes, :shapes, :hitshapes, :hurtshapes, :active_sprites
 
 	# Physics-based accessor methods
 
@@ -86,9 +86,9 @@ class Entity
 		@textures.add(Texture.new.load_from_file(filename, rect), index)
 	end
 
-	def self.add_sprite(index: nil, texture_index: nil, offset: Coordinates.new)
+	def self.add_sprite(index: nil, active: true, texture_index: nil, offset: Coordinates.new)
 		@sprites = SpecialContainer.new if !@sprites
-		@sprites.add([texture_index, offset], index)
+		@sprites.add([texture_index, offset, active], index)
 	end
 
 	def self.set_hitshape(index: nil, active: true, shape_index: nil, damage: 0)
@@ -99,6 +99,14 @@ class Entity
 	def self.set_hurtshape(index: nil, active: true, shape_index: nil)
 		@hurtshapes = SpecialContainer.new if !@hurtshapes
 		@hurtshapes.add(Hurtshape.new(active: active, shape_index: shape_index), index)
+	end
+
+	def self.register_id(index: nil)
+		@entity_id = Data.add_entity(self, index: index)
+	end
+
+	def self.entity_id
+		return @entity_id
 	end
 
 	# Class getter methods for utility and code readability
@@ -181,6 +189,7 @@ class Entity
 
 	def load_sprites
 		@sprites = []
+		@active_sprites = []
 		all_sprites = self.class.all_sprites
 
 		0.upto(all_sprites.size - 1) do |i|
@@ -192,6 +201,7 @@ class Entity
 				texture_index = element[0]
 				@sprites[i] = Sprite.new(@resource_manager)
 				@sprites[i].position = element[1]
+				@active_sprites[i] = element[2]
 
 				if texture_index then
 					if texture_index >= 0 && texture_index < @textures.size then
@@ -229,8 +239,9 @@ class Entity
 
 	# Actual instance methods which should not be changed
 
-	def initialize(resource_manager)
+	def initialize(resource_manager, param: nil)
 		@resource_manager = resource_manager
+		@param = param
 
 		initialization_procedure
 	end
@@ -376,7 +387,9 @@ class Entity
 		# This function draws each sprite at its designated position
 		# The offset of the sprite position relative to the entity position is included
 
-		@sprites.each do |sprite|
+		0.upto(@sprites.size - 1) do |i|
+			sprite = @sprites[i]
+			next if !sprite || !@active_sprites[i]
 			window.draw_translated(sprite, absolute_position)
 		end
 	end

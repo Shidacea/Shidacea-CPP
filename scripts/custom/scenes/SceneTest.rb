@@ -59,7 +59,6 @@ class SceneTest < Scene
 		@entities[2].position = Coordinates.new(50, 10)
 
 		@test_toggle = false
-		@inspected_entity = nil
 		@test_value = 4
 		@test_array = [1, 2, 3]
 		@test_string = "Hello"
@@ -94,7 +93,6 @@ class SceneTest < Scene
 			ImGui.text "Last key code: #{@last_key_code}"
 			ImGui.button "Reset mouse" {EventMouse::set_position([300, 200], $window)}
 			ImGui.button "Get mouse pos" {puts EventMouse::get_position($window)}
-			ImGui.button "Inspect $scene" {@inspected_entity = $scene}
 			ImGui.button "Rescale entity" do
 				@entities[0].shapes[0].scale *= 1.1
 				@entities[0].boxes[0].scale *= 1.1
@@ -144,68 +142,10 @@ class SceneTest < Scene
 				puts @socket.last_message
 			end
 
-		end
-
-		if @inspected_entity then
-			ImGui.begin "Scene inspector###{self.object_id}" do
-				@inspected_entity = self if ImGui.button "Back to self"
-
-				# TODO: Add float support
-				# TOOD: Add array support by treating arrays with separate inspections
-
-				ImGui.new_line
-
-				if @inspected_entity.is_a? Array then
-					ImGui.text "Array elements:"
-
-					0.upto(@inspected_entity.size - 1) do |i|
-						value = @inspected_entity[i]
-
-						if ImGui.button("Inspect index #{i}") then
-							@inspected_entity = value
-							
-							# Avoid any complications resulting from an invalidated iterator
-							break
-						end
-
-						ImGui.same_line
-						ImGui.text(value.to_s)
-					end
-				else
-					ImGui.text "Class: #{@inspected_entity.class}"
-					ImGui.text "Instance variables:"
-
-					@inspected_entity.instance_variables.each do |iv|
-						value = @inspected_entity.instance_variable_get(iv)
-
-						if value.is_a? String then
-							ImGui.input_instance_variable_string(iv.to_s, @inspected_entity, iv)
-
-						elsif value.is_a? Fixnum then
-							ImGui.input_instance_variable_int(iv.to_s, @inspected_entity, iv)
-
-						elsif [TrueClass, FalseClass].include? value.class then
-							@inspected_entity.instance_variable_set(iv, !value) if ImGui.button("#{value}###{iv}")
-						
-							ImGui.same_line
-							ImGui.text(iv.to_s)
-
-						else
-							if ImGui.button("Inspect###{iv}") then
-								@inspected_entity = value
-
-								break
-							end
-
-							ImGui.same_line
-							ImGui.text(iv.to_s)
-						end
-					end
-				end
-
-				
+			ImGui.button "Toggle show sprite 0" do
+				@entities[0].active_sprites[0] = !@entities[0].active_sprites[0]
 			end
+
 		end
 	end
-
 end

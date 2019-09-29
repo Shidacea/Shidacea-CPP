@@ -1,4 +1,6 @@
 class TestEntity < Entity
+	register_id
+
 	add_shape(index: 0, type: ShapeCircle, radius: 25.0)
 	add_box(index:0, size: Coordinates.new(25.0, 25.0))
 
