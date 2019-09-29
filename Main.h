@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-constexpr char* VERSION = "0.0.1d";
+constexpr char VERSION[] = "0.0.1d";
 
 //! Mandatory includes if you want anything to work at all
 
