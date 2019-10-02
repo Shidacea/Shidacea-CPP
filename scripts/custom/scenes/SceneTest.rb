@@ -29,6 +29,7 @@ class SceneTest < Scene
 
 		@entities.each do |entity|
 			@entities.each do |other_entity|
+				next if !entity.test_box_collision_with(other_entity)
 				entity.each_colliding_action_shape(other_entity) do |hurtshape, hitshape|
 					entity.collision_with_entity(other_entity, hurtshape, hitshape)
 				end
