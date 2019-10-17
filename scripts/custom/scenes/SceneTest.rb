@@ -43,6 +43,10 @@ class SceneTest < Scene
 	def at_init
 		@last_key_code = nil
 
+		@music = Music.new
+		puts @music.open_from_file("assets/music/Example.wav")
+		@music.looping = true
+
 		@test_map = Map.new(view_width: 30, view_height: 20)
 		@test_map.load_from_file("dummy")
 
@@ -88,6 +92,8 @@ class SceneTest < Scene
 			end
 
 			# Filter double collisions
+			ImGui.button "Play music" {@music.play}
+			ImGui.button "Pause music" {@music.pause}
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
 			ImGui.text "HP of entity 0: #{@entities[0].hp}"

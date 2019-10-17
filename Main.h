@@ -45,3 +45,4 @@ constexpr char VERSION[] = "0.0.1d";
 #include "Texture.h"
 #include "MapLayer.h"
 #include "ImGuiWrapper.h"
+#include "Music.h"

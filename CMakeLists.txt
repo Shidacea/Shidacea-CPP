@@ -172,6 +172,24 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 endif()
 
+# Add external libraries from the SFML source directory
+
+if(WIN32)
+
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+		file(COPY ${CMAKE_SOURCE_DIR}/SFML/extlibs/bin/x64/openal32.dll
+		DESTINATION ${CMAKE_BINARY_DIR})
+
+	else()
+
+		file(COPY ${CMAKE_SOURCE_DIR}/SFML/extlibs/bin/x86/openal32.dll
+		DESTINATION ${CMAKE_BINARY_DIR})
+
+	endif()
+	
+endif()
+
 # Compile ruby scripts if necessary
 
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -238,6 +256,10 @@ endforeach(ASSET_FILE)
 
 # Source files
 
+set(AUDIO_SOURCES
+	Shidacea/audio/Music.cpp
+)
+
 set(GRAPHICS_SOURCES
 	Shidacea/graphics/ResourceManager.cpp
 	Shidacea/graphics/RenderStates.cpp
@@ -271,6 +293,7 @@ set(SCRIPTING_SOURCES
 
 include_directories(
 	Shidacea/core 
+	Shidacea/audio
 	Shidacea/graphics
 	Shidacea/network
 	Shidacea/map
@@ -280,6 +303,7 @@ include_directories(
 # Load source files
 
 set(SOURCES 
+	${AUDIO_SOURCES}
 	${GRAPHICS_SOURCES}
 	${NETWORK_SOURCES}
 	${MAP_SOURCES}

@@ -36,6 +36,8 @@ int main(int argc, char** argv) {
 	setup_ruby_events(mrb);
 	setup_ruby_class_event(mrb);
 
+	setup_ruby_class_music(mrb);
+
 	setup_ruby_class_texture(mrb);
 	setup_ruby_class_sprite(mrb);
 	setup_ruby_class_map_layer(mrb);
