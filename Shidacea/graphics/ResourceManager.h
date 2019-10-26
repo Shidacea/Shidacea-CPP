@@ -26,6 +26,4 @@ private:
 
 };
 
-mrb_value ruby_resource_manager_init(mrb_state* mrb, mrb_value self);
-
 void setup_ruby_class_resource_manager(mrb_state* mrb);

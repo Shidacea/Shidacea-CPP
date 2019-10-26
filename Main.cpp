@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
 	//! These are the fundament of Shidacea, so you should know what you're doing if you change these
 	
 	setup_ruby_class_intrect(mrb);
+	setup_ruby_class_floatrect(mrb);
 
 	setup_ruby_class_resource_manager(mrb);
 	setup_ruby_class_render_states(mrb);
@@ -41,6 +42,8 @@ int main(int argc, char** argv) {
 	setup_ruby_class_texture(mrb);
 	setup_ruby_class_sprite(mrb);
 	setup_ruby_class_map_layer(mrb);
+	
+	setup_ruby_class_view(mrb);
 	setup_ruby_class_window(mrb);
 
 	setup_ruby_class_socket(mrb);

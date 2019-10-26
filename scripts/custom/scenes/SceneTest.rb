@@ -44,7 +44,7 @@ class SceneTest < Scene
 		@last_key_code = nil
 
 		@music = Music.new
-		puts @music.open_from_file("assets/music/Example.wav")
+		@music.open_from_file("assets/music/Example.wav")
 		@music.looping = true
 
 		@test_map = Map.new(view_width: 30, view_height: 20)
@@ -71,9 +71,18 @@ class SceneTest < Scene
 	end
 
 	def draw
+		view_player = View.new(FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
+		$window.set_view(view_player)
 		@test_map.reload(@entities[0].position)
-		@test_map.draw($window, @entities[0].position)
+		@test_map.draw($window, Coordinates.new(0, 0))
 		@entities.each {|entity| entity.draw($window)}
+		
+		view_minimap = View.new(FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
+		view_minimap.set_viewport(FloatRect.new(0.8, 0.0, 0.2, 0.2))
+		$window.use_view(view_minimap) do
+			@test_map.draw($window, Coordinates.new(0, 0))
+		end
+
 	end
 
 	def draw_imgui

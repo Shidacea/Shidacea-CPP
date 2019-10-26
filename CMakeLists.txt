@@ -263,6 +263,7 @@ set(AUDIO_SOURCES
 set(GRAPHICS_SOURCES
 	Shidacea/graphics/ResourceManager.cpp
 	Shidacea/graphics/RenderStates.cpp
+	Shidacea/graphics/View.cpp
 	Shidacea/graphics/Window.cpp
 	Shidacea/graphics/Texture.cpp
 	Shidacea/graphics/Sprite.cpp
@@ -281,6 +282,7 @@ set(MAP_SOURCES
 
 set(CORE_SOURCES
 	Shidacea/core/IntRect.cpp
+	Shidacea/core/FloatRect.cpp
 	Shidacea/core/Coordinates.cpp
 	Shidacea/core/Events.cpp
 	Shidacea/core/Shape.cpp

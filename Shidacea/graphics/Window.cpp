@@ -21,10 +21,6 @@ mrb_value ruby_window_init(mrb_state* mrb, mrb_value self) {
 
 	}
 
-	//sf::View view;
-	//view.setViewport(sf::FloatRect(0.0, 0.0, 2.0, 8.0/6.0*2.0));
-	//window->setView(view);
-
 	MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
 	ImGui::SFML::Init(*window);
@@ -104,6 +100,40 @@ mrb_value ruby_window_close(mrb_state* mrb, mrb_value self) {
 	window->close();
 
 	ImGui::SFML::Shutdown();
+
+	return mrb_nil_value();
+
+}
+
+mrb_value ruby_window_set_view(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_view;
+
+	mrb_get_args(mrb, "o", &ruby_view);
+
+	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+	auto view = MrbWrap::convert_from_object<sf::View>(mrb, ruby_view);
+
+	window->setView(*view);
+
+	return mrb_nil_value();
+
+}
+
+mrb_value ruby_window_use_view(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_view;
+	mrb_value block = mrb_nil_value();
+
+	mrb_get_args(mrb, "o&", &ruby_view, &block);
+
+	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+	auto view = MrbWrap::convert_from_object<sf::View>(mrb, ruby_view);
+
+	auto old_view = window->getView();
+	window->setView(*view);
+	mrb_yield(mrb, block, mrb_nil_value());
+	window->setView(old_view);
 
 	return mrb_nil_value();
 
@@ -217,6 +247,9 @@ void setup_ruby_class_window(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_window_class, "is_open?", ruby_window_is_open, MRB_ARGS_NONE());
 
 	mrb_define_method(mrb, ruby_window_class, "close", ruby_window_close, MRB_ARGS_NONE());
+
+	mrb_define_method(mrb, ruby_window_class, "set_view", ruby_window_set_view, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_window_class, "use_view", ruby_window_use_view, MRB_ARGS_REQ(2));
 
 	mrb_define_method(mrb, ruby_window_class, "poll_event", ruby_window_poll_event, MRB_ARGS_NONE());
 

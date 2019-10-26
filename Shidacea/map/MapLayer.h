@@ -41,8 +41,4 @@ private:
 
 };
 
-mrb_value ruby_map_layer_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_map_layer_reload(mrb_state* mrb, mrb_value self);
-mrb_value ruby_map_layer_load_test_map(mrb_state* mrb, mrb_value self);
-
 void setup_ruby_class_map_layer(mrb_state* mrb);

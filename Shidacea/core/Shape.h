@@ -118,32 +118,6 @@ enum class ShapeType {
 
 template <class T1, class T2> bool check_collision(T1 shape1, T2 shape2, sf::Vector2f pos1, sf::Vector2f pos2);
 
-mrb_value ruby_collider_test(mrb_state* mrb, mrb_value self);
 ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape);
-
-mrb_value ruby_shape_class_init(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_point_class_init(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_line_class_init(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_circle_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_circle_class_radius(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_circle_class_scale(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_circle_class_scale_equals(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_box_class_diagonal(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_box_class_scale(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_box_class_scale_equals(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_triangle_class_init(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_quadrangle_class_init(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self);
-
-mrb_value ruby_shape_class_offset(mrb_state* mrb, mrb_value self);
-mrb_value ruby_shape_class_offset_equals(mrb_state* mrb, mrb_value self);
 
 void setup_ruby_collider(mrb_state* mrb);
