@@ -19,13 +19,16 @@ void MapLayer::reload(float cam_x, float cam_y) {
 	//! The mesh will be aligned to the camera position
 	//! Only the tiles touching the mesh will be drawn
 
+	//! TODO: Remove this and put it somewhere else
+	tileset->get_tile(2).set_animation(2, 3, 2, 60);
+
 	auto exact_shift_x = cam_x - (view_width - 1) * 30 - 1;
 	auto exact_shift_y = cam_y - (view_height - 1) * 30 - 1;
 
 	auto shift_x = static_cast<int>(std::floor(exact_shift_x)) / 60;
 	auto shift_y = static_cast<int>(std::floor(exact_shift_y)) / 60;
 
-	auto tileset_size = tileset.getSize();
+	auto tileset_size = tileset->get_texture()->getSize();
 	auto n_tiles_x = tileset_size.x / 60;
 	auto n_tiles_y = tileset_size.y / 60;
 
@@ -58,7 +61,8 @@ void MapLayer::reload(float cam_x, float cam_y) {
 
 			auto actual_tile_id = tile_id;
 
-			auto tile_info = tile_data[tile_id];
+			auto tile_info = tileset->get_tile(tile_id);
+
 			if (tile_info.is_animation_frame()) {
 
 				actual_tile_id = tile_info.get_animation_frame(frame_counter);
@@ -104,28 +108,22 @@ void MapLayer::reload(float cam_x, float cam_y) {
 
 void MapLayer::load_test_map() {
 
-	//! TODO: Don't load this file more than ONE SINGLE TIME
-	if (!tileset.loadFromFile("assets/graphics/maptest/Tileset.png")) {
-
-		exit(-1);
-		//! TODO: Error handling
-	}
-
 	//! TODO: Put tileset declarations in other file or so
-	auto tileset_size = tileset.getSize();
-	auto n_tiles_x = tileset_size.x / 60;
-	auto n_tiles_y = tileset_size.y / 60;
-	auto n_tiles = n_tiles_x * n_tiles_y;
+	//auto tileset_size = tileset->get_texture()->getSize();
+	//auto n_tiles_x = tileset_size.x / 60;
+	//auto n_tiles_y = tileset_size.y / 60;
+	//auto n_tiles = n_tiles_x * n_tiles_y;
 
-	tile_data.resize(n_tiles);
+	//tile_data.resize(n_tiles);
 
-	tile_data[2].set_animation(2, 3, 2, 60);
+	//tile_data[2].set_animation(2, 3, 2, 60);
 	
-	tile_data[2].set_as_solid();
-	tile_data[3].set_as_solid();
-	tile_data[4].set_as_solid();
-	tile_data[5].set_as_solid();
+	//tile_data[2].set_as_solid();
+	//tile_data[3].set_as_solid();
+	//tile_data[4].set_as_solid();
+	//tile_data[5].set_as_solid();
 
+	//! TODO: Replace this with content loaded from file or script
 	background_tile = 2;
 
 	unsigned int debug_counter = 0;
@@ -153,10 +151,22 @@ void MapLayer::set_tile(unsigned int x, unsigned int y, unsigned int tile_id) {
 
 }
 
+unsigned int MapLayer::get_tile(unsigned int x, unsigned int y) {
+
+	return tiles[x][y];
+
+}
+
+void MapLayer::link_tileset(Tileset* tileset) {
+
+	this->tileset = tileset;
+
+}
+
 void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 	states.transform *= getTransform();
-	states.texture = &tileset;
+	states.texture = tileset->get_texture();
 	target.draw(vertices, states);
 
 }
@@ -201,6 +211,21 @@ mrb_value ruby_map_layer_load_test_map(mrb_state* mrb, mrb_value self) {
 	return mrb_nil_value();
 }
 
+mrb_value ruby_map_layer_link_tileset(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_tileset;
+
+	mrb_get_args(mrb, "o", &ruby_tileset);
+	
+	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+	auto tileset = MrbWrap::convert_from_object<Tileset>(mrb, ruby_tileset);
+
+	map_layer->link_tileset(tileset);
+
+	return mrb_nil_value();
+
+}
+
 void setup_ruby_class_map_layer(mrb_state* mrb) {
 
 	auto ruby_map_layer_class = MrbWrap::define_data_class(mrb, "MapLayer");
@@ -208,5 +233,6 @@ void setup_ruby_class_map_layer(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_map_layer_class, "initialize", ruby_map_layer_init, MRB_ARGS_REQ(4));
 	mrb_define_method(mrb, ruby_map_layer_class, "reload", ruby_map_layer_reload, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_map_layer_class, "load_test_map", ruby_map_layer_load_test_map, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_map_layer_class, "link_tileset", ruby_map_layer_link_tileset, MRB_ARGS_REQ(1));
 
 }

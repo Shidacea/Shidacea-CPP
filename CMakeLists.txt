@@ -277,6 +277,7 @@ set(NETWORK_SOURCES
 
 set(MAP_SOURCES
 	Shidacea/map/Tile.cpp
+	Shidacea/map/Tileset.cpp
 	Shidacea/map/MapLayer.cpp
 )
 

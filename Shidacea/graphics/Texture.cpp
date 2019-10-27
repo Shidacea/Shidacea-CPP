@@ -13,7 +13,7 @@ mrb_value ruby_texture_load_from_file(mrb_state* mrb, mrb_value self) {
 	char* filename;
 	mrb_value intrect = mrb_nil_value();
 
-	mrb_get_args(mrb, "z!o", &filename, &intrect);
+	mrb_get_args(mrb, "z|o", &filename, &intrect);
 
 	auto texture = MrbWrap::convert_from_object<sf::Texture>(mrb, self);
 

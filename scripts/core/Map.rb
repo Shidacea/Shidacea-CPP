@@ -1,5 +1,8 @@
 class Map
 
+	# TODO: Remove this if unneeded
+	attr_accessor :map_layers
+
 	def initialize(view_width: 20, view_height: 20)
 		@view_width = view_width
 		@view_height = view_height

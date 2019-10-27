@@ -6,7 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Tile.h"
+#include "Tileset.h"
 
 class MapLayer : public sf::Drawable, public sf::Transformable {
 
@@ -18,6 +18,10 @@ public:
 	void load_test_map();
 
 	void set_tile(unsigned int x, unsigned int y, unsigned int tile_id);
+
+	unsigned int get_tile(unsigned int x, unsigned int y);
+
+	void MapLayer::link_tileset(Tileset* tileset);
 
 private:
 
@@ -34,8 +38,7 @@ private:
 	std::vector<std::vector<unsigned int>> tiles;
 	sf::VertexArray vertices;
 
-	sf::Texture tileset;
-	std::vector<Tile> tile_data;
+	Tileset* tileset = nullptr;
 
 	unsigned int frame_counter = 0;
 

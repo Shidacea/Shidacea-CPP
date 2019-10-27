@@ -42,6 +42,7 @@ int main(int argc, char** argv) {
 	setup_ruby_class_texture(mrb);
 	setup_ruby_class_sprite(mrb);
 	setup_ruby_class_map_layer(mrb);
+	setup_ruby_class_tileset(mrb);
 	
 	setup_ruby_class_view(mrb);
 	setup_ruby_class_window(mrb);

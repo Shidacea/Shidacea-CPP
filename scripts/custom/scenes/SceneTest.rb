@@ -47,8 +47,17 @@ class SceneTest < Scene
 		@music.open_from_file("assets/music/Example.wav")
 		@music.looping = true
 
+		@test_tileset = Tileset.new
+		@test_tileset_texture = Texture.new
+		@test_tileset_texture.load_from_file("assets/graphics/maptest/Tileset.png")
+		@test_tileset.link_texture(@test_tileset_texture)
+
 		@test_map = Map.new(view_width: 30, view_height: 20)
 		@test_map.load_from_file("dummy")
+
+		@test_map.map_layers[0].link_tileset(@test_tileset)
+		@test_map.map_layers[1].link_tileset(@test_tileset)
+		@test_map.map_layers[2].link_tileset(@test_tileset)
 
 		@entities = []
 		@entities.push(create(TestEntity))
