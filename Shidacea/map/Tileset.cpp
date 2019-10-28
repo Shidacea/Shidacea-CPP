@@ -38,7 +38,8 @@ size_t Tileset::size() {
 
 mrb_value ruby_tileset_init(mrb_state* mrb, mrb_value self) {
 
-	MrbWrap::convert_to_object<Tileset>(mrb, self, 6);
+	//! TODO: Obtain size from texture
+	MrbWrap::convert_to_object<Tileset>(mrb, self, 8);
 
 	return self;
 

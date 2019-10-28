@@ -1,7 +1,7 @@
 module Data
 
 	@entities = []
-	@tiles = []
+	@texts = []
 
 	def self.add_entity(entity, index: nil)
 		index = @entities.size if !index
@@ -12,15 +12,15 @@ module Data
 	def self.entities
 		return @entities
 	end
-
-	def self.add_tile(tile, index: nil)
-		index = @tiles.size if !index
-		@tiles[index] = entity
+	
+	def self.add_text(text, index: nil)
+		index = @texts.size if !index
+		@texts[index] = text
 		return index
 	end
 
-	def self.tiles
-		return @tiles
+	def self.texts
+		return @texts
 	end
 
 end

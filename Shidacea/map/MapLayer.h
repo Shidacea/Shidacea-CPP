@@ -12,7 +12,7 @@ class MapLayer : public sf::Drawable, public sf::Transformable {
 
 public:
 
-	MapLayer(unsigned int width, unsigned int height, unsigned int view_width, unsigned int view_height);
+	MapLayer(unsigned int width, unsigned int height, unsigned int view_width, unsigned int view_height, unsigned int tile_width, unsigned int tile_height);
 
 	void reload(float cam_x, float cam_y);
 	void load_test_map();
@@ -32,6 +32,9 @@ private:
 
 	unsigned int view_width = 0;
 	unsigned int view_height = 0;
+
+	unsigned int tile_width = 0;
+	unsigned int tile_height = 0;
 
 	unsigned int background_tile = 0;
 

@@ -15,9 +15,11 @@ class Map
 		@number_of_layers = 3
 		@width = 100
 		@height = 100
+		@tile_width = 60
+		@tile_height = 60
 
 		@number_of_layers.times do
-			new_layer = MapLayer.new(@width, @height, @view_width, @view_height)
+			new_layer = MapLayer.new(@width, @height, @view_width, @view_height, @tile_width, @tile_height)
 			# TODO: Load tiles into map layer and initialize the mesh
 			new_layer.load_test_map
 			@map_layers.push(new_layer)

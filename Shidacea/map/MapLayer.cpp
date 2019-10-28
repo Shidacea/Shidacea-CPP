@@ -2,12 +2,14 @@
 
 #include <iostream>
 
-MapLayer::MapLayer(unsigned int width, unsigned int height, unsigned int view_width, unsigned int view_height) {
+MapLayer::MapLayer(unsigned int width, unsigned int height, unsigned int view_width, unsigned int view_height, unsigned int tile_width, unsigned int tile_height) {
 
 	this->width = width;
 	this->height = height;
 	this->view_width = view_width;
 	this->view_height = view_height;
+	this->tile_width = tile_width;
+	this->tile_height = tile_height;
 
 	vertices.setPrimitiveType(sf::Quads);
 	vertices.resize(static_cast<size_t>(view_width) * view_height * 4);	//! 4 Vertices per quad
@@ -20,25 +22,28 @@ void MapLayer::reload(float cam_x, float cam_y) {
 	//! Only the tiles touching the mesh will be drawn
 
 	//! TODO: Remove this and put it somewhere else
-	tileset->get_tile(2).set_animation(2, 3, 2, 60);
+	tileset->get_tile(4).set_animation(4, 5, 2, 60);
+	tileset->get_tile(4).set_as_solid();
+	tileset->get_tile(5).set_as_solid();
 
-	auto exact_shift_x = cam_x - (view_width - 1) * 30 - 1;
-	auto exact_shift_y = cam_y - (view_height - 1) * 30 - 1;
+	auto exact_shift_x = cam_x - (view_width - 1) * (tile_width / 2) - 1;
+	auto exact_shift_y = cam_y - (view_height - 1) * (tile_height / 2) - 1;
 
-	auto shift_x = static_cast<int>(std::floor(exact_shift_x)) / 60;
-	auto shift_y = static_cast<int>(std::floor(exact_shift_y)) / 60;
+	auto shift_x = static_cast<int>(std::floor(exact_shift_x)) / tile_width;
+	auto shift_y = static_cast<int>(std::floor(exact_shift_y)) / tile_height;
 
+	//! Calculate the number of tiles on the texture in each direction
 	auto tileset_size = tileset->get_texture()->getSize();
-	auto n_tiles_x = tileset_size.x / 60;
-	auto n_tiles_y = tileset_size.y / 60;
+	auto n_tiles_x = tileset_size.x / tile_width;
+	auto n_tiles_y = tileset_size.y / tile_height;
 
 	for (unsigned int x = 0; x < view_width; x++) {
 		for (unsigned int y = 0; y < view_height; y++) {
 
 			//! The following values are the actual tile coordinates on the map
 
-			auto exact_actual_x = static_cast<float>(x) + exact_shift_x / 60;
-			auto exact_actual_y = static_cast<float>(y) + exact_shift_y / 60;
+			auto exact_actual_x = static_cast<float>(x) + exact_shift_x / tile_width;
+			auto exact_actual_y = static_cast<float>(y) + exact_shift_y / tile_height;
 
 			int actual_x = static_cast<int>(std::floor(exact_actual_x));
 			int actual_y = static_cast<int>(std::floor(exact_actual_y));
@@ -85,15 +90,16 @@ void MapLayer::reload(float cam_x, float cam_y) {
 
 				//! Set the position of the mesh vertices
 
-				auto vx = static_cast<float>((actual_x + static_cast<int>(dx)) * 60); //! TODO: Generalize for arbitrary resolutions and tile size
-				auto vy = static_cast<float>((actual_y + static_cast<int>(dy)) * 60);
+				//! The <int> casts are necessary as to obtain correct integer values
+				auto vx = static_cast<float>((actual_x + static_cast<int>(dx)) * static_cast<int>(tile_width));
+				auto vy = static_cast<float>((actual_y + static_cast<int>(dy)) * static_cast<int>(tile_height));
 
 				vertex.position = sf::Vector2f(vx, vy);
 
 				//! Apply the texture coordinates obtained from the tile ID to the vertices
 
-				auto vtx = static_cast<float>((tx + dx) * 60);
-				auto vty = static_cast<float>((ty + dy) * 60);
+				auto vtx = static_cast<float>((tx + dx) * tile_width);
+				auto vty = static_cast<float>((ty + dy) * tile_height);
 
 				vertex.texCoords = sf::Vector2f(vtx, vty);
 
@@ -116,15 +122,8 @@ void MapLayer::load_test_map() {
 
 	//tile_data.resize(n_tiles);
 
-	//tile_data[2].set_animation(2, 3, 2, 60);
-	
-	//tile_data[2].set_as_solid();
-	//tile_data[3].set_as_solid();
-	//tile_data[4].set_as_solid();
-	//tile_data[5].set_as_solid();
-
 	//! TODO: Replace this with content loaded from file or script
-	background_tile = 2;
+	background_tile = 4;
 
 	unsigned int debug_counter = 0;
 
@@ -134,8 +133,8 @@ void MapLayer::load_test_map() {
 		column.resize(this->height);
 		for (auto& tile : column) {
 
-			tile = debug_counter % 3;
-			if (tile == 2) tile = 0;
+			tile = debug_counter % 3 + 2;
+			if (tile == 4) tile = 2;
 			debug_counter *= 7;
 			debug_counter += 3;
 
@@ -177,12 +176,15 @@ mrb_value ruby_map_layer_init(mrb_state* mrb, mrb_value self) {
 	mrb_int height;
 	mrb_int view_width;
 	mrb_int view_height;
+	mrb_int tile_width;
+	mrb_int tile_height;
 	
-	mrb_get_args(mrb, "iiii", &width, &height, &view_width, &view_height);
+	mrb_get_args(mrb, "iiiiii", &width, &height, &view_width, &view_height, &tile_width, &tile_height);
 
 	auto map_layer = MrbWrap::convert_to_object<MapLayer>(mrb, self, 
 		static_cast<unsigned int>(width), static_cast<unsigned int>(height), 
-		static_cast<unsigned int>(view_width), static_cast<unsigned int>(view_height));
+		static_cast<unsigned int>(view_width), static_cast<unsigned int>(view_height),
+		static_cast<unsigned int>(tile_width), static_cast<unsigned int>(tile_height));
 
 	return self;
 
@@ -230,7 +232,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb) {
 
 	auto ruby_map_layer_class = MrbWrap::define_data_class(mrb, "MapLayer");
 
-	mrb_define_method(mrb, ruby_map_layer_class, "initialize", ruby_map_layer_init, MRB_ARGS_REQ(4));
+	mrb_define_method(mrb, ruby_map_layer_class, "initialize", ruby_map_layer_init, MRB_ARGS_REQ(6));
 	mrb_define_method(mrb, ruby_map_layer_class, "reload", ruby_map_layer_reload, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_map_layer_class, "load_test_map", ruby_map_layer_load_test_map, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_map_layer_class, "link_tileset", ruby_map_layer_link_tileset, MRB_ARGS_REQ(1));
