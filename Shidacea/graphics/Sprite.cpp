@@ -7,7 +7,7 @@ mrb_value ruby_sprite_init(mrb_state* mrb, mrb_value self) {
 	mrb_get_args(mrb, "o", &ruby_resource_manager);
 
 	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
-	auto sprite_index = resource_manager->add_sprite();
+	auto sprite_index = resource_manager->sprites.add();
 
 	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	mrb_iv_set(mrb, self, symbol, mrb_fixnum_value(sprite_index));
@@ -22,12 +22,12 @@ mrb_value ruby_sprite_delete(mrb_state* mrb, mrb_value self) {
 
 	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
-	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
+	auto resource_manager = MrbWrap::convert_from_object<ResourceContainer<sf::Sprite>>(mrb, ruby_resource_manager);
 
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
-	resource_manager->delete_sprite(static_cast<int>(sprite_index));
+	resource_manager->remove(static_cast<int>(sprite_index));
 
 	return mrb_true_value();
 
@@ -112,12 +112,12 @@ sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
 
 	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
 	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
-	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
+	auto resource_manager = MrbWrap::convert_from_object<ResourceContainer<sf::Sprite>>(mrb, ruby_resource_manager);
 
 	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
 	auto sprite_index = mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
 
-	return resource_manager->access_sprite(static_cast<int>(sprite_index));
+	return resource_manager->access(static_cast<int>(sprite_index));
 
 }
 

@@ -3,11 +3,11 @@ class SceneTest < Scene
 	def handle_event(event)
 		if event.type == EventType::KeyPressed then
 			if event.key_code == EventKey::W then
-				@entities[0].accelerate(Coordinates.new(0.0, -1000.0 * $game.meter))
+				@entities[0].accelerate(Coordinates.new(0.0, -1000.0 * SDC.game.meter))
 			end
 			@last_key_code = event.key_code.to_s
 		elsif event.type == EventType::Closed
-			$next_scene = nil
+			SDC.next_scene = nil
 		end
 	end
 
@@ -21,7 +21,7 @@ class SceneTest < Scene
 
 		end
 
-		v = 5.0 * $game.meter
+		v = 5.0 * SDC.game.meter
 		dx = (EventKey::is_pressed?(EventKey::A) ? -v : 0.0) + (EventKey::is_pressed?(EventKey::D) ? v : 0.0)
 		dy = (EventKey::is_pressed?(EventKey::S) ? v : 0.0)
 
@@ -81,15 +81,15 @@ class SceneTest < Scene
 
 	def draw
 		view_player = View.new(FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
-		$window.set_view(view_player)
+		SDC.window.set_view(view_player)
 		@test_map.reload(@entities[0].position)
-		@test_map.draw($window, Coordinates.new(0, 0))
-		@entities.each {|entity| entity.draw($window)}
+		@test_map.draw(SDC.window, Coordinates.new(0, 0))
+		@entities.each {|entity| entity.draw(SDC.window)}
 		
 		view_minimap = View.new(FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
 		view_minimap.set_viewport(FloatRect.new(0.8, 0.0, 0.2, 0.2))
-		$window.use_view(view_minimap) do
-			@test_map.draw($window, Coordinates.new(0, 0))
+		SDC.window.use_view(view_minimap) do
+			@test_map.draw(SDC.window, Coordinates.new(0, 0))
 		end
 
 	end

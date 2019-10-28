@@ -199,7 +199,7 @@ class Entity
 
 			if element then
 				texture_index = element[0]
-				@sprites[i] = Sprite.new(@resource_manager)
+				@sprites[i] = Sprite.new(SDC.resource_manager)
 				@sprites[i].position = element[1]
 				@active_sprites[i] = element[2]
 
@@ -239,8 +239,7 @@ class Entity
 
 	# Actual instance methods which should not be changed
 
-	def initialize(resource_manager, param: nil)
-		@resource_manager = resource_manager
+	def initialize(param: nil)
 		@param = param
 
 		initialization_procedure
@@ -273,10 +272,10 @@ class Entity
 	end
 
 	def physics
-		accelerate($game.gravity * self.class.gravity_multiplier)
+		accelerate(SDC.game.gravity * self.class.gravity_multiplier)
 
-		@velocity += @acceleration * $game.dt
-		@position += @velocity * $game.dt
+		@velocity += @acceleration * SDC.game.dt
+		@position += @velocity * SDC.game.dt
 
 		# Debug floor
 		if @position.y > 500.0 then

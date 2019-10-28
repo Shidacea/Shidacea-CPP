@@ -5,9 +5,6 @@ class Scene
 	# Methods for internal stuff, don't change these if inherited
 
 	def initialize
-		# Sprite resource manager
-		@resource_manager = ResourceManager.new
-
 		at_init
 	end
 
@@ -16,13 +13,13 @@ class Scene
 	end
 
 	def main_draw
-		$window.clear
+		SDC.window.clear
 		draw
 
-		$window.imgui_update
+		SDC.window.imgui_update
 		draw_imgui
 
-		$window.display
+		SDC.window.display
 	end
 
 	def process_events
@@ -33,7 +30,7 @@ class Scene
 
 	# Helper method to execute events as a block
 	def each_event
-		while event = $window.poll_event do
+		while event = SDC.window.poll_event do
 			yield event
 		end
 	end
@@ -41,7 +38,7 @@ class Scene
 	# Other helper methods
 
 	def create(entity_class)
-		return entity_class.new(@resource_manager)
+		return entity_class.new
 	end
 
 	# Change these at will if inherited

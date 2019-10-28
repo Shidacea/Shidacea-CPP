@@ -54,7 +54,6 @@ mrb_value ruby_socket_send_message(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_socket_receive(mrb_state* mrb, mrb_value self) {
 
-	mrb_value message;
 	mrb_int max_length = 1024;
 
 	mrb_get_args(mrb, "i", &max_length);

@@ -1,28 +1,19 @@
 #pragma once
 
-#include <queue>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Helper.h"
 
-//! May be generalized into a template class
+#include "ResourceContainer.h"
 
 class ResourceManager {
 
 public:
 
-	ResourceManager();
-	~ResourceManager();
-
-	int add_sprite();
-	void delete_sprite(int index);
-	sf::Sprite* access_sprite(int index);
+	ResourceContainer<sf::Sprite> sprites;
 
 private:
-
-	//! Use unique_ptr to optimize performance, and just give out raw pointers
-	std::vector<std::unique_ptr<sf::Sprite>> contents;
-	std::queue<int> free_spots;
 
 };
 
