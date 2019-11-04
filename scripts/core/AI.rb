@@ -29,6 +29,13 @@ module AI
 		done
 	end
 
+	def self.times(n, &block)
+		n.times do
+			block.call
+			done
+		end
+	end
+
 	def self.forever(&block)
 		loop do
 			block.call

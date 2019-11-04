@@ -26,7 +26,7 @@ class TestEntity < Entity
 	def ai_script
 		AI::forever do
 			AI::wait(10)
-			@position.x += 5
+			@velocity.y -= 1000.0*rand
 		end
 	end
 
