@@ -13,6 +13,7 @@ class TestEntity < Entity
 	self.living = true
 	self.max_hp = 20
 	self.gravity_multiplier = 2.0
+	self.ai_active = true
 
 	def custom_update
 		
@@ -21,4 +22,12 @@ class TestEntity < Entity
 	def at_entity_collision(other_entity, hurtshape, hitshape)
 		
 	end
+
+	def ai_script
+		AI::forever do
+			AI::wait(10)
+			@position.x += 5
+		end
+	end
+
 end

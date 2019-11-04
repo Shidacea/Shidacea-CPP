@@ -147,6 +147,7 @@ class Entity
 	self.define_class_property(:living, false)
 	self.define_class_property(:max_hp, 0)
 	self.define_class_property(:gravity_multiplier, 1.0)
+	self.define_class_property(:ai_active, false)
 
 	# Create local copies of all boxes/shapes/...
 
@@ -252,6 +253,8 @@ class Entity
 		@velocity = Coordinates.new
 		@acceleration = Coordinates.new
 
+		@ai = AI::Script.new {ai_script}
+
 		# Set a magic number to identify parent-child-structures
 		@magic_number = self.object_id
 
@@ -306,6 +309,10 @@ class Entity
 			@invincibility_next_frame = false
 			@invincibility_frame_counter = 60
 		end
+	end
+
+	def ai_running?
+		return @ai.running?
 	end
 
 	def accelerate(vector)
@@ -395,6 +402,7 @@ class Entity
 
 	def update
 		living_procedure
+		@ai.tick if self.class.ai_active && ai_running?
 		physics if !@parent
 	end
 
@@ -426,6 +434,10 @@ class Entity
 
 	def at_tile_collision(tile)
 
+	end
+
+	def ai_script
+		AI::done
 	end
 
 end

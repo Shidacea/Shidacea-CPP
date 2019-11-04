@@ -37,7 +37,6 @@ class SceneTest < Scene
 		end
 
 		@entities.each {|entity| entity.update}
-
 	end
 
 	def at_init
