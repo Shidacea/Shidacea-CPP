@@ -21,6 +21,9 @@ public:
 
 	unsigned int get_tile(unsigned int x, unsigned int y);
 
+	void set_collision_active(bool value = true);
+	bool is_collision_active();
+
 	void MapLayer::link_tileset(Tileset* tileset);
 
 private:
@@ -44,6 +47,8 @@ private:
 	Tileset* tileset = nullptr;
 
 	unsigned int frame_counter = 0;
+
+	bool collision_active = true;
 
 };
 

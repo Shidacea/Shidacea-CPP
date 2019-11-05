@@ -18,10 +18,13 @@ class Map
 		@tile_width = 60
 		@tile_height = 60
 
-		@number_of_layers.times do
+		@number_of_layers.times do |i|
 			new_layer = MapLayer.new(@width, @height, @view_width, @view_height, @tile_width, @tile_height)
+
 			# TODO: Load tiles into map layer and initialize the mesh
 			new_layer.load_test_map
+			new_layer.collision_active = (i == 2)
+
 			@map_layers.push(new_layer)
 		end
 	end

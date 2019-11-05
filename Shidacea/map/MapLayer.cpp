@@ -156,6 +156,18 @@ unsigned int MapLayer::get_tile(unsigned int x, unsigned int y) {
 
 }
 
+void MapLayer::set_collision_active(bool value) {
+
+	collision_active = value;
+
+}
+
+bool MapLayer::is_collision_active() {
+
+	return collision_active;
+
+}
+
 void MapLayer::link_tileset(Tileset* tileset) {
 
 	this->tileset = tileset;
@@ -228,6 +240,27 @@ mrb_value ruby_map_layer_link_tileset(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_map_layer_collision_active(mrb_state* mrb, mrb_value self) {
+
+	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+
+	return mrb_bool_value(map_layer->is_collision_active());
+
+}
+
+mrb_value ruby_map_layer_collision_active_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_bool value;
+
+	mrb_get_args(mrb, "b", &value);
+
+	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+	map_layer->set_collision_active(value);
+
+	return mrb_bool_value(value);
+
+}
+
 void setup_ruby_class_map_layer(mrb_state* mrb) {
 
 	auto ruby_map_layer_class = MrbWrap::define_data_class(mrb, "MapLayer");
@@ -236,5 +269,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_map_layer_class, "reload", ruby_map_layer_reload, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_map_layer_class, "load_test_map", ruby_map_layer_load_test_map, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_map_layer_class, "link_tileset", ruby_map_layer_link_tileset, MRB_ARGS_REQ(1));
+	mrb_define_method(mrb, ruby_map_layer_class, "collision_active", ruby_map_layer_collision_active, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_map_layer_class, "collision_active=", ruby_map_layer_collision_active_equals, MRB_ARGS_REQ(1));
 
 }
