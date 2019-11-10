@@ -1,32 +1,34 @@
 # Utility class for the entity design in this project
 # Nothing more than an extended container
 
-class SpecialContainer
+module SDC
+	class SpecialContainer
 
-	def initialize
-		@values = []	
-	end
-
-	def add(element, index = nil)
-		if index then
-			@values[index] = element 
-		else
-			@values.push(element)
+		def initialize
+			@values = []	
 		end
 
-		return @values.size
-	end
+		def add(element, index = nil)
+			if index then
+				@values[index] = element 
+			else
+				@values.push(element)
+			end
 
-	def get_all(subclass)
-		return @values
-	end
+			return @values.size
+		end
 
-	def get(index)
-		return @values[index]
-	end
+		def get_all(subclass)
+			return @values
+		end
 
-	def size
-		return @values.size
-	end
+		def get(index)
+			return @values[index]
+		end
 
+		def size
+			return @values.size
+		end
+
+	end
 end

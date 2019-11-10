@@ -1,4 +1,4 @@
-class TestEntity < Entity
+class TestEntity < SDC::Entity
 	register_id
 
 	add_shape(index: 0, type: ShapeCircle, radius: 25.0)
@@ -24,9 +24,12 @@ class TestEntity < Entity
 	end
 
 	def ai_script
-		AI::forever do
-			AI::wait(10)
-			@velocity.y -= 1000.0*rand
+		SDC::AI::forever do
+			SDC::AI::wait(10)
+
+			if SDC.game.get_switch("test") then
+				@velocity.y -= SDC.game.get_variable("test", default: 1000.0) * rand
+			end
 		end
 	end
 

@@ -9,7 +9,7 @@ def main_routine(scene_class, title, width, height)
 		SDC.window = Window.new(title, width, height)
 		SDC.window.enable_vertical_sync
 
-		SDC.game = Game.new
+		SDC.game = SDC::Game.new
 
 		SDC.scene = scene_class.new
 		SDC.next_scene = true

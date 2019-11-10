@@ -1,4 +1,4 @@
-class SceneTest < Scene 
+class SceneTest < SDC::Scene 
 
 	def handle_event(event)
 		if event.type == EventType::KeyPressed then
@@ -51,7 +51,7 @@ class SceneTest < Scene
 		@test_tileset_texture.load_from_file("assets/graphics/maptest/Tileset.png")
 		@test_tileset.link_texture(@test_tileset_texture)
 
-		@test_map = Map.new(view_width: 30, view_height: 20)
+		@test_map = SDC::Map.new(view_width: 30, view_height: 20)
 		@test_map.load_from_file("dummy")
 
 		@test_map.map_layers[0].link_tileset(@test_tileset)
@@ -132,6 +132,14 @@ class SceneTest < Scene
 				@entities[0].boxes[0].scale = Coordinates.new(1.0, 1.0)
 				@entities[0].sprites[0].scale = Coordinates.new(1.0, 1.0)
 				@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
+			end
+
+			ImGui.button (SDC.game.get_switch("test") ? "Stop jumping" : "Start jumping") do
+				SDC.game.toggle_switch("test")
+			end
+
+			ImGui.button "Amplify jumping" do
+				SDC.game.multiply_variable("test", 1.05, default: 1000.0)
 			end
 
 			if ImGui.button "Glorious Test Button Number 1" then

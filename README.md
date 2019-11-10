@@ -51,6 +51,7 @@ This will be fixed at a later time.
 * Simple state machine for scenes
 * Basic game classes and physics
 * Intuitive and simple system for entity properties
+* Simple entity scripting
 * Wrapped ImGui methods for debugging
 
 # Planned features
