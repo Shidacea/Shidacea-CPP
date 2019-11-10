@@ -95,7 +95,14 @@ DEFINE_COLLISION(ShapeCircle, ShapeCircle) {
 
 DEFINE_COLLISION(ShapeCircle, ShapeBox) {
 
-	return false;	// TODO
+	GET_POSITIONS
+
+	auto r1 = shape1.radius * shape1.scale;
+
+	auto w2 = shape2.size.x * shape2.scale.x;
+	auto h2 = shape2.size.y * shape2.scale.y;
+
+	return collision_circle_box(x1, y1, r1, x2, y2, w2, h2);
 
 }
 
@@ -121,11 +128,11 @@ DEFINE_COLLISION(ShapeBox, ShapeBox) {
 
 	GET_POSITIONS
 
-	auto w1 = shape1.diagonal.x * shape1.scale.x;
-	auto h1 = shape1.diagonal.y * shape1.scale.y;
+	auto w1 = shape1.size.x * shape1.scale.x;
+	auto h1 = shape1.size.y * shape1.scale.y;
 
-	auto w2 = shape2.diagonal.x * shape2.scale.x;
-	auto h2 = shape2.diagonal.y * shape2.scale.y;
+	auto w2 = shape2.size.x * shape2.scale.x;
+	auto h2 = shape2.size.y * shape2.scale.y;
 
 	return collision_box_box(x1, y1, w1, h1, x2, y2, w2, h2);
 

@@ -74,7 +74,7 @@ class ShapeBox : public Shape {
 
 public:
 
-	sf::Vector2f diagonal;
+	sf::Vector2f size = {0.0, 0.0};
 	sf::Vector2f scale = {1.0, 1.0};
 
 };

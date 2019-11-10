@@ -27,6 +27,8 @@ class SceneTest < Scene
 
 		@entities[0].accelerate(Coordinates.new(dx, dy))
 
+		@test_map.test_collision_with_entity(@entities[0])
+
 		@entities.each do |entity|
 			@entities.each do |other_entity|
 				next if !entity.test_box_collision_with(other_entity)

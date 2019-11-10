@@ -168,7 +168,7 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
-	shape->diagonal = *coordinates;
+	shape->size = *coordinates;
 
 	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
 	shape->offset = *offset;
@@ -177,16 +177,16 @@ mrb_value ruby_shape_box_class_init(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_shape_box_class_diagonal(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_shape_box_class_size(mrb_state* mrb, mrb_value self) {
 
-	auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
+	auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
 
 	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
 
-	*new_vector = shape->diagonal;
+	*new_vector = shape->size;
 
 	return new_coordinates;
 
@@ -257,7 +257,7 @@ mrb_value ruby_shape_ellipse_class_init(mrb_state* mrb, mrb_value self) {
 
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
-	auto shape = MrbWrap::convert_to_object<ShapeEllipse>(mrb, self);
+	auto shape = MrbWrap::convert_from_object<ShapeEllipse>(mrb, self);
 	shape->semiaxes = *coordinates;
 
 	auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
@@ -326,7 +326,7 @@ void setup_ruby_collider(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_shape_box_class, "initialize", ruby_shape_box_class_init, MRB_ARGS_REQ(2));
 	MrbWrap::define_default_copy_init<ShapeBox>(mrb, ruby_shape_box_class);
-	mrb_define_method(mrb, ruby_shape_box_class, "diagonal", ruby_shape_box_class_diagonal, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_shape_box_class, "size", ruby_shape_box_class_size, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_shape_box_class, "scale", ruby_shape_box_class_scale, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_shape_box_class, "scale=", ruby_shape_box_class_scale_equals, MRB_ARGS_REQ(1));
 

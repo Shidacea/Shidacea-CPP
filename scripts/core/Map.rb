@@ -29,6 +29,18 @@ class Map
 		end
 	end
 
+	def test_collision_with_entity(entity)
+		boxes = entity.boxes
+		
+		@map_layers.each do |layer|
+			next if !layer.collision_active
+			
+			boxes.each do |box|
+				#puts box.size
+			end
+		end
+	end
+
 	def update(position)
 		reload(position)
 	end
