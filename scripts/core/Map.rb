@@ -18,6 +18,8 @@ class Map
 		@tile_width = 60
 		@tile_height = 60
 
+		@tile_shape = ShapeBox.new(Coordinates.new(0, 0), Coordinates.new(@tile_width * 0.5, @tile_height * 0.5))
+
 		@number_of_layers.times do |i|
 			new_layer = MapLayer.new(@width, @height, @view_width, @view_height, @tile_width, @tile_height)
 
@@ -31,14 +33,27 @@ class Map
 
 	def test_collision_with_entity(entity)
 		boxes = entity.boxes
-		
-		@map_layers.each do |layer|
-			next if !layer.collision_active
+		ex = entity.position.x
+		ey = entity.position.y
 			
-			boxes.each do |box|
-				#puts box.size
+		boxes.each do |box|
+			ix_low = ((ex - box.size.x * box.scale.x + box.offset.x) / @tile_width).floor
+			iy_low = ((ey - box.size.y * box.scale.y + box.offset.y) / @tile_height).floor
+			ix_high = ((ex + box.size.x * box.scale.x + box.offset.x) / @tile_width).floor
+			iy_high = ((ey + box.size.y * box.scale.y + box.offset.y) / @tile_height).floor
+
+			[0, ix_low].max.upto([ix_high, @width - 1].min) do |ix|
+				[0, iy_low].max.upto([iy_high, @height - 1].min) do |iy|
+					@map_layers.each do |layer|
+						next if !layer.collision_active
+						# TODO: Include detection for empty tiles and tile properties in general
+						result = layer.test(ix, iy) && Collider.test(box, entity.position, @tile_shape, Coordinates.new((ix + 0.5) * @tile_width, (iy + 0.5) * @tile_height))
+						return true if result
+					end
+				end
 			end
 		end
+		return false
 	end
 
 	def update(position)

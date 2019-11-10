@@ -27,8 +27,6 @@ class SceneTest < Scene
 
 		@entities[0].accelerate(Coordinates.new(dx, dy))
 
-		@test_map.test_collision_with_entity(@entities[0])
-
 		@entities.each do |entity|
 			@entities.each do |other_entity|
 				next if !entity.test_box_collision_with(other_entity)
@@ -71,7 +69,10 @@ class SceneTest < Scene
 		@entities[1].position.y = 300
 
 		@entities[0].set_child(@entities[2])
-		@entities[2].position = Coordinates.new(50, 10)
+		@entities[2].position = Coordinates.new(12.5, -25)	# TODO: Scaling and translating is still a bit weird
+		@entities[2].boxes[0].scale = Coordinates.new(0.5, 0.5)
+		@entities[2].sprites[0].scale = Coordinates.new(0.5, 0.5)
+		@entities[2].shapes[0].scale = 0.5
 
 		@test_toggle = false
 		@test_value = 4
@@ -117,6 +118,7 @@ class SceneTest < Scene
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
 			ImGui.text "HP of entity 0: #{@entities[0].hp}"
 			ImGui.text "Last key code: #{@last_key_code}"
+			ImGui.text "On dirt tile: #{@test_map.test_collision_with_entity(@entities[0])}"
 			ImGui.button "Reset mouse" {EventMouse::set_position([300, 200], $window)}
 			ImGui.button "Get mouse pos" {puts EventMouse::get_position($window)}
 			ImGui.button "Rescale entity" do
