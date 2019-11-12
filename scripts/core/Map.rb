@@ -19,6 +19,7 @@ module SDC
 			@tile_width = 60
 			@tile_height = 60
 
+			# Can be used for more detailed collisions
 			@tile_shape = ShapeBox.new(Coordinates.new(0, 0), Coordinates.new(@tile_width * 0.5, @tile_height * 0.5))
 
 			@number_of_layers.times do |i|
@@ -48,7 +49,8 @@ module SDC
 						@map_layers.each do |layer|
 							next if !layer.collision_active
 							# TODO: Include detection for empty tiles and tile properties in general
-							result = layer.test(ix, iy) && Collider.test(box, entity.position, @tile_shape, Coordinates.new((ix + 0.5) * @tile_width, (iy + 0.5) * @tile_height))
+							result = layer.test(ix, iy)
+							# NOTE: Use   Collider.test(<shape>, <pos>, @tile_shape, Coordinates.new((ix + 0.5) * @tile_width, (iy + 0.5) * @tile_height))   for detailed collisions
 							return true if result
 						end
 					end

@@ -3,7 +3,7 @@ class SceneTest < SDC::Scene
 	def handle_event(event)
 		if event.type == EventType::KeyPressed then
 			if event.key_code == EventKey::W then
-				@entities[0].accelerate(Coordinates.new(0.0, -1000.0 * SDC.game.meter))
+				@entities[0].accelerate(Coordinates.new(0.0, -2000.0 * SDC.game.meter))
 			end
 			@last_key_code = event.key_code.to_s
 		elsif event.type == EventType::Closed
@@ -21,7 +21,7 @@ class SceneTest < SDC::Scene
 
 		end
 
-		v = 5.0 * SDC.game.meter
+		v = 20.0 * SDC.game.meter
 		dx = (EventKey::is_pressed?(EventKey::A) ? -v : 0.0) + (EventKey::is_pressed?(EventKey::D) ? v : 0.0)
 		dy = (EventKey::is_pressed?(EventKey::S) ? v : 0.0)
 
