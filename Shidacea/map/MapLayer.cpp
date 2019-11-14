@@ -22,9 +22,9 @@ void MapLayer::reload(float cam_x, float cam_y) {
 	//! Only the tiles touching the mesh will be drawn
 
 	//! TODO: Remove this and put it somewhere else
-	tileset->get_tile(4).set_animation(4, 5, 2, 60);
-	tileset->get_tile(4).set_as_solid();
-	tileset->get_tile(5).set_as_solid();
+	tileset->get_tile(4)->set_animation(4, 5, 2, 60);
+	tileset->get_tile(4)->set_as_solid();
+	tileset->get_tile(5)->set_as_solid();
 
 	auto exact_shift_x = cam_x - (view_width - 1) * (tile_width / 2) - 1;
 	auto exact_shift_y = cam_y - (view_height - 1) * (tile_height / 2) - 1;
@@ -68,9 +68,9 @@ void MapLayer::reload(float cam_x, float cam_y) {
 
 			auto tile_info = tileset->get_tile(tile_id);
 
-			if (tile_info.is_animation_frame()) {
+			if (tile_info->is_animation_frame()) {
 
-				actual_tile_id = tile_info.get_animation_frame(frame_counter);
+				actual_tile_id = tile_info->get_animation_frame(frame_counter);
 
 			}
 

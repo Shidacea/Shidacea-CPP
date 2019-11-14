@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Helper.h"
+
 class Tile {
 
 public:
@@ -30,3 +32,5 @@ private:
 	unsigned int time_per_animation_frame = 0;
 
 };
+
+void setup_ruby_class_tile(mrb_state* mrb);

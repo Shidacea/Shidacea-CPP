@@ -3,7 +3,7 @@ class SceneTest < SDC::Scene
 	def handle_event(event)
 		if event.type == EventType::KeyPressed then
 			if event.key_code == EventKey::W then
-				@entities[0].accelerate(Coordinates.new(0.0, -2000.0 * SDC.game.meter))
+				@entities[0].accelerate(SDC.game.gravity * (-50.0))
 			end
 			@last_key_code = event.key_code.to_s
 		elsif event.type == EventType::Closed
@@ -21,7 +21,7 @@ class SceneTest < SDC::Scene
 
 		end
 
-		v = 20.0 * SDC.game.meter
+		v = 20.0 * (SDC.game.meter / SDC.game.second**2)
 		dx = (EventKey::is_pressed?(EventKey::A) ? -v : 0.0) + (EventKey::is_pressed?(EventKey::D) ? v : 0.0)
 		dy = (EventKey::is_pressed?(EventKey::S) ? v : 0.0)
 
@@ -47,6 +47,9 @@ class SceneTest < SDC::Scene
 		@music.looping = true
 
 		@test_tileset = Tileset.new
+
+		8.times {@test_tileset.add_tile(Tile.new)}
+
 		@test_tileset_texture = Texture.new
 		@test_tileset_texture.load_from_file("assets/graphics/maptest/Tileset.png")
 		@test_tileset.link_texture(@test_tileset_texture)
@@ -139,7 +142,7 @@ class SceneTest < SDC::Scene
 			end
 
 			ImGui.button "Amplify jumping" do
-				SDC.game.multiply_variable("test", 1.05, default: 1000.0)
+				SDC.game.multiply_variable("test", 1.05, default: 1000.0 * (SDC.game.meter / SDC.game.second**2))
 			end
 
 			if ImGui.button "Glorious Test Button Number 1" then

@@ -4,18 +4,21 @@
 module SDC
 	class Game
 
-		attr_reader :dt, :meter
+		attr_reader :dt, :meter, :second
 		attr_accessor :gravity
 
 		def initialize
 			# Distance unit in pixels
 			@meter = 50.0
 
+			# Time unit in frames
+			@second = 60.0
+
 			# Physics time step
-			@dt = 1.0 / 60.0
+			@dt = 1.0
 
 			# Gravity
-			@gravity = Coordinates.new(0, 60.0) * @meter
+			@gravity = Coordinates.new(0, 30.0) * (@meter / @second**2)
 
 			# Basic hash for global and local switches
 			@switches = {}

@@ -1,8 +1,8 @@
 #include "Tileset.h"
 
-Tileset::Tileset(size_t size) {
+Tileset::Tileset() {
 
-	allocate_tiles(size);
+	tiles.reserve(1000);
 
 }
 
@@ -18,15 +18,9 @@ const sf::Texture* Tileset::get_texture() {
 
 }
 
-Tile& Tileset::get_tile(unsigned int identification) {
+Tile* Tileset::get_tile(unsigned int identification) {
 
 	return tiles[identification];
-
-}
-
-void Tileset::allocate_tiles(unsigned int number) {
-
-	tiles.resize(number);
 
 }
 
@@ -36,10 +30,19 @@ size_t Tileset::size() {
 
 }
 
+void Tileset::add_tile(Tile* tile) {
+
+	tiles.push_back(tile);
+
+}
+
 mrb_value ruby_tileset_init(mrb_state* mrb, mrb_value self) {
 
-	//! TODO: Obtain size from texture
-	MrbWrap::convert_to_object<Tileset>(mrb, self, 8);
+	MrbWrap::convert_to_object<Tileset>(mrb, self);
+
+	static auto tile_array_sym = mrb_intern_static(mrb, "@_tiles", strlen("@_tiles"));
+	auto new_array = mrb_ary_new(mrb);
+	mrb_iv_set(mrb, self, tile_array_sym, new_array);
 
 	return self;
 
@@ -67,6 +70,26 @@ mrb_value ruby_tileset_size(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_tileset_add_tile(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_tile;
+
+	mrb_get_args(mrb, "o", &ruby_tile);
+
+	auto tileset = MrbWrap::convert_from_object<Tileset>(mrb, self);
+	auto tile = MrbWrap::convert_from_object<Tile>(mrb, ruby_tile);
+
+	static auto tile_array_sym = mrb_intern_static(mrb, "@_tiles", strlen("@_tiles"));
+	auto ruby_tile_array = mrb_iv_get(mrb, self, tile_array_sym);
+
+	mrb_ary_push(mrb, ruby_tile_array, ruby_tile);
+
+	tileset->add_tile(tile);
+
+	return mrb_true_value();
+
+}
+
 void setup_ruby_class_tileset(mrb_state* mrb) {
 
 	auto ruby_tileset_class = MrbWrap::define_data_class(mrb, "Tileset");
@@ -74,5 +97,6 @@ void setup_ruby_class_tileset(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_tileset_class, "initialize", ruby_tileset_init, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_tileset_class, "link_texture", ruby_tileset_link_texture, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_tileset_class, "size", ruby_tileset_size, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_tileset_class, "add_tile", ruby_tileset_add_tile, MRB_ARGS_REQ(1));
 
 }

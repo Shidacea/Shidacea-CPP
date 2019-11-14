@@ -28,7 +28,7 @@ class TestEntity < SDC::Entity
 			SDC::AI::wait(10)
 
 			if SDC.game.get_switch("test") then
-				@velocity.y -= SDC.game.get_variable("test", default: 1000.0) * rand
+				@velocity.y -= SDC.game.get_variable("test", default: 1000.0 * (SDC.game.meter / SDC.game.second**2)) * rand
 			end
 		end
 	end
