@@ -12,9 +12,9 @@ bool Tile::is_animation_frame() {
 
 }
 
-void Tile::set_as_solid() {
+void Tile::set_as_solid(bool value) {
 
-	solid = true;
+	solid = value;
 
 }
 
@@ -59,10 +59,33 @@ mrb_value ruby_tile_init(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_tile_solid(mrb_state* mrb, mrb_value self) {
+
+	auto tile = MrbWrap::convert_from_object<Tile>(mrb, self);
+
+	return mrb_bool_value(tile->is_solid());
+
+}
+
+mrb_value ruby_tile_solid_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_bool arg;
+
+	mrb_get_args(mrb, "b", &arg);
+
+	auto tile = MrbWrap::convert_from_object<Tile>(mrb, self);
+	tile->set_as_solid(arg);
+
+	return mrb_bool_value(arg);
+
+}
+
 void setup_ruby_class_tile(mrb_state* mrb) {
 
 	auto ruby_tileset_class = MrbWrap::define_data_class(mrb, "Tile");
 
 	mrb_define_method(mrb, ruby_tileset_class, "initialize", ruby_tile_init, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_tileset_class, "solid", ruby_tile_solid, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_tileset_class, "solid=", ruby_tile_solid_equals, MRB_ARGS_REQ(1));
 
 }

@@ -12,7 +12,7 @@ public:
 	bool is_solid();
 	bool is_animation_frame();
 
-	void set_as_solid();
+	void set_as_solid(bool value = true);
 
 	unsigned int get_animation_frame(unsigned int frame_counter);
 

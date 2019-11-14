@@ -37,6 +37,8 @@ module SDC
 			boxes = entity.boxes
 			ex = entity.position.x
 			ey = entity.position.y
+
+			any_result = false
 			
 			boxes.each do |box|
 				ix_low = ((ex - box.size.x * box.scale.x + box.offset.x) / @tile_width).floor
@@ -49,14 +51,16 @@ module SDC
 						@map_layers.each do |layer|
 							next if !layer.collision_active
 							# TODO: Include detection for empty tiles and tile properties in general
-							result = layer.test(ix, iy)
+							#result = (layer.test(ix, iy) == 3)
+							result = layer.tileset.tiles[layer.get_tile_id(ix, iy)].solid
+							any_result = true
 							# NOTE: Use   Collider.test(<shape>, <pos>, @tile_shape, Coordinates.new((ix + 0.5) * @tile_width, (iy + 0.5) * @tile_height))   for detailed collisions
 							return true if result
 						end
 					end
 				end
 			end
-			return false
+			return !any_result
 		end
 
 		def update(position)

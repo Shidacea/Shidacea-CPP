@@ -21,11 +21,6 @@ void MapLayer::reload(float cam_x, float cam_y) {
 	//! The mesh will be aligned to the camera position
 	//! Only the tiles touching the mesh will be drawn
 
-	//! TODO: Remove this and put it somewhere else
-	tileset->get_tile(4)->set_animation(4, 5, 2, 60);
-	tileset->get_tile(4)->set_as_solid();
-	tileset->get_tile(5)->set_as_solid();
-
 	auto exact_shift_x = cam_x - (view_width - 1) * (tile_width / 2) - 1;
 	auto exact_shift_y = cam_y - (view_height - 1) * (tile_height / 2) - 1;
 
@@ -172,6 +167,9 @@ void MapLayer::link_tileset(Tileset* tileset) {
 
 	this->tileset = tileset;
 
+	//! TODO: Remove this and put it somewhere else
+	this->tileset->get_tile(4)->set_animation(4, 5, 2, 60);
+
 }
 
 void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -236,6 +234,9 @@ mrb_value ruby_map_layer_link_tileset(mrb_state* mrb, mrb_value self) {
 
 	map_layer->link_tileset(tileset);
 
+	static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
+	mrb_iv_set(mrb, self, tileset_sym, ruby_tileset);
+
 	return mrb_nil_value();
 
 }
@@ -261,7 +262,7 @@ mrb_value ruby_map_layer_collision_active_equals(mrb_state* mrb, mrb_value self)
 
 }
 
-mrb_value ruby_map_layer_test(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_map_layer_get_tile_id(mrb_state* mrb, mrb_value self) {
 
 	mrb_int x;
 	mrb_int y;
@@ -272,7 +273,16 @@ mrb_value ruby_map_layer_test(mrb_state* mrb, mrb_value self) {
 
 	auto tile = map_layer->get_tile(static_cast<unsigned int>(x), static_cast<unsigned int>(y));
 
-	return mrb_bool_value(tile == 3);
+	return mrb_fixnum_value(tile);
+
+}
+
+mrb_value ruby_map_layer_tileset(mrb_state* mrb, mrb_value self) {
+
+	static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
+	auto tileset = mrb_iv_get(mrb, self, tileset_sym);
+
+	return tileset;
 
 }
 
@@ -286,6 +296,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_map_layer_class, "link_tileset", ruby_map_layer_link_tileset, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_map_layer_class, "collision_active", ruby_map_layer_collision_active, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_map_layer_class, "collision_active=", ruby_map_layer_collision_active_equals, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_map_layer_class, "test", ruby_map_layer_test, MRB_ARGS_REQ(2));
+	mrb_define_method(mrb, ruby_map_layer_class, "get_tile_id", ruby_map_layer_get_tile_id, MRB_ARGS_REQ(2));
+	mrb_define_method(mrb, ruby_map_layer_class, "tileset", ruby_map_layer_tileset, MRB_ARGS_NONE());
 
 }

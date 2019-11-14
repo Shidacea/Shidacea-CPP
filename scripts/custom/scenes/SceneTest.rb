@@ -37,10 +37,14 @@ class SceneTest < SDC::Scene
 		end
 
 		@entities.each {|entity| entity.update}
+		
+		@counter += 1
 	end
 
 	def at_init
 		@last_key_code = nil
+
+		@counter = 0
 
 		@music = Music.new
 		@music.open_from_file("assets/music/Example.wav")
@@ -49,6 +53,9 @@ class SceneTest < SDC::Scene
 		@test_tileset = Tileset.new
 
 		8.times {@test_tileset.add_tile(Tile.new)}
+		@test_tileset.tiles[3].solid = true
+		@test_tileset.tiles[4].solid = true
+		@test_tileset.tiles[5].solid = true
 
 		@test_tileset_texture = Texture.new
 		@test_tileset_texture.load_from_file("assets/graphics/maptest/Tileset.png")
@@ -121,7 +128,9 @@ class SceneTest < SDC::Scene
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
 			ImGui.text "HP of entity 0: #{@entities[0].hp}"
 			ImGui.text "Last key code: #{@last_key_code}"
-			ImGui.text "On dirt tile: #{@test_map.test_collision_with_entity(@entities[0])}"
+			ImGui.text "On solid tile: #{@test_map.test_collision_with_entity(@entities[0])}"
+			ImGui.text "Counter = #{@counter}"
+			ImGui.button "Set dirt passable" {@test_tileset.tiles[3].solid = false}
 			ImGui.button "Reset mouse" {EventMouse::set_position([300, 200], $window)}
 			ImGui.button "Get mouse pos" {puts EventMouse::get_position($window)}
 			ImGui.button "Rescale entity" do
