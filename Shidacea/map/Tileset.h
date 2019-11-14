@@ -13,7 +13,7 @@ public:
 	Tileset();
 	void set_texture(const sf::Texture& new_texture);
 	const sf::Texture* get_texture();
-	Tile* Tileset::get_tile(unsigned int identification);
+	Tile* get_tile(unsigned int identification);
 	size_t size();
 	void add_tile(Tile* tile);
 

@@ -24,7 +24,7 @@ public:
 	void set_collision_active(bool value = true);
 	bool is_collision_active();
 
-	void MapLayer::link_tileset(Tileset* tileset);
+	void link_tileset(Tileset* tileset);
 
 private:
 
