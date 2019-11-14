@@ -262,7 +262,7 @@ mrb_value ruby_map_layer_collision_active_equals(mrb_state* mrb, mrb_value self)
 
 }
 
-mrb_value ruby_map_layer_get_tile_id(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_map_layer_access(mrb_state* mrb, mrb_value self) {
 
 	mrb_int x;
 	mrb_int y;
@@ -296,7 +296,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb) {
 	mrb_define_method(mrb, ruby_map_layer_class, "link_tileset", ruby_map_layer_link_tileset, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_map_layer_class, "collision_active", ruby_map_layer_collision_active, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_map_layer_class, "collision_active=", ruby_map_layer_collision_active_equals, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_map_layer_class, "get_tile_id", ruby_map_layer_get_tile_id, MRB_ARGS_REQ(2));
+	mrb_define_method(mrb, ruby_map_layer_class, "[]", ruby_map_layer_access, MRB_ARGS_REQ(2));
 	mrb_define_method(mrb, ruby_map_layer_class, "tileset", ruby_map_layer_tileset, MRB_ARGS_NONE());
 
 }

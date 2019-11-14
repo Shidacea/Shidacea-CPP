@@ -52,7 +52,7 @@ class SceneTest < SDC::Scene
 
 		@test_tileset = Tileset.new
 
-		8.times {@test_tileset.add_tile(Tile.new)}
+		8.times {@test_tileset.add_tile(SDC::CustomTile.new)}
 		@test_tileset.tiles[3].solid = true
 		@test_tileset.tiles[4].solid = true
 		@test_tileset.tiles[5].solid = true

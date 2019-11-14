@@ -46,13 +46,15 @@ module SDC
 				ix_high = ((ex + box.size.x * box.scale.x + box.offset.x) / @tile_width).floor
 				iy_high = ((ey + box.size.y * box.scale.y + box.offset.y) / @tile_height).floor
 
+				# TODO: Implement default value for map layers, so this loop can be extended over undefined areas
+
 				[0, ix_low].max.upto([ix_high, @width - 1].min) do |ix|
 					[0, iy_low].max.upto([iy_high, @height - 1].min) do |iy|
 						@map_layers.each do |layer|
 							next if !layer.collision_active
 							# TODO: Include detection for empty tiles and tile properties in general
-							#result = (layer.test(ix, iy) == 3)
-							result = layer.tileset.tiles[layer.get_tile_id(ix, iy)].solid
+							tile_id = layer[ix, iy]
+							result = layer.tileset.tiles[tile_id].solid
 							any_result = true
 							# NOTE: Use   Collider.test(<shape>, <pos>, @tile_shape, Coordinates.new((ix + 0.5) * @tile_width, (iy + 0.5) * @tile_height))   for detailed collisions
 							return true if result
