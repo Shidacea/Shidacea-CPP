@@ -44,6 +44,11 @@ There are two different ways to use Shidacea.
 First, you can compile Shidacea without any scripts to a launcher.
 If you want to execute a project of someone else, just download its script files and put them into the custom folder.
 
+The second option is to compile your script files together with the Shidacea engine.
+This allows for more optimized code at the expense of portability.
+
+## Load scripts at runtime
+
 Advantages:
 * Platform independent projects
 * Precompiled Shidacea engine can be used for common platforms
@@ -54,8 +59,7 @@ Disadvantages:
 * Evaluating the script files takes longer than using bytecode
 * You cannot change the Shidacea core
 
-The second option is to compile your script files together with the Shidacea engine.
-This allows for more optimized code at the expense of portability.
+## Precompile scripts
 
 Advantages:
 * Faster evaluation of script files
