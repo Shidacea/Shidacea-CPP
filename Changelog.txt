@@ -9,3 +9,7 @@ TODO:
 - Add sounds
 	- Add sound processor for each entity
 - Ensure that no segmentation fault or, even better, no C++ exception happens
+- More compilation options
+	- Toggle for ImGui
+	- Toggle for SFML
+	- Locking option (no more scripts will be loaded besides the pre-compiled ones)

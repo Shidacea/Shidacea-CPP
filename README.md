@@ -37,6 +37,37 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 For the time being use "-DCMAKE_BUILD_TYPE=Debug" or "-DCMAKE_BUILD_TYPE=Release" as option for CMake.
 This will be fixed at a later time.
 
+# Usage
+
+There are two different ways to use Shidacea.
+
+First, you can compile Shidacea without any scripts to a launcher.
+If you want to execute a project of someone else, just download its script files and put them into the custom folder.
+
+Advantages:
+* Platform independent projects
+* Precompiled Shidacea engine can be used for common platforms
+* After installing Shidacea, you don't need to touch it anymore
+
+Disadvantages:
+* Everyone can see and modify your code without effort
+* Evaluating the script files takes longer than using bytecode
+* You cannot change the Shidacea core
+
+The second option is to compile your script files together with the Shidacea engine.
+This allows for more optimized code at the expense of portability.
+
+Advantages:
+* Faster evaluation of script files
+* Obfuscated scripts
+* You have full control over the engine and can change core aspects
+
+Disadvantages:
+* Your projects need to be recompiled every time you change a script
+* You need to have at least basic knowledge about C++ compiling and CMake
+* Your project needs to be recompiled for each platform
+
+
 # Properties
 
 * Platform independency (technically, but not tested yet)
@@ -73,7 +104,8 @@ The ruby instruction `require` is NOT available (adding it as a gem would be pos
 This means that you need to write files with no direct dependencies, as they could be loaded in an arbitrary order.
 Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
 
-The order of loading the script folders is: core -> custom/resources -> custom/scenes -> custom/entities -> custom/other -> custom/Game.rb -> custom/Main.rb
+The order of loading the script folders is: 
+core -> custom/resources -> custom/scenes -> custom/entities -> custom/other -> custom/Game.rb -> custom/Main.rb
 
 ## Linux
 
