@@ -73,7 +73,7 @@ The ruby instruction `require` is NOT available (adding it as a gem would be pos
 This means that you need to write files with no direct dependencies, as they could be loaded in an arbitrary order.
 Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
 
-The order of loading the script folders is: core -> custom/scenes -> custom/entities -> custom/Game.rb -> custom/Main.rb
+The order of loading the script folders is: core -> custom/resources -> custom/scenes -> custom/entities -> custom/other -> custom/Game.rb -> custom/Main.rb
 
 ## Linux
 

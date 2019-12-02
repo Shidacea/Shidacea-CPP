@@ -67,6 +67,8 @@ void MrbWrap::load_mods(mrb_state* mrb) {
 
 		for (const auto& entry : std::filesystem::recursive_directory_iterator(mod_path)) {
 
+			if (std::filesystem::is_directory(entry)) continue;
+
 			std::cout << "Loading file: " << entry << std::endl;
 			const std::string str = entry.path().string();
 			MrbWrap::execute_script_file(mrb, str);
@@ -89,6 +91,8 @@ void MrbWrap::load_all_scripts_recursively(mrb_state* mrb, std::string path) {
 	} else {
 
 		for(const auto& entry : std::filesystem::recursive_directory_iterator(complete_path)) {
+
+			if(std::filesystem::is_directory(entry)) continue;
 
 			const std::string filename = entry.path().string();
 			MrbWrap::execute_script_file(mrb, filename);

@@ -4,3 +4,8 @@ Version history:
 
 0.0.1
 - First versioning
+
+TODO:
+- Add sounds
+	- Add sound processor for each entity
+- Ensure that no segmentation fault or, even better, no C++ exception happens

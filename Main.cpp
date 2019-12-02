@@ -62,8 +62,10 @@ int main(int argc, char** argv) {
 	//! These are ordered, so don't just put it anywhere if it depends on other scripts
 	//! If you want to add compiled Ruby scripts, you also need to include them in the header file
 
+	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_resources, custom/resources);
 	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_scenes, custom/scenes);
 	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_entities, custom/entities);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_other, custom/other);
 
 #ifdef MOD_LOADING
 

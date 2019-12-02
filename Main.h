@@ -23,8 +23,10 @@ constexpr char VERSION[] = "0.0.1d";
 
 #ifdef NDEBUG
 #include "compiled_scripts/CompiledRubyCore.h"
+#include "compiled_scripts/CompiledRubyCustomResources.h"
 #include "compiled_scripts/CompiledRubyCustomScenes.h"
 #include "compiled_scripts/CompiledRubyCustomEntities.h"
+#include "compiled_scripts/CompiledRubyCustomOther.h"
 #include "compiled_scripts/CompiledRubyGame.h"
 #include "compiled_scripts/CompiledRubyMain.h"
 #endif
