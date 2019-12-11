@@ -5,6 +5,7 @@ module SDC
 		@texts = []
 		@tilesets = []
 		@textures = []
+		@sound_buffers = []
 
 		def self.add_entity(entity, index: nil)
 			index = @entities.size if !index
@@ -44,6 +45,16 @@ module SDC
 
 		def self.textures
 			return @textures
+		end
+
+		def self.add_sound_buffer(buffer, index: nil)
+			index = @sound_buffers.size if !index
+			@sound_buffers[index] = buffer
+			return index
+		end
+
+		def self.sound_buffers
+			return @sound_buffers
 		end
 
 	end
