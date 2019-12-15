@@ -449,7 +449,7 @@ module SDC
 		end
 
 		def collided_with_property(property_symbol, value: true)
-			return @last_collisions.index {|e| e.send(property_symbol) == value)}
+			return @last_collisions.index {|e| e.send(property_symbol) == value}
 		end
 
 		# Custom routines which can be redefined for inherited objects
