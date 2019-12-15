@@ -254,7 +254,11 @@ module SDC
 			@velocity = Coordinates.new
 			@acceleration = Coordinates.new
 
-			@ai = SDC::AI::Script.new {ai_script}
+			@master_ai = SDC::AI::Script.new {master_ai_script}
+			@ai_pages = [SDC::AI::Script.new {ai_script}]
+			@ai_page = 0
+			
+			@last_collisions = []
 
 			# Set a magic number to identify parent-child-structures
 			@magic_number = self.object_id
@@ -312,8 +316,20 @@ module SDC
 			end
 		end
 
+		def master_ai_running?
+			return @master_ai.running?
+		end
+
 		def ai_running?
-			return @ai.running?
+			return current_ai&.running?
+		end
+
+		def current_ai
+			return @ai_pages[@ai_page]
+		end
+
+		def add_ai_page(method_symbol, index)
+			@ai_pages[index] = SDC::AI::Script.new {self.send(method_symbol)}
 		end
 
 		def accelerate(vector)
@@ -403,16 +419,37 @@ module SDC
 
 		def update
 			living_procedure
-			@ai.tick if self.class.ai_active && ai_running?
+
+			if self.class.ai_active then
+				@master_ai.tick if master_ai_running?
+				current_ai.tick if ai_running?
+			end
+
 			physics if !@parent
+
+			@last_collisions.clear
 		end
 
 		def collision_with_entity(other_entity, hurtshape, hitshape)
+			@last_collisions.push(other_entity)
+
 			if self.class.living then
 				basic_hit(hurtshape, hitshape)
 			end
 
 			at_entity_collision(other_entity, hurtshape, hitshape)
+		end
+
+		def collided_with(&condition)
+			return @last_collisions.index(&condition)
+		end
+
+		def collided_with_class(klass)
+			return @last_collisions.index {|e| e.is_a?(klass)}
+		end
+
+		def collided_with_property(property_symbol, value)
+			return @last_collisions.index {|e| e.send(property_symbol, value)}
 		end
 
 		# Custom routines which can be redefined for inherited objects
@@ -435,6 +472,10 @@ module SDC
 
 		def at_tile_collision(tile)
 
+		end
+
+		def master_ai_script
+			SDC::AI::done
 		end
 
 		def ai_script

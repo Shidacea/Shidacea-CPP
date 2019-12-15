@@ -205,6 +205,14 @@ mrb_value ruby_window_draw_translated(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_window_has_focus(mrb_state* mrb, mrb_value self) {
+
+	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+
+	return mrb_bool_value(window->hasFocus());
+
+}
+
 void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object) {
 
 	static auto sprite_class = mrb_class_get(mrb, "Sprite");
@@ -255,5 +263,7 @@ void setup_ruby_class_window(mrb_state* mrb) {
 
 	mrb_define_method(mrb, ruby_window_class, "draw", ruby_window_draw, MRB_ARGS_ARG(1, 1));
 	mrb_define_method(mrb, ruby_window_class, "draw_translated", ruby_window_draw_translated, MRB_ARGS_ARG(2, 1));
+
+	mrb_define_method(mrb, ruby_window_class, "has_focus?", ruby_window_has_focus, MRB_ARGS_NONE());
 
 }

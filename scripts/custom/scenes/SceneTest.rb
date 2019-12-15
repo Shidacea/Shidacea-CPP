@@ -12,18 +12,18 @@ class SceneTest < SDC::Scene
 	end
 
 	def update
-		if EventKey::is_pressed?(EventKey::F10) then
+		if SDC::key_pressed?(EventKey::F10) then
 			$window.set_imgui_scale(2.0)
 		
-		elsif EventKey::is_pressed?(EventKey::F1) then
+		elsif SDC::key_pressed?(EventKey::F1) then
 			# Should trigger an error with backtrace
 			do_stuff_which_does_not_exist
 
 		end
 
 		v = 20.0 * (SDC.game.meter / SDC.game.second**2)
-		dx = (EventKey::is_pressed?(EventKey::A) ? -v : 0.0) + (EventKey::is_pressed?(EventKey::D) ? v : 0.0)
-		dy = (EventKey::is_pressed?(EventKey::S) ? v : 0.0)
+		dx = (SDC::key_pressed?(EventKey::A) ? -v : 0.0) + (SDC::key_pressed?(EventKey::D) ? v : 0.0)
+		dy = (SDC::key_pressed?(EventKey::S) ? v : 0.0)
 
 		@entities[0].accelerate(Coordinates.new(dx, dy))
 
@@ -115,11 +115,13 @@ class SceneTest < SDC::Scene
 			ImGui.button "Pause music" {@music.pause}
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
+			ImGui.text "Entity Collision: #{SDC::get_switch("coll")}"
+			SDC::reset_switch("coll")
 			ImGui.text "HP of entity 0: #{@entities[0].hp}"
 			ImGui.text "Last key code: #{@last_key_code}"
 			ImGui.text "On solid tile: #{@test_map.test_collision_with_entity(@entities[0])}"
 			ImGui.text "Counter = #{@counter}"
-			ImGui.button "Set dirt passable" {@test_tileset.tiles[3].solid = false}
+			ImGui.button "Set dirt passable" {SDC::Data::tilesets[0].tiles[3].solid = false}
 			ImGui.button "Reset mouse" {EventMouse::set_position([300, 200], $window)}
 			ImGui.button "Get mouse pos" {puts EventMouse::get_position($window)}
 			ImGui.button "Rescale entity" do
@@ -135,12 +137,12 @@ class SceneTest < SDC::Scene
 				@entities[0].sprites[0].position = Coordinates.new(-25.0, -25.0)
 			end
 
-			ImGui.button (SDC.game.get_switch("test") ? "Stop jumping" : "Start jumping") do
-				SDC.game.toggle_switch("test")
+			ImGui.button (SDC::get_switch("test") ? "Stop jumping with Q" : "Start jumping with Q") do
+				SDC::toggle_switch("test")
 			end
 
 			ImGui.button "Amplify jumping" do
-				SDC.game.multiply_variable("test", 1.05, default: 1000.0 * (SDC.game.meter / SDC.game.second**2))
+				SDC::multiply_variable("test", 1.05, default: 1000.0 * (SDC.game.meter / SDC.game.second**2))
 			end
 
 			if ImGui.button "Glorious Test Button Number 1" then

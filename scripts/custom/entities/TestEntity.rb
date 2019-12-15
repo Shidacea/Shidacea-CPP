@@ -23,13 +23,24 @@ class TestEntity < SDC::Entity
 		
 	end
 
+	def master_ai_script
+		SDC::AI::forever do
+
+			if collided_with_class(TestEntity) then
+				SDC::set_switch("coll")
+			end
+
+		end
+	end
+
 	def ai_script
 		SDC::AI::forever do
-			SDC::AI::wait(10)
-
-			if SDC.game.get_switch("test") then
-				@velocity.y -= SDC.game.get_variable("test", default: 1000.0 * (SDC.game.meter / SDC.game.second**2)) * rand
+		
+			if SDC::get_switch("test") && SDC::key_pressed?(EventKey::Q) then
+				@velocity.y -= SDC::get_variable("test", default: 1000.0 * (SDC.game.meter / SDC.game.second**2)) * rand
+				SDC::AI::wait(10)
 			end
+
 		end
 	end
 

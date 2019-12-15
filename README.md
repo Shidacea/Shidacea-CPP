@@ -82,7 +82,7 @@ Disadvantages:
 
 # Features
 
-* Simple event handling
+* Simple event handling with pseudo-parallel routines
 * Simple state machine for scenes
 * Basic game classes and physics
 * Intuitive and simple system for entity properties
@@ -92,7 +92,7 @@ Disadvantages:
 # Planned features
 
 * More collision detection routines
-* A special level editor written using this engine (Hyashi)
+* A special level editor written using this engine (will be called Hyashi)
 * Separate example project
 
 # Caveats
