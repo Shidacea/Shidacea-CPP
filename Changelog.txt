@@ -10,6 +10,7 @@ TODO:
 	- Add sound processor for each entity
 - Ensure that no segmentation fault or, even better, no C++ exception happens
 - Remove SpecialContainer if possible
+- Expand map config options and implement script into map update
 - More compilation options
 	- Toggle for ImGui
 	- Toggle for SFML
