@@ -18,7 +18,7 @@ module SDC
 			return @values.size
 		end
 
-		def get_all(subclass)
+		def get_all
 			return @values
 		end
 

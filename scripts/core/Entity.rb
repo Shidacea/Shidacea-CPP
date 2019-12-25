@@ -21,7 +21,7 @@ module SDC
 
 		# Metaprogramming magic for class methods
 
-		def self.define_class_property(symbol, default)
+		def self.define_class_property(symbol, default: nil)
 			define_singleton_method(symbol) do
 				val = instance_variable_get("@#{symbol}")
 				if val then
@@ -31,6 +31,7 @@ module SDC
 					return default
 				end
 			end
+
 			define_singleton_method("#{symbol}=") do |value|
 				instance_variable_set("@#{symbol}", value)
 			end
@@ -145,10 +146,10 @@ module SDC
 		# Other class properties.
 		# You may easily add your own properties.
 
-		self.define_class_property(:living, false)
-		self.define_class_property(:max_hp, 0)
-		self.define_class_property(:gravity_multiplier, 1.0)
-		self.define_class_property(:ai_active, false)
+		self.define_class_property(:living, default: false)
+		self.define_class_property(:max_hp, default: 0)
+		self.define_class_property(:gravity_multiplier, default: 1.0)
+		self.define_class_property(:ai_active, default: false)
 
 		# Create local copies of all boxes/shapes/...
 
