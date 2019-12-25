@@ -9,6 +9,7 @@ TODO:
 - Add sounds
 	- Add sound processor for each entity
 - Ensure that no segmentation fault or, even better, no C++ exception happens
+- Remove SpecialContainer if possible
 - More compilation options
 	- Toggle for ImGui
 	- Toggle for SFML
