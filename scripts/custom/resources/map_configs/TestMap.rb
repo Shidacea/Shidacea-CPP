@@ -1,6 +1,6 @@
 config = MapConfig.new("Test Map 001")
 
-config.define_script do
+config.script do
 	SDC::AI::once do
 	
 		puts "Map Test"
