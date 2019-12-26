@@ -22,6 +22,7 @@ constexpr char VERSION[] = "0.0.1d";
 //! If you want to add any compiled Ruby script, you need to add it here
 
 #ifdef NDEBUG
+#include "compiled_scripts/CompiledRubyInclude.h"
 #include "compiled_scripts/CompiledRubyCore.h"
 #include "compiled_scripts/CompiledRubyCustomResources.h"
 #include "compiled_scripts/CompiledRubyCustomScenes.h"

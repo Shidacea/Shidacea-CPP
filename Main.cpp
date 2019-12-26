@@ -55,6 +55,7 @@ int main(int argc, char** argv) {
 
 	//! Load Ruby core scripts
 
+	MRB_LOAD_SCRIPT_FOLDER(mrb, include, include);
 	MRB_LOAD_SCRIPT_FOLDER(mrb, core, core);
 
 	//! Load main scripts

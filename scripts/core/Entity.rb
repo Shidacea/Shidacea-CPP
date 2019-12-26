@@ -3,6 +3,20 @@
 module SDC
 	class Entity
 
+		# AI module
+
+		include SDCMeta::AIBackend
+
+		# Specific class properties
+		# You may easily add your own properties.
+
+		extend SDCMeta::ClassProperty
+
+		self.define_class_property(:living, default: false)
+		self.define_class_property(:max_hp, default: 0)
+		self.define_class_property(:gravity_multiplier, default: 1.0)
+		self.define_class_property(:ai_active, default: false)
+
 		# Accessor methods for content arrays (except for textures)
 
 		attr_accessor :sprites, :boxes, :shapes, :hitshapes, :hurtshapes, :active_sprites
@@ -18,24 +32,6 @@ module SDC
 		# Other accessor methods
 
 		attr_reader :magic_number
-
-		# Metaprogramming magic for class methods
-
-		def self.define_class_property(symbol, default: nil)
-			define_singleton_method(symbol) do
-				val = instance_variable_get("@#{symbol}")
-				if val then
-					return val
-				else
-					val = default
-					return default
-				end
-			end
-
-			define_singleton_method("#{symbol}=") do |value|
-				instance_variable_set("@#{symbol}", value)
-			end
-		end
 
 		# Class methods for adding different objects to any entity
 	
@@ -143,14 +139,6 @@ module SDC
 			return @hurtshapes
 		end
 
-		# Other class properties.
-		# You may easily add your own properties.
-
-		self.define_class_property(:living, default: false)
-		self.define_class_property(:max_hp, default: 0)
-		self.define_class_property(:gravity_multiplier, default: 1.0)
-		self.define_class_property(:ai_active, default: false)
-
 		# Create local copies of all boxes/shapes/...
 
 		def load_boxes
@@ -255,9 +243,7 @@ module SDC
 			@velocity = Coordinates.new
 			@acceleration = Coordinates.new
 
-			@master_ai = SDC::AI::Script.new {master_ai_script}
-			@ai_pages = [SDC::AI::Script.new {ai_script}]
-			@ai_page = 0
+			setup_ai
 			
 			@last_collisions = []
 
@@ -315,22 +301,6 @@ module SDC
 				@invincibility_next_frame = false
 				@invincibility_frame_counter = 60
 			end
-		end
-
-		def master_ai_running?
-			return @master_ai.running?
-		end
-
-		def ai_running?
-			return current_ai&.running?
-		end
-
-		def current_ai
-			return @ai_pages[@ai_page]
-		end
-
-		def add_ai_page(method_symbol, index)
-			@ai_pages[index] = SDC::AI::Script.new {self.send(method_symbol)}
 		end
 
 		def accelerate(vector)
@@ -422,8 +392,7 @@ module SDC
 			living_procedure
 
 			if self.class.ai_active then
-				@master_ai.tick if master_ai_running?
-				current_ai.tick if ai_running?
+				tick_ai
 			end
 
 			physics if !@parent

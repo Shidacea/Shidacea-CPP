@@ -109,7 +109,7 @@ This means that you need to write files with no direct dependencies, as they cou
 Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
 
 The order of loading the script folders is: 
-core -> custom/resources -> custom/scenes -> custom/entities -> custom/other -> custom/Game.rb -> custom/Main.rb
+include -> core -> custom/resources -> custom/scenes -> custom/entities -> custom/other -> custom/Game.rb -> custom/Main.rb
 
 ## Linux
 

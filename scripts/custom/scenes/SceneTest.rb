@@ -21,6 +21,8 @@ class SceneTest < SDC::Scene
 
 		end
 
+		@test_map.update
+
 		v = 20.0 * (SDC.game.meter / SDC.game.second**2)
 		dx = (SDC::key_pressed?(EventKey::A) ? -v : 0.0) + (SDC::key_pressed?(EventKey::D) ? v : 0.0)
 		dy = (SDC::key_pressed?(EventKey::S) ? v : 0.0)
@@ -113,7 +115,7 @@ class SceneTest < SDC::Scene
 			# Filter double collisions
 			ImGui.button "Play music" {@music.play}
 			ImGui.button "Pause music" {@music.pause}
-			ImGui.button "Test map script" {SDC::Data::map_configs["TestMap"].run_script}
+			ImGui.button "Test map script" {@test_map.set_config("TestMap")}
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
 			ImGui.text "Entity Collision: #{SDC::get_switch("coll")}"

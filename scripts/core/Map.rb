@@ -9,6 +9,11 @@ module SDC
 			@view_height = view_height
 
 			@map_layers = []
+			@config = nil
+		end
+
+		def set_config(name)
+			@config = SDC::Data::map_configs[name]
 		end
 
 		def load_from_file(filename)
@@ -65,8 +70,8 @@ module SDC
 			return !any_result
 		end
 
-		def update(position)
-			reload(position)
+		def update
+			@config.run_script if @config
 		end
 
 		def reload(position)
