@@ -8,8 +8,12 @@ class MapConfig
 		@script = nil
 	end
 
+	def define_script(&block)
+		@script = block
+	end
+
 	def run_script
-		@script.tick if @script&.running?
+		@script&.call
 	end
 
 end
