@@ -72,9 +72,9 @@ mrb_value ruby_music_looping_equals(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_music(mrb_state* mrb) {
+void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_music_class = MrbWrap::define_data_class(mrb, "Music");
+	auto ruby_music_class = MrbWrap::define_data_class_under(mrb, "Music", ruby_module);
 
 	mrb_define_method(mrb, ruby_music_class, "initialize", ruby_music_init, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_music_class, "open_from_file", ruby_music_open_from_file, MRB_ARGS_REQ(1));

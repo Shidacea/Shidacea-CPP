@@ -29,10 +29,10 @@ module SDC
 			@tile_height = 60
 
 			# Can be used for more detailed collisions
-			@tile_shape = ShapeBox.new(Coordinates.new(0, 0), Coordinates.new(@tile_width * 0.5, @tile_height * 0.5))
+			@tile_shape = SDC::ShapeBox.new(SDC::Coordinates.new(0, 0), SDC::Coordinates.new(@tile_width * 0.5, @tile_height * 0.5))
 
 			@number_of_layers.times do |i|
-				new_layer = MapLayer.new(@width, @height, @view_width, @view_height, @tile_width, @tile_height)
+				new_layer = SDC::MapLayer.new(@width, @height, @view_width, @view_height, @tile_width, @tile_height)
 
 				# TODO: Load tiles into map layer and initialize the mesh
 				new_layer.load_test_map

@@ -99,9 +99,9 @@ mrb_value ruby_tileset_tiles(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_tileset(mrb_state* mrb) {
+void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_tileset_class = MrbWrap::define_data_class(mrb, "Tileset");
+	auto ruby_tileset_class = MrbWrap::define_data_class_under(mrb, "Tileset", ruby_module);
 
 	mrb_define_method(mrb, ruby_tileset_class, "initialize", ruby_tileset_init, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_tileset_class, "link_texture", ruby_tileset_link_texture, MRB_ARGS_REQ(1));

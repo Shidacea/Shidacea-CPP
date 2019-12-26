@@ -65,7 +65,7 @@ mrb_value ruby_coordinates_plus(mrb_state* mrb, mrb_value self) {
 	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 	auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, coordinates_ruby_module, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
@@ -87,7 +87,7 @@ mrb_value ruby_coordinates_minus(mrb_state* mrb, mrb_value self) {
 	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 	auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, coordinates_ruby_module, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
@@ -106,7 +106,7 @@ mrb_value ruby_coordinates_times(mrb_state* mrb, mrb_value self) {
 
 	auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, coordinates_ruby_module, "Coordinates");
 
 	auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
@@ -159,9 +159,11 @@ mrb_value ruby_coordinates_inspect(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_coordinates(mrb_state* mrb) {
+void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_coordinates_class = MrbWrap::define_data_class(mrb, "Coordinates");
+	coordinates_ruby_module = ruby_module;
+
+	auto ruby_coordinates_class = MrbWrap::define_data_class_under(mrb, "Coordinates", ruby_module);
 
 	mrb_define_method(mrb, ruby_coordinates_class, "initialize", ruby_coordinates_init, MRB_ARGS_OPT(2));
 	MrbWrap::define_default_copy_init<sf::Vector2f>(mrb, ruby_coordinates_class);

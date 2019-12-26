@@ -41,11 +41,11 @@ module SDC
 			end
 
 			@boxes = SDC::SpecialContainer.new if !@boxes
-			@boxes.add(ShapeBox.new(offset, size), index)
+			@boxes.add(SDC::ShapeBox.new(offset, size), index)
 		end
 
-		def self.add_shape(index: nil, type: nil, offset: Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil)
-			@shapes = SpecialContainer.new if !@shapes
+		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil)
+			@shapes = SDC::SpecialContainer.new if !@shapes
 			shape = nil
 
 			if type == ShapePoint then
@@ -81,10 +81,10 @@ module SDC
 			end
 		
 			@textures = SDC::SpecialContainer.new if !@textures
-			@textures.add(Texture.new.load_from_file(filename, rect), index)
+			@textures.add(SDC::Texture.new.load_from_file(filename, rect), index)
 		end
 
-		def self.add_sprite(index: nil, active: true, texture_index: nil, offset: Coordinates.new)
+		def self.add_sprite(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new)
 			@sprites = SDC::SpecialContainer.new if !@sprites
 			@sprites.add([texture_index, offset, active], index)
 		end
@@ -190,7 +190,7 @@ module SDC
 
 				if element then
 					texture_index = element[0]
-					@sprites[i] = Sprite.new(SDC.resource_manager)
+					@sprites[i] = SDC::Sprite.new(SDC.resource_manager)
 					@sprites[i].position = element[1]
 					@active_sprites[i] = element[2]
 
@@ -239,9 +239,9 @@ module SDC
 		def initialization_procedure
 			@parent = nil
 			@children = []
-			@position = Coordinates.new
-			@velocity = Coordinates.new
-			@acceleration = Coordinates.new
+			@position = SDC::Coordinates.new
+			@velocity = SDC::Coordinates.new
+			@acceleration = SDC::Coordinates.new
 
 			setup_ai
 			
@@ -332,7 +332,7 @@ module SDC
 
 			@boxes.each do |box|
 				other_entity.boxes.each do |other_box|
-					result = Collider.test(box, absolute_position, other_box, other_entity.absolute_position)
+					result = SDC::Collider.test(box, absolute_position, other_box, other_entity.absolute_position)
 					return other_box if result
 				end
 			end
@@ -345,7 +345,7 @@ module SDC
 
 			@shapes.each do |shape|
 				other_entity.shapes.each do |other_shape|
-					result = Collider.test(shape, absolute_position, other_shape, other_entity.absolute_position)
+					result = SDC::Collider.test(shape, absolute_position, other_shape, other_entity.absolute_position)
 					return other_shape if result
 				end
 			end
@@ -370,7 +370,7 @@ module SDC
 
 					other_shape = other_entity.shapes[hitshape.shape_index]
 
-					if Collider.test(shape, absolute_position, other_shape, other_position) then
+					if SDC::Collider.test(shape, absolute_position, other_shape, other_position) then
 						yield hurtshape, hitshape
 					end
 				end

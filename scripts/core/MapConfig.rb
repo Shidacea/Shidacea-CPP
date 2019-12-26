@@ -7,6 +7,8 @@ class MapConfig
 		@script = nil
 	end
 
+	# TODO: Could be extended for multiple pages
+
 	def script(&block)
 		@script = block
 	end

@@ -9,4 +9,6 @@
 
 sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self);
 
-void setup_ruby_class_sprite(mrb_state* mrb);
+void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module);
+
+static RClass* sprite_ruby_module;

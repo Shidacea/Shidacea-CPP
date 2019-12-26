@@ -120,4 +120,6 @@ template <class T1, class T2> bool check_collision(T1 shape1, T2 shape2, sf::Vec
 
 ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape);
 
-void setup_ruby_collider(mrb_state* mrb);
+void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module);
+
+static RClass* shape_ruby_module;

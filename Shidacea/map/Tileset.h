@@ -24,4 +24,4 @@ private:
 
 };
 
-void setup_ruby_class_tileset(mrb_state* mrb);
+void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module);

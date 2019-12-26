@@ -181,7 +181,7 @@ mrb_value ruby_shape_box_class_size(mrb_state* mrb, mrb_value self) {
 
 	auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, shape_ruby_module, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
@@ -196,7 +196,7 @@ mrb_value ruby_shape_box_class_scale(mrb_state* mrb, mrb_value self) {
 
 	auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, shape_ruby_module, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
@@ -271,7 +271,7 @@ mrb_value ruby_shape_class_offset(mrb_state* mrb, mrb_value self) {
 
 	auto shape = MrbWrap::convert_from_object<Shape>(mrb, self);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, shape_ruby_module, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
@@ -297,10 +297,12 @@ mrb_value ruby_shape_class_offset_equals(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_collider(mrb_state* mrb) {
+void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
-	auto module_collider = mrb_define_module(mrb, "Collider");
-	auto ruby_shape_class = mrb_define_class(mrb, "Shape", mrb->object_class);
+	shape_ruby_module = ruby_module;
+
+	auto module_collider = mrb_define_module_under(mrb, ruby_module, "Collider");
+	auto ruby_shape_class = mrb_define_class_under(mrb, ruby_module, "Shape", mrb->object_class);
 
 	auto ruby_shape_point_class = MrbWrap::define_data_class(mrb, "ShapePoint", ruby_shape_class);
 	auto ruby_shape_line_class = MrbWrap::define_data_class(mrb, "ShapeLine", ruby_shape_class);

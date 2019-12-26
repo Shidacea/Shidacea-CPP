@@ -14,9 +14,9 @@ mrb_value ruby_intrect_init(mrb_state* mrb, mrb_value self) {
 	return self;
 }
 
-void setup_ruby_class_intrect(mrb_state* mrb) {
+void setup_ruby_class_intrect(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_intrect_class = MrbWrap::define_data_class(mrb, "IntRect");
+	auto ruby_intrect_class = MrbWrap::define_data_class_under(mrb, "IntRect", ruby_module);
 
 	mrb_define_method(mrb, ruby_intrect_class, "initialize", ruby_intrect_init, MRB_ARGS_OPT(4));
 	MrbWrap::define_default_copy_init<MrbIntRect>(mrb, ruby_intrect_class);

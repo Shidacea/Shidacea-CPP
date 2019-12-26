@@ -20,38 +20,39 @@ int main(int argc, char** argv) {
 	}
 
 	auto mrb = mrb_open();
+	auto sdc_module = mrb_define_module(mrb, "SDC");
 
 	//! Load wrapped classes and Ruby scripts
 	//! These are the fundament of Shidacea, so you should know what you're doing if you change these
 	
-	setup_ruby_class_intrect(mrb);
-	setup_ruby_class_floatrect(mrb);
+	setup_ruby_class_intrect(mrb, sdc_module);
+	setup_ruby_class_floatrect(mrb, sdc_module);
 
-	setup_ruby_class_resource_manager(mrb);
-	setup_ruby_class_render_states(mrb);
+	setup_ruby_class_resource_manager(mrb, sdc_module);
+	setup_ruby_class_render_states(mrb, sdc_module);
 
-	setup_ruby_class_coordinates(mrb);
+	setup_ruby_class_coordinates(mrb, sdc_module);
 	
-	setup_ruby_collider(mrb);
+	setup_ruby_collider(mrb, sdc_module);
 
-	setup_ruby_events(mrb);
-	setup_ruby_class_event(mrb);
+	setup_ruby_events(mrb, sdc_module);
+	setup_ruby_class_event(mrb, sdc_module);
 
-	setup_ruby_class_music(mrb);
+	setup_ruby_class_music(mrb, sdc_module);
 
-	setup_ruby_class_texture(mrb);
-	setup_ruby_class_sprite(mrb);
-	setup_ruby_class_map_layer(mrb);
-	setup_ruby_class_tile(mrb);
-	setup_ruby_class_tileset(mrb);
+	setup_ruby_class_texture(mrb, sdc_module);
+	setup_ruby_class_sprite(mrb, sdc_module);
+	setup_ruby_class_map_layer(mrb, sdc_module);
+	setup_ruby_class_tile(mrb, sdc_module);
+	setup_ruby_class_tileset(mrb, sdc_module);
 	
-	setup_ruby_class_view(mrb);
-	setup_ruby_class_window(mrb);
+	setup_ruby_class_view(mrb, sdc_module);
+	setup_ruby_class_window(mrb, sdc_module);
 
-	setup_ruby_class_socket(mrb);
-	setup_ruby_class_listener(mrb);
+	setup_ruby_class_socket(mrb, sdc_module);
+	setup_ruby_class_listener(mrb, sdc_module);
 
-	setup_ruby_imgui(mrb);
+	setup_ruby_imgui(mrb, sdc_module);
 
 	//! Load Ruby core scripts
 

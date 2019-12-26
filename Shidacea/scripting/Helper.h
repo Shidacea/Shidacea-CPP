@@ -87,6 +87,7 @@ namespace MrbWrap {
 	//! Create and returns a ruby class which can be used as a C++ class wrapper
 	//! Use this when setting up a ruby class
 	RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr);
+	RClass* define_data_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr);
 
 	//! Define a copy method automatically for any wrapped C++ object
 	//! Use this when setting up a ruby class

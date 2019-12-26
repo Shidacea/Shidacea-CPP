@@ -43,9 +43,9 @@ mrb_value ruby_listener_accept(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_listener(mrb_state* mrb) {
+void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_listener_class = MrbWrap::define_data_class(mrb, "Listener");
+	auto ruby_listener_class = MrbWrap::define_data_class_under(mrb, "Listener", ruby_module);
 
 	mrb_define_method(mrb, ruby_listener_class, "initialize", ruby_listener_init, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_listener_class, "listen", ruby_listener_listen, MRB_ARGS_REQ(1));

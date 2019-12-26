@@ -123,9 +123,9 @@ mrb_value ruby_socket_local_port(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_socket(mrb_state* mrb) {
+void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_socket_class = MrbWrap::define_data_class(mrb, "Socket");
+	auto ruby_socket_class = MrbWrap::define_data_class_under(mrb, "Socket", ruby_module);
 	auto ruby_socket_status_module = mrb_define_module_under(mrb, ruby_socket_class, "Status");
 
 	mrb_define_const(mrb, ruby_socket_status_module, "Done", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Done)));

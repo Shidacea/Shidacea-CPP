@@ -14,9 +14,9 @@ mrb_value ruby_floatrect_init(mrb_state* mrb, mrb_value self) {
 	return self;
 }
 
-void setup_ruby_class_floatrect(mrb_state* mrb) {
+void setup_ruby_class_floatrect(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_floatrect_class = MrbWrap::define_data_class(mrb, "FloatRect");
+	auto ruby_floatrect_class = MrbWrap::define_data_class_under(mrb, "FloatRect", ruby_module);
 
 	mrb_define_method(mrb, ruby_floatrect_class, "initialize", ruby_floatrect_init, MRB_ARGS_OPT(4));
 	MrbWrap::define_default_copy_init<sf::FloatRect>(mrb, ruby_floatrect_class);

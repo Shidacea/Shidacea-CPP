@@ -45,9 +45,9 @@ mrb_value ruby_view_set_viewport(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_view(mrb_state* mrb) {
+void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_view_class = MrbWrap::define_data_class(mrb, "View");
+	auto ruby_view_class = MrbWrap::define_data_class_under(mrb, "View", ruby_module);
 
 	mrb_define_method(mrb, ruby_view_class, "initialize", ruby_view_init, MRB_ARGS_ARG(0, 2));
 	mrb_define_method(mrb, ruby_view_class, "set_viewport", ruby_view_set_viewport, MRB_ARGS_REQ(1));

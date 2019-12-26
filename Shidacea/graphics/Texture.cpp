@@ -32,9 +32,9 @@ mrb_value ruby_texture_load_from_file(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_texture(mrb_state* mrb) {
+void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_texture_class = MrbWrap::define_data_class(mrb, "Texture");
+	auto ruby_texture_class = MrbWrap::define_data_class_under(mrb, "Texture", ruby_module);
 
 	mrb_define_method(mrb, ruby_texture_class, "initialize", ruby_texture_init, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_texture_class, "load_from_file", ruby_texture_load_from_file, MRB_ARGS_ARG(1, 1));

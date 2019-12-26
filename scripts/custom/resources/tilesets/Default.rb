@@ -1,5 +1,5 @@
-tileset = Tileset.new
-texture = Texture.new
+tileset = SDC::Tileset.new
+texture = SDC::Texture.new
 
 8.times {tileset.add_tile(SDC::CustomTile.new)}
 tileset.tiles[3].solid = true

@@ -143,7 +143,7 @@ mrb_value ruby_window_poll_event(mrb_state* mrb, mrb_value self) {
 
 	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
-	static auto event_class = mrb_class_get(mrb, "Event");
+	static auto event_class = mrb_class_get_under(mrb, window_ruby_module, "Event");
 	auto new_event = mrb_obj_new(mrb, event_class, 0, NULL);
 
 	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, new_event);
@@ -215,8 +215,8 @@ mrb_value ruby_window_has_focus(mrb_state* mrb, mrb_value self) {
 
 void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object) {
 
-	static auto sprite_class = mrb_class_get(mrb, "Sprite");
-	static auto map_layer_class = mrb_class_get(mrb, "MapLayer");
+	static auto sprite_class = mrb_class_get_under(mrb, window_ruby_module, "Sprite");
+	static auto map_layer_class = mrb_class_get_under(mrb, window_ruby_module, "MapLayer");
 
 	auto object_class = mrb_obj_class(mrb, draw_object);
 
@@ -238,9 +238,11 @@ void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_
 
 }
 
-void setup_ruby_class_window(mrb_state* mrb) {
+void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_window_class = MrbWrap::define_data_class(mrb, "Window");
+	window_ruby_module = ruby_module;
+
+	auto ruby_window_class = MrbWrap::define_data_class_under(mrb, "Window", ruby_module);
 
 	mrb_define_method(mrb, ruby_window_class, "initialize", ruby_window_init, MRB_ARGS_ARG(3, 1));
 

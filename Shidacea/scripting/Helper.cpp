@@ -113,3 +113,14 @@ RClass* MrbWrap::define_data_class(mrb_state* mrb, const char* name, RClass* sup
 	return ruby_class;
 
 }
+
+RClass* MrbWrap::define_data_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class) {
+
+	if (!super_class) super_class = mrb->object_class;
+
+	auto ruby_class = mrb_define_class_under(mrb, ruby_module, name, super_class);
+	MRB_SET_INSTANCE_TT(ruby_class, MRB_TT_DATA);
+
+	return ruby_class;
+
+}

@@ -52,7 +52,7 @@ mrb_value ruby_sprite_position(mrb_state* mrb, mrb_value self) {
 
 	auto sprite = get_sprite(mrb, self);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, sprite_ruby_module, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
@@ -82,7 +82,7 @@ mrb_value ruby_sprite_scale(mrb_state* mrb, mrb_value self) {
 
 	auto sprite = get_sprite(mrb, self);
 
-	static auto coordinates_class = mrb_class_get(mrb, "Coordinates");
+	static auto coordinates_class = mrb_class_get_under(mrb, sprite_ruby_module, "Coordinates");
 
 	auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
 	auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
@@ -121,9 +121,11 @@ sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_sprite(mrb_state* mrb) {
+void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_sprite_class = mrb_define_class(mrb, "Sprite", mrb->object_class);
+	sprite_ruby_module = ruby_module;
+
+	auto ruby_sprite_class = mrb_define_class_under(mrb, ruby_module, "Sprite", mrb->object_class);
 
 	mrb_define_method(mrb, ruby_sprite_class, "initialize", ruby_sprite_init, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_sprite_class, "delete", ruby_sprite_delete, MRB_ARGS_NONE());

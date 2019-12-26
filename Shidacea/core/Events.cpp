@@ -1,8 +1,8 @@
 #include "Events.h"
 
-void setup_ruby_events(mrb_state* mrb) {
+void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
-	auto module_type = mrb_define_module(mrb, "EventType");
+	auto module_type = mrb_define_module_under(mrb, ruby_module, "EventType");
 
 	REGISTER_TYPE(mrb, module_type, Closed);
 	REGISTER_TYPE(mrb, module_type, Resized);
@@ -28,7 +28,7 @@ void setup_ruby_events(mrb_state* mrb) {
 	REGISTER_TYPE(mrb, module_type, TouchEnded);
 	REGISTER_TYPE(mrb, module_type, SensorChanged);
 
-	auto module_key = mrb_define_module(mrb, "EventKey");
+	auto module_key = mrb_define_module_under(mrb, ruby_module, "EventKey");
 
 	REGISTER_KEY(mrb, module_key, Unknown);
 
@@ -146,7 +146,7 @@ void setup_ruby_events(mrb_state* mrb) {
 
 	mrb_define_module_function(mrb, module_key, "is_pressed?", ruby_event_key_is_pressed, MRB_ARGS_REQ(1));
 
-	auto module_mouse = mrb_define_module(mrb, "EventMouse");
+	auto module_mouse = mrb_define_module_under(mrb, ruby_module, "EventMouse");
 
 	mrb_define_module_function(mrb, module_mouse, "get_position", ruby_event_mouse_get_position, MRB_ARGS_OPT(1));
 	mrb_define_module_function(mrb, module_mouse, "is_button_pressed?", ruby_event_mouse_is_button_pressed, MRB_ARGS_REQ(1));
@@ -366,9 +366,9 @@ mrb_value ruby_event_mouse_scroll_y(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_event(mrb_state* mrb) {
+void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_event_class = MrbWrap::define_data_class(mrb, "Event");
+	auto ruby_event_class = MrbWrap::define_data_class_under(mrb, "Event", ruby_module);
 
 	mrb_define_method(mrb, ruby_event_class, "initialize", ruby_event_init, MRB_ARGS_NONE());
 

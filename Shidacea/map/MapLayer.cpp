@@ -286,9 +286,9 @@ mrb_value ruby_map_layer_tileset(mrb_state* mrb, mrb_value self) {
 
 }
 
-void setup_ruby_class_map_layer(mrb_state* mrb) {
+void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_map_layer_class = MrbWrap::define_data_class(mrb, "MapLayer");
+	auto ruby_map_layer_class = MrbWrap::define_data_class_under(mrb, "MapLayer", ruby_module);
 
 	mrb_define_method(mrb, ruby_map_layer_class, "initialize", ruby_map_layer_init, MRB_ARGS_REQ(6));
 	mrb_define_method(mrb, ruby_map_layer_class, "reload", ruby_map_layer_reload, MRB_ARGS_REQ(1));

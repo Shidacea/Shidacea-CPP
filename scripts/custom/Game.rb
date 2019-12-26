@@ -18,7 +18,7 @@ module SDC
 			@dt = 1.0
 
 			# Gravity
-			@gravity = Coordinates.new(0, 30.0) * (@meter / @second**2)
+			@gravity = SDC::Coordinates.new(0, 30.0) * (@meter / @second**2)
 
 			# Basic hash for global and local switches
 			@switches = {}

@@ -1,4 +1,4 @@
-config = MapConfig.new("Test Map 001")
+config = SDC::MapConfig.new("Test Map 001")
 
 config.script do
 	SDC::AI::once do

@@ -17,4 +17,4 @@ private:
 
 };
 
-void setup_ruby_class_resource_manager(mrb_state* mrb);
+void setup_ruby_class_resource_manager(mrb_state* mrb, RClass* ruby_module);
