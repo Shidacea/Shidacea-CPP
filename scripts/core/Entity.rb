@@ -444,13 +444,5 @@ module SDC
 
 		end
 
-		def master_ai_script
-			SDC::AI::done
-		end
-
-		def ai_script
-			SDC::AI::done
-		end
-
 	end
 end

@@ -52,12 +52,7 @@ class SceneTest < SDC::Scene
 		@music.open_from_file("assets/music/Example.wav")
 		@music.looping = true
 
-		@test_map = SDC::Map.new(view_width: 30, view_height: 20)
-		@test_map.load_from_file("dummy")
-
-		@test_map.map_layers[0].link_tileset(SDC::Data::tilesets[0])
-		@test_map.map_layers[1].link_tileset(SDC::Data::tilesets[0])
-		@test_map.map_layers[2].link_tileset(SDC::Data::tilesets[0])
+		load_map
 
 		@entities = []
 		@entities.push(create(TestEntity))
@@ -80,6 +75,16 @@ class SceneTest < SDC::Scene
 		@test_array = [1, 2, 3]
 		@test_string = "Hello"
 		@test_string2 = "Derp"
+	end
+
+	def load_map
+		@test_map = SDC::Map.new(view_width: 30, view_height: 20)
+		@test_map.load_from_file("dummy")
+		@test_map.set_config("TestMap")
+
+		@test_map.map_layers[0].link_tileset(SDC::Data::tilesets[0])
+		@test_map.map_layers[1].link_tileset(SDC::Data::tilesets[0])
+		@test_map.map_layers[2].link_tileset(SDC::Data::tilesets[0])
 	end
 
 	def draw
@@ -115,7 +120,7 @@ class SceneTest < SDC::Scene
 			# Filter double collisions
 			ImGui.button "Play music" {@music.play}
 			ImGui.button "Pause music" {@music.pause}
-			ImGui.button "Test map script" {@test_map.set_config("TestMap")}
+			ImGui.button "Reload map" {load_map}
 			ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
 			ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
 			ImGui.text "Entity Collision: #{SDC::get_switch("coll")}"

@@ -1,6 +1,8 @@
 module SDC
 	class Map
 
+		include SDCMeta::AIBackend
+
 		# TODO: Remove this if unneeded
 		attr_accessor :map_layers
 
@@ -9,11 +11,13 @@ module SDC
 			@view_height = view_height
 
 			@map_layers = []
+
 			@config = nil
+			setup_ai
 		end
 
 		def set_config(name)
-			@config = SDC::Data::map_configs[name]
+			@config = SDC::Data::map_configs[name].dup
 		end
 
 		def load_from_file(filename)
@@ -71,7 +75,7 @@ module SDC
 		end
 
 		def update
-			@config.run_script if @config
+			tick_ai
 		end
 
 		def reload(position)
@@ -82,6 +86,10 @@ module SDC
 			@map_layers.each do |layer|
 				window.draw_translated(layer, offset)
 			end
+		end
+
+		def master_ai_script
+			@config.run_script if @config
 		end
 
 	end
