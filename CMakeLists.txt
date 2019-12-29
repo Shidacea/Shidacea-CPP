@@ -71,168 +71,107 @@ add_subdirectory(imgui-sfml)
 
 file(GLOB_RECURSE RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
 
-file(GLOB_RECURSE RUBYSCRIPTS_INCLUDE "${CMAKE_SOURCE_DIR}/scripts/include/*.rb")
-file(GLOB_RECURSE RUBYSCRIPTS_CORE "${CMAKE_SOURCE_DIR}/scripts/core/*.rb")
-file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_RESOURCES "${CMAKE_SOURCE_DIR}/scripts/custom/resources/*.rb")
-file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_SCENES "${CMAKE_SOURCE_DIR}/scripts/custom/scenes/*.rb")
-file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_ENTITIES "${CMAKE_SOURCE_DIR}/scripts/custom/entities/*.rb")
-file(GLOB_RECURSE RUBYSCRIPTS_CUSTOM_OTHER "${CMAKE_SOURCE_DIR}/scripts/custom/other/*.rb")
-
 set(RUBY_MAIN_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Main.rb")
 set(RUBY_GAME_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Game.rb")
 
-# If this is a debug build, copy the ruby files to the build directory
-# Otherwise compile them to bytecode
+# Setup directories
 
 include_directories(${CMAKE_BINARY_DIR})
-
-set(RUBY_COMPILED_TARGETS "")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts/include)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts/core)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts/custom/resources)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts/custom/scenes)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts/custom/entities)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts/custom/other)
 
 endif()
 
-foreach(RUBYSCRIPT_INCLUDE ${RUBYSCRIPTS_INCLUDE})
+# Macros for configuring the script files
+# If this is a debug build, copy the ruby files to the build directory
+# Otherwise compile them to bytecode
 
-	get_filename_component(INCLUDE_SCRIPT_NAME ${RUBYSCRIPT_INCLUDE} NAME_WE)
-	string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/include/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_INCLUDE})
+macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module)
+
+	if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+		message("Preparing header file: ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h")
+
+		add_custom_target(TargetRuby${arg_module}
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
+			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${COMPILED_RUBY_${arg_name}_SCRIPTS} 
+			|| ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/scripts/Void.rb
+			DEPENDS ${COMPILED_RUBY_${arg_name}_SCRIPTS} mruby
+			VERBATIM
+		)
+
+		set(RUBY_COMPILED_TARGETS TargetRuby${arg_module} ${RUBY_COMPILED_TARGETS})
+
+	endif()
+
+endmacro()
+
+macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module)
+
+	file(GLOB_RECURSE RUBYSCRIPTS_${arg_name} "${CMAKE_SOURCE_DIR}/scripts/${arg_path}/*.rb")
+
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/${arg_path})
+
+	endif()
+	
+	foreach(RUBYSCRIPT_${arg_name} ${RUBYSCRIPTS_${arg_name}})
+
+		get_filename_component(${arg_name}_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}} NAME_WE)
+		string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/${arg_path}/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}})
+
+		if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+			configure_file(
+				${RUBYSCRIPT_${arg_name}}
+				${CMAKE_BINARY_DIR}/scripts/${arg_path}/${TRUNCATED_SCRIPT_NAME}
+			)
+
+		else()
+
+			set(COMPILED_RUBY_${arg_name}_SCRIPTS ${RUBYSCRIPT_${arg_name}} ${COMPILED_RUBY_${arg_name}_SCRIPTS})
+
+		endif()
+
+	endforeach(RUBYSCRIPT_${arg_name})
+
+	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module})
+
+endmacro()
+
+macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module)
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 		configure_file(
-			${RUBYSCRIPT_INCLUDE}
-			${CMAKE_BINARY_DIR}/scripts/include/${TRUNCATED_SCRIPT_NAME}
+			${RUBY_${arg_name}_SCRIPT}
+			${CMAKE_BINARY_DIR}/scripts/${arg_path}/${arg_module}.rb
 		)
 
 	else()
 
-		set(COMPILED_RUBY_INCLUDE_SCRIPTS ${RUBYSCRIPT_INCLUDE} ${COMPILED_RUBY_INCLUDE_SCRIPTS})
+		set(COMPILED_RUBY_${arg_name}_SCRIPTS ${RUBY_${arg_name}_SCRIPT})
 
 	endif()
+		
+	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module})
 
-endforeach(RUBYSCRIPT_INCLUDE)
+endmacro()
 
-foreach(RUBYSCRIPT_CORE ${RUBYSCRIPTS_CORE})
+# Load and compile all ruby script folders and single scripts
 
-	get_filename_component(CORE_SCRIPT_NAME ${RUBYSCRIPT_CORE} NAME_WE)
-	string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/core/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE include include Include)
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE core core Core)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES custom/resources custom_resources CustomResources)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES custom/scenes custom_scenes CustomScenes)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES custom/entities custom_entities CustomEntities)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER custom/other custom_other CustomOther)
 
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBYSCRIPT_CORE}
-			${CMAKE_BINARY_DIR}/scripts/core/${TRUNCATED_SCRIPT_NAME}
-		)
-
-	else()
-
-		set(COMPILED_RUBY_CORE_SCRIPTS ${RUBYSCRIPT_CORE} ${COMPILED_RUBY_CORE_SCRIPTS})
-
-	endif()
-
-endforeach(RUBYSCRIPT_CORE)
-
-foreach(RUBYSCRIPT_RESOURCE ${RUBYSCRIPTS_CUSTOM_RESOURCES})
-
-	get_filename_component(CORE_SCRIPT_NAME ${RUBYSCRIPT_RESOURCE} NAME_WE)
-	string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/custom/resources/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_RESOURCE})
-
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBYSCRIPT_RESOURCE}
-			${CMAKE_BINARY_DIR}/scripts/custom/resources/${TRUNCATED_SCRIPT_NAME}
-		)
-
-	else()
-
-		set(COMPILED_RUBY_CUSTOM_RESOURCES_SCRIPTS ${RUBYSCRIPT_RESOURCE} ${COMPILED_RUBY_CUSTOM_RESOURCES_SCRIPT})
-
-	endif()
-
-endforeach(RUBYSCRIPT_RESOURCE)
-
-foreach(RUBYSCRIPT_SCENE ${RUBYSCRIPTS_CUSTOM_SCENES})
-
-	get_filename_component(CORE_SCRIPT_NAME ${RUBYSCRIPT_SCENE} NAME_WE)
-	string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/custom/scenes/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_SCENE})
-
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBYSCRIPT_SCENE}
-			${CMAKE_BINARY_DIR}/scripts/custom/scenes/${TRUNCATED_SCRIPT_NAME}
-		)
-
-	else()
-
-		set(COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS ${RUBYSCRIPT_SCENE} ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS})
-
-	endif()
-
-endforeach(RUBYSCRIPT_SCENE)
-
-foreach(RUBYSCRIPT_ENTITY ${RUBYSCRIPTS_CUSTOM_ENTITIES})
-
-	get_filename_component(CORE_SCRIPT_NAME ${RUBYSCRIPT_ENTITY} NAME_WE)
-	string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/custom/entities/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_ENTITY})
-
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBYSCRIPT_ENTITY}
-			${CMAKE_BINARY_DIR}/scripts/custom/entities/${TRUNCATED_SCRIPT_NAME}
-		)
-
-	else()
-
-		set(COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS ${RUBYSCRIPT_ENTITY} ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS})
-
-	endif()
-
-endforeach(RUBYSCRIPT_ENTITY)
-
-foreach(RUBYSCRIPT_OTHER ${RUBYSCRIPTS_CUSTOM_OTHER})
-
-	get_filename_component(CORE_SCRIPT_NAME ${RUBYSCRIPT_OTHER} NAME_WE)
-	string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/custom/other/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_OTHER})
-
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBYSCRIPT_OTHER}
-			${CMAKE_BINARY_DIR}/scripts/custom/other/${TRUNCATED_SCRIPT_NAME}
-		)
-
-	else()
-
-		set(COMPILED_RUBY_CUSTOM_OTHER_SCRIPTS ${RUBYSCRIPT_OTHER} ${COMPILED_RUBY_CUSTOM_OTHER_SCRIPT})
-
-	endif()
-
-endforeach(RUBYSCRIPT_OTHER)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-		configure_file(
-			${RUBY_MAIN_SCRIPT}
-			${CMAKE_BINARY_DIR}/scripts/custom/Main.rb
-		)
-
-		configure_file(
-			${RUBY_GAME_SCRIPT}
-			${CMAKE_BINARY_DIR}/scripts/custom/Game.rb
-		)
-
-endif()
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME custom custom_game Game)
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN custom custom_main Main)
 
 # Add external libraries from the SFML source directory
 
@@ -252,77 +191,9 @@ if(WIN32)
 	
 endif()
 
-# Compile ruby scripts if necessary
-
-if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-
-	add_custom_target(TargetRubyInclude
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_include -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyInclude.h ${COMPILED_RUBY_INCLUDE_SCRIPTS}
-		DEPENDS ${COMPILED_RUBY_INCLUDE_SCRIPTS} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyCore
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_core -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCore.h ${COMPILED_RUBY_CORE_SCRIPTS}
-		DEPENDS ${COMPILED_RUBY_CORE_SCRIPTS} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyCustomResources
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_custom_resources -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomResources.h ${COMPILED_RUBY_CUSTOM_RESOURCES_SCRIPTS}
-		DEPENDS ${COMPILED_RUBY_CUSTOM_RESOURCES_SCRIPTS} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyCustomScenes
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_custom_scenes -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomScenes.h ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS}
-		DEPENDS ${COMPILED_RUBY_CUSTOM_SCENES_SCRIPTS} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyCustomEntities
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_custom_entities -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomEntities.h ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS}
-		DEPENDS ${COMPILED_RUBY_CUSTOM_ENTITIES_SCRIPTS} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyCustomOther
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_custom_other -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyCustomOther.h ${COMPILED_RUBY_CUSTOM_OTHER_SCRIPTS}
-		DEPENDS ${COMPILED_RUBY_CUSTOM_OTHER_SCRIPTS} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyMain
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_main -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyMain.h ${RUBY_MAIN_SCRIPT}
-		DEPENDS ${RUBY_MAIN_SCRIPT} mruby
-		VERBATIM
-	)
-
-	add_custom_target(TargetRubyGame
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-		COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_game -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRubyGame.h ${RUBY_GAME_SCRIPT}
-		DEPENDS ${RUBY_GAME_SCRIPT} mruby
-		VERBATIM
-	)
-
-	set(RUBY_COMPILED_TARGETS TTargetRubyInclude argetRubyCore TargetRubyCustomResources TargetRubyCustomScenes TargetRubyCustomEntities TargetRubyCustomOther TargetRubyMain TargetRubyGame ${RUBY_COMPILED_TARGETS})
-
-endif()
-
 # Copy all asset files and preserve their tree structure
 
 file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/assets/*.*")
-
-message(${ASSET_FILES})
-
-set(TRUNCATED_ASSET_NAMES "")
 
 foreach(ASSET_FILE ${ASSET_FILES})
 
