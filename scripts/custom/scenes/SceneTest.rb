@@ -81,10 +81,6 @@ class SceneTest < SDC::Scene
 		@test_map = SDC::Map.new(view_width: 30, view_height: 20)
 		@test_map.load_from_file("dummy")
 		@test_map.set_config("TestMap")
-
-		@test_map.map_layers[0].link_tileset(SDC::Data::tilesets[0])
-		@test_map.map_layers[1].link_tileset(SDC::Data::tilesets[0])
-		@test_map.map_layers[2].link_tileset(SDC::Data::tilesets[0])
 	end
 
 	def draw

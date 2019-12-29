@@ -6,6 +6,8 @@ config.script do
 		puts "Map Test"
 
 	end 
-end 
+end
+
+config.tileset_index = "Default"
 
 SDC::Data::add_map_config(config, index: "TestMap")

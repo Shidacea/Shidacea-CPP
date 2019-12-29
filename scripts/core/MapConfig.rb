@@ -1,6 +1,7 @@
 class MapConfig
 
 	attr_reader :map_name
+	attr_accessor :tileset_index
 
 	def initialize(map_name)
 		@map_name = map_name

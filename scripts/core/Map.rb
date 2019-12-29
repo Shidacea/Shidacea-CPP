@@ -4,7 +4,7 @@ module SDC
 		include SDCMeta::AIBackend
 
 		# TODO: Remove this if unneeded
-		attr_accessor :map_layers
+		attr_accessor :map_layers, :config
 
 		def initialize(view_width: 20, view_height: 20)
 			@view_width = view_width
@@ -18,6 +18,9 @@ module SDC
 
 		def set_config(name)
 			@config = SDC::Data::map_configs[name].dup
+			@map_layers.each do |layer|
+				layer.link_tileset(SDC::Data::tilesets[@config.tileset_index])
+			end
 		end
 
 		def load_from_file(filename)
