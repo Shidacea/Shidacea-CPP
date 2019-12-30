@@ -99,7 +99,7 @@ module SDC
 			@hurtshapes.add(SDC::Hurtshape.new(active: active, shape_index: shape_index), index)
 		end
 
-		def self.register_id(index: nil)
+		def self.register_id(index)
 			@entity_id = SDC::Data.add_entity(self, index: index)
 		end
 

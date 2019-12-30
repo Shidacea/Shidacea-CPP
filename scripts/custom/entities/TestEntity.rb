@@ -1,5 +1,5 @@
 class TestEntity < SDC::Entity
-	register_id
+	register_id("TestEntity")
 
 	add_shape(index: 0, type: ShapeCircle, radius: 25.0)
 	add_box(index: 0, size: SDC::Coordinates.new(25.0, 25.0))

@@ -48,14 +48,16 @@ class SceneTest < SDC::Scene
 
 		@counter = 0
 
-		@music = SDC::Music.new
-		@music.open_from_file("assets/music/Example.wav")
+		@music = SDC::Data::load_music("TestMusic", filename: "assets/music/Example.wav")
 		@music.looping = true
 
 		load_map
 
 		@entities = []
-		@entities.push(create(TestEntity))
+
+		# You can create entities using their entity index or their class
+		# The first option is useful if you want to iterate over all available classes
+		@entities.push(create(SDC::Data::entities["TestEntity"]))
 		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
 
