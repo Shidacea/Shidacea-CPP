@@ -54,7 +54,7 @@ void MrbWrap::execute_script_file(mrb_state* mrb, std::string const& filename) {
 void MrbWrap::load_mods(mrb_state* mrb) {
 
 	auto current_path = std::filesystem::current_path();
-	auto mod_path = current_path / "scripts" / "mods";
+	auto mod_path = current_path / "mods";
 
 	if (!std::filesystem::exists(mod_path)) {
 

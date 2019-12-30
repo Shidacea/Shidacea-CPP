@@ -22,7 +22,7 @@ using MrbIntRect = sf::Rect<mrb_int>;
 //! In the latter case, don't forget to include "compiled_scripts/XXX.h" (but ONLY then), or else the array will not be defined
 //! Sadly, there is no easy way to circumwent the conditioned include directive
 #ifndef NDEBUG
-#define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, "scripts/" #path ".rb")
+#define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, #path ".rb")
 #else
 #define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
@@ -31,11 +31,11 @@ using MrbIntRect = sf::Rect<mrb_int>;
 //! This way scripts can be loaded at runtime, e.g. for a precompiled engine
 
 #ifndef NDEBUG
-#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, "scripts/" #path)
+#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, #path)
 #else
 #ifdef DYNAMIC_LOADING
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name); \
-MrbWrap::load_all_scripts_recursively(mrb, "scripts/" #path)
+MrbWrap::load_all_scripts_recursively(mrb, #path)
 #else
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif

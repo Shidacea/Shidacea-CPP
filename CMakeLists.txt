@@ -67,20 +67,15 @@ set(SFML_DIR "${CMAKE_BINARY_DIR}")
 set(IMGUI_SFML_FIND_SFML OFF)
 add_subdirectory(imgui-sfml)
 
-# Collect all ruby scripts, sorted into different categories
-
-file(GLOB_RECURSE RUBYSCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.rb")
-
-set(RUBY_MAIN_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Main.rb")
-set(RUBY_GAME_SCRIPT "${CMAKE_SOURCE_DIR}/scripts/custom/Game.rb")
-
 # Setup directories
 
 include_directories(${CMAKE_BINARY_DIR})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts)
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_include)
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_core)
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_custom)
 
 endif()
 
@@ -97,7 +92,7 @@ macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module)
 		add_custom_target(TargetRuby${arg_module}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
 			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${COMPILED_RUBY_${arg_name}_SCRIPTS} 
-			|| ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/scripts/Void.rb
+			|| ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/core/Void.rb
 			DEPENDS ${COMPILED_RUBY_${arg_name}_SCRIPTS} mruby
 			VERBATIM
 		)
@@ -110,7 +105,7 @@ endmacro()
 
 macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module)
 
-	file(GLOB_RECURSE RUBYSCRIPTS_${arg_name} "${CMAKE_SOURCE_DIR}/scripts/${arg_path}/*.rb")
+	file(GLOB_RECURSE RUBYSCRIPTS_${arg_name} "${CMAKE_SOURCE_DIR}/${arg_path}/*.rb")
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
@@ -121,13 +116,13 @@ macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module)
 	foreach(RUBYSCRIPT_${arg_name} ${RUBYSCRIPTS_${arg_name}})
 
 		get_filename_component(${arg_name}_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}} NAME_WE)
-		string(REPLACE "${CMAKE_SOURCE_DIR}/scripts/${arg_path}/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}})
+		string(REPLACE "${CMAKE_SOURCE_DIR}/${arg_path}/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}})
 
 		if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 			configure_file(
 				${RUBYSCRIPT_${arg_name}}
-				${CMAKE_BINARY_DIR}/scripts/${arg_path}/${TRUNCATED_SCRIPT_NAME}
+				${CMAKE_BINARY_DIR}/${arg_path}/${TRUNCATED_SCRIPT_NAME}
 			)
 
 		else()
@@ -147,13 +142,13 @@ macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module)
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 		configure_file(
-			${RUBY_${arg_name}_SCRIPT}
-			${CMAKE_BINARY_DIR}/scripts/${arg_path}/${arg_module}.rb
+			${CMAKE_SOURCE_DIR}/${arg_path}/${arg_module}.rb
+			${CMAKE_BINARY_DIR}/${arg_path}/${arg_module}.rb
 		)
 
 	else()
 
-		set(COMPILED_RUBY_${arg_name}_SCRIPTS ${RUBY_${arg_name}_SCRIPT})
+		set(COMPILED_RUBY_${arg_name}_SCRIPTS ${CMAKE_SOURCE_DIR}/${arg_path}/${arg_module}.rb)
 
 	endif()
 		
@@ -163,15 +158,15 @@ endmacro()
 
 # Load and compile all ruby script folders and single scripts
 
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE include include Include)
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE core core Core)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES custom/resources custom_resources CustomResources)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES custom/scenes custom_scenes CustomScenes)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES custom/entities custom_entities CustomEntities)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER custom/other custom_other CustomOther)
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE scripts_include include Include)
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE scripts_core core Core)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES scripts_custom/resources custom_resources CustomResources)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES scripts_custom/scenes custom_scenes CustomScenes)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES scripts_custom/entities custom_entities CustomEntities)
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER scripts_custom/other custom_other CustomOther)
 
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME custom custom_game Game)
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN custom custom_main Main)
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME scripts_custom custom_game Game)
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN scripts_custom custom_main Main)
 
 # Add external libraries from the SFML source directory
 
@@ -211,50 +206,50 @@ endforeach(ASSET_FILE)
 # Source files
 
 set(AUDIO_SOURCES
-	Shidacea/audio/Music.cpp
+	core/audio/Music.cpp
 )
 
 set(GRAPHICS_SOURCES
-	Shidacea/graphics/ResourceManager.cpp
-	Shidacea/graphics/RenderStates.cpp
-	Shidacea/graphics/View.cpp
-	Shidacea/graphics/Window.cpp
-	Shidacea/graphics/Texture.cpp
-	Shidacea/graphics/Sprite.cpp
-	Shidacea/graphics/ImGuiWrapper.cpp
+	core/graphics/ResourceManager.cpp
+	core/graphics/RenderStates.cpp
+	core/graphics/View.cpp
+	core/graphics/Window.cpp
+	core/graphics/Texture.cpp
+	core/graphics/Sprite.cpp
+	core/graphics/ImGuiWrapper.cpp
 )
 
 set(NETWORK_SOURCES
-	Shidacea/network/Socket.cpp
-	Shidacea/network/Listener.cpp
+	core/network/Socket.cpp
+	core/network/Listener.cpp
 )
 
 set(MAP_SOURCES
-	Shidacea/map/Tile.cpp
-	Shidacea/map/Tileset.cpp
-	Shidacea/map/MapLayer.cpp
+	core/map/Tile.cpp
+	core/map/Tileset.cpp
+	core/map/MapLayer.cpp
 )
 
-set(CORE_SOURCES
-	Shidacea/core/IntRect.cpp
-	Shidacea/core/FloatRect.cpp
-	Shidacea/core/Coordinates.cpp
-	Shidacea/core/Events.cpp
-	Shidacea/core/Shape.cpp
-	Shidacea/core/Collisions.cpp
+set(INTERNAL_SOURCES
+	core/internal/IntRect.cpp
+	core/internal/FloatRect.cpp
+	core/internal/Coordinates.cpp
+	core/internal/Events.cpp
+	core/internal/Shape.cpp
+	core/internal/Collisions.cpp
 )
 
 set(SCRIPTING_SOURCES
-	Shidacea/scripting/Helper.cpp
+	core/scripting/Helper.cpp
 )
 
 include_directories(
-	Shidacea/core 
-	Shidacea/audio
-	Shidacea/graphics
-	Shidacea/network
-	Shidacea/map
-	Shidacea/scripting
+	core/internal 
+	core/audio
+	core/graphics
+	core/network
+	core/map
+	core/scripting
 )
 
 # Load source files
@@ -264,7 +259,7 @@ set(SOURCES
 	${GRAPHICS_SOURCES}
 	${NETWORK_SOURCES}
 	${MAP_SOURCES}
-	${CORE_SOURCES}
+	${INTERNAL_SOURCES}
 	${SCRIPTING_SOURCES}
 	Main.cpp
 )

@@ -56,18 +56,18 @@ int main(int argc, char** argv) {
 
 	//! Load Ruby core scripts
 
-	MRB_LOAD_SCRIPT_FOLDER(mrb, include, include);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, core, core);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, include, scripts_include);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, core, scripts_core);
 
 	//! Load main scripts
 	//! If you want to add something, put it here
 	//! These are ordered, so don't just put it anywhere if it depends on other scripts
 	//! If you want to add compiled Ruby scripts, you also need to include them in the header file
 
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_resources, custom/resources);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_scenes, custom/scenes);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_entities, custom/entities);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_other, custom/other);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_resources, scripts_custom/resources);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_scenes, scripts_custom/scenes);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_entities, scripts_custom/entities);
+	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_other, scripts_custom/other);
 
 #ifdef MOD_LOADING
 
@@ -79,11 +79,11 @@ int main(int argc, char** argv) {
 
 	//! Load game class
 
-	MRB_LOAD_SCRIPT(mrb, custom_game, custom/Game);
+	MRB_LOAD_SCRIPT(mrb, custom_game, scripts_custom/Game);
 
 	//! Start main script with the game loop
 
-	MRB_LOAD_SCRIPT(mrb, custom_main, custom/Main);
+	MRB_LOAD_SCRIPT(mrb, custom_main, scripts_custom/Main);
 
 	//! Clean up the Ruby interpreter
 
