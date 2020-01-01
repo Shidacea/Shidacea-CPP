@@ -13,9 +13,9 @@ module SDC
 		extend SDCMeta::ClassProperty
 
 		self.define_class_property(:living, default: false)
-		self.define_class_property(:max_hp, default: 0)
 		self.define_class_property(:gravity_multiplier, default: 1.0)
 		self.define_class_property(:ai_active, default: false)
+		self.define_class_property(:max_hp, default: 0)
 
 		# Accessor methods for content arrays (except for textures)
 
@@ -257,8 +257,8 @@ module SDC
 			load_hitshapes
 			load_hurtshapes
 
-			if self.class.living then
-				@hp = self.class.max_hp
+			if self.living then
+				full_heal
 				@invincibility_frame_counter = 0
 				@invincibility_next_frame = false
 			end
@@ -267,7 +267,7 @@ module SDC
 		end
 
 		def physics
-			accelerate(SDC.game.gravity * self.class.gravity_multiplier)
+			accelerate(SDC.game.gravity * self.gravity_multiplier)
 
 			@velocity += @acceleration * SDC.game.dt
 			@position += @velocity * SDC.game.dt
@@ -293,6 +293,10 @@ module SDC
 			@hp -= value
 			@hp = 0 if @hp <= 0
 			@invincibility_next_frame = true
+		end
+
+		def full_heal
+			@hp = self.max_hp
 		end
 
 		def living_procedure
@@ -391,7 +395,7 @@ module SDC
 		def update
 			living_procedure
 
-			if self.class.ai_active then
+			if self.ai_active then
 				tick_ai
 			end
 
@@ -403,7 +407,7 @@ module SDC
 		def collision_with_entity(other_entity, hurtshape, hitshape)
 			@last_collisions.push(other_entity)
 
-			if self.class.living then
+			if self.living then
 				basic_hit(hurtshape, hitshape)
 			end
 
