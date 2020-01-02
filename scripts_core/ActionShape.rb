@@ -6,11 +6,17 @@ module SDC
 
 	class Actionshape
 
-		attr_accessor :active, :shape_index
+		attr_accessor :active, :shape_index, :attributes
 
-		def initialize(active: true, shape_index: nil)
+		def initialize(active: true, shape_index: nil, attributes: {})
 			@active = active
 			@shape_index = shape_index
+			@attributes = attributes
+		end
+
+		def initialize_copy(other)
+			super(other)
+			@attributes = other.attributes.dup
 		end
 
 	end
@@ -21,8 +27,8 @@ module SDC
 
 		attr_accessor :damage
 
-		def initialize(active: true, shape_index: nil, damage: 0)
-			super(active: active, shape_index: shape_index)
+		def initialize(active: true, shape_index: nil, damage: 0, attributes: {})
+			super(active: active, shape_index: shape_index, attributes: attributes)
 			@damage = damage
 		end
 
@@ -32,8 +38,8 @@ module SDC
 
 	class Hurtshape < Actionshape
 
-		def initialize(active: true, shape_index: nil)
-			super(active: active, shape_index: shape_index)
+		def initialize(active: true, shape_index: nil, attributes: {})
+			super(active: active, shape_index: shape_index, attributes: attributes)
 		end
 
 	end

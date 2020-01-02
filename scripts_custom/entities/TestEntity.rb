@@ -7,7 +7,7 @@ class TestEntity < SDC::Entity
 	add_texture(index: 0, filename: "assets/graphics/test/Chishi.png", rect: SDC::IntRect.new(0, 0, 50, 50))
 	add_sprite(index: 0, texture_index: 0, offset: SDC::Coordinates.new(-25.0, -25.0))
 
-	set_hitshape(index: 7, shape_index: 0, damage: 3)
+	set_hitshape(index: 7, shape_index: 0, damage: 3, attributes: {:test => 3})
 	set_hurtshape(index: 13, shape_index: 0)
 
 	self.living = true
@@ -18,6 +18,8 @@ class TestEntity < SDC::Entity
 	def at_init
 		self.max_hp += 20
 		self.hitshapes[7].damage += 1
+		self.hitshapes[7].attributes[:test] = 5
+
 		full_heal
 	end
 

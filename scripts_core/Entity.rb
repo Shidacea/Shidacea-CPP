@@ -89,14 +89,14 @@ module SDC
 			@sprites.add([texture_index, offset, active], index)
 		end
 
-		def self.set_hitshape(index: nil, active: true, shape_index: nil, damage: 0)
+		def self.set_hitshape(index: nil, active: true, shape_index: nil, damage: 0, attributes: {})
 			@hitshapes = SDC::SpecialContainer.new if !@hitshapes
-			@hitshapes.add(SDC::Hitshape.new(damage: damage, shape_index: shape_index, active: active), index)
+			@hitshapes.add(SDC::Hitshape.new(damage: damage, shape_index: shape_index, active: active, attributes: attributes), index)
 		end
 
-		def self.set_hurtshape(index: nil, active: true, shape_index: nil)
+		def self.set_hurtshape(index: nil, active: true, shape_index: nil, attributes: {})
 			@hurtshapes = SDC::SpecialContainer.new if !@hurtshapes
-			@hurtshapes.add(SDC::Hurtshape.new(active: active, shape_index: shape_index), index)
+			@hurtshapes.add(SDC::Hurtshape.new(active: active, shape_index: shape_index, attributes: attributes), index)
 		end
 
 		def self.register_id(index)
@@ -394,6 +394,8 @@ module SDC
 
 		def update
 			living_procedure
+
+			custom_update
 
 			if self.ai_active then
 				tick_ai
