@@ -187,6 +187,7 @@ module SDC
 				element = all_sprites.get(i)
 
 				# Again this time, the objects should not be copied to avoid useless memory consumption
+				# TODO: Use global resource manager instead
 
 				if element then
 					texture_index = element[0]

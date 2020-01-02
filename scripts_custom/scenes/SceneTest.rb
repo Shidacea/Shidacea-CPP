@@ -1,21 +1,23 @@
 class SceneTest < SDC::Scene 
 
 	def handle_event(event)
-		if event.type == SDC::EventType::KeyPressed then
-			if event.key_code == SDC::EventKey::W then
+		if event.has_type?(:KeyPressed) then
+			if event.key_pressed?(:W) then
 				@entities[0].accelerate(SDC.game.gravity * (-50.0))
 			end
 			@last_key_code = event.key_code.to_s
-		elsif event.type == SDC::EventType::Closed
+
+		elsif event.has_type?(:Closed)
 			SDC.next_scene = nil
+
 		end
 	end
 
 	def update
-		if SDC::key_pressed?(SDC::EventKey::F10) then
+		if SDC::key_pressed?(:F10) then
 			$window.set_imgui_scale(2.0)
 		
-		elsif SDC::key_pressed?(SDC::EventKey::F1) then
+		elsif SDC::key_pressed?(:F1) then
 			# Should trigger an error with backtrace
 			do_stuff_which_does_not_exist
 
@@ -24,8 +26,8 @@ class SceneTest < SDC::Scene
 		@test_map.update
 
 		v = 20.0 * (SDC.game.meter / SDC.game.second**2)
-		dx = (SDC::key_pressed?(SDC::EventKey::A) ? -v : 0.0) + (SDC::key_pressed?(SDC::EventKey::D) ? v : 0.0)
-		dy = (SDC::key_pressed?(SDC::EventKey::S) ? v : 0.0)
+		dx = (SDC.key_pressed?(:A) ? -v : 0.0) + (SDC.key_pressed?(:D) ? v : 0.0)
+		dy = (SDC.key_pressed?(:S) ? v : 0.0)
 
 		@entities[0].accelerate(SDC::Coordinates.new(dx, dy))
 
@@ -48,7 +50,7 @@ class SceneTest < SDC::Scene
 
 		@counter = 0
 
-		@music = SDC::Data::load_music("TestMusic", filename: "assets/music/Example.wav")
+		@music = SDC::Data.load_music(:TestMusic, filename: "assets/music/Example.wav")
 		@music.looping = true
 
 		load_map
@@ -57,7 +59,7 @@ class SceneTest < SDC::Scene
 
 		# You can create entities using their entity index or their class
 		# The first option is useful if you want to iterate over all available classes
-		@entities.push(create(SDC::Data::entities["TestEntity"]))
+		@entities.push(create(SDC::Data.entities[:TestEntity]))
 		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
 
@@ -82,7 +84,7 @@ class SceneTest < SDC::Scene
 	def load_map
 		@test_map = SDC::Map.new(view_width: 30, view_height: 20)
 		@test_map.load_from_file("dummy")
-		@test_map.set_config("TestMap")
+		@test_map.set_config(:TestMap)
 	end
 
 	def draw
@@ -115,21 +117,28 @@ class SceneTest < SDC::Scene
 				end
 			end
 
-			# Filter double collisions
+			SDC::ImGui.text "Map was loaded #{SDC.get_variable("map_loaded")} times."
+			SDC::ImGui.button "Reload map" {load_map}
+
 			SDC::ImGui.button "Play music" {@music.play}
 			SDC::ImGui.button "Pause music" {@music.pause}
-			SDC::ImGui.button "Reload map" {load_map}
-			SDC::ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"
+
+			SDC::ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"	# Filter double collisions
 			SDC::ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
-			SDC::ImGui.text "Entity Collision: #{SDC::get_switch("coll")}"
-			SDC::reset_switch("coll")
+			SDC::ImGui.text "Entity Collision: #{SDC.get_switch("coll")}"
+			SDC.reset_switch("coll")
 			SDC::ImGui.text "HP of entity 0: #{@entities[0].hp}"
+
 			SDC::ImGui.text "Last key code: #{@last_key_code}"
+
 			SDC::ImGui.text "On solid tile: #{@test_map.test_collision_with_entity(@entities[0])}"
+			SDC::ImGui.button "Set dirt passable" {SDC::Data.tilesets[:Default].tiles[3].solid = false}
+
 			SDC::ImGui.text "Counter = #{@counter}"
-			SDC::ImGui.button "Set dirt passable" {SDC::Data::tilesets[0].tiles[3].solid = false}
-			SDC::ImGui.button "Reset mouse" {SDC::EventMouse::set_position([300, 200], $window)}
-			SDC::ImGui.button "Get mouse pos" {puts SDC::EventMouse::get_position($window)}
+
+			SDC::ImGui.button "Reset mouse" {SDC::EventMouse.set_position([300, 200], $window)}
+			SDC::ImGui.button "Get mouse pos" {puts SDC::EventMouse.get_position($window)}
+
 			SDC::ImGui.button "Rescale entity" do
 				@entities[0].shapes[0].scale *= 1.1
 				@entities[0].boxes[0].scale *= 1.1
@@ -143,12 +152,11 @@ class SceneTest < SDC::Scene
 				@entities[0].sprites[0].position = SDC::Coordinates.new(-25.0, -25.0)
 			end
 
-			SDC::ImGui.button (SDC::get_switch("test") ? "Stop jumping with Q" : "Start jumping with Q") do
-				SDC::toggle_switch("test")
+			SDC::ImGui.button (SDC.get_switch("test") ? "Stop jumping with Q" : "Start jumping with Q") do
+				SDC.toggle_switch("test")
 			end
-
 			SDC::ImGui.button "Amplify jumping" do
-				SDC::multiply_variable("test", 1.05, default: 1000.0 * (SDC.game.meter / SDC.game.second**2))
+				SDC.multiply_variable("test", 1.05, default: 1000.0 * (SDC.game.meter / SDC.game.second**2))
 			end
 
 			if SDC::ImGui.button "Glorious Test Button Number 1" then

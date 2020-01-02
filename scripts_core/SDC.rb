@@ -51,15 +51,27 @@ module SDC
 	# Script routines for easier readability, directly referencing other methods
 
 	def self.key_pressed?(key)
-		return @window.has_focus? && SDC::EventKey::is_pressed?(key)
+		return @window.has_focus? && SDC::EventKey.const_defined?(key) && SDC::EventKey.is_pressed?(SDC::EventKey.const_get(key))
+	end
+
+	def self.key(key)
+		return SDC::EventKey.const_get(key) if SDC::EventKey.const_defined?(key)
+	end
+
+	def self.mouse_button_pressed?(button)
+		return @window.has_focus? && SDC::EventMouse.const_defined?(button) && SDC::EventMouse.is_button_pressed?(SDC::EventMouse.const_get(button))
+	end
+
+	def self.mouse_button(button)
+		return SDC::EventMouse.const_get(button) if SDC::EventMouse.const_defined?(button)
 	end
 
 	def self.right_klick?
-		return @window.has_focus? && SDC::EventMouse::is_button_pressed?(SDC::EventMouse::Right)
+		return self.mouse_button_pressed?(:Right)
 	end
 
 	def self.left_klick?
-		return @window.has_focus? && SDC::EventMouse::is_button_pressed?(SDC::EventMouse::Left)
+		return self.mouse_button_pressed?(:Left)
 	end
 
 	def self.get_variable(index, default: nil)

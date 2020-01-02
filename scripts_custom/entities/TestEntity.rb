@@ -1,5 +1,5 @@
 class TestEntity < SDC::Entity
-	register_id("TestEntity")
+	register_id(:TestEntity)
 
 	add_shape(index: 0, type: ShapeCircle, radius: 25.0)
 	add_box(index: 0, size: SDC::Coordinates.new(25.0, 25.0))
@@ -32,21 +32,21 @@ class TestEntity < SDC::Entity
 	end
 
 	def master_ai_script
-		SDC::AI::forever do
+		SDC::AI.forever do
 
 			if collided_with_class(TestEntity) then
-				SDC::set_switch("coll")
+				SDC.set_switch("coll")
 			end
 
 		end
 	end
 
 	def ai_script
-		SDC::AI::forever do
+		SDC::AI.forever do
 		
-			if SDC::get_switch("test") && SDC::key_pressed?(SDC::EventKey::Q) then
-				@velocity.y -= SDC::get_variable("test", default: 1000.0 * (SDC.game.meter / SDC.game.second**2)) * rand
-				SDC::AI::wait(10)
+			if SDC.get_switch("test") && SDC.key_pressed?(:Q) then
+				@velocity.y -= SDC.get_variable("test", default: 1000.0 * (SDC.game.meter / SDC.game.second**2)) * rand
+				SDC::AI.wait(10)
 			end
 
 		end
