@@ -35,7 +35,6 @@ constexpr char VERSION[] = "0.0.1d";
 //! Other included classes and functions
 //! These may also include wrapped classes and functions
 
-#include "ResourceManager.h"
 #include "RenderStates.h"
 #include "Shape.h"
 #include "IntRect.h"

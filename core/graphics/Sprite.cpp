@@ -2,34 +2,9 @@
 
 mrb_value ruby_sprite_init(mrb_state* mrb, mrb_value self) {
 
-	mrb_value ruby_resource_manager;
-
-	mrb_get_args(mrb, "o", &ruby_resource_manager);
-
-	auto resource_manager = MrbWrap::convert_from_object<ResourceManager>(mrb, ruby_resource_manager);
-	auto sprite_index = resource_manager->sprites.add();
-
-	static auto symbol = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
-	mrb_iv_set(mrb, self, symbol, mrb_fixnum_value(sprite_index));
-	static auto symbol_2 = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
-	mrb_iv_set(mrb, self, symbol_2, ruby_resource_manager);
+	auto a = MrbWrap::convert_to_object<sf::Sprite>(mrb, self);
 
 	return self;
-
-}
-
-mrb_value ruby_sprite_delete(mrb_state* mrb, mrb_value self) {
-
-	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
-	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
-	auto resource_manager = MrbWrap::convert_from_object<ResourceContainer<sf::Sprite>>(mrb, ruby_resource_manager);
-
-	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
-	auto sprite_index =  mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
-
-	resource_manager->remove(static_cast<int>(sprite_index));
-
-	return mrb_true_value();
 
 }
 
@@ -39,7 +14,7 @@ mrb_value ruby_sprite_link_texture(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_texture);
 
-	auto sprite = get_sprite(mrb, self);
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 	auto texture = MrbWrap::convert_from_object<sf::Texture>(mrb, ruby_texture);
 
 	sprite->setTexture(*texture);
@@ -50,7 +25,7 @@ mrb_value ruby_sprite_link_texture(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_sprite_position(mrb_state* mrb, mrb_value self) {
 
-	auto sprite = get_sprite(mrb, self);
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 
 	static auto coordinates_class = mrb_class_get_under(mrb, sprite_ruby_module, "Coordinates");
 
@@ -69,7 +44,7 @@ mrb_value ruby_sprite_position_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &ruby_coordinates);
 
-	auto sprite = get_sprite(mrb, self);
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 	sprite->setPosition(*coordinates);
@@ -80,7 +55,7 @@ mrb_value ruby_sprite_position_equals(mrb_state* mrb, mrb_value self) {
 
 mrb_value ruby_sprite_scale(mrb_state* mrb, mrb_value self) {
 
-	auto sprite = get_sprite(mrb, self);
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 
 	static auto coordinates_class = mrb_class_get_under(mrb, sprite_ruby_module, "Coordinates");
 
@@ -99,7 +74,7 @@ mrb_value ruby_sprite_scale_equals(mrb_state* mrb, mrb_value self) {
 
 	mrb_get_args(mrb, "o", &factors);
 
-	auto sprite = get_sprite(mrb, self);
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 
 	auto factor_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, factors);
 	sprite->setScale(*factor_vector);
@@ -108,27 +83,13 @@ mrb_value ruby_sprite_scale_equals(mrb_state* mrb, mrb_value self) {
 
 }
 
-sf::Sprite* get_sprite(mrb_state* mrb, mrb_value self) {
-
-	static auto symbol = mrb_intern_static(mrb, "@resource_manager", strlen("@resource_manager"));
-	auto ruby_resource_manager = mrb_iv_get(mrb, self, symbol);
-	auto resource_manager = MrbWrap::convert_from_object<ResourceContainer<sf::Sprite>>(mrb, ruby_resource_manager);
-
-	static auto symbol_2 = mrb_intern_static(mrb, "@sprite_index", strlen("@sprite_index"));
-	auto sprite_index = mrb_fixnum(mrb_iv_get(mrb, self, symbol_2));
-
-	return resource_manager->access(static_cast<int>(sprite_index));
-
-}
-
 void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	sprite_ruby_module = ruby_module;
 
-	auto ruby_sprite_class = mrb_define_class_under(mrb, ruby_module, "Sprite", mrb->object_class);
+	auto ruby_sprite_class = MrbWrap::define_data_class_under(mrb, "Sprite", ruby_module);
 
-	mrb_define_method(mrb, ruby_sprite_class, "initialize", ruby_sprite_init, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_sprite_class, "delete", ruby_sprite_delete, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "initialize", ruby_sprite_init, MRB_ARGS_NONE());
 	
 	mrb_define_method(mrb, ruby_sprite_class, "link_texture", ruby_sprite_link_texture, MRB_ARGS_REQ(1));
 

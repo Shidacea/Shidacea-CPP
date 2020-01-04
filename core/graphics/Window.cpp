@@ -222,7 +222,7 @@ void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_
 
 	if (object_class == sprite_class) {
 
-		auto sprite = get_sprite(mrb, draw_object);
+		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
 		window->draw(*sprite, render_states);
 
 	} else if (object_class == map_layer_class) {

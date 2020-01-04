@@ -210,7 +210,6 @@ set(AUDIO_SOURCES
 )
 
 set(GRAPHICS_SOURCES
-	core/graphics/ResourceManager.cpp
 	core/graphics/RenderStates.cpp
 	core/graphics/View.cpp
 	core/graphics/Window.cpp

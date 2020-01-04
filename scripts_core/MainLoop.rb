@@ -4,8 +4,6 @@
 def main_routine(scene_class, title, width, height)
 
 	begin
-		SDC.resource_manager = SDC::ResourceManager.new
-
 		SDC.window = SDC::Window.new(title, width, height)
 		SDC.window.enable_vertical_sync
 

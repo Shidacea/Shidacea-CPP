@@ -28,7 +28,6 @@ int main(int argc, char** argv) {
 	setup_ruby_class_intrect(mrb, sdc_module);
 	setup_ruby_class_floatrect(mrb, sdc_module);
 
-	setup_ruby_class_resource_manager(mrb, sdc_module);
 	setup_ruby_class_render_states(mrb, sdc_module);
 
 	setup_ruby_class_coordinates(mrb, sdc_module);

@@ -187,11 +187,10 @@ module SDC
 				element = all_sprites.get(i)
 
 				# Again this time, the objects should not be copied to avoid useless memory consumption
-				# TODO: Use global resource manager instead
 
 				if element then
 					texture_index = element[0]
-					@sprites[i] = SDC::Sprite.new(SDC.resource_manager)
+					@sprites[i] = SDC::Sprite.new
 					@sprites[i].position = element[1]
 					@active_sprites[i] = element[2]
 

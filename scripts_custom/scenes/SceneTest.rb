@@ -5,6 +5,7 @@ class SceneTest < SDC::Scene
 			if event.key_pressed?(:W) then
 				@entities[0].accelerate(SDC.game.gravity * (-50.0))
 			end
+
 			@last_key_code = event.key_code.to_s
 
 		elsif event.has_type?(:Closed)

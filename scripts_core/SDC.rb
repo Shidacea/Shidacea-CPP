@@ -6,7 +6,6 @@ module SDC
 	@scene = nil
 	@next_scene = nil
 	@game = nil
-	@resource_manager = nil
 
 	def self.window
 		return @window
@@ -38,14 +37,6 @@ module SDC
 
 	def self.game=(value)
 		@game = value
-	end
-
-	def self.resource_manager
-		return @resource_manager
-	end
-	
-	def self.resource_manager=(value)
-		@resource_manager = value
 	end
 
 	# Script routines for easier readability, directly referencing other methods
