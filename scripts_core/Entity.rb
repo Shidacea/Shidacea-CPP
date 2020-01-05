@@ -75,18 +75,9 @@ module SDC
 			@shapes.add(shape, index)
 		end
 
-		def self.add_texture(index: nil, filename: nil, rect: nil)
-			if !filename then
-				raise("No filename given for texture with index #{index}")
-			end
-		
-			@textures = SDC::SpecialContainer.new if !@textures
-			@textures.add(SDC::Texture.new.load_from_file(filename, rect), index)
-		end
-
-		def self.add_sprite(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new)
+		def self.add_sprite(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new, rect: nil)
 			@sprites = SDC::SpecialContainer.new if !@sprites
-			@sprites.add([texture_index, offset, active], index)
+			@sprites.add([texture_index, offset, active, rect], index)
 		end
 
 		def self.set_hitshape(index: nil, active: true, shape_index: nil, damage: 0, attributes: {})
@@ -117,11 +108,6 @@ module SDC
 		def self.all_shapes
 			@shapes = SDC::SpecialContainer.new if !@shapes
 			return @shapes
-		end
-
-		def self.all_textures
-			@textures = SDC::SpecialContainer.new if !@textures
-			return @textures
 		end
 
 		def self.all_sprites
@@ -163,21 +149,6 @@ module SDC
 			end
 		end
 
-		def load_textures
-			@textures = []
-			all_textures = self.class.all_textures
-
-			0.upto(all_textures.size - 1) do |i|
-				element = all_textures.get(i)
-
-				# Don't duplicate textures but use a reference instead!
-				# Textures should not be changed, but the internal sprite properties may be changed in exchange.
-				# This is due to the internal structure of SFML in which sprites are much more variable than textures.
-				# Also textures are 'heavy' objects, while sprites are relatively lightweighted.
-				@textures[i] = element if element	
-			end
-		end
-
 		def load_sprites
 			@sprites = []
 			@active_sprites = []
@@ -195,12 +166,10 @@ module SDC
 					@active_sprites[i] = element[2]
 
 					if texture_index then
-						if texture_index >= 0 && texture_index < @textures.size then
-							@sprites[i].link_texture(@textures[texture_index])
-						else
-							raise("Texture index for sprite index #{i} is out of range: #{texture_index}")
-						end
+						@sprites[i].link_texture(SDC::Data.textures[texture_index])
 					end
+
+					@sprites[i].texture_rect = element[3] if element[3]
 				end
 			end
 
@@ -252,7 +221,6 @@ module SDC
 
 			load_boxes
 			load_shapes
-			load_textures
 			load_sprites
 			load_hitshapes
 			load_hurtshapes

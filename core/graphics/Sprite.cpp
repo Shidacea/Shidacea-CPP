@@ -83,6 +83,36 @@ mrb_value ruby_sprite_scale_equals(mrb_state* mrb, mrb_value self) {
 
 }
 
+mrb_value ruby_sprite_texture_rect(mrb_state* mrb, mrb_value self) {
+
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
+
+	static auto int_rect_class = mrb_class_get_under(mrb, sprite_ruby_module, "IntRect");
+
+	auto new_texture_rect = mrb_obj_new(mrb, int_rect_class, 0, NULL);
+	auto new_rect = MrbWrap::convert_from_object<MrbIntRect>(mrb, new_texture_rect);
+
+	*new_rect = static_cast<MrbIntRect>(sprite->getTextureRect());
+
+	return new_texture_rect;
+
+}
+
+mrb_value ruby_sprite_texture_rect_equals(mrb_state* mrb, mrb_value self) {
+
+	mrb_value ruby_rect;
+
+	mrb_get_args(mrb, "o", &ruby_rect);
+
+	auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
+	auto rect = MrbWrap::convert_from_object<MrbIntRect>(mrb, ruby_rect);
+
+	sprite->setTextureRect(static_cast<sf::IntRect>(*rect));
+
+	return ruby_rect;
+
+}
+
 void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	sprite_ruby_module = ruby_module;
@@ -98,6 +128,9 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	mrb_define_method(mrb, ruby_sprite_class, "scale", ruby_sprite_scale, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_sprite_class, "scale=", ruby_sprite_scale_equals, MRB_ARGS_REQ(1));
+
+	mrb_define_method(mrb, ruby_sprite_class, "texture_rect", ruby_sprite_texture_rect, MRB_ARGS_NONE());
+	mrb_define_method(mrb, ruby_sprite_class, "texture_rect=", ruby_sprite_texture_rect_equals, MRB_ARGS_REQ(1));
 
 	//! TODO: Consider implementing origin methods (e.g. 25.0, 25.0 for the example object for scaling)
 
