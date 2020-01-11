@@ -54,6 +54,9 @@ class SceneTest < SDC::Scene
 		@music = SDC::Data.load_music(:TestMusic, filename: "assets/music/Example.wav")
 		@music.looping = true
 
+		@test_font = SDC::Font.new
+		@test_text = SDC::Text.new("Hello World", @test_font, 100)
+
 		load_map
 
 		@entities = []
@@ -101,6 +104,10 @@ class SceneTest < SDC::Scene
 			@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
 		end
 
+		view_ui = SDC::View.new(SDC::FloatRect.new(0, 0, 1280, 720))
+		SDC.window.use_view(view_ui) do
+			SDC.window.draw(@test_text)
+		end
 	end
 
 	def draw_imgui

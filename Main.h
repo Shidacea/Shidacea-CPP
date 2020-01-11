@@ -46,6 +46,8 @@ constexpr char VERSION[] = "0.0.1d";
 #include "Events.h"
 #include "View.h"
 #include "Window.h"
+#include "Font.h"
+#include "Text.h"
 #include "Texture.h"
 #include "MapLayer.h"
 #include "Tileset.h"

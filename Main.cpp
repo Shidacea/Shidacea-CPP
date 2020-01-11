@@ -44,6 +44,8 @@ int main(int argc, char** argv) {
 	setup_ruby_class_map_layer(mrb, sdc_module);
 	setup_ruby_class_tile(mrb, sdc_module);
 	setup_ruby_class_tileset(mrb, sdc_module);
+	setup_ruby_class_font(mrb, sdc_module);
+	setup_ruby_class_text(mrb, sdc_module);
 	
 	setup_ruby_class_view(mrb, sdc_module);
 	setup_ruby_class_window(mrb, sdc_module);

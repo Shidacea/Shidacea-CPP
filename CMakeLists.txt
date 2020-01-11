@@ -215,6 +215,8 @@ set(GRAPHICS_SOURCES
 	core/graphics/Window.cpp
 	core/graphics/Texture.cpp
 	core/graphics/Sprite.cpp
+	core/graphics/Font.cpp
+	core/graphics/Text.cpp
 	core/graphics/ImGuiWrapper.cpp
 )
 
