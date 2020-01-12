@@ -42,11 +42,6 @@ mrb_value ruby_window_display(mrb_state* mrb, mrb_value self) {
 
 	auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
-	//auto map = Map();
-	//map.load(1000, 1000);
-	//map.reload_layers(100, 100);
-	//window->draw(map, sf::BlendAlpha);
-
 	ImGui::SFML::Render(*window);
 
 	window->display();
