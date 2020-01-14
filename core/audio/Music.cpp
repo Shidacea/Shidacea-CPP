@@ -28,32 +28,9 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_music_class, "play", MRUBY_FUNC {
-
-		auto music = MrbWrap::convert_from_object<sf::Music>(mrb, self);
-		music->play();
-
-		return mrb_nil_value();
-
-	});
-
-	MrbWrap::define_mruby_function(mrb, ruby_music_class, "stop", MRUBY_FUNC{
-
-		auto music = MrbWrap::convert_from_object<sf::Music>(mrb, self);
-		music->stop();
-
-		return mrb_nil_value();
-
-	});
-
-	MrbWrap::define_mruby_function(mrb, ruby_music_class, "pause", MRUBY_FUNC{
-
-		auto music = MrbWrap::convert_from_object<sf::Music>(mrb, self);
-		music->pause();
-
-		return mrb_nil_value();
-
-	});
+	MrbWrap::define_function_with_no_args<sf::Music, sf::SoundStream, &sf::Music::play>(mrb, ruby_music_class, "play");
+	MrbWrap::define_function_with_no_args<sf::Music, sf::SoundStream, &sf::Music::stop>(mrb, ruby_music_class, "stop");
+	MrbWrap::define_function_with_no_args<sf::Music, sf::SoundStream, &sf::Music::pause>(mrb, ruby_music_class, "pause");
 
 	MrbWrap::define_mruby_function(mrb, ruby_music_class, "looping?", MRUBY_FUNC{
 

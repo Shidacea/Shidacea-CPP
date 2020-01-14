@@ -228,44 +228,63 @@ namespace MrbWrap {
 
 	}
 
-	template <class C, class T> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	//! TODO: Here is still much work to do.
+
+	template <class C, class D, class TRuby, class TCpp, TCpp (D::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
-			T new_value;
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			auto return_value = ((*content).*member)();
+
+			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	template <class C, class D, void (D::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			((*content).*member)();
+
+			return mrb_nil_value();
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	template <class C, class TRuby, class TCpp, TCpp C::*member> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			return cast_value_to_ruby(mrb, static_cast<TRuby>((*content).*member));
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	template <class C, class TRuby, class TCpp, TCpp C::*member> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			TRuby new_value;
 
 			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-			content->x = new_value;
+			(*content).*member = static_cast<TCpp>(new_value);
 
 			return cast_value_to_ruby(mrb, new_value);
 
-		});
+		}, MRB_ARGS_REQ(1));
 
 	}
 
-	//! Voodoo, needs to be processed
-
-	template <class ClassT, class MemberT, MemberT ClassT::* member> void define_setter2(
-			mrb_state* mrb, 
-			RClass* ruby_class, 
-			const char* name
-	) {
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, [](mrb_state* mrb, mrb_value self) noexcept -> mrb_value  {
-
-			MemberT new_value;
-
-			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
-
-			auto content = MrbWrap::convert_from_object<ClassT>(mrb, self);
-			(*content).*member = new_value;
-
-			return cast_value_to_ruby(mrb, new_value);
-
-			});
-	}
 }
-
-#define define_setter2_m(mrb, ruby_class, ClassT, MemberT, member) \
-	MrbWrap::define_setter2<ClassT, MemberT, &ClassT::member>(mrb,ruby_class, #member"=")
