@@ -1,6 +1,6 @@
 #include "View.h"
 
-mrb_value ruby_view_init(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_view_init(mrb_state* mrb, mrb_value self) noexcept {
 
 	mrb_value first_arg = mrb_nil_value();
 	mrb_value second_arg = mrb_nil_value();
@@ -30,7 +30,7 @@ mrb_value ruby_view_init(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_view_set_viewport(mrb_state* mrb, mrb_value self) {
+mrb_value ruby_view_set_viewport(mrb_state* mrb, mrb_value self) noexcept {
 
 	mrb_value ruby_viewport;
 

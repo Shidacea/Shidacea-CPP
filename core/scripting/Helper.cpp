@@ -124,3 +124,12 @@ RClass* MrbWrap::define_data_class_under(mrb_state* mrb, const char* name, RClas
 	return ruby_class;
 
 }
+
+void MrbWrap::define_mruby_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec) {
+
+	mrb_define_method(mrb, ruby_class, name, func, aspec);
+
+}
+
+template <> mrb_value MrbWrap::cast_value_to_ruby(mrb_state* mrb, mrb_float value) { return mrb_float_value(mrb, value); }
+template <> mrb_value MrbWrap::cast_value_to_ruby(mrb_state* mrb, mrb_int value) { return mrb_fixnum_value(value); }

@@ -17,6 +17,9 @@ class SceneTest < SDC::Scene
 	def update
 		if SDC::key_pressed?(:F10) then
 			$window.set_imgui_scale(2.0)
+
+		elsif SDC::key_pressed?(:Enter) then
+			@entities[0].position.x += 30
 		
 		elsif SDC::key_pressed?(:F1) then
 			# Should trigger an error with backtrace

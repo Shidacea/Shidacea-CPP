@@ -255,7 +255,7 @@ include_directories(
 
 # Load source files
 
-set(SOURCES 
+set(SOURCE_FILES 
 	${AUDIO_SOURCES}
 	${GRAPHICS_SOURCES}
 	${NETWORK_SOURCES}
@@ -265,9 +265,16 @@ set(SOURCES
 	Main.cpp
 )
 
+#set_source_files_properties(
+#
+#	${SOURCE_FILES}
+#	COMPILE_FLAGS /Wall
+#
+#)
+
 # Create executable and link libraries
 
-add_executable(${EXECUTABLE_NAME} ${SOURCES})
+add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
 target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-system sfml-window sfml-graphics sfml-audio sfml-network ${ADDITIONAL_LIBRARIES})
 

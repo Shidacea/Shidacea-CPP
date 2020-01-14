@@ -11,6 +11,7 @@
 #include <cstring>
 #include <string>
 #include <filesystem>
+#include <functional>
 
 #include <SFML/Graphics.hpp>
 
@@ -45,6 +46,11 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 //! TODO: Do this by defining macros which may either load one single header or a folder with scripts recursively
 
 #include <iostream>
+
+//! Alias for the lamdba type used for mruby functions
+
+#define MRUBY_FUNC [](mrb_state* mrb, mrb_value self) noexcept -> mrb_value
+
 
 namespace MrbWrap {
 
@@ -89,6 +95,9 @@ namespace MrbWrap {
 	RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr);
 	RClass* define_data_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr);
 
+	//! Define a new function for ruby
+	void define_mruby_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
+
 	//! Define a copy method automatically for any wrapped C++ object
 	//! Use this when setting up a ruby class
 	template <class T> void define_default_copy_init(mrb_state* mrb, RClass* ruby_class) {
@@ -114,7 +123,7 @@ namespace MrbWrap {
 			typeid(T).name(), free_data<T>
 
 		};
-		
+
 		DATA_PTR(self) = new_object;
 		DATA_TYPE(self) = &data_type;
 
@@ -192,4 +201,71 @@ namespace MrbWrap {
 
 	}
 
+	//! Will later be used for format strings
+
+	constexpr char get_type_format_char(mrb_float) { return 'f'; }
+	constexpr char get_type_format_char(mrb_int) { return 'i'; }
+	constexpr char get_type_format_char(char*) { return 'z'; }
+	constexpr char get_type_format_char(mrb_bool) { return 'b'; }
+	constexpr char get_type_format_char(mrb_value) { return 'o'; }
+
+	template <class T> mrb_value cast_value_to_ruby(mrb_state* mrb, T value);
+
+	template <class T> constexpr std::string get_format_string(const T& argument) {
+
+		std::string result;
+		result += get_type_format_char(argument);
+		return result;
+
+	}
+
+	template <class T, class ... TArgs> constexpr std::string get_format_string(const T& argument, const TArgs& ... args) {
+
+		std::string result;
+		result += get_type_format_char(argument);
+		result += get_format_string(args...);
+		return result;
+
+	}
+
+	template <class C, class T> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			T new_value;
+
+			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+			content->x = new_value;
+
+			return cast_value_to_ruby(mrb, new_value);
+
+		});
+
+	}
+
+	//! Voodoo, needs to be processed
+
+	template <class ClassT, class MemberT, MemberT ClassT::* member> void define_setter2(
+			mrb_state* mrb, 
+			RClass* ruby_class, 
+			const char* name
+	) {
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, [](mrb_state* mrb, mrb_value self) noexcept -> mrb_value  {
+
+			MemberT new_value;
+
+			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
+
+			auto content = MrbWrap::convert_from_object<ClassT>(mrb, self);
+			(*content).*member = new_value;
+
+			return cast_value_to_ruby(mrb, new_value);
+
+			});
+	}
 }
+
+#define define_setter2_m(mrb, ruby_class, ClassT, MemberT, member) \
+	MrbWrap::define_setter2<ClassT, MemberT, &ClassT::member>(mrb,ruby_class, #member"=")
