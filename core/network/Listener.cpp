@@ -1,13 +1,5 @@
 #include "Listener.h"
 
-mrb_value ruby_listener_init(mrb_state* mrb, mrb_value self) {
-
-	auto listener = MrbWrap::convert_to_object<sf::TcpListener>(mrb, self);
-
-	return self;
-
-}
-
 mrb_value ruby_listener_listen(mrb_state* mrb, mrb_value self) {
 
 	mrb_int port;
@@ -47,7 +39,8 @@ void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_listener_class = MrbWrap::define_data_class_under(mrb, "Listener", ruby_module);
 
-	mrb_define_method(mrb, ruby_listener_class, "initialize", ruby_listener_init, MRB_ARGS_NONE());
+	MrbWrap::define_constructor_with_no_args<sf::TcpListener>(mrb, ruby_listener_class);
+
 	mrb_define_method(mrb, ruby_listener_class, "listen", ruby_listener_listen, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_listener_class, "accept", ruby_listener_accept, MRB_ARGS_REQ(1));
 

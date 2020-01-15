@@ -133,3 +133,4 @@ void MrbWrap::define_mruby_function(mrb_state* mrb, RClass* ruby_class, const ch
 
 template <> mrb_value MrbWrap::cast_value_to_ruby(mrb_state* mrb, mrb_float value) { return mrb_float_value(mrb, value); }
 template <> mrb_value MrbWrap::cast_value_to_ruby(mrb_state* mrb, mrb_int value) { return mrb_fixnum_value(value); }
+template <> mrb_value MrbWrap::cast_value_to_ruby(mrb_state* mrb, mrb_bool value) { return mrb_bool_value(value); }

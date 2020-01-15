@@ -228,9 +228,19 @@ namespace MrbWrap {
 
 	}
 
-	//! TODO: Here is still much work to do.
+	template <class TCpp> void define_constructor_with_no_args(mrb_state* mrb, RClass* ruby_class) {
 
-	template <class C, class D, class TRuby, class TCpp, TCpp (D::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+		MrbWrap::define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
+
+			MrbWrap::convert_to_object<TCpp>(mrb, self);
+			return self;
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	//! Derived class, arbitrary datatype
+	template <class C, class Superclass, class TRuby, class TCpp, TCpp (Superclass::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
@@ -244,7 +254,53 @@ namespace MrbWrap {
 
 	}
 
-	template <class C, class D, void (D::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	//! Derived class, constant arbitrary datatype
+	template <class C, class Superclass, class TRuby, class TCpp, TCpp(Superclass::*member)() const> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			auto return_value = ((*content).*member)();
+
+			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	//! Base class, arbitrary datatype
+	template <class C, class TRuby, class TCpp, TCpp (C::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			auto return_value = ((*content).*member)();
+
+			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	//! Derived class, void function
+	template <class C, class Superclass, void (Superclass::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			((*content).*member)();
+
+			return mrb_nil_value();
+
+		}, MRB_ARGS_NONE());
+
+	}
+
+	//! Base class, void function
+	template <class C, void (C::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 

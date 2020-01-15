@@ -238,14 +238,6 @@ mrb_value ruby_event_mouse_set_position(mrb_state* mrb, mrb_value self) {
 
 }
 
-mrb_value ruby_event_init(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::convert_to_object<sf::Event>(mrb, self);
-
-	return self;
-
-}
-
 mrb_value ruby_event_type(mrb_state* mrb, mrb_value self) {
 
 	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
@@ -370,7 +362,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_event_class = MrbWrap::define_data_class_under(mrb, "Event", ruby_module);
 
-	mrb_define_method(mrb, ruby_event_class, "initialize", ruby_event_init, MRB_ARGS_NONE());
+	MrbWrap::define_constructor_with_no_args<sf::Event>(mrb, ruby_event_class);
 
 	mrb_define_method(mrb, ruby_event_class, "type", ruby_event_type, MRB_ARGS_NONE());
 

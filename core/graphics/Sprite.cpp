@@ -1,13 +1,5 @@
 #include "Sprite.h"
 
-mrb_value ruby_sprite_init(mrb_state* mrb, mrb_value self) {
-
-	auto a = MrbWrap::convert_to_object<sf::Sprite>(mrb, self);
-
-	return self;
-
-}
-
 mrb_value ruby_sprite_link_texture(mrb_state* mrb, mrb_value self) {
 
 	mrb_value ruby_texture;
@@ -119,8 +111,8 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_sprite_class = MrbWrap::define_data_class_under(mrb, "Sprite", ruby_module);
 
-	mrb_define_method(mrb, ruby_sprite_class, "initialize", ruby_sprite_init, MRB_ARGS_NONE());
-	
+	MrbWrap::define_constructor_with_no_args<sf::Sprite>(mrb, ruby_sprite_class);
+
 	mrb_define_method(mrb, ruby_sprite_class, "link_texture", ruby_sprite_link_texture, MRB_ARGS_REQ(1));
 
 	mrb_define_method(mrb, ruby_sprite_class, "position", ruby_sprite_position, MRB_ARGS_NONE());

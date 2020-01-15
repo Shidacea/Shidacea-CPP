@@ -3,7 +3,7 @@
 mrb_value ruby_font_init(mrb_state* mrb, mrb_value self) {
 
 	auto font = MrbWrap::convert_to_object<sf::Font>(mrb, self);
-	font->loadFromFile("assets/fonts/arial.ttf");
+	font->loadFromFile("assets/fonts/arial.ttf");	//! TODO: Remove this
 
 	return self;
 

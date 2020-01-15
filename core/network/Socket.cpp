@@ -1,15 +1,5 @@
 #include "Socket.h"
 
-mrb_value ruby_socket_init(mrb_state* mrb, mrb_value self) {
-
-	//! TODO: Implement UDP support as optional argument
-
-	auto socket = MrbWrap::convert_to_object<sf::TcpSocket>(mrb, self);
-
-	return self;
-
-}
-
 mrb_value ruby_socket_connect(mrb_state* mrb, mrb_value self) {
 
 	char* address;
@@ -134,7 +124,9 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 	mrb_define_const(mrb, ruby_socket_status_module, "Disconnected", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Disconnected)));
 	mrb_define_const(mrb, ruby_socket_status_module, "Error", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Error)));
 
-	mrb_define_method(mrb, ruby_socket_class, "initialize", ruby_socket_init, MRB_ARGS_NONE());
+	//! TODO: Implement UDP support as optional argument
+	MrbWrap::define_constructor_with_no_args<sf::TcpSocket>(mrb, ruby_socket_class);
+
 	mrb_define_method(mrb, ruby_socket_class, "connect", ruby_socket_connect, MRB_ARGS_ARG(2, 1));
 	mrb_define_method(mrb, ruby_socket_class, "disconnect", ruby_socket_disconnect, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_socket_class, "send_message", ruby_socket_send_message, MRB_ARGS_REQ(1));
