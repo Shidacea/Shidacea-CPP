@@ -1,13 +1,5 @@
 #include "SoundBuffer.h"
 
-mrb_value ruby_sound_buffer_init(mrb_state* mrb, mrb_value self) {
-
-	MrbWrap::convert_to_object<sf::SoundBuffer>(mrb, self);
-
-	return self;
-
-}
-
 mrb_value ruby_sound_buffer_load_from_file(mrb_state* mrb, mrb_value self) {
 
 	char* filename;
