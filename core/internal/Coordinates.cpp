@@ -168,8 +168,8 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 	mrb_define_method(mrb, ruby_coordinates_class, "initialize", ruby_coordinates_init, MRB_ARGS_OPT(2));
 	MrbWrap::define_default_copy_init<sf::Vector2f>(mrb, ruby_coordinates_class);
 
-	MrbWrap::define_getter<sf::Vector2f, mrb_float, float, &sf::Vector2f::x>(mrb, ruby_coordinates_class, "x");
-	MrbWrap::define_getter<sf::Vector2f, mrb_float, float, &sf::Vector2f::y>(mrb, ruby_coordinates_class, "y");
+	MrbWrap::define_getter<sf::Vector2f, mrb_float, decltype(&sf::Vector2f::x), &sf::Vector2f::x>(mrb, ruby_coordinates_class, "x");
+	MrbWrap::define_getter<sf::Vector2f, mrb_float, decltype(&sf::Vector2f::y), &sf::Vector2f::y>(mrb, ruby_coordinates_class, "y");
 
 	MrbWrap::define_setter<sf::Vector2f, mrb_float, float, &sf::Vector2f::x>(mrb, ruby_coordinates_class, "x=");
 	MrbWrap::define_setter<sf::Vector2f, mrb_float, float, &sf::Vector2f::y>(mrb, ruby_coordinates_class, "y=");

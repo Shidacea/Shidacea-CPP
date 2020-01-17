@@ -239,46 +239,28 @@ namespace MrbWrap {
 
 	}
 
-	//! Derived class, arbitrary datatype
-	template <class C, class Superclass, class TRuby, class TCpp, TCpp (Superclass::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class TRuby, class TCpp, TCpp Member> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+			if constexpr (std::is_member_object_pointer_v<TCpp>) {
 
-			auto return_value = ((*content).*member)();
+				auto return_value = ((*content).*Member);
 
-			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
+				return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
 
-		}, MRB_ARGS_NONE());
+			} else if constexpr (std::is_member_function_pointer_v<TCpp>) {
 
-	}
+				auto return_value = ((*content).*Member)();
 
-	//! Derived class, constant arbitrary datatype
-	template <class C, class Superclass, class TRuby, class TCpp, TCpp(Superclass::*member)() const> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
+				return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+			} else {
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+				//! TODO: Maybe an error here?
+				return mrb_nil_value();
 
-			auto return_value = ((*content).*member)();
-
-			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
-
-		}, MRB_ARGS_NONE());
-
-	}
-
-	//! Base class, arbitrary datatype
-	template <class C, class TRuby, class TCpp, TCpp (C::*member)()> void define_function_with_no_args(mrb_state* mrb, RClass* ruby_class, const char* name) {
-
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
-
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-
-			auto return_value = ((*content).*member)();
-
-			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
+			}
 
 		}, MRB_ARGS_NONE());
 
@@ -314,70 +296,30 @@ namespace MrbWrap {
 
 	}
 
-	//! Getter for member
-	template <class C, class TRuby, class TCpp, TCpp C::*member> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class TRuby, class TCpp, TCpp Member> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			return cast_value_to_ruby(mrb, static_cast<TRuby>((*content).*member));
+			if constexpr (std::is_member_object_pointer_v<TCpp>) {
 
-		}, MRB_ARGS_NONE());
+				auto return_value = ((*content).*Member);
 
-	}
+				return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
 
-	//! Getter for member function for derived class
-	template <class C, class Superclass, class TRuby, class TCpp, TCpp(Superclass::*member)()> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+			} else if constexpr (std::is_member_function_pointer_v<TCpp>) {
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+				auto return_value = ((*content).*Member)();
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+				return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
 
-			return cast_value_to_ruby(mrb, static_cast<TRuby>((*content).*member)());
+			} else {
 
-		}, MRB_ARGS_NONE());
+				//! TODO: Maybe an error here?
+				return mrb_nil_value();
 
-	}
-
-	//! Getter for constant member function for derived class
-	template <class C, class Superclass, class TRuby, class TCpp, TCpp (Superclass::*member)() const> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
-
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
-
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-
-			auto return_value = ((*content).*member)();
-
-			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
-
-		}, MRB_ARGS_NONE());
-
-	}
-
-	//! Getter for member function for base class
-	template <class C, class TRuby, class TCpp, TCpp (C::*member)()> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
-
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
-
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-
-			return cast_value_to_ruby(mrb, static_cast<TRuby>((*content).*member)());
-
-		}, MRB_ARGS_NONE());
-
-	}
-
-	//! Getter for constant member function for base class
-	template <class C, class TRuby, class TCpp, TCpp(C::*member)() const> void define_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
-
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC{
-
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-
-			auto return_value = ((*content).*member)();
-
-			return cast_value_to_ruby(mrb, static_cast<TRuby>(return_value));
+			}
 
 		}, MRB_ARGS_NONE());
 
