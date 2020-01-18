@@ -51,7 +51,6 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 
 #define MRUBY_FUNC [](mrb_state* mrb, mrb_value self) noexcept -> mrb_value
 
-
 namespace MrbWrap {
 
 	//! Will be defined below
@@ -325,8 +324,7 @@ namespace MrbWrap {
 
 	}
 
-	//! Setter for member
-	template <class C, class TRuby, class TCpp, TCpp C::*member> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class TRuby, class TCpp, class FCpp, FCpp Member> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
@@ -335,50 +333,29 @@ namespace MrbWrap {
 			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-			(*content).*member = static_cast<TCpp>(new_value);
 
-			return cast_value_to_ruby(mrb, new_value);
+			if constexpr (std::is_member_object_pointer_v<FCpp>) {
 
-		}, MRB_ARGS_REQ(1));
+				((*content).*Member) = static_cast<TCpp>(new_value);
 
-	}
+				return cast_value_to_ruby(mrb, new_value);
 
-	//! Setter for member function for derived class
-	template <class C, class Superclass, class TRuby, class TCpp, void (Superclass::*member)(TCpp arg)> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+			} else if constexpr (std::is_member_function_pointer_v<FCpp>) {
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+				((*content).*Member)(static_cast<TCpp>(new_value));
 
-			TRuby new_value;
+				return cast_value_to_ruby(mrb, new_value);
 
-			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
+			} else {
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-			((*content).*member)(static_cast<TCpp>(new_value));
+				//! TODO: Maybe an error here?
+				return mrb_nil_value();
 
-			return cast_value_to_ruby(mrb, new_value);
+			}
 
 		}, MRB_ARGS_REQ(1));
 
 	}
 
-	//! Setter for member function for base class
-	template <class C, class TRuby, class TCpp, void (C::*member)(TCpp arg)> void define_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
-
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
-
-			TRuby new_value;
-
-			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
-
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-			((*content).*member)(static_cast<TCpp>(new_value));
-
-			return cast_value_to_ruby(mrb, new_value);
-
-		}, MRB_ARGS_REQ(1));
-
-	}
-
-	
 
 }

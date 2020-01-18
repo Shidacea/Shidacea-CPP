@@ -171,8 +171,11 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::define_getter<sf::Vector2f, mrb_float, decltype(&sf::Vector2f::x), &sf::Vector2f::x>(mrb, ruby_coordinates_class, "x");
 	MrbWrap::define_getter<sf::Vector2f, mrb_float, decltype(&sf::Vector2f::y), &sf::Vector2f::y>(mrb, ruby_coordinates_class, "y");
 
-	MrbWrap::define_setter<sf::Vector2f, mrb_float, float, &sf::Vector2f::x>(mrb, ruby_coordinates_class, "x=");
-	MrbWrap::define_setter<sf::Vector2f, mrb_float, float, &sf::Vector2f::y>(mrb, ruby_coordinates_class, "y=");
+	MrbWrap::define_setter<sf::Vector2f, mrb_float, float, decltype(&sf::Vector2f::y), & sf::Vector2f::x>(mrb, ruby_coordinates_class, "x=");
+	MrbWrap::define_setter<sf::Vector2f, mrb_float, float, decltype(&sf::Vector2f::y), & sf::Vector2f::y>(mrb, ruby_coordinates_class, "y=");
+
+	//MrbWrap::define_setter<sf::Vector2f, mrb_float, float, &sf::Vector2f::x>(mrb, ruby_coordinates_class, "x=");
+	//MrbWrap::define_setter<sf::Vector2f, mrb_float, float, &sf::Vector2f::y>(mrb, ruby_coordinates_class, "y=");
 
 	mrb_define_method(mrb, ruby_coordinates_class, "+", ruby_coordinates_plus, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_coordinates_class, "-", ruby_coordinates_minus, MRB_ARGS_REQ(1));
