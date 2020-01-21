@@ -39,7 +39,7 @@ void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_listener_class = MrbWrap::define_data_class_under(mrb, "Listener", ruby_module);
 
-	MrbWrap::define_constructor_with_no_args<sf::TcpListener>(mrb, ruby_listener_class);
+	MrbWrap::wrap_constructor<sf::TcpListener>(mrb, ruby_listener_class);
 
 	mrb_define_method(mrb, ruby_listener_class, "listen", ruby_listener_listen, MRB_ARGS_REQ(1));
 	mrb_define_method(mrb, ruby_listener_class, "accept", ruby_listener_accept, MRB_ARGS_REQ(1));

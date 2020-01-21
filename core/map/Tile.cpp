@@ -76,7 +76,7 @@ void setup_ruby_class_tile(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_tileset_class = MrbWrap::define_data_class_under(mrb, "Tile", ruby_module);
 
-	MrbWrap::define_constructor_with_no_args<Tile>(mrb, ruby_tileset_class);
+	MrbWrap::wrap_constructor<Tile>(mrb, ruby_tileset_class);
 
 	mrb_define_method(mrb, ruby_tileset_class, "solid", ruby_tile_solid, MRB_ARGS_NONE());
 	mrb_define_method(mrb, ruby_tileset_class, "solid=", ruby_tile_solid_equals, MRB_ARGS_REQ(1));

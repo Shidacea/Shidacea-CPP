@@ -125,7 +125,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 	mrb_define_const(mrb, ruby_socket_status_module, "Error", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Error)));
 
 	//! TODO: Implement UDP support as optional argument
-	MrbWrap::define_constructor_with_no_args<sf::TcpSocket>(mrb, ruby_socket_class);
+	MrbWrap::wrap_constructor<sf::TcpSocket>(mrb, ruby_socket_class);
 
 	mrb_define_method(mrb, ruby_socket_class, "connect", ruby_socket_connect, MRB_ARGS_ARG(2, 1));
 	mrb_define_method(mrb, ruby_socket_class, "disconnect", ruby_socket_disconnect, MRB_ARGS_NONE());

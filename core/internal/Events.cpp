@@ -362,7 +362,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_event_class = MrbWrap::define_data_class_under(mrb, "Event", ruby_module);
 
-	MrbWrap::define_constructor_with_no_args<sf::Event>(mrb, ruby_event_class);
+	MrbWrap::wrap_constructor<sf::Event>(mrb, ruby_event_class);
 
 	mrb_define_method(mrb, ruby_event_class, "type", ruby_event_type, MRB_ARGS_NONE());
 

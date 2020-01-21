@@ -28,7 +28,7 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_texture_class = MrbWrap::define_data_class_under(mrb, "Texture", ruby_module);
 
-	MrbWrap::define_constructor_with_no_args<sf::Texture>(mrb, ruby_texture_class);
+	MrbWrap::wrap_constructor<sf::Texture>(mrb, ruby_texture_class);
 
 	mrb_define_method(mrb, ruby_texture_class, "load_from_file", ruby_texture_load_from_file, MRB_ARGS_ARG(1, 1));
 

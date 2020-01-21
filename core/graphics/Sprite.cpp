@@ -111,7 +111,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_sprite_class = MrbWrap::define_data_class_under(mrb, "Sprite", ruby_module);
 
-	MrbWrap::define_constructor_with_no_args<sf::Sprite>(mrb, ruby_sprite_class);
+	MrbWrap::wrap_constructor<sf::Sprite>(mrb, ruby_sprite_class);
 
 	mrb_define_method(mrb, ruby_sprite_class, "link_texture", ruby_sprite_link_texture, MRB_ARGS_REQ(1));
 
