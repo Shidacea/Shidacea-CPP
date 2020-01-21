@@ -12,6 +12,7 @@
 #include <string>
 #include <filesystem>
 #include <functional>
+#include <type_traits>
 
 #include <SFML/Graphics.hpp>
 
@@ -201,19 +202,23 @@ namespace MrbWrap {
 	}
 
 	//! Will later be used for format strings
+	//! TODO: Sort out any inconsistencies
 
-	constexpr char get_type_format_char(mrb_float) { return 'f'; }
-	constexpr char get_type_format_char(mrb_int) { return 'i'; }
-	constexpr char get_type_format_char(char*) { return 'z'; }
-	constexpr char get_type_format_char(mrb_bool) { return 'b'; }
-	constexpr char get_type_format_char(mrb_value) { return 'o'; }
+	template <class T, class Trait = void> struct type_format_char {};	//! Should maybe throw an error
+	template <> struct type_format_char<bool> { constexpr static char value = 'b'; };
+	template <> struct type_format_char<mrb_bool> { constexpr static char value = 'b'; };
+	template <> struct type_format_char<std::string> { constexpr static char value = 's'; };
+	template <> struct type_format_char<const char*> { constexpr static char value = 's'; };
+	template <class T> struct type_format_char<T, class std::enable_if<std::is_floating_point_v<T>>::type> {constexpr static char value = 'f'; };
+	template <class T> struct type_format_char<T, class std::enable_if<std::is_integral_v<T>>::type> { constexpr static char value = 'i'; };
+	template <class T> struct type_format_char<T, class std::enable_if<std::is_class_v<T>>::type> { constexpr static char value = 'o'; };
 
 	template <class T> mrb_value cast_value_to_ruby(mrb_state* mrb, T value);
 
 	template <class T> constexpr std::string get_format_string(const T& argument) {
 
 		std::string result;
-		result += get_type_format_char(argument);
+		result += type_format_char<T>::value;
 		return result;
 
 	}
@@ -221,7 +226,7 @@ namespace MrbWrap {
 	template <class T, class ... TArgs> constexpr std::string get_format_string(const T& argument, const TArgs& ... args) {
 
 		std::string result;
-		result += get_type_format_char(argument);
+		result += type_format_char<T>::value;
 		result += get_format_string(args...);
 		return result;
 
@@ -324,6 +329,5 @@ namespace MrbWrap {
 		}, MRB_ARGS_REQ(1));
 
 	}
-
 
 }
