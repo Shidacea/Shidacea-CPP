@@ -18,7 +18,7 @@ void setup_ruby_class_sound_buffer(mrb_state* mrb) {
 
 	auto ruby_sound_buffer_class = MrbWrap::define_data_class(mrb, "SoundBuffer");
 
-	MrbWrap::define_constructor_with_no_args<sf::SoundBuffer>(mrb, ruby_sound_buffer_class);
+	MrbWrap::wrap_constructor<sf::SoundBuffer>(mrb, ruby_sound_buffer_class);
 
 	mrb_define_method(mrb, ruby_sound_buffer_class, "load_from_file", ruby_sound_buffer_load_from_file, MRB_ARGS_REQ(1));
 

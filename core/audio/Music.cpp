@@ -10,8 +10,8 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_function<sf::Music, void, decltype(&sf::Music::stop), &sf::Music::stop>(mrb, ruby_music_class, "stop");
 	MrbWrap::wrap_function<sf::Music, void, decltype(&sf::Music::pause), &sf::Music::pause>(mrb, ruby_music_class, "pause");
 
-	MrbWrap::wrap_getter<sf::Music, mrb_bool, decltype(&sf::Music::getLoop), &sf::Music::getLoop>(mrb, ruby_music_class, "looping?");
-	MrbWrap::wrap_setter<sf::Music, mrb_bool, bool, decltype(&sf::Music::setLoop), &sf::Music::setLoop>(mrb, ruby_music_class, "looping=");
+	MrbWrap::wrap_getter<sf::Music, decltype(&sf::Music::getLoop), &sf::Music::getLoop>(mrb, ruby_music_class, "looping?");
+	MrbWrap::wrap_setter<sf::Music, decltype(&sf::Music::setLoop), &sf::Music::setLoop, bool>(mrb, ruby_music_class, "looping=");
 
 	MrbWrap::define_mruby_function(mrb, ruby_music_class, "open_from_file", MRUBY_FUNC {
 

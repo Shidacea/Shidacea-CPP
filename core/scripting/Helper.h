@@ -13,6 +13,8 @@
 #include <filesystem>
 #include <functional>
 #include <type_traits>
+#include <tuple>
+#include <utility>
 
 #include <SFML/Graphics.hpp>
 
@@ -51,6 +53,11 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 //! Alias for the lamdba type used for mruby functions
 
 #define MRUBY_FUNC [](mrb_state* mrb, mrb_value self) noexcept -> mrb_value
+
+//! Short alias for optional value wrappers
+
+#define MRBW_OPT MrbWrap::DefaultWrap
+#define MRBW_RAT_OPT MrbWrap::RationalDefaultWrap
 
 namespace MrbWrap {
 
@@ -201,50 +208,177 @@ namespace MrbWrap {
 
 	}
 
-	//! Will later be used for format strings
-	//! TODO: Sort out any inconsistencies
+	//! Wrapper classes
 
-	template <class T, class Trait = void> struct type_format_char {};	//! Should maybe throw an error
-	template <> struct type_format_char<bool> { constexpr static char value = 'b'; };
-	template <> struct type_format_char<mrb_bool> { constexpr static char value = 'b'; };
-	template <> struct type_format_char<std::string> { constexpr static char value = 's'; };
-	template <> struct type_format_char<const char*> { constexpr static char value = 's'; };
-	template <class T> struct type_format_char<T, class std::enable_if<std::is_floating_point_v<T>>::type> {constexpr static char value = 'f'; };
-	template <class T> struct type_format_char<T, class std::enable_if<std::is_integral_v<T>>::type> { constexpr static char value = 'i'; };
-	template <class T> struct type_format_char<T, class std::enable_if<std::is_class_v<T>>::type> { constexpr static char value = 'o'; };
+	struct BaseDefaultWrap { using type = void; };
+
+	template <class T, T DefaultValue = 0>
+	struct DefaultWrap : public BaseDefaultWrap {
+
+		using type = T;
+		constexpr static auto value = DefaultValue;
+
+	};
+
+	template <class T, int Nom = 0, int Denom = 1>
+	struct RationalDefaultWrap : public BaseDefaultWrap {
+
+		using type = T;
+		constexpr static auto value = static_cast<T>(Nom) / static_cast<T>(Denom);
+
+	};
+
+	//! TODO: Do not generate a value each time calling this
+
+	template <class T> constexpr auto get_default(T arg) {
+
+		if constexpr (std::is_base_of<BaseDefaultWrap, T>::value) {
+
+			return T::value;
+
+		} else {
+
+			auto ret_value = T();
+			return ret_value;
+
+		}
+
+	};
+
+	//! Base class for an array of chars, serving as a string
+
+	template <char ... Args> struct StringArray {
+
+		constexpr static const char value[] = { Args..., 0 };
+
+	};
+
+	//! Class for joining two string arrays
+
+	template <class Arg1, class Args2> struct JoinStringArrays;
+
+	template <char ... Args1, char ... Args2>
+	struct JoinStringArrays<StringArray<Args1...>, StringArray<Args2...>> {
+
+		using type = StringArray<Args1..., Args2...>;
+
+	};
+
+	//! Structures to generate the necessary format characters
+
+	template <class T, class Trait = void> struct FormatChar;
+
+	template <class T>
+	struct FormatChar<T, typename std::enable_if<std::is_base_of_v<BaseDefaultWrap, T>>::type> {
+
+		using real_type = typename T::type;
+		constexpr static const char value = FormatChar<real_type>::value;
+
+	};
+
+	//! Format string specifications
+
+	template <> struct FormatChar<bool> { constexpr static const char value = 'b'; };
+	template <> struct FormatChar<mrb_bool> { constexpr static const char value = 'b'; };
+	template <> struct FormatChar<const char*> { constexpr static const char value = 's'; };
+	template <> struct FormatChar<std::string> { constexpr static const char value = 's'; };
+	template <class T> struct FormatChar<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { constexpr static const char value = 'f'; };
+	template <class T> struct FormatChar<T, typename std::enable_if<std::is_integral_v<T>>::type> { constexpr static const char value = 'i'; };
+	template <class T> struct FormatChar<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { constexpr static const char value = 'o'; };
+
+	//! Helper structure to generate format strings recursively
+
+	template <bool IsDefault, class ... TArgs>
+	struct FormatStringHelper {
+
+		using type = StringArray<>;
+
+	};
+
+	template <bool IsDefault, class T, class ... TArgs>
+	struct FormatStringHelper<IsDefault, T, TArgs...> {
+
+		constexpr static auto separator = '|';
+
+		using default_condition = std::is_base_of<BaseDefaultWrap, T>;
+		constexpr static auto condition = std::conditional<IsDefault, std::false_type, default_condition>::type::value;
+
+		using arg_1 = typename std::conditional<condition, StringArray<separator, FormatChar<T>::value>, StringArray<FormatChar<T>::value>>::type;
+		using decider = typename std::conditional<condition, FormatStringHelper<true, TArgs...>, FormatStringHelper<IsDefault, TArgs...>>::type;
+
+		using arg_2 = typename decider::type;
+		using joined = JoinStringArrays<arg_1, arg_2>;
+		using type = typename joined::type;
+
+	};
+
+	//! The actual class to use for the format strings
+
+	template <class ... TArgs> struct FormatString {
+
+		constexpr static auto value = FormatStringHelper<false, TArgs...>::type::value;
+
+	};
 
 	template <class T> mrb_value cast_value_to_ruby(mrb_state* mrb, T value);
 
-	template <class T> constexpr std::string get_format_string(const T& argument) {
+	template <class T, class Trait = void> struct CastToRuby { using type = void; };
 
-		std::string result;
-		result += type_format_char<T>::value;
-		return result;
+	template <class T> 
+	struct CastToRuby<T, typename std::enable_if<std::is_base_of_v<BaseDefaultWrap, T>>::type> {
 
-	}
+		using real_type = typename T::type;
+		using type = typename CastToRuby<real_type>::type;
 
-	template <class T, class ... TArgs> constexpr std::string get_format_string(const T& argument, const TArgs& ... args) {
+	};
 
-		std::string result;
-		result += type_format_char<T>::value;
-		result += get_format_string(args...);
-		return result;
+	template <> struct CastToRuby<bool> { using type = mrb_bool; };
+	template <> struct CastToRuby<std::string> { using type = char*; };
+	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { using type = mrb_float; };
+	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_integral_v<T>>::type> { using type = mrb_int; };
+	template <class T> struct CastToRuby<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { using type = mrb_value; };
 
-	}
-
-	//! TODO: Add args
-	template <class C> void wrap_constructor(mrb_state* mrb, RClass* ruby_class) {
+	template <class C, class ... TArgs> void wrap_constructor(mrb_state* mrb, RClass* ruby_class) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
 
-			MrbWrap::convert_to_object<C>(mrb, self);
+			//! Generate a tuple of the final mruby types
+			std::tuple<CastToRuby<TArgs>::type...> args;
+
+			//! Set the tuple values to their default values if given
+			std::apply([](auto&& ...arg) {
+
+				((arg = get_default(TArgs())), ...);
+
+			}, args);
+
+			//! If any arguments, get them and store them into the tuple
+			//! The format string gets determined automatically from the template arguments
+			if constexpr (sizeof...(TArgs) > 0) {
+				std::apply([&mrb](auto& ...arg) {
+
+					mrb_get_args(mrb, FormatString<TArgs...>::value, &arg...);
+
+				}, args);
+			}
+
+			//! TODO: Convert args back to TArgs classes as argument for the following constructor
+
+			//! Generate the desired object with the called arguments
+			std::apply([&mrb, self](auto& ...arg) {
+
+				MrbWrap::convert_to_object<C>(mrb, self, arg...);
+
+			}, args);
+
 			return self;
 
+		//! TODO: Maybe change this at some point if it should become relevant
 		}, MRB_ARGS_NONE());
 
 	}
 
-	//! TODO: Add args
+	//! TODO: Add args, similarly to above
 	template <class C, class RubyType, class ReturnType, ReturnType Member> void wrap_function(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
@@ -267,7 +401,7 @@ namespace MrbWrap {
 
 	}
 
-	template <class C, class RubyType, class ReturnType, ReturnType Member> void wrap_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class ReturnType, ReturnType Member> void wrap_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
@@ -277,13 +411,13 @@ namespace MrbWrap {
 
 				auto return_value = ((*content).*Member);
 
-				return cast_value_to_ruby(mrb, static_cast<RubyType>(return_value));
+				return cast_value_to_ruby(mrb, static_cast<typename CastToRuby<decltype(return_value)>::type>(return_value));
 
 			} else if constexpr (std::is_member_function_pointer_v<ReturnType>) {
 
 				auto return_value = ((*content).*Member)();
 
-				return cast_value_to_ruby(mrb, static_cast<RubyType>(return_value));
+				return cast_value_to_ruby(mrb, static_cast<typename CastToRuby<decltype(return_value)>::type>(return_value));
 
 			} else {
 
@@ -296,14 +430,13 @@ namespace MrbWrap {
 
 	}
 
-	template <class C, class RubyType, class ArgType, class ReturnType, ReturnType Member> void wrap_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class ReturnType, ReturnType Member, class ArgType> void wrap_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
-			//! TODO: Derive ruby type from argument type
-			RubyType new_value;
+			typename CastToRuby<ArgType>::type new_value;
 
-			mrb_get_args(mrb, get_format_string(new_value).c_str(), &new_value);
+			mrb_get_args(mrb, FormatString<ArgType>::value, &new_value);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
