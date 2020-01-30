@@ -133,6 +133,8 @@ class SceneTest < SDC::Scene
 
 			SDC::ImGui.button "Play music" {@music.play}
 			SDC::ImGui.button "Pause music" {@music.pause}
+			SDC::ImGui.button "Pitch up" {@music.pitch *= 1.1}
+			SDC::ImGui.button "Pitch down" {@music.pitch /= 1.1}
 
 			SDC::ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"	# Filter double collisions
 			SDC::ImGui.text "Box Collision:   #{box_collision_no.div(2)}"

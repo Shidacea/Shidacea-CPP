@@ -338,36 +338,67 @@ namespace MrbWrap {
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_integral_v<T>>::type> { using type = mrb_int; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { using type = mrb_value; };
 
+	template <class T, class Trait = void> struct GetRealType { using type = T; };
+
+	template <class T>
+	struct GetRealType<T, typename std::enable_if<std::is_base_of_v<BaseDefaultWrap, T>>::type> {
+
+		using real_type = typename T::type;
+		using type = typename GetRealType<real_type>::type;
+
+	};
+
+	template <class F> struct GetReturnType { using type = void; };
+
+	template <class C, class T, class ... TArgs> struct GetReturnType<T (C::*)(TArgs...)> {
+		using type = T;
+	};
+
+	template <class C, class ... TArgs> struct GetReturnType<void (C::*)(TArgs...)> {
+		using type = void;
+	};
+
+	template <class ... TArgs> constexpr auto generate_arg_tuple() {
+		//! Generate a tuple of the final mruby types
+		std::tuple<CastToRuby<TArgs>::type...> args;
+
+		//! Set the tuple values to their default values if given
+		std::apply([](auto&& ...arg) {
+
+			//! Also ensure correct casting to the mruby type
+			((arg = static_cast<typename CastToRuby<TArgs>::type>(get_default(TArgs()))), ...);
+
+		}, args);
+
+		return args;
+	}
+
+	template <class ... TArgs, class ... CastedTypes> inline void get_args_from_tuple(mrb_state* mrb, std::tuple<CastedTypes...>& args) {
+		//! If any arguments, get them and store them into the tuple
+		if constexpr (sizeof...(TArgs) > 0) {
+			std::apply([&mrb](auto& ...arg) {
+
+				//! The format string gets determined automatically from the template arguments
+				mrb_get_args(mrb, FormatString<TArgs...>::value, &arg...);
+
+			}, args);
+		}
+
+	}
+
 	template <class C, class ... TArgs> void wrap_constructor(mrb_state* mrb, RClass* ruby_class) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
 
-			//! Generate a tuple of the final mruby types
-			std::tuple<CastToRuby<TArgs>::type...> args;
+			auto args = generate_arg_tuple<TArgs...>();
+			get_args_from_tuple<TArgs...>(mrb, args);
 
-			//! Set the tuple values to their default values if given
-			std::apply([](auto&& ...arg) {
-
-				((arg = get_default(TArgs())), ...);
-
-			}, args);
-
-			//! If any arguments, get them and store them into the tuple
-			//! The format string gets determined automatically from the template arguments
-			if constexpr (sizeof...(TArgs) > 0) {
-				std::apply([&mrb](auto& ...arg) {
-
-					mrb_get_args(mrb, FormatString<TArgs...>::value, &arg...);
-
-				}, args);
-			}
-
-			//! TODO: Convert args back to TArgs classes as argument for the following constructor
+			//! TODO: Check functionality for mrb_values (also maybe only allow nullptr for default arg?)
 
 			//! Generate the desired object with the called arguments
 			std::apply([&mrb, self](auto& ...arg) {
 
-				MrbWrap::convert_to_object<C>(mrb, self, arg...);
+				MrbWrap::convert_to_object<C>(mrb, self, static_cast<typename GetRealType<TArgs>::type>(arg)...);
 
 			}, args);
 
@@ -378,22 +409,34 @@ namespace MrbWrap {
 
 	}
 
-	//! TODO: Add args, similarly to above
-	template <class C, class RubyType, class ReturnType, ReturnType Member> void wrap_function(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class FuncType, FuncType Member, class ... TArgs> void wrap_function(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
+			auto args = generate_arg_tuple<TArgs...>();
+			get_args_from_tuple<TArgs...>(mrb, args);
+
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			if constexpr(std::is_same_v<RubyType, void>) {
+			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
 
-				((*content).*Member)();
+				std::apply([&content](auto& ...arg) {
+
+					((*content).*Member)(static_cast<typename GetRealType<TArgs>::type>(arg)...);
+
+				}, args);
+
 				return mrb_nil_value();
 
 			} else {
 
-				auto return_value = ((*content).*Member)();
-				return cast_value_to_ruby(mrb, static_cast<RubyType>(return_value));
+				auto return_value = std::apply([&content](auto& ...arg) {
+
+					((*content).*Member)(static_cast<typename GetRealType<TArgs>::type>(arg)...);
+
+				}, args);
+
+				return cast_value_to_ruby(mrb, static_cast<typename CastToRuby<decltype(return_value)>::type>(return_value));
 
 			}
 
@@ -401,19 +444,19 @@ namespace MrbWrap {
 
 	}
 
-	template <class C, class ReturnType, ReturnType Member> void wrap_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class FuncType, FuncType Member> void wrap_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			if constexpr (std::is_member_object_pointer_v<ReturnType>) {
+			if constexpr (std::is_member_object_pointer_v<FuncType>) {
 
 				auto return_value = ((*content).*Member);
 
 				return cast_value_to_ruby(mrb, static_cast<typename CastToRuby<decltype(return_value)>::type>(return_value));
 
-			} else if constexpr (std::is_member_function_pointer_v<ReturnType>) {
+			} else if constexpr (std::is_member_function_pointer_v<FuncType>) {
 
 				auto return_value = ((*content).*Member)();
 
@@ -430,23 +473,22 @@ namespace MrbWrap {
 
 	}
 
-	template <class C, class ReturnType, ReturnType Member, class ArgType> void wrap_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class FuncType, FuncType Member, class ArgType> void wrap_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			typename CastToRuby<ArgType>::type new_value;
-
 			mrb_get_args(mrb, FormatString<ArgType>::value, &new_value);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			if constexpr (std::is_member_object_pointer_v<ReturnType>) {
+			if constexpr (std::is_member_object_pointer_v<FuncType>) {
 
 				((*content).*Member) = static_cast<ArgType>(new_value);
 
 				return cast_value_to_ruby(mrb, new_value);
 
-			} else if constexpr (std::is_member_function_pointer_v<ReturnType>) {
+			} else if constexpr (std::is_member_function_pointer_v<FuncType>) {
 
 				((*content).*Member)(static_cast<ArgType>(new_value));
 
