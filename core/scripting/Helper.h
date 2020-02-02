@@ -59,6 +59,8 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 #define MRBW_OPT MrbWrap::DefaultWrap
 #define MRBW_RAT_OPT MrbWrap::RationalDefaultWrap
 
+#define MRBW_FUNC(klass, name) klass, decltype(&name), &name
+
 namespace MrbWrap {
 
 	//! Will be defined below
