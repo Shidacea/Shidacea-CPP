@@ -386,6 +386,10 @@ namespace MrbWrap {
 
 			return mrb_value();
 
+		} else if constexpr (std::conjunction_v<std::is_same<C, mrb_value>, std::is_pointer<Dest>>) {
+
+			return convert_from_object<std::remove_pointer_t<Dest>>(mrb, arg);
+
 		} else if constexpr (std::is_same_v<C, mrb_value>) {
 
 			return *convert_from_object<Dest>(mrb, arg);
@@ -438,8 +442,9 @@ namespace MrbWrap {
 	//! - std::string (no default value)
 	//! - bool (with default value false)
 	//! - Many classes (no default value)
+	//! - Pointers to classes (WARNING: NOT TESTED YET)
 	//!
-	//! If you want to use any other type (or pointer), this will probably not work yet.
+	//! If you want to use any other type, this will probably not work yet.
 	//! Please contact me (Hadeweka) or make a pull request if you find something which doesn't work.
 	//! The list may expand in the future if needed.
 	//! Remember that this is also still in a somewhat experimental stage.
