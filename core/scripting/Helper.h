@@ -18,8 +18,6 @@
 
 #include <SFML/Graphics.hpp>
 
-using MrbIntRect = sf::Rect<mrb_int>;
-
 //! Preprocessor shenanigans to switch between script file loading and pre-compiled bytecode
 //! If debug mode is on (NDEBUG not defined), the macro will directly load the script file "scripts/XXX.rb"
 //! If debug mode is off, the macro will execute the bytecode in the respective array compiled_ruby_XXX
@@ -322,6 +320,8 @@ namespace MrbWrap {
 	//! Function to cast any value to an internal ruby value
 	template <class T> mrb_value cast_value_to_ruby(mrb_state* mrb, T value);
 
+	//! TODO: Return mrb_value
+
 	//! Get matching ruby class, e.g. mrb_int for int
 	template <class T, class Trait = void> struct CastToRuby { using type = void; };
 
@@ -432,6 +432,15 @@ namespace MrbWrap {
 
 	}
 
+	template <class ... TArgs> constexpr auto get_args(mrb_state* mrb) {
+
+		auto args = generate_arg_tuple<TArgs...>();
+		get_args_from_tuple<TArgs...>(mrb, args);
+
+		return args;
+
+	}
+
 	//! Now following are function wrappers which should cover about 75%-100% of all needed cases.
 	//! Definitely supported are the following argument and return types:
 	//!
@@ -444,11 +453,13 @@ namespace MrbWrap {
 	//! - Many classes (no default value)
 	//! - Pointers to classes (WARNING: NOT TESTED YET)
 	//!
-	//! If you want to use any other type, this will probably not work yet.
+	//! If you want to use any other type (or reference), this will probably not work yet.
 	//! Please contact me (Hadeweka) or make a pull request if you find something which doesn't work.
 	//! The list may expand in the future if needed.
 	//! Remember that this is also still in a somewhat experimental stage.
 	//! If in doubt, just write your own wrapper using define_mruby_function to avoid any problems.
+
+	//! TODO: Wrap static functions
 
 	//! Wrap a constructor with arbitrary arguments
 	template <class C, class ... TArgs> void wrap_constructor(mrb_state* mrb, RClass* ruby_class) {
@@ -475,10 +486,9 @@ namespace MrbWrap {
 	//! Wrap any void or non-void function with arbitrary arguments
 	template <class C, class FuncType, FuncType Member, class ... TArgs> void wrap_function(mrb_state* mrb, RClass* ruby_class, const char* name) {
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC{
 
-			auto args = generate_arg_tuple<TArgs...>();
-			get_args_from_tuple<TArgs...>(mrb, args);
+			auto args = get_args<TArgs...>(mrb);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
