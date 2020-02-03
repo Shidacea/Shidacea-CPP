@@ -29,6 +29,8 @@ class SceneTest < SDC::Scene
 
 		@test_map.update
 
+		@music.pitch *= (1.0 + (rand - 0.5)*0.1) if SDC.get_switch("chaos")
+
 		v = 20.0 * (SDC.game.meter / SDC.game.second**2)
 		dx = (SDC.key_pressed?(:A) ? -v : 0.0) + (SDC.key_pressed?(:D) ? v : 0.0)
 		dy = (SDC.key_pressed?(:S) ? v : 0.0)
@@ -135,6 +137,7 @@ class SceneTest < SDC::Scene
 			SDC::ImGui.button "Pause music" {@music.pause}
 			SDC::ImGui.button "Pitch up" {@music.pitch *= 1.1}
 			SDC::ImGui.button "Pitch down" {@music.pitch /= 1.1}
+			SDC::ImGui.button "Pitch ??? #{!SDC.get_switch("chaos") ? "on" : "off"}" {SDC.toggle_switch("chaos")}
 
 			SDC::ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"	# Filter double collisions
 			SDC::ImGui.text "Box Collision:   #{box_collision_no.div(2)}"
