@@ -281,7 +281,6 @@ namespace MrbWrap {
 	//! Format string specifications
 
 	template <> struct FormatChar<bool> { constexpr static const char value = 'b'; };
-	template <> struct FormatChar<mrb_bool> { constexpr static const char value = 'b'; };
 	template <> struct FormatChar<const char*> { constexpr static const char value = 'z'; };
 	template <> struct FormatChar<std::string> { constexpr static const char value = 'z'; };
 	template <class T> struct FormatChar<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { constexpr static const char value = 'f'; };
@@ -369,7 +368,7 @@ namespace MrbWrap {
 	};
 
 	//! Utility function to extend static_cast for more cases
-	template <class Dest, class C> auto automatic_cast(C arg) {
+	template <class Dest, class C> auto automatic_cast(C arg, mrb_state* mrb = nullptr) {
 
 		if constexpr (std::is_same_v<Dest, C>) {
 
@@ -382,6 +381,14 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, char*>) {
 
 			return const_cast<char*>(arg.c_str());
+
+		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
+
+			return mrb_value();
+
+		} else if constexpr (std::is_same_v<C, mrb_value>) {
+
+			return *convert_from_object<Dest>(mrb, arg);
 
 		} else {
 
@@ -421,6 +428,23 @@ namespace MrbWrap {
 
 	}
 
+	//! Now following are function wrappers which should cover about 75%-100% of all needed cases.
+	//! Definitely supported are the following argument and return types:
+	//!
+	//! - int (with default value 0)
+	//! - float (with default values 0, except inf and nan, as long as you use the rational wrapper)
+	//! - char (with default value 0)
+	//! - char* (no default value)
+	//! - std::string (no default value)
+	//! - bool (with default value false)
+	//! - Many classes (no default value)
+	//!
+	//! If you want to use any other type (or pointer), this will probably not work yet.
+	//! Please contact me (Hadeweka) or make a pull request if you find something which doesn't work.
+	//! The list may expand in the future if needed.
+	//! Remember that this is also still in a somewhat experimental stage.
+	//! If in doubt, just write your own wrapper using define_mruby_function to avoid any problems.
+
 	//! Wrap a constructor with arbitrary arguments
 	template <class C, class ... TArgs> void wrap_constructor(mrb_state* mrb, RClass* ruby_class) {
 
@@ -429,12 +453,10 @@ namespace MrbWrap {
 			auto args = generate_arg_tuple<TArgs...>();
 			get_args_from_tuple<TArgs...>(mrb, args);
 
-			//! TODO: Check functionality for mrb_values (also maybe only allow nullptr for default arg?)
-
 			//! Generate the desired object with the called arguments
 			std::apply([&mrb, self](auto& ...arg) {
 
-				MrbWrap::convert_to_object<C>(mrb, self, automatic_cast<GetRealType<TArgs>::type>(arg)...);
+				MrbWrap::convert_to_object<C>(mrb, self, automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
 
 			}, args);
 
@@ -457,9 +479,9 @@ namespace MrbWrap {
 
 			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
 
-				std::apply([&content](auto& ...arg) {
+				std::apply([&mrb, &content](auto& ...arg) {
 
-					((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg)...);
+					((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
 
 				}, args);
 
@@ -467,9 +489,9 @@ namespace MrbWrap {
 
 			} else {
 
-				typename GetReturnType<FuncType>::type return_value = std::apply([&content](auto& ...arg) {
+				typename GetReturnType<FuncType>::type return_value = std::apply([&mrb, &content](auto& ...arg) {
 
-					return ((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg)...);
+					return ((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
 
 				}, args);
 
