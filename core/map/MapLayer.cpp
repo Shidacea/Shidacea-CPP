@@ -180,123 +180,57 @@ void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 }
 
-mrb_value ruby_map_layer_init(mrb_state* mrb, mrb_value self) {
-
-	mrb_int width;
-	mrb_int height;
-	mrb_int view_width;
-	mrb_int view_height;
-	mrb_int tile_width;
-	mrb_int tile_height;
-	
-	mrb_get_args(mrb, "iiiiii", &width, &height, &view_width, &view_height, &tile_width, &tile_height);
-
-	auto map_layer = MrbWrap::convert_to_object<MapLayer>(mrb, self, 
-		static_cast<unsigned int>(width), static_cast<unsigned int>(height), 
-		static_cast<unsigned int>(view_width), static_cast<unsigned int>(view_height),
-		static_cast<unsigned int>(tile_width), static_cast<unsigned int>(tile_height));
-
-	return self;
-
-}
-
-mrb_value ruby_map_layer_reload(mrb_state* mrb, mrb_value self) {
-
-	mrb_value ruby_coordinates;
-
-	mrb_get_args(mrb, "o", &ruby_coordinates);
-
-	auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
-
-	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-	map_layer->reload(coordinates->x, coordinates->y);
-
-	return mrb_true_value();
-
-}
-
-mrb_value ruby_map_layer_load_test_map(mrb_state* mrb, mrb_value self) {
-
-	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-	map_layer->load_test_map();
-
-	return mrb_nil_value();
-}
-
-mrb_value ruby_map_layer_link_tileset(mrb_state* mrb, mrb_value self) {
-
-	mrb_value ruby_tileset;
-
-	mrb_get_args(mrb, "o", &ruby_tileset);
-	
-	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-	auto tileset = MrbWrap::convert_from_object<Tileset>(mrb, ruby_tileset);
-
-	map_layer->link_tileset(tileset);
-
-	static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
-	mrb_iv_set(mrb, self, tileset_sym, ruby_tileset);
-
-	return mrb_nil_value();
-
-}
-
-mrb_value ruby_map_layer_collision_active(mrb_state* mrb, mrb_value self) {
-
-	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-
-	return mrb_bool_value(map_layer->is_collision_active());
-
-}
-
-mrb_value ruby_map_layer_collision_active_equals(mrb_state* mrb, mrb_value self) {
-
-	mrb_bool value;
-
-	mrb_get_args(mrb, "b", &value);
-
-	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-	map_layer->set_collision_active(value);
-
-	return mrb_bool_value(value);
-
-}
-
-mrb_value ruby_map_layer_access(mrb_state* mrb, mrb_value self) {
-
-	mrb_int x;
-	mrb_int y;
-
-	mrb_get_args(mrb, "ii", &x, &y);
-
-	auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-
-	auto tile = map_layer->get_tile(static_cast<unsigned int>(x), static_cast<unsigned int>(y));
-
-	return mrb_fixnum_value(tile);
-
-}
-
-mrb_value ruby_map_layer_tileset(mrb_state* mrb, mrb_value self) {
-
-	static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
-	auto tileset = mrb_iv_get(mrb, self, tileset_sym);
-
-	return tileset;
-
-}
-
 void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_map_layer_class = MrbWrap::define_data_class_under(mrb, "MapLayer", ruby_module);
 
-	mrb_define_method(mrb, ruby_map_layer_class, "initialize", ruby_map_layer_init, MRB_ARGS_REQ(6));
-	mrb_define_method(mrb, ruby_map_layer_class, "reload", ruby_map_layer_reload, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_map_layer_class, "load_test_map", ruby_map_layer_load_test_map, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_map_layer_class, "link_tileset", ruby_map_layer_link_tileset, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_map_layer_class, "collision_active", ruby_map_layer_collision_active, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_map_layer_class, "collision_active=", ruby_map_layer_collision_active_equals, MRB_ARGS_REQ(1));
-	mrb_define_method(mrb, ruby_map_layer_class, "[]", ruby_map_layer_access, MRB_ARGS_REQ(2));
-	mrb_define_method(mrb, ruby_map_layer_class, "tileset", ruby_map_layer_tileset, MRB_ARGS_NONE());
+	MrbWrap::wrap_constructor<MapLayer, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>(mrb, ruby_map_layer_class);
+
+	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "reload", MRUBY_FUNC {
+
+		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
+		auto ruby_coordinates = std::get<0>(args);
+
+		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+
+		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+		map_layer->reload(coordinates->x, coordinates->y);
+
+		return mrb_true_value();
+
+	});
+
+	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::load_test_map)>(mrb, ruby_map_layer_class, "load_test_map");
+
+	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "link_tileset", MRUBY_FUNC {
+
+		auto args = MrbWrap::get_args<Tileset>(mrb);
+		auto ruby_tileset = std::get<0>(args);
+
+		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
+		auto tileset = MrbWrap::convert_from_object<Tileset>(mrb, ruby_tileset);
+
+		map_layer->link_tileset(tileset);
+
+		static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
+		mrb_iv_set(mrb, self, tileset_sym, ruby_tileset);
+
+		return mrb_nil_value();
+
+	});
+
+	MrbWrap::wrap_getter<MRBW_FUNC(MapLayer, MapLayer::is_collision_active)>(mrb, ruby_map_layer_class, "collision_active");
+	MrbWrap::wrap_setter<MRBW_FUNC(MapLayer, MapLayer::set_collision_active), bool>(mrb, ruby_map_layer_class, "collision_active=");
+	
+	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::get_tile), unsigned int, unsigned int>(mrb, ruby_map_layer_class, "[]");
+
+	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "tileset", MRUBY_FUNC {
+
+		static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
+		auto tileset = mrb_iv_get(mrb, self, tileset_sym);
+
+		return tileset;
+
+	});
 
 }

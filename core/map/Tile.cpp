@@ -51,34 +51,13 @@ unsigned int Tile::get_animation_frame(unsigned int frame_counter) {
 
 }
 
-mrb_value ruby_tile_solid(mrb_state* mrb, mrb_value self) {
-
-	auto tile = MrbWrap::convert_from_object<Tile>(mrb, self);
-
-	return mrb_bool_value(tile->is_solid());
-
-}
-
-mrb_value ruby_tile_solid_equals(mrb_state* mrb, mrb_value self) {
-
-	mrb_bool arg;
-
-	mrb_get_args(mrb, "b", &arg);
-
-	auto tile = MrbWrap::convert_from_object<Tile>(mrb, self);
-	tile->set_as_solid(arg);
-
-	return mrb_bool_value(arg);
-
-}
-
 void setup_ruby_class_tile(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_tileset_class = MrbWrap::define_data_class_under(mrb, "Tile", ruby_module);
+	auto ruby_tile_class = MrbWrap::define_data_class_under(mrb, "Tile", ruby_module);
 
-	MrbWrap::wrap_constructor<Tile>(mrb, ruby_tileset_class);
+	MrbWrap::wrap_constructor<Tile>(mrb, ruby_tile_class);
 
-	mrb_define_method(mrb, ruby_tileset_class, "solid", ruby_tile_solid, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_tileset_class, "solid=", ruby_tile_solid_equals, MRB_ARGS_REQ(1));
+	MrbWrap::wrap_getter<MRBW_FUNC(Tile, Tile::is_solid)>(mrb, ruby_tile_class, "solid");
+	MrbWrap::wrap_setter<MRBW_FUNC(Tile, Tile::set_as_solid), bool>(mrb, ruby_tile_class, "solid=");
 
 }

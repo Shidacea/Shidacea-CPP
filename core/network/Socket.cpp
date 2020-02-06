@@ -118,11 +118,11 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 	auto ruby_socket_class = MrbWrap::define_data_class_under(mrb, "Socket", ruby_module);
 	auto ruby_socket_status_module = mrb_define_module_under(mrb, ruby_socket_class, "Status");
 
-	mrb_define_const(mrb, ruby_socket_status_module, "Done", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Done)));
-	mrb_define_const(mrb, ruby_socket_status_module, "NotReady", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::NotReady)));
-	mrb_define_const(mrb, ruby_socket_status_module, "Partial", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Partial)));
-	mrb_define_const(mrb, ruby_socket_status_module, "Disconnected", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Disconnected)));
-	mrb_define_const(mrb, ruby_socket_status_module, "Error", mrb_fixnum_value(static_cast<int>(sf::Socket::Status::Error)));
+	mrb_define_const(mrb, ruby_socket_status_module, "Done", mrb_fixnum_value(static_cast<mrb_int>(sf::Socket::Status::Done)));
+	mrb_define_const(mrb, ruby_socket_status_module, "NotReady", mrb_fixnum_value(static_cast<mrb_int>(sf::Socket::Status::NotReady)));
+	mrb_define_const(mrb, ruby_socket_status_module, "Partial", mrb_fixnum_value(static_cast<mrb_int>(sf::Socket::Status::Partial)));
+	mrb_define_const(mrb, ruby_socket_status_module, "Disconnected", mrb_fixnum_value(static_cast<mrb_int>(sf::Socket::Status::Disconnected)));
+	mrb_define_const(mrb, ruby_socket_status_module, "Error", mrb_fixnum_value(static_cast<mrb_int>(sf::Socket::Status::Error)));
 
 	//! TODO: Implement UDP support as optional argument
 	MrbWrap::wrap_constructor<sf::TcpSocket>(mrb, ruby_socket_class);
