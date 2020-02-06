@@ -11,7 +11,7 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_function<MRBW_FUNC(sf::Music, sf::Music::pause)>(mrb, ruby_music_class, "pause");
 
 	//! Different name to clarify meaning
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getLoop)>(mrb, ruby_music_class, "looping?");
+	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getLoop)>(mrb, ruby_music_class, "looping");
 	MrbWrap::wrap_setter<MRBW_FUNC(sf::Music, sf::Music::setLoop), bool>(mrb, ruby_music_class, "looping=");
 
 	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getPitch)>(mrb, ruby_music_class, "pitch");

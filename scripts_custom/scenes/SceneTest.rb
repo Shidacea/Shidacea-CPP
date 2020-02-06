@@ -16,7 +16,7 @@ class SceneTest < SDC::Scene
 
 	def update
 		if SDC::key_pressed?(:F10) then
-			$window.set_imgui_scale(2.0)
+			SDC.window.set_imgui_scale(2.0)
 
 		elsif SDC::key_pressed?(:Enter) then
 			@entities[0].position.x += 30
