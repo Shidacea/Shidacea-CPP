@@ -144,13 +144,79 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	REGISTER_KEY(mrb, module_key, Pause);
 
-	mrb_define_module_function(mrb, module_key, "is_pressed?", ruby_event_key_is_pressed, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, module_key, "is_pressed?", MRUBY_FUNC{
+
+		auto args = MrbWrap::get_args<int>(mrb);
+		auto key_value = std::get<0>(args);
+
+		return mrb_bool_value(sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key_value)));
+		
+	}, MRB_ARGS_REQ(1));
 
 	auto module_mouse = mrb_define_module_under(mrb, ruby_module, "EventMouse");
 
-	mrb_define_module_function(mrb, module_mouse, "get_position", ruby_event_mouse_get_position, MRB_ARGS_OPT(1));
-	mrb_define_module_function(mrb, module_mouse, "is_button_pressed?", ruby_event_mouse_is_button_pressed, MRB_ARGS_REQ(1));
-	mrb_define_module_function(mrb, module_mouse, "set_position", ruby_event_mouse_set_position, MRB_ARGS_ARG(1, 1));
+	mrb_define_module_function(mrb, module_mouse, "get_position", MRUBY_FUNC {
+		
+		mrb_value ruby_window = mrb_nil_value();
+
+		mrb_get_args(mrb, "|o", &ruby_window);
+
+		sf::Vector2i mouse_position;
+
+		if (mrb_nil_p(ruby_window)) {
+
+			mouse_position = sf::Mouse::getPosition();
+
+		} else {
+
+			auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
+
+			mouse_position = sf::Mouse::getPosition(*window);
+
+		}
+
+		auto position_array = mrb_assoc_new(mrb, mrb_fixnum_value(mouse_position.x), mrb_fixnum_value(mouse_position.y));
+
+		return position_array;
+
+	}, MRB_ARGS_OPT(1));
+
+	mrb_define_module_function(mrb, module_mouse, "is_button_pressed?", MRUBY_FUNC {
+
+		auto args = MrbWrap::get_args<int>(mrb);
+		auto button_value = std::get<0>(args);
+
+		return mrb_bool_value(sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(button_value)));
+
+	}, MRB_ARGS_REQ(1));
+
+	mrb_define_module_function(mrb, module_mouse, "set_position", MRUBY_FUNC {
+
+		mrb_value val;
+		mrb_value ruby_window = mrb_nil_value();
+
+		mrb_get_args(mrb, "A|o", &val, &ruby_window);
+
+		auto x = mrb_fixnum(mrb_ary_entry(val, 0));
+		auto y = mrb_fixnum(mrb_ary_entry(val, 1));
+
+		auto new_position = sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
+
+		if (mrb_nil_p(ruby_window)) {
+
+			sf::Mouse::setPosition(new_position);
+
+		} else {
+
+			auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
+
+			sf::Mouse::setPosition(new_position, *window);
+
+		}
+
+		return mrb_nil_value();
+
+	}, MRB_ARGS_ARG(1, 1));
 
 	REGISTER_BUTTON(mrb, module_mouse, Left);
 	REGISTER_BUTTON(mrb, module_mouse, Right);
@@ -164,224 +230,130 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 }
 
-mrb_value ruby_event_key_is_pressed(mrb_state* mrb, mrb_value self) {
-
-	mrb_int key_value;
-
-	mrb_get_args(mrb, "i", &key_value);
-
-	return mrb_bool_value(sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key_value)));
-
-}
-
-mrb_value ruby_event_mouse_get_position(mrb_state* mrb, mrb_value self) {
-
-	mrb_value ruby_window = mrb_nil_value();
-
-	mrb_get_args(mrb, "|o", &ruby_window);
-
-	sf::Vector2i mouse_position;
-
-	if(mrb_nil_p(ruby_window)) {
-
-		mouse_position = sf::Mouse::getPosition();
-
-	} else {
-
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
-
-		mouse_position = sf::Mouse::getPosition(*window);
-
-	}
-
-	auto position_array = mrb_assoc_new(mrb, mrb_fixnum_value(mouse_position.x), mrb_fixnum_value(mouse_position.y));
-
-	return position_array;
-
-}
-
-mrb_value ruby_event_mouse_is_button_pressed(mrb_state* mrb, mrb_value self) {
-
-	mrb_int button_value;
-
-	mrb_get_args(mrb, "i", &button_value);
-
-	return mrb_bool_value(sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(button_value)));
-
-}
-
-mrb_value ruby_event_mouse_set_position(mrb_state* mrb, mrb_value self) {
-
-	mrb_value val;
-	mrb_value ruby_window = mrb_nil_value();
-
-	mrb_get_args(mrb, "A|o", &val, &ruby_window);
-
-	auto x = mrb_fixnum(mrb_ary_entry(val, 0));
-	auto y = mrb_fixnum(mrb_ary_entry(val, 1));
-
-	auto new_position = sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
-
-	if(mrb_nil_p(ruby_window)) {
-
-		sf::Mouse::setPosition(new_position);
-
-	} else {
-
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
-
-		sf::Mouse::setPosition(new_position, *window);
-
-	}
-
-	return mrb_nil_value();
-
-}
-
-mrb_value ruby_event_type(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(static_cast<int>(event->type));
-
-}
-
-mrb_value ruby_event_key_code(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(static_cast<int>(event->key.code));
-
-}
-
-mrb_value ruby_event_key_alt(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_bool_value(event->key.alt);
-
-}
-
-mrb_value ruby_event_key_control(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_bool_value(event->key.control);
-
-}
-
-mrb_value ruby_event_key_shift(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_bool_value(event->key.shift);
-
-}
-
-mrb_value ruby_event_key_system(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_bool_value(event->key.system);
-
-}
-
-mrb_value ruby_event_mouse_button_code(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(static_cast<int>(event->mouseButton.button));
-
-}
-
-mrb_value ruby_event_mouse_button_x(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(event->mouseButton.x);
-
-}
-
-mrb_value ruby_event_mouse_button_y(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(event->mouseButton.y);
-
-}
-
-mrb_value ruby_event_mouse_move_x(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(event->mouseMove.x);
-
-}
-
-mrb_value ruby_event_mouse_move_y(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(event->mouseMove.y);
-
-}
-
-mrb_value ruby_event_mouse_scroll_wheel(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(static_cast<int>(event->mouseWheelScroll.wheel));
-
-}
-
-mrb_value ruby_event_mouse_scroll_delta(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_float_value(mrb, event->mouseWheelScroll.delta);
-
-}
-
-mrb_value ruby_event_mouse_scroll_x(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(event->mouseWheelScroll.x);
-
-}
-
-mrb_value ruby_event_mouse_scroll_y(mrb_state* mrb, mrb_value self) {
-
-	auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
-
-	return mrb_fixnum_value(event->mouseWheelScroll.y);
-
-}
-
 void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_event_class = MrbWrap::define_data_class_under(mrb, "Event", ruby_module);
 
 	MrbWrap::wrap_constructor<sf::Event>(mrb, ruby_event_class);
 
-	mrb_define_method(mrb, ruby_event_class, "type", ruby_event_type, MRB_ARGS_NONE());
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "type", MRUBY_FUNC {
 
-	mrb_define_method(mrb, ruby_event_class, "key_code", ruby_event_key_code, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_alt?", ruby_event_key_alt, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_control?", ruby_event_key_control, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_shift?", ruby_event_key_shift, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "key_system?", ruby_event_key_system, MRB_ARGS_NONE());
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
-	mrb_define_method(mrb, ruby_event_class, "mouse_button_code", ruby_event_mouse_button_code, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "mouse_button_x", ruby_event_mouse_button_x, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "mouse_button_y", ruby_event_mouse_button_y, MRB_ARGS_NONE());
+		return mrb_fixnum_value(static_cast<int>(event->type));
 
-	mrb_define_method(mrb, ruby_event_class, "mouse_move_x", ruby_event_mouse_move_x, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "mouse_move_y", ruby_event_mouse_move_y, MRB_ARGS_NONE());
+	});
 
-	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_wheel", ruby_event_mouse_scroll_wheel, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_delta", ruby_event_mouse_scroll_delta, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_x", ruby_event_mouse_scroll_x, MRB_ARGS_NONE());
-	mrb_define_method(mrb, ruby_event_class, "mouse_scroll_y", ruby_event_mouse_scroll_y, MRB_ARGS_NONE());
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_code", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(static_cast<int>(event->key.code));
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_alt?", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_bool_value(event->key.alt);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_control?", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_bool_value(event->key.control);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_shift?", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_bool_value(event->key.shift);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_system?", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_bool_value(event->key.system);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_code", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(static_cast<int>(event->mouseButton.button));
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_x", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(event->mouseButton.x);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_y", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(event->mouseButton.y);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_move_x", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(event->mouseMove.x);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_move_y", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(event->mouseMove.y);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_wheel", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(static_cast<mrb_int>(event->mouseWheelScroll.wheel));
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_delta", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_float_value(mrb, event->mouseWheelScroll.delta);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_x", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(event->mouseWheelScroll.x);
+
+	});
+
+	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_y", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(event->mouseWheelScroll.y);
+
+	});
 
 }
