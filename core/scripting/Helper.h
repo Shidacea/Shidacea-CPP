@@ -16,6 +16,10 @@
 #include <tuple>
 #include <utility>
 
+#include "StaticString.h"
+#include "DefaultWrap.h"
+#include "FormatString.h"
+
 #include <SFML/Graphics.hpp>
 
 //! Preprocessor shenanigans to switch between script file loading and pre-compiled bytecode
@@ -208,29 +212,6 @@ namespace MrbWrap {
 
 	}
 
-	//! Wrapper classes
-
-	//! Base wrapper class, only used as a base class to identify other wrappers
-	struct BaseDefaultWrap { using type = void; };
-
-	//! Default wrapper class for basic data types which can be used as template arguments
-	template <class T, T DefaultValue = 0>
-	struct DefaultWrap : public BaseDefaultWrap {
-
-		using type = T;
-		constexpr static auto value = DefaultValue;
-
-	};
-
-	//! Special wrapper class for float and double values, utilizing a rational number
-	template <class T, int Nom = 0, int Denom = 1>
-	struct RationalDefaultWrap : public BaseDefaultWrap {
-
-		using type = T;
-		constexpr static auto value = static_cast<T>(Nom) / static_cast<T>(Denom);
-
-	};
-
 	//! TODO: Do not generate a value each time calling this
 	//! Get default value of wrapper class, else just return C++ default
 	template <class T> constexpr auto get_default(T arg) {
@@ -245,75 +226,6 @@ namespace MrbWrap {
 			return ret_value;
 
 		}
-
-	};
-
-	//! Base class for an array of chars, serving as a string
-	template <char ... Args> struct StringArray {
-
-		constexpr static const char value[] = { Args..., 0 };
-
-	};
-
-	//! Class for joining two string arrays
-	template <class Arg1, class Args2> struct JoinStringArrays;
-
-	template <char ... Args1, char ... Args2>
-	struct JoinStringArrays<StringArray<Args1...>, StringArray<Args2...>> {
-
-		using type = StringArray<Args1..., Args2...>;
-
-	};
-
-	//! Structures to generate the necessary format characters
-	template <class T, class Trait = void> struct FormatChar;
-
-	template <class T>
-	struct FormatChar<T, typename std::enable_if<std::is_base_of_v<BaseDefaultWrap, T>>::type> {
-
-		using real_type = typename T::type;
-		constexpr static const char value = FormatChar<real_type>::value;
-
-	};
-
-	//! Format string specifications
-
-	template <> struct FormatChar<bool> { constexpr static const char value = 'b'; };
-	template <> struct FormatChar<const char*> { constexpr static const char value = 'z'; };
-	template <> struct FormatChar<std::string> { constexpr static const char value = 'z'; };
-	template <class T> struct FormatChar<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { constexpr static const char value = 'f'; };
-	template <class T> struct FormatChar<T, typename std::enable_if<std::is_integral_v<T>>::type> { constexpr static const char value = 'i'; };
-	template <class T> struct FormatChar<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { constexpr static const char value = 'o'; };
-
-	//! Helper structure to generate format strings recursively
-	template <bool IsDefault, class ... TArgs>
-	struct FormatStringHelper {
-
-		using type = StringArray<>;
-
-	};
-
-	template <bool IsDefault, class T, class ... TArgs>
-	struct FormatStringHelper<IsDefault, T, TArgs...> {
-
-		constexpr static auto separator = '|';
-
-		using default_condition = std::is_base_of<BaseDefaultWrap, T>;
-		constexpr static auto condition = std::conditional<IsDefault, std::false_type, default_condition>::type::value;
-
-		using arg_1 = typename std::conditional<condition, StringArray<separator, FormatChar<T>::value>, StringArray<FormatChar<T>::value>>::type;
-		using decider = typename std::conditional<condition, FormatStringHelper<true, TArgs...>, FormatStringHelper<IsDefault, TArgs...>>::type;
-
-		using arg_2 = typename decider::type;
-		using joined = JoinStringArrays<arg_1, arg_2>;
-		using type = typename joined::type;
-
-	};
-
-	//! The actual class to use for the format strings
-	template <class ... TArgs> struct FormatString {
-
-		constexpr static auto value = FormatStringHelper<false, TArgs...>::type::value;
 
 	};
 
@@ -338,19 +250,6 @@ namespace MrbWrap {
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { using type = mrb_float; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_integral_v<T>>::type> { using type = mrb_int; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { using type = mrb_value; };
-
-	//! If a class is a wrapper, return the real type
-	template <class T, class Trait = void> struct GetRealType { using type = T; };
-
-	template <class T>
-	struct GetRealType<T, typename std::enable_if<std::is_base_of_v<BaseDefaultWrap, T>>::type> {
-
-		using real_type = typename T::type;
-		using type = typename GetRealType<real_type>::type;
-
-	};
-
-	template <> struct GetRealType<std::string> { using type = std::string; };
 
 	//! Get the return type of a function
 	template <class F> struct GetReturnType { using type = void; };
