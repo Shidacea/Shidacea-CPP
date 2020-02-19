@@ -144,7 +144,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	REGISTER_KEY(mrb, module_key, Pause);
 
-	mrb_define_module_function(mrb, module_key, "is_pressed?", MRUBY_FUNC{
+	mrb_define_module_function(mrb, module_key, "is_pressed?", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_args<int>(mrb);
 		auto key_value = std::get<0>(args);

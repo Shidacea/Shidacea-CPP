@@ -45,7 +45,7 @@ class Shape {
 
 public:
 
-	sf::Vector2f offset;
+	sf::Vector2f offset = {0.0, 0.0};
 
 };
 
@@ -57,7 +57,7 @@ class ShapeLine : public Shape {
 
 public:
 
-	sf::Vector2f line;
+	sf::Vector2f line = {0.0, 0.0};
 
 };
 
