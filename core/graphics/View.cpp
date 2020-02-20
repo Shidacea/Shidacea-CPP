@@ -2,6 +2,8 @@
 
 void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
+	MrbWrap::wrap_class_under<sf::View>(mrb, "View", ruby_module);
+
 	auto ruby_view_class = MrbWrap::define_data_class_under(mrb, "View", ruby_module);
 
 	MrbWrap::define_mruby_function(mrb, ruby_view_class, "initialize", MRUBY_FUNC {
@@ -34,6 +36,6 @@ void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::View, sf::View::setViewport), sf::FloatRect>(mrb, ruby_view_class, "set_viewport");
+	MrbWrap::wrap_function<MRBW_FUNC(sf::View, sf::View::setViewport), sf::FloatRect>(mrb, "set_viewport");
 
 }

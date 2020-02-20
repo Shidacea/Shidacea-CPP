@@ -4,16 +4,18 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	coordinates_ruby_module = ruby_module;
 
+	MrbWrap::wrap_class_under<sf::Vector2f>(mrb, "Coordinates", ruby_module);
+
 	auto ruby_coordinates_class = MrbWrap::define_data_class_under(mrb, "Coordinates", ruby_module);
 
-	MrbWrap::wrap_constructor<sf::Vector2f, MRBW_RAT_OPT<float>, MRBW_RAT_OPT<float>>(mrb, ruby_coordinates_class);
-	MrbWrap::define_default_copy_init<sf::Vector2f>(mrb, ruby_coordinates_class);
+	MrbWrap::wrap_constructor<sf::Vector2f, MRBW_RAT_OPT<float>, MRBW_RAT_OPT<float>>(mrb);
+	MrbWrap::define_default_copy_init<sf::Vector2f>(mrb);
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::x)>(mrb, ruby_coordinates_class, "x");
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::y)>(mrb, ruby_coordinates_class, "y");
+	MrbWrap::wrap_getter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::x)>(mrb, "x");
+	MrbWrap::wrap_getter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::y)>(mrb, "y");
 
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::x), float>(mrb, ruby_coordinates_class, "x=");
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::y), float>(mrb, ruby_coordinates_class, "y=");
+	MrbWrap::wrap_setter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::x), float>(mrb, "x=");
+	MrbWrap::wrap_setter<MRBW_FUNC(sf::Vector2f, sf::Vector2f::y), float>(mrb, "y=");
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "+", MRUBY_FUNC {
 

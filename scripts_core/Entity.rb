@@ -48,24 +48,24 @@ module SDC
 			@shapes = SDC::SpecialContainer.new if !@shapes
 			shape = nil
 
-			if type == ShapePoint then
+			if type == SDC::ShapePoint then
 				shape = type.new(offset)
-			elsif type == ShapeLine then
+			elsif type == SDC::ShapeLine then
 				raise("Direction not defined for line shape with index #{index}") if !direction
 				shape = type.new(offset, direction)
-			elsif type == ShapeCircle then
+			elsif type == SDC::ShapeCircle then
 				raise("Radius not defined for line shape with index #{index}") if !radius
 				shape = type.new(offset, radius)
-			elsif type == ShapeBox then
+			elsif type == SDC::ShapeBox then
 				raise("Size not defined for line shape with index #{index}") if !size
 				shape = type.new(offset, size)
-			elsif type == ShapeTriangle then
+			elsif type == SDC::ShapeTriangle then
 				# TODO
 				shape = type.new
-			elsif type == ShapeQuadrangle then
+			elsif type == SDC::ShapeQuadrangle then
 				# TODO
 				shape = type.new
-			elsif type == ShapeEllipse then
+			elsif type == SDC::ShapeEllipse then
 				raise("Semiaxes not defined for line shape with index #{index}") if !semiaxes
 				shape = type.new(offset, axes)
 			else

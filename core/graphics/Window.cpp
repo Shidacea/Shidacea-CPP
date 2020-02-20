@@ -37,12 +37,14 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	window_ruby_module = ruby_module;
 
+	MrbWrap::wrap_class_under<sf::RenderWindow>(mrb, "Window", ruby_module);
+
 	auto ruby_window_class = MrbWrap::define_data_class_under(mrb, "Window", ruby_module);
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_args<std::string, unsigned int, unsigned int, MRBW_OPT<bool, false>>(mrb);
-		auto title = std::get<0>(args);
+		auto title = std::get<0>(args);	//! TODO: Cast into actual needed type given above
 		auto width = std::get<1>(args);
 		auto height = std::get<2>(args);
 		auto fullscreen = std::get<3>(args);
@@ -110,9 +112,9 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::setVerticalSyncEnabled), bool>(mrb, ruby_window_class, "vertical_sync_enabled=");
+	MrbWrap::wrap_setter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::setVerticalSyncEnabled), bool>(mrb, "vertical_sync_enabled=");
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::isOpen)>(mrb, ruby_window_class, "is_open?");
+	MrbWrap::wrap_getter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::isOpen)>(mrb, "is_open?");
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "close", MRUBY_FUNC {
 
@@ -125,7 +127,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::setView), sf::View>(mrb, ruby_window_class, "set_view");
+	MrbWrap::wrap_function<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::setView), sf::View>(mrb, "set_view");
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "use_view", MRUBY_FUNC {
 
@@ -212,6 +214,6 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::hasFocus)>(mrb, ruby_window_class, "has_focus?");
+	MrbWrap::wrap_getter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::hasFocus)>(mrb, "has_focus?");
 
 }

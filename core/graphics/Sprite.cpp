@@ -4,11 +4,11 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	sprite_ruby_module = ruby_module;
 
-	auto ruby_sprite_class = MrbWrap::define_data_class_under(mrb, "Sprite", ruby_module);
+	MrbWrap::wrap_class_under<sf::Sprite>(mrb, "Sprite", ruby_module);
 
-	MrbWrap::wrap_constructor<sf::Sprite>(mrb, ruby_sprite_class);
+	MrbWrap::wrap_constructor<sf::Sprite>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "link_texture", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "link_texture", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
 		auto ruby_texture = std::get<0>(args);
@@ -22,7 +22,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "position", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "position", MRUBY_FUNC {
 
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 
@@ -37,7 +37,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "position=", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "position=", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
 		auto ruby_coordinates = std::get<0>(args);
@@ -51,7 +51,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "scale", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "scale", MRUBY_FUNC {
 
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 
@@ -66,7 +66,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "scale=", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "scale=", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
 		auto factors = std::get<0>(args);
@@ -80,7 +80,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "texture_rect", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "texture_rect", MRUBY_FUNC {
 
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);
 
@@ -95,7 +95,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_mruby_function(mrb, ruby_sprite_class, "texture_rect=", MRUBY_FUNC {
+	MrbWrap::define_mruby_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "texture_rect=", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_args<sf::IntRect>(mrb);
 		auto ruby_rect = std::get<0>(args);

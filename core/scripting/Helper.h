@@ -19,6 +19,7 @@
 #include "StaticString.h"
 #include "DefaultWrap.h"
 #include "FormatString.h"
+#include "ClassInfo.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -106,14 +107,32 @@ namespace MrbWrap {
 	RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr);
 	RClass* define_data_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr);
 
+	template <class T> void wrap_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr) {
+
+		set_class_info_ptr<T>(define_data_class(mrb, name, super_class));
+		ClassInfo<T>.symbol = mrb_intern_static(mrb, name, strlen(name));
+		ClassInfo<T>.name = name;
+
+	}
+
+	template <class T> void wrap_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr) {
+
+		set_class_info_ptr<T>(define_data_class_under(mrb, name, ruby_module, super_class));
+		ClassInfo<T>.symbol = mrb_intern_static(mrb, name, strlen(name));	//! TODO: Test this
+		ClassInfo<T>.name = name;
+
+	}
+
 	//! Define a new function for ruby
 	void define_mruby_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
 
 	//! Define a copy method automatically for any wrapped C++ object
 	//! Use this when setting up a ruby class
-	template <class T> void define_default_copy_init(mrb_state* mrb, RClass* ruby_class) {
+	template <class T> void define_default_copy_init(mrb_state* mrb) {
 
-		mrb_define_method(mrb, ruby_class, "initialize_copy", MrbWrap::ruby_class_default_init_copy<T>, MRB_ARGS_REQ(1));
+		auto ruby_class = get_class_info_ptr<T>();
+
+		mrb_define_method(mrb, ruby_class, "initialize_copy", ruby_class_default_init_copy<T>, MRB_ARGS_REQ(1));
 
 	}
 
@@ -361,7 +380,9 @@ namespace MrbWrap {
 	//! TODO: Wrap static functions
 
 	//! Wrap a constructor with arbitrary arguments
-	template <class C, class ... TArgs> void wrap_constructor(mrb_state* mrb, RClass* ruby_class) {
+	template <class C, class ... TArgs> void wrap_constructor(mrb_state* mrb) {
+
+		auto ruby_class = get_class_info_ptr<C>();
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
 
@@ -383,7 +404,9 @@ namespace MrbWrap {
 	}
 
 	//! Wrap any void or non-void function with arbitrary arguments
-	template <class C, class FuncType, FuncType Member, class ... TArgs> void wrap_function(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class FuncType, FuncType Member, class ... TArgs> void wrap_function(mrb_state* mrb, const char* name) {
+
+		auto ruby_class = get_class_info_ptr<C>();
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC{
 
@@ -418,7 +441,9 @@ namespace MrbWrap {
 	}
 
 	//! Wrap a getter using a member function or object
-	template <class C, class FuncType, FuncType Member> void wrap_getter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class FuncType, FuncType Member> void wrap_getter(mrb_state* mrb, const char* name) {
+
+		auto ruby_class = get_class_info_ptr<C>();
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
@@ -448,7 +473,9 @@ namespace MrbWrap {
 	}
 
 	//! Wrap a setter using a member function or object
-	template <class C, class FuncType, FuncType Member, class ArgType> void wrap_setter(mrb_state* mrb, RClass* ruby_class, const char* name) {
+	template <class C, class FuncType, FuncType Member, class ArgType> void wrap_setter(mrb_state* mrb, const char* name) {
+
+		auto ruby_class = get_class_info_ptr<C>();
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 

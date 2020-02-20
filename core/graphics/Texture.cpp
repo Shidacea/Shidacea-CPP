@@ -4,7 +4,9 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_texture_class = MrbWrap::define_data_class_under(mrb, "Texture", ruby_module);
 
-	MrbWrap::wrap_constructor<sf::Texture>(mrb, ruby_texture_class);
+	MrbWrap::wrap_class_under<sf::Texture>(mrb, "Texture", ruby_module);
+
+	MrbWrap::wrap_constructor<sf::Texture>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_texture_class, "load_from_file", MRUBY_FUNC {
 

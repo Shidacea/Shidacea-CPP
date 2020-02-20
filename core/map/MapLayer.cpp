@@ -184,7 +184,9 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_map_layer_class = MrbWrap::define_data_class_under(mrb, "MapLayer", ruby_module);
 
-	MrbWrap::wrap_constructor<MapLayer, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>(mrb, ruby_map_layer_class);
+	MrbWrap::wrap_class_under<MapLayer>(mrb, "MapLayer", ruby_module);
+
+	MrbWrap::wrap_constructor<MapLayer, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "reload", MRUBY_FUNC {
 
@@ -200,7 +202,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::load_test_map)>(mrb, ruby_map_layer_class, "load_test_map");
+	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::load_test_map)>(mrb, "load_test_map");
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "link_tileset", MRUBY_FUNC {
 
@@ -219,10 +221,10 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(MapLayer, MapLayer::is_collision_active)>(mrb, ruby_map_layer_class, "collision_active");
-	MrbWrap::wrap_setter<MRBW_FUNC(MapLayer, MapLayer::set_collision_active), bool>(mrb, ruby_map_layer_class, "collision_active=");
+	MrbWrap::wrap_getter<MRBW_FUNC(MapLayer, MapLayer::is_collision_active)>(mrb, "collision_active");
+	MrbWrap::wrap_setter<MRBW_FUNC(MapLayer, MapLayer::set_collision_active), bool>(mrb, "collision_active=");
 	
-	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::get_tile), unsigned int, unsigned int>(mrb, ruby_map_layer_class, "[]");
+	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::get_tile), unsigned int, unsigned int>(mrb, "[]");
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "tileset", MRUBY_FUNC {
 

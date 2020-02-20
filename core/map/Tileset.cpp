@@ -40,6 +40,8 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_tileset_class = MrbWrap::define_data_class_under(mrb, "Tileset", ruby_module);
 
+	MrbWrap::wrap_class_under<Tileset>(mrb, "Tileset", ruby_module);
+
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "initialize", MRUBY_FUNC {
 
 		MrbWrap::convert_to_object<Tileset>(mrb, self);
@@ -66,7 +68,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(Tileset, Tileset::size)>(mrb, ruby_tileset_class, "size");
+	MrbWrap::wrap_getter<MRBW_FUNC(Tileset, Tileset::size)>(mrb, "size");
 
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "add_tile", MRUBY_FUNC {
 

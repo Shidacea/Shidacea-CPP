@@ -234,7 +234,9 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_event_class = MrbWrap::define_data_class_under(mrb, "Event", ruby_module);
 
-	MrbWrap::wrap_constructor<sf::Event>(mrb, ruby_event_class);
+	MrbWrap::wrap_class_under<sf::Event>(mrb, "Event", ruby_module);
+
+	MrbWrap::wrap_constructor<sf::Event>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "type", MRUBY_FUNC {
 

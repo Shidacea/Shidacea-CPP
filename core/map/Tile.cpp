@@ -55,9 +55,11 @@ void setup_ruby_class_tile(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_tile_class = MrbWrap::define_data_class_under(mrb, "Tile", ruby_module);
 
-	MrbWrap::wrap_constructor<Tile>(mrb, ruby_tile_class);
+	MrbWrap::wrap_class_under<Tile>(mrb, "Tile", ruby_module);
 
-	MrbWrap::wrap_getter<MRBW_FUNC(Tile, Tile::is_solid)>(mrb, ruby_tile_class, "solid");
-	MrbWrap::wrap_setter<MRBW_FUNC(Tile, Tile::set_as_solid), bool>(mrb, ruby_tile_class, "solid=");
+	MrbWrap::wrap_constructor<Tile>(mrb);
+
+	MrbWrap::wrap_getter<MRBW_FUNC(Tile, Tile::is_solid)>(mrb, "solid");
+	MrbWrap::wrap_setter<MRBW_FUNC(Tile, Tile::set_as_solid), bool>(mrb, "solid=");
 
 }

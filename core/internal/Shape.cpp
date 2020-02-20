@@ -4,13 +4,13 @@
 
 ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape) {
 
-	static auto ruby_class_shape_point = mrb_class_get(mrb, "ShapePoint");
-	static auto ruby_class_shape_line = mrb_class_get(mrb, "ShapeLine");
-	static auto ruby_class_shape_circle = mrb_class_get(mrb, "ShapeCircle");
-	static auto ruby_class_shape_box = mrb_class_get(mrb, "ShapeBox");
-	static auto ruby_class_shape_triangle = mrb_class_get(mrb, "ShapeTriangle");
-	static auto ruby_class_shape_quadrangle = mrb_class_get(mrb, "ShapeQuadrangle");
-	static auto ruby_class_shape_ellipse = mrb_class_get(mrb, "ShapeEllipse");
+	static auto ruby_class_shape_point = MrbWrap::get_class_info_ptr<ShapePoint>();
+	static auto ruby_class_shape_line = MrbWrap::get_class_info_ptr<ShapeLine>();
+	static auto ruby_class_shape_circle = MrbWrap::get_class_info_ptr<ShapeCircle>();
+	static auto ruby_class_shape_box = MrbWrap::get_class_info_ptr<ShapeBox>();
+	static auto ruby_class_shape_triangle = MrbWrap::get_class_info_ptr<ShapeTriangle>();
+	static auto ruby_class_shape_quadrangle = MrbWrap::get_class_info_ptr<ShapeQuadrangle>();
+	static auto ruby_class_shape_ellipse = MrbWrap::get_class_info_ptr<ShapeEllipse>();
 
 	if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_point)) return ShapeType::Point;
 	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_line)) return ShapeType::Line;
@@ -28,17 +28,28 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	shape_ruby_module = ruby_module;
 
 	auto module_collider = mrb_define_module_under(mrb, ruby_module, "Collider");
-	auto ruby_shape_class = mrb_define_class_under(mrb, ruby_module, "Shape", mrb->object_class);
 
-	auto ruby_shape_point_class = MrbWrap::define_data_class(mrb, "ShapePoint", ruby_shape_class);
-	auto ruby_shape_line_class = MrbWrap::define_data_class(mrb, "ShapeLine", ruby_shape_class);
-	auto ruby_shape_circle_class = MrbWrap::define_data_class(mrb, "ShapeCircle", ruby_shape_class);
-	auto ruby_shape_box_class = MrbWrap::define_data_class(mrb, "ShapeBox", ruby_shape_class);
-	auto ruby_shape_triangle_class = MrbWrap::define_data_class(mrb, "ShapeTriangle", ruby_shape_class);
-	auto ruby_shape_quadrangle_class = MrbWrap::define_data_class(mrb, "ShapeQuadrangle", ruby_shape_class);
-	auto ruby_shape_ellipse_class = MrbWrap::define_data_class(mrb, "ShapeEllipse", ruby_shape_class);
+	MrbWrap::wrap_class_under<Shape>(mrb, "Shape", ruby_module);
 
-	MrbWrap::wrap_constructor<Shape>(mrb, ruby_shape_class);
+	auto ruby_shape_class = MrbWrap::get_class_info_ptr<Shape>();
+
+	MrbWrap::wrap_class_under<ShapePoint>(mrb, "ShapePoint", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeLine>(mrb, "ShapeLine", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeCircle>(mrb, "ShapeCircle", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeBox>(mrb, "ShapeBox", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeTriangle>(mrb, "ShapeTriangle", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeQuadrangle>(mrb, "ShapeQuadrangle", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeEllipse>(mrb, "ShapeEllipse", ruby_module, ruby_shape_class);
+
+	auto ruby_shape_point_class = MrbWrap::get_class_info_ptr<ShapePoint>();
+	auto ruby_shape_line_class = MrbWrap::get_class_info_ptr<ShapeLine>();
+	auto ruby_shape_circle_class = MrbWrap::get_class_info_ptr<ShapeCircle>();
+	auto ruby_shape_box_class = MrbWrap::get_class_info_ptr<ShapeBox>();
+	auto ruby_shape_triangle_class = MrbWrap::get_class_info_ptr<ShapeTriangle>();
+	auto ruby_shape_quadrangle_class = MrbWrap::get_class_info_ptr<ShapeQuadrangle>();
+	auto ruby_shape_ellipse_class = MrbWrap::get_class_info_ptr<ShapeEllipse>();
+
+	MrbWrap::wrap_constructor<Shape>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_point_class, "initialize", MRUBY_FUNC {
 
@@ -54,7 +65,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapePoint>(mrb, ruby_shape_point_class);
+	MrbWrap::define_default_copy_init<ShapePoint>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_line_class, "initialize", MRUBY_FUNC {
 
@@ -74,7 +85,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapeLine>(mrb, ruby_shape_line_class);
+	MrbWrap::define_default_copy_init<ShapeLine>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_circle_class, "initialize", MRUBY_FUNC {
 
@@ -92,11 +103,11 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapeCircle>(mrb, ruby_shape_circle_class);
-	MrbWrap::wrap_getter<MRBW_FUNC(ShapeCircle, ShapeCircle::radius)>(mrb, ruby_shape_circle_class, "radius");
-	MrbWrap::wrap_setter<MRBW_FUNC(ShapeCircle, ShapeCircle::radius), float>(mrb, ruby_shape_circle_class, "radius=");
-	MrbWrap::wrap_getter<MRBW_FUNC(ShapeCircle, ShapeCircle::scale)>(mrb, ruby_shape_circle_class, "scale");
-	MrbWrap::wrap_setter<MRBW_FUNC(ShapeCircle, ShapeCircle::scale), float>(mrb, ruby_shape_circle_class, "scale=");
+	MrbWrap::define_default_copy_init<ShapeCircle>(mrb);
+	MrbWrap::wrap_getter<MRBW_FUNC(ShapeCircle, ShapeCircle::radius)>(mrb, "radius");
+	MrbWrap::wrap_setter<MRBW_FUNC(ShapeCircle, ShapeCircle::radius), float>(mrb, "radius=");
+	MrbWrap::wrap_getter<MRBW_FUNC(ShapeCircle, ShapeCircle::scale)>(mrb, "scale");
+	MrbWrap::wrap_setter<MRBW_FUNC(ShapeCircle, ShapeCircle::scale), float>(mrb, "scale=");
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "initialize", MRUBY_FUNC {
 
@@ -116,7 +127,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapeBox>(mrb, ruby_shape_box_class);
+	MrbWrap::define_default_copy_init<ShapeBox>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "size", MRUBY_FUNC {
 
@@ -189,7 +200,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapeTriangle>(mrb, ruby_shape_triangle_class);
+	MrbWrap::define_default_copy_init<ShapeTriangle>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_quadrangle_class, "initialize", MRUBY_FUNC {
 
@@ -204,7 +215,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapeQuadrangle>(mrb, ruby_shape_quadrangle_class);
+	MrbWrap::define_default_copy_init<ShapeQuadrangle>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_ellipse_class, "initialize", MRUBY_FUNC {
 
@@ -224,7 +235,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb, ruby_shape_ellipse_class);
+	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb);
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_class, "offset", MRUBY_FUNC {
 
