@@ -109,7 +109,7 @@ namespace MrbWrap {
 
 	template <class T> void wrap_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr) {
 
-		set_class_info_ptr<T>(define_data_class(mrb, name, super_class));
+		ClassInfo<T>.class_ptr = define_data_class(mrb, name, super_class);
 		ClassInfo<T>.symbol = mrb_intern_static(mrb, name, strlen(name));
 		ClassInfo<T>.name = name;
 
@@ -117,7 +117,7 @@ namespace MrbWrap {
 
 	template <class T> void wrap_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr) {
 
-		set_class_info_ptr<T>(define_data_class_under(mrb, name, ruby_module, super_class));
+		ClassInfo<T>.class_ptr = define_data_class_under(mrb, name, ruby_module, super_class);
 		ClassInfo<T>.symbol = mrb_intern_static(mrb, name, strlen(name));	//! TODO: Test this
 		ClassInfo<T>.name = name;
 
