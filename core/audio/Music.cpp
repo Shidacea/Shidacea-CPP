@@ -8,9 +8,9 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<sf::Music>(mrb);
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::Music, sf::Music::play)>(mrb, "play");
-	MrbWrap::wrap_function<MRBW_FUNC(sf::Music, sf::Music::stop)>(mrb, "stop");
-	MrbWrap::wrap_function<MRBW_FUNC(sf::Music, sf::Music::pause)>(mrb, "pause");
+	MrbWrap::wrap_member_function<sf::Music, &sf::Music::play>(mrb, "play");
+	MrbWrap::wrap_member_function<sf::Music, &sf::Music::stop>(mrb, "stop");
+	MrbWrap::wrap_member_function<sf::Music, &sf::Music::pause>(mrb, "pause");
 
 	//! Different name to clarify meaning
 	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getLoop)>(mrb, "looping");
@@ -22,7 +22,7 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getVolume)>(mrb, "volume");
 	MrbWrap::wrap_setter<MRBW_FUNC(sf::Music, sf::Music::setVolume), float>(mrb, "volume=");
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::Music, sf::Music::openFromFile), std::string>(mrb, "open_from_file");
+	MrbWrap::wrap_member_function<sf::Music, &sf::Music::openFromFile, std::string>(mrb, "open_from_file");
 
 	// TODO: Loops like music->setLoopPoints(sf::Music::Span(sf::milliseconds(2 * 1000 * 4), sf::milliseconds(2 * 1000 * 4)));
 

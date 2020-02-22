@@ -20,6 +20,7 @@
 #include "DefaultWrap.h"
 #include "FormatString.h"
 #include "ClassInfo.h"
+#include "MemberSpec.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -399,6 +400,45 @@ namespace MrbWrap {
 			return self;
 
 		//! TODO: Maybe change this at some point if it should become relevant
+		}, MRB_ARGS_NONE());
+
+	}
+
+	template <class C, auto Member, class ... TArgs> void wrap_member_function(mrb_state* mrb, const char* name) {
+
+		using Spec = typename MemberSpec<Member>;
+		using FuncType = decltype(Member);
+
+		auto ruby_class = get_class_info_ptr<C>();
+
+		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+
+			auto args = get_args<TArgs...>(mrb);
+
+			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+
+			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
+
+				std::apply([&mrb, &content](auto& ...arg) {
+
+					((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+
+				}, args);
+
+				return mrb_nil_value();
+
+			} else {
+
+				typename GetReturnType<FuncType>::type return_value = std::apply([&mrb, &content](auto& ...arg) {
+
+					return ((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+
+				}, args);
+
+				return cast_value_to_ruby(mrb, automatic_cast<CastToRuby<decltype(return_value)>::type>(return_value));
+
+			}
+
 		}, MRB_ARGS_NONE());
 
 	}
