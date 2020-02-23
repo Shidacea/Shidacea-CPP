@@ -167,6 +167,8 @@ namespace MrbWrap {
 
 		auto type = DATA_TYPE(self);
 
+		MrbWrap::verify_type<T>(mrb, self);
+
 		return static_cast<T*>(mrb_data_get_ptr(mrb, self, type));
 
 	}
@@ -223,10 +225,10 @@ namespace MrbWrap {
 	template <class T> T* convert_from_instance_variable(mrb_state* mrb, mrb_value self, const char* var_c_str) {
 
 		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
-		mrb_iv_get(mrb, self, symbol);
+		auto instance_var = mrb_iv_get(mrb, self, symbol);
 		auto type = DATA_TYPE(mrb_iv_get(mrb, self, symbol));
 
-		return static_cast<T*>(mrb_data_get_ptr(mrb, mrb_iv_get(mrb, self, symbol), type));
+		return static_cast<T*>(mrb_data_get_ptr(mrb, instance_var, type));
 
 	}
 
@@ -314,6 +316,29 @@ namespace MrbWrap {
 		} else {
 
 			return static_cast<Dest>(arg);
+
+		}
+
+	}
+
+	template <class C> bool check_for_type(mrb_state* mrb, mrb_value obj) {
+
+		auto expected_class = get_class_info_ptr<C>();
+
+		return mrb_obj_is_kind_of(mrb, obj, expected_class);
+
+	}
+
+	template <class C> void verify_type(mrb_state* mrb, mrb_value obj) {
+
+		if (!check_for_type<C>(mrb, obj)) {
+
+			std::string message = std::string("Object of class ")
+				+ std::string(mrb_class_name(mrb, mrb_obj_class(mrb, obj)))
+				+ std::string(" is not of class ")
+				+ std::string(mrb_class_name(mrb, get_class_info_ptr<C>()));
+
+			mrb_raise(mrb, mrb->eException_class, message.c_str());
 
 		}
 

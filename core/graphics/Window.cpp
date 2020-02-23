@@ -2,23 +2,17 @@
 
 void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object) {
 
-	static auto sprite_class = mrb_class_get_under(mrb, window_ruby_module, "Sprite");
-	static auto map_layer_class = mrb_class_get_under(mrb, window_ruby_module, "MapLayer");
-	static auto text_class = mrb_class_get_under(mrb, window_ruby_module, "Text");
-
-	auto object_class = mrb_obj_class(mrb, draw_object);
-
-	if (object_class == sprite_class) {
+	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
 
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
 		window->draw(*sprite, render_states);
 
-	} else if (object_class == map_layer_class) {
+	} else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
 
 		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
 		window->draw(*map_layer, render_states);
 
-	} else if (object_class == text_class) {
+	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
 		auto font = MrbWrap::convert_from_instance_variable<sf::Font>(mrb, draw_object, "@_font");
