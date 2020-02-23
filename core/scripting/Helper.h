@@ -63,8 +63,6 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 #define MRBW_OPT MrbWrap::DefaultWrap
 #define MRBW_RAT_OPT MrbWrap::RationalDefaultWrap
 
-#define MRBW_FUNC(klass, name) klass, decltype(&name), &name
-
 namespace MrbWrap {
 
 	//! Will be defined below
@@ -422,7 +420,6 @@ namespace MrbWrap {
 	template <class C, auto Member, class ... TArgs> void wrap_member_function(mrb_state* mrb, const char* name) {
 
 		using Spec = typename MemberSpec<Member>;
-		using FuncType = decltype(Member);
 
 		auto ruby_class = get_class_info_ptr<C>();
 
@@ -432,7 +429,7 @@ namespace MrbWrap {
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
+			if constexpr(std::is_void_v<GetReturnType<decltype(Member)>::type>) {
 
 				std::apply([&content](auto& ...arg) {
 
@@ -444,7 +441,7 @@ namespace MrbWrap {
 
 			} else {
 
-				typename GetReturnType<FuncType>::type return_value = std::apply([&content](auto& ...arg) {
+				typename GetReturnType<decltype(Member)>::type return_value = std::apply([&content](auto& ...arg) {
 
 					return ((*content).*Member)(arg...);
 
@@ -459,7 +456,7 @@ namespace MrbWrap {
 	}
 
 	//! Wrap a getter using a member function or object
-	template <class C, class FuncType, FuncType Member> void wrap_getter(mrb_state* mrb, const char* name) {
+	template <class C, auto Member> void wrap_getter(mrb_state* mrb, const char* name) {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
@@ -467,13 +464,13 @@ namespace MrbWrap {
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			if constexpr (std::is_member_object_pointer_v<FuncType>) {
+			if constexpr (std::is_member_object_pointer_v<decltype(Member)>) {
 
 				auto return_value = ((*content).*Member);
 
 				return cast_value_to_ruby(mrb, automatic_cast<CastToRuby<decltype(return_value)>::type>(return_value));
 
-			} else if constexpr (std::is_member_function_pointer_v<FuncType>) {
+			} else if constexpr (std::is_member_function_pointer_v<decltype(Member)>) {
 
 				auto return_value = ((*content).*Member)();
 
@@ -491,7 +488,7 @@ namespace MrbWrap {
 	}
 
 	//! Wrap a setter using a member function or object
-	template <class C, class FuncType, FuncType Member, class ArgType> void wrap_setter(mrb_state* mrb, const char* name) {
+	template <class C, auto Member, class ArgType> void wrap_setter(mrb_state* mrb, const char* name) {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
@@ -502,13 +499,13 @@ namespace MrbWrap {
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
-			if constexpr (std::is_member_object_pointer_v<FuncType>) {
+			if constexpr (std::is_member_object_pointer_v<decltype(Member)>) {
 
 				((*content).*Member) = automatic_cast<ArgType>(new_value);
 
 				return cast_value_to_ruby(mrb, new_value);
 
-			} else if constexpr (std::is_member_function_pointer_v<FuncType>) {
+			} else if constexpr (std::is_member_function_pointer_v<decltype(Member)>) {
 
 				((*content).*Member)(automatic_cast<ArgType>(new_value));
 

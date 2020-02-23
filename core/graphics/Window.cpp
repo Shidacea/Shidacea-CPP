@@ -112,9 +112,9 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::setVerticalSyncEnabled), bool>(mrb, "vertical_sync_enabled=");
+	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVerticalSyncEnabled, bool>(mrb, "vertical_sync_enabled=");
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::isOpen)>(mrb, "is_open?");
+	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::isOpen>(mrb, "is_open?");
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "close", MRUBY_FUNC {
 
@@ -214,6 +214,6 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::hasFocus)>(mrb, "has_focus?");
+	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::hasFocus>(mrb, "has_focus?");
 
 }

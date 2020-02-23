@@ -59,7 +59,7 @@ void setup_ruby_class_tile(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<Tile>(mrb);
 
-	MrbWrap::wrap_getter<MRBW_FUNC(Tile, Tile::is_solid)>(mrb, "solid");
-	MrbWrap::wrap_setter<MRBW_FUNC(Tile, Tile::set_as_solid), bool>(mrb, "solid=");
+	MrbWrap::wrap_getter<Tile, &Tile::is_solid>(mrb, "solid");
+	MrbWrap::wrap_setter<Tile, &Tile::set_as_solid, bool>(mrb, "solid=");
 
 }

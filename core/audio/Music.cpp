@@ -13,14 +13,14 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_member_function<sf::Music, &sf::Music::pause>(mrb, "pause");
 
 	//! Different name to clarify meaning
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getLoop)>(mrb, "looping");
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::Music, sf::Music::setLoop), bool>(mrb, "looping=");
+	MrbWrap::wrap_getter<sf::Music, &sf::Music::getLoop>(mrb, "looping");
+	MrbWrap::wrap_setter<sf::Music, &sf::Music::setLoop, bool>(mrb, "looping=");
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getPitch)>(mrb, "pitch");
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::Music, sf::Music::setPitch), float>(mrb, "pitch=");
+	MrbWrap::wrap_getter<sf::Music, &sf::Music::getPitch>(mrb, "pitch");
+	MrbWrap::wrap_setter<sf::Music, &sf::Music::setPitch, float>(mrb, "pitch=");
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::Music, sf::Music::getVolume)>(mrb, "volume");
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::Music, sf::Music::setVolume), float>(mrb, "volume=");
+	MrbWrap::wrap_getter<sf::Music, &sf::Music::getVolume>(mrb, "volume");
+	MrbWrap::wrap_setter<sf::Music, &sf::Music::setVolume, float>(mrb, "volume=");
 
 	MrbWrap::wrap_member_function<sf::Music, &sf::Music::openFromFile, std::string>(mrb, "open_from_file");
 

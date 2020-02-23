@@ -96,10 +96,10 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	});
 
 	MrbWrap::define_default_copy_init<ShapeCircle>(mrb);
-	MrbWrap::wrap_getter<MRBW_FUNC(ShapeCircle, ShapeCircle::radius)>(mrb, "radius");
-	MrbWrap::wrap_setter<MRBW_FUNC(ShapeCircle, ShapeCircle::radius), float>(mrb, "radius=");
-	MrbWrap::wrap_getter<MRBW_FUNC(ShapeCircle, ShapeCircle::scale)>(mrb, "scale");
-	MrbWrap::wrap_setter<MRBW_FUNC(ShapeCircle, ShapeCircle::scale), float>(mrb, "scale=");
+	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::radius>(mrb, "radius");
+	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::radius, float>(mrb, "radius=");
+	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::scale>(mrb, "scale");
+	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::scale, float>(mrb, "scale=");
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "initialize", MRUBY_FUNC {
 

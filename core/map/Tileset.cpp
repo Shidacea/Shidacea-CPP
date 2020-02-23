@@ -68,7 +68,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(Tileset, Tileset::size)>(mrb, "size");
+	MrbWrap::wrap_getter<Tileset, &Tileset::size>(mrb, "size");
 
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "add_tile", MRUBY_FUNC {
 

@@ -76,8 +76,8 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::TcpSocket, sf::TcpSocket::isBlocking)>(mrb, "blocking");
-	MrbWrap::wrap_setter<MRBW_FUNC(sf::TcpSocket, sf::TcpSocket::setBlocking), bool>(mrb, "blocking=");
+	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::isBlocking>(mrb, "blocking");
+	MrbWrap::wrap_setter<sf::TcpSocket, &sf::TcpSocket::setBlocking, bool>(mrb, "blocking=");
 
 	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "remote_address", MRUBY_FUNC {
 
@@ -90,6 +90,6 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::TcpSocket, sf::TcpSocket::getRemotePort)>(mrb, "remote_port");
-	MrbWrap::wrap_getter<MRBW_FUNC(sf::TcpSocket, sf::TcpSocket::getLocalPort)>(mrb, "local_port");
+	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::getRemotePort>(mrb, "remote_port");
+	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::getLocalPort>(mrb, "local_port");
 }

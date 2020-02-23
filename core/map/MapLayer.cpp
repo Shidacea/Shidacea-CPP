@@ -219,8 +219,8 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_getter<MRBW_FUNC(MapLayer, MapLayer::is_collision_active)>(mrb, "collision_active");
-	MrbWrap::wrap_setter<MRBW_FUNC(MapLayer, MapLayer::set_collision_active), bool>(mrb, "collision_active=");
+	MrbWrap::wrap_getter<MapLayer, &MapLayer::is_collision_active>(mrb, "collision_active");
+	MrbWrap::wrap_setter<MapLayer, &MapLayer::set_collision_active, bool>(mrb, "collision_active=");
 	
 	MrbWrap::wrap_member_function<MapLayer, &MapLayer::get_tile, unsigned int, unsigned int>(mrb, "[]");
 
