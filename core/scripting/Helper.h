@@ -458,43 +458,6 @@ namespace MrbWrap {
 
 	}
 
-	//! Wrap any void or non-void function with arbitrary arguments
-	template <class C, class FuncType, FuncType Member, class ... TArgs> void wrap_function(mrb_state* mrb, const char* name) {
-
-		auto ruby_class = get_class_info_ptr<C>();
-
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC{
-
-			auto args = get_converted_args<TArgs...>(mrb);
-
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
-
-			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
-
-				std::apply([&content](auto& ...arg) {
-
-					((*content).*Member)(arg...);
-
-				}, args);
-
-				return mrb_nil_value();
-
-			} else {
-
-				typename GetReturnType<FuncType>::type return_value = std::apply([&content](auto& ...arg) {
-
-					return ((*content).*Member)(arg...);
-
-				}, args);
-
-				return cast_value_to_ruby(mrb, automatic_cast<CastToRuby<decltype(return_value)>::type>(return_value));
-
-			}
-
-		}, MRB_ARGS_NONE());
-
-	}
-
 	//! Wrap a getter using a member function or object
 	template <class C, class FuncType, FuncType Member> void wrap_getter(mrb_state* mrb, const char* name) {
 

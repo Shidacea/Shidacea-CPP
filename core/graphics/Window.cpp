@@ -127,7 +127,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::RenderWindow, sf::RenderWindow::setView), sf::View>(mrb, "set_view");
+	MrbWrap::wrap_member_function<sf::RenderWindow, &sf::RenderWindow::setView, sf::View>(mrb, "set_view");
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "use_view", MRUBY_FUNC {
 

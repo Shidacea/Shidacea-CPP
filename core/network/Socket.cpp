@@ -32,7 +32,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::TcpSocket, sf::TcpSocket::disconnect)>(mrb, "disconnect");
+	MrbWrap::wrap_member_function<sf::TcpSocket, &sf::TcpSocket::disconnect>(mrb, "disconnect");
 
 	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "send_message", MRUBY_FUNC {
 

@@ -36,6 +36,6 @@ void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(sf::View, sf::View::setViewport), sf::FloatRect>(mrb, "set_viewport");
+	MrbWrap::wrap_member_function<sf::View, &sf::View::setViewport, sf::FloatRect>(mrb, "set_viewport");
 
 }

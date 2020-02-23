@@ -200,7 +200,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::load_test_map)>(mrb, "load_test_map");
+	MrbWrap::wrap_member_function<MapLayer, &MapLayer::load_test_map>(mrb, "load_test_map");
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "link_tileset", MRUBY_FUNC {
 
@@ -222,7 +222,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<MRBW_FUNC(MapLayer, MapLayer::is_collision_active)>(mrb, "collision_active");
 	MrbWrap::wrap_setter<MRBW_FUNC(MapLayer, MapLayer::set_collision_active), bool>(mrb, "collision_active=");
 	
-	MrbWrap::wrap_function<MRBW_FUNC(MapLayer, MapLayer::get_tile), unsigned int, unsigned int>(mrb, "[]");
+	MrbWrap::wrap_member_function<MapLayer, &MapLayer::get_tile, unsigned int, unsigned int>(mrb, "[]");
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "tileset", MRUBY_FUNC {
 
