@@ -226,7 +226,7 @@ namespace MrbWrap {
 
 		static auto symbol = mrb_intern_static(mrb, var_c_str, strlen(var_c_str));
 		auto instance_var = mrb_iv_get(mrb, self, symbol);
-		auto type = DATA_TYPE(mrb_iv_get(mrb, self, symbol));
+		auto type = DATA_TYPE(instance_var);
 
 		return static_cast<T*>(mrb_data_get_ptr(mrb, instance_var, type));
 
