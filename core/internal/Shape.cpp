@@ -53,13 +53,11 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_point_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
-		auto ruby_offset = std::get<0>(args);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f>(mrb);
+		auto offset = std::get<0>(args);
 
 		auto shape = MrbWrap::convert_to_object<ShapePoint>(mrb, self);
-
-		auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
-		shape->offset = *offset;
+		shape->offset = offset;
 
 		return self;
 
@@ -69,17 +67,13 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_line_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f, sf::Vector2f>(mrb);
-		auto ruby_offset = std::get<0>(args);
-		auto ruby_coordinates = std::get<1>(args);
-
-		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f, sf::Vector2f>(mrb);
+		auto offset = std::get<0>(args);
+		auto coordinates = std::get<1>(args);
 
 		auto shape = MrbWrap::convert_to_object<ShapeLine>(mrb, self);
-		shape->line = *coordinates;
-
-		auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
-		shape->offset = *offset;
+		shape->line = coordinates;
+		shape->offset = offset;
 
 		return self;
 
@@ -89,15 +83,13 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_circle_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f, float>(mrb);
-		auto ruby_offset = std::get<0>(args);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f, float>(mrb);
+		auto offset = std::get<0>(args);
 		auto radius = std::get<1>(args);
 
 		auto shape = MrbWrap::convert_to_object<ShapeCircle>(mrb, self);
 		shape->radius = radius;
-
-		auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
-		shape->offset = *offset;
+		shape->offset = offset;
 
 		return self;
 
@@ -111,17 +103,13 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f, sf::Vector2f>(mrb);
-		auto ruby_offset = std::get<0>(args);
-		auto ruby_coordinates = std::get<1>(args);
-
-		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f, sf::Vector2f>(mrb);
+		auto offset = std::get<0>(args);
+		auto coordinates = std::get<1>(args);
 
 		auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
-		shape->size = *coordinates;
-
-		auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
-		shape->offset = *offset;
+		shape->size = coordinates;
+		shape->offset = offset;
 
 		return self;
 
@@ -146,7 +134,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "size=", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
 		auto sizes = std::get<0>(args);
 
 		auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
@@ -175,7 +163,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "scale=", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
 		auto factors = std::get<0>(args);
 
 		auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
@@ -219,17 +207,13 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_ellipse_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f, sf::Vector2f>(mrb);
-		auto ruby_offset = std::get<0>(args);
-		auto ruby_coordinates = std::get<1>(args);
-
-		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f, sf::Vector2f>(mrb);
+		auto offset = std::get<0>(args);
+		auto coordinates = std::get<1>(args);
 
 		auto shape = MrbWrap::convert_from_object<ShapeEllipse>(mrb, self);
-		shape->semiaxes = *coordinates;
-
-		auto offset = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_offset);
-		shape->offset = *offset;
+		shape->semiaxes = coordinates;
+		shape->offset = offset;
 
 		return self;
 
@@ -254,7 +238,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_class, "offset=", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
 		auto ruby_coordinates = std::get<0>(args);
 
 		auto shape = MrbWrap::convert_from_object<Shape>(mrb, self);

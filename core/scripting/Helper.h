@@ -351,12 +351,28 @@ namespace MrbWrap {
 
 	}
 
-	template <class ... TArgs> constexpr auto get_args(mrb_state* mrb) {
+	//! Get a tuple of the mruby values of the args
+	template <class ... TArgs> constexpr auto get_raw_args(mrb_state* mrb) {
 
 		auto args = generate_arg_tuple<TArgs...>();
 		get_args_from_tuple<TArgs...>(mrb, args);
 
 		return args;
+
+	}
+
+	//! Get a tuple of the C++ values of the args
+	template <class ... TArgs> constexpr auto get_converted_args(mrb_state* mrb) {
+
+		auto args = get_raw_args<TArgs...>(mrb);
+
+		auto converted_args = std::apply([&mrb](auto&& ...arg) {
+
+			return std::make_tuple(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+
+		}, args);
+
+		return converted_args;
 
 	}
 
@@ -387,13 +403,12 @@ namespace MrbWrap {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
 
-			auto args = generate_arg_tuple<TArgs...>();
-			get_args_from_tuple<TArgs...>(mrb, args);
+			auto args = get_converted_args<TArgs...>(mrb);
 
 			//! Generate the desired object with the called arguments
 			std::apply([&mrb, self](auto& ...arg) {
 
-				MrbWrap::convert_to_object<C>(mrb, self, automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+				MrbWrap::convert_to_object<C>(mrb, self, arg...);
 
 			}, args);
 
@@ -413,15 +428,15 @@ namespace MrbWrap {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
-			auto args = get_args<TArgs...>(mrb);
+			auto args = get_converted_args<TArgs...>(mrb);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
 			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
 
-				std::apply([&mrb, &content](auto& ...arg) {
+				std::apply([&content](auto& ...arg) {
 
-					((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+					((*content).*Member)(arg...);
 
 				}, args);
 
@@ -429,9 +444,9 @@ namespace MrbWrap {
 
 			} else {
 
-				typename GetReturnType<FuncType>::type return_value = std::apply([&mrb, &content](auto& ...arg) {
+				typename GetReturnType<FuncType>::type return_value = std::apply([&content](auto& ...arg) {
 
-					return ((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+					return ((*content).*Member)(arg...);
 
 				}, args);
 
@@ -450,15 +465,15 @@ namespace MrbWrap {
 
 		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC{
 
-			auto args = get_args<TArgs...>(mrb);
+			auto args = get_converted_args<TArgs...>(mrb);
 
 			auto content = MrbWrap::convert_from_object<C>(mrb, self);
 
 			if constexpr(std::is_void_v<GetReturnType<FuncType>::type>) {
 
-				std::apply([&mrb, &content](auto& ...arg) {
+				std::apply([&content](auto& ...arg) {
 
-					((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+					((*content).*Member)(arg...);
 
 				}, args);
 
@@ -466,9 +481,9 @@ namespace MrbWrap {
 
 			} else {
 
-				typename GetReturnType<FuncType>::type return_value = std::apply([&mrb, &content](auto& ...arg) {
+				typename GetReturnType<FuncType>::type return_value = std::apply([&content](auto& ...arg) {
 
-					return ((*content).*Member)(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+					return ((*content).*Member)(arg...);
 
 				}, args);
 

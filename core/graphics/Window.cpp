@@ -43,8 +43,8 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<std::string, unsigned int, unsigned int, MRBW_OPT<bool, false>>(mrb);
-		auto title = std::get<0>(args);	//! TODO: Cast into actual needed type given above
+		auto args = MrbWrap::get_converted_args<std::string, unsigned int, unsigned int, MRBW_OPT<bool, false>>(mrb);
+		auto title = std::get<0>(args);
 		auto width = std::get<1>(args);
 		auto height = std::get<2>(args);
 		auto fullscreen = std::get<3>(args);
@@ -103,7 +103,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "set_imgui_scale", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<float>(mrb);
+		auto args = MrbWrap::get_converted_args<float>(mrb);
 		auto scale = std::get<0>(args);
 
 		ImGui::GetIO().FontGlobalScale = scale;

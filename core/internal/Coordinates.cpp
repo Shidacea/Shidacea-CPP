@@ -19,7 +19,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "+", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
 		auto other_value = std::get<0>(args);
 
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
@@ -40,7 +40,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "-", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
 		auto other_value = std::get<0>(args);
 
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
@@ -59,7 +59,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "*", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<float>(mrb);
+		auto args = MrbWrap::get_raw_args<float>(mrb);
 		auto scalar = std::get<0>(args);
 
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
@@ -77,13 +77,12 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "dot", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
-		auto other_value = std::get<0>(args);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f>(mrb);
+		auto other_vector = std::get<0>(args);
 
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
-		auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
-		return mrb_float_value(mrb, this_vector->x * other_vector->x + this_vector->y * other_vector->y);
+		return mrb_float_value(mrb, this_vector->x * other_vector.x + this_vector->y * other_vector.y);
 
 	});
 

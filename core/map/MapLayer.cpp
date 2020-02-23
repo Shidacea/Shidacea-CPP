@@ -190,13 +190,11 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "reload", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Vector2f>(mrb);
-		auto ruby_coordinates = std::get<0>(args);
-
-		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
+		auto args = MrbWrap::get_converted_args<sf::Vector2f>(mrb);
+		auto coordinates = std::get<0>(args);
 
 		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);
-		map_layer->reload(coordinates->x, coordinates->y);
+		map_layer->reload(coordinates.x, coordinates.y);
 
 		return mrb_true_value();
 
@@ -206,7 +204,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "link_tileset", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<Tileset>(mrb);
+		auto args = MrbWrap::get_raw_args<Tileset>(mrb);	//! TODO: Can this be solved with get_converted_args ?
 		auto ruby_tileset = std::get<0>(args);
 
 		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, self);

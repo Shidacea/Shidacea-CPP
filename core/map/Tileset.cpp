@@ -56,7 +56,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "link_texture", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<sf::Texture>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Texture>(mrb);
 		auto ruby_texture = std::get<0>(args);
 
 		auto tileset = MrbWrap::convert_from_object<Tileset>(mrb, self);
@@ -72,7 +72,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "add_tile", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<Tile>(mrb);
+		auto args = MrbWrap::get_raw_args<Tile>(mrb);
 		auto ruby_tile = std::get<0>(args);
 
 		auto tileset = MrbWrap::convert_from_object<Tileset>(mrb, self);

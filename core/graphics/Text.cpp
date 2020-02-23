@@ -8,18 +8,16 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_text_class, "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<std::string, sf::Font, MRBW_OPT<unsigned int, 30>> (mrb);
+		auto args = MrbWrap::get_converted_args<std::string, sf::Font, MRBW_OPT<unsigned int, 30>> (mrb);
 		auto text_string = std::get<0>(args);
-		auto ruby_font = std::get<1>(args);
+		auto font = std::get<1>(args);
 		auto character_size = std::get<2>(args);
-
-		auto font = MrbWrap::convert_from_object<sf::Font>(mrb, ruby_font);
 
 		MrbWrap::convert_to_instance_variable<sf::Font>(mrb, self, "@_font");
 		auto font_cache = MrbWrap::convert_from_instance_variable<sf::Font>(mrb, self, "@_font");
-		*font_cache = *font;
+		*font_cache = font;
 
-		MrbWrap::convert_to_object<sf::Text>(mrb, self, sf::String(text_string), *font, static_cast<unsigned int>(character_size));
+		MrbWrap::convert_to_object<sf::Text>(mrb, self, sf::String(text_string), font, static_cast<unsigned int>(character_size));
 
 		return self;
 

@@ -52,7 +52,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "receive", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<MRBW_OPT<size_t, 1024>>(mrb);
+		auto args = MrbWrap::get_converted_args<MRBW_OPT<size_t, 1024>>(mrb);
 		auto max_length = std::get<0>(args);
 
 		auto socket = MrbWrap::convert_from_object<sf::TcpSocket>(mrb, self);

@@ -146,7 +146,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	mrb_define_module_function(mrb, module_key, "is_pressed?", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<int>(mrb);
+		auto args = MrbWrap::get_converted_args<int>(mrb);
 		auto key_value = std::get<0>(args);
 
 		return mrb_bool_value(sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key_value)));
@@ -183,7 +183,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	mrb_define_module_function(mrb, module_mouse, "is_button_pressed?", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_args<int>(mrb);
+		auto args = MrbWrap::get_converted_args<int>(mrb);
 		auto button_value = std::get<0>(args);
 
 		return mrb_bool_value(sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(button_value)));
