@@ -210,4 +210,6 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::hasFocus>(mrb, "has_focus?");
 
+	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVisible, bool>(mrb, "visible=");
+
 }

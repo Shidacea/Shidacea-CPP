@@ -31,6 +31,14 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getTextureRect>(mrb, "texture_rect");
 	MrbWrap::wrap_setter<sf::Sprite, &sf::Sprite::setTextureRect, sf::IntRect>(mrb, "texture_rect=");
 
+	MrbWrap::wrap_member_function<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::move), sf::Vector2f>(mrb, "move");
+
+	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getRotation>(mrb, "rotation");
+	MrbWrap::wrap_setter<sf::Sprite, &sf::Sprite::setRotation, float>(mrb, "rotation=");
+
+	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getOrigin>(mrb, "origin");
+	MrbWrap::wrap_setter<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::setOrigin), sf::Vector2f>(mrb, "origin=");
+
 	//! TODO: Consider implementing origin methods (e.g. 25.0, 25.0 for the example object for scaling)
 
 }

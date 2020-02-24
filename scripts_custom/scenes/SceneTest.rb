@@ -20,6 +20,9 @@ class SceneTest < SDC::Scene
 
 		elsif SDC::key_pressed?(:Enter) then
 			@entities[0].position.x += 30
+
+		elsif SDC::key_pressed?(:R) then
+			@entities[0].sprites[0].rotation += 0.5
 		
 		elsif SDC::key_pressed?(:F1) then
 			# Should trigger an error with backtrace
