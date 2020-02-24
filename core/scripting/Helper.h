@@ -250,7 +250,35 @@ namespace MrbWrap {
 	};
 
 	//! Function to cast any value to an internal ruby value
-	template <class T> mrb_value cast_value_to_ruby(mrb_state* mrb, T value);
+	template <class T> inline mrb_value cast_value_to_ruby(mrb_state* mrb, T value) {
+
+		if constexpr (std::is_same_v<T, mrb_int>) {
+
+			return mrb_fixnum_value(value);
+
+		} else if constexpr (std::is_same_v<T, mrb_float>) {
+
+			return mrb_float_value(mrb, value);
+
+		} else if constexpr (std::is_same_v<T, mrb_bool>) {
+
+			return mrb_bool_value(value);
+
+		} else if constexpr (std::is_same_v<T, char*>) {
+
+			return mrb_str_new(mrb, value, strlen(value));
+
+		} else if constexpr (std::is_same_v<T, mrb_value>) {
+
+			return value;
+
+		} else {
+
+			static_assert(std::false_type::value, "Invalid mruby type given");
+
+		}
+
+	}
 
 	//! TODO: Return mrb_value
 
@@ -286,8 +314,8 @@ namespace MrbWrap {
 
 	};
 
-	//! Utility function to extend static_cast for more cases
-	template <class Dest, class C> auto automatic_cast(C arg, mrb_state* mrb = nullptr) {
+	//! Utility function to cast arguments into usable values
+	template <class Dest, class C> auto arg_cast(C arg, mrb_state* mrb = nullptr) {
 
 		if constexpr (std::is_same_v<Dest, C>) {
 
@@ -304,6 +332,44 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
 
 			return mrb_value();
+
+		} else if constexpr (std::conjunction_v<std::is_same<C, mrb_value>, std::is_pointer<Dest>>) {
+
+			return convert_from_object<std::remove_pointer_t<Dest>>(mrb, arg);
+
+		} else if constexpr (std::is_same_v<C, mrb_value>) {
+
+			return *convert_from_object<Dest>(mrb, arg);
+
+		} else {
+
+			return static_cast<Dest>(arg);
+
+		}
+
+	}
+
+	//! Utility function to cast return values into mruby compatible values
+	template <class Dest, class C> auto return_cast(C arg, mrb_state* mrb) {
+
+		if constexpr (std::is_same_v<Dest, C>) {
+
+			return arg;
+
+		} else if constexpr (std::is_same_v<Dest, std::string>) {
+
+			return std::string(arg);
+
+		} else if constexpr (std::is_same_v<Dest, char*>) {
+
+			return const_cast<char*>(arg.c_str());
+
+		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
+
+			auto ruby_class = get_class_info_ptr<C>();
+			auto new_mruby_obj = mrb_obj_new(mrb, ruby_class, 0, NULL);
+
+			return new_mruby_obj;
 
 		} else if constexpr (std::conjunction_v<std::is_same<C, mrb_value>, std::is_pointer<Dest>>) {
 
@@ -353,7 +419,7 @@ namespace MrbWrap {
 		std::apply([](auto&& ...arg) {
 
 			//! Also ensure correct casting to the mruby type
-			((arg = automatic_cast<CastToRuby<TArgs>::type>(get_default(TArgs()))), ...);
+			((arg = arg_cast<CastToRuby<TArgs>::type>(get_default(TArgs()))), ...);
 
 		}, args);
 
@@ -391,7 +457,7 @@ namespace MrbWrap {
 
 		auto converted_args = std::apply([&mrb](auto&& ...arg) {
 
-			return std::make_tuple(automatic_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+			return std::make_tuple(arg_cast<GetRealType<TArgs>::type>(arg, mrb)...);
 
 		}, args);
 
@@ -472,7 +538,19 @@ namespace MrbWrap {
 
 				}, args);
 
-				return cast_value_to_ruby(mrb, automatic_cast<CastToRuby<decltype(return_value)>::type>(return_value));
+				using ret_type = decltype(return_value);
+				using casted_ret_type = typename CastToRuby<ret_type>::type;
+
+				auto casted_return_value = return_cast<casted_ret_type>(return_value, mrb);
+
+				if constexpr (std::is_same_v<casted_ret_type, mrb_value>) {
+
+					auto new_value = MrbWrap::convert_from_object<ret_type>(mrb, casted_return_value);
+					*new_value = return_value;
+
+				}
+
+				return cast_value_to_ruby(mrb, casted_return_value);
 
 			}
 
@@ -493,13 +571,37 @@ namespace MrbWrap {
 
 				auto return_value = ((*content).*Member);
 
-				return cast_value_to_ruby(mrb, automatic_cast<CastToRuby<decltype(return_value)>::type>(return_value));
+				using ret_type = decltype(return_value);
+				using casted_ret_type = typename CastToRuby<ret_type>::type;
+				
+				auto casted_return_value = return_cast<casted_ret_type>(return_value, mrb);
+
+				if constexpr (std::is_same_v<casted_ret_type, mrb_value>) {
+
+					auto new_value = MrbWrap::convert_from_object<ret_type>(mrb, casted_return_value);
+					*new_value = return_value;
+
+				}
+
+				return cast_value_to_ruby(mrb, casted_return_value);
 
 			} else if constexpr (std::is_member_function_pointer_v<decltype(Member)>) {
 
 				auto return_value = ((*content).*Member)();
 
-				return cast_value_to_ruby(mrb, automatic_cast<CastToRuby<decltype(return_value)>::type>(return_value));
+				using ret_type = decltype(return_value);
+				using casted_ret_type = typename CastToRuby<ret_type>::type;
+				
+				auto casted_return_value = return_cast<casted_ret_type>(return_value, mrb);
+
+				if constexpr (std::is_same_v<casted_ret_type, mrb_value>) {
+
+					auto new_value = MrbWrap::convert_from_object<ret_type>(mrb, casted_return_value);
+					*new_value = return_value;
+
+				}
+
+				return cast_value_to_ruby(mrb, casted_return_value);
 
 			} else {
 
@@ -526,13 +628,13 @@ namespace MrbWrap {
 
 			if constexpr (std::is_member_object_pointer_v<decltype(Member)>) {
 
-				((*content).*Member) = automatic_cast<ArgType>(new_value);
+				((*content).*Member) = arg_cast<ArgType>(new_value);
 
 				return cast_value_to_ruby(mrb, new_value);
 
 			} else if constexpr (std::is_member_function_pointer_v<decltype(Member)>) {
 
-				((*content).*Member)(automatic_cast<ArgType>(new_value));
+				((*content).*Member)(arg_cast<ArgType>(new_value));
 
 				return cast_value_to_ruby(mrb, new_value);
 

@@ -1,20 +1,26 @@
+#include <type_traits>
+
 //! Specification structure for easier overall wrapping
 
-template <auto F> struct MemberSpec;
+namespace MrbWrap {
 
-template <class C, class Ret, class ... TArgs, Ret(C::*Func)(TArgs...)> struct MemberSpec<Func> {
+    template <auto F> struct MemberSpec;
 
-    using return_type = Ret;
-    using class_type = C;
+    template <class C, class Ret, class ... TArgs, Ret(C:: * Func)(TArgs...)> struct MemberSpec<Func> {
 
-    static constexpr auto func = Func;
+        using return_type = Ret;
+        using class_type = C;
 
-};
+        static constexpr auto func = Func;
 
-//! Specification function for overloaded functions
+    };
 
-template <class C, class Ret, class ... TArgs> constexpr auto specify(Ret(C::* fun)(TArgs...)) {
+    //! Specification function for overloaded functions
 
-    return fun;
+    template <class C, class Ret, class ... TArgs> constexpr auto specify(Ret(C::* fun)(TArgs...)) {
+
+        return fun;
+
+    }
 
 }

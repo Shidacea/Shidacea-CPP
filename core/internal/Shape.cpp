@@ -51,6 +51,8 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<Shape>(mrb);
 
+	//! TODO: Write standard constructors accepting the respective arguments
+
 	MrbWrap::define_mruby_function(mrb, ruby_shape_point_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f>(mrb);
@@ -96,8 +98,10 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	});
 
 	MrbWrap::define_default_copy_init<ShapeCircle>(mrb);
+
 	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::radius>(mrb, "radius");
 	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::radius, float>(mrb, "radius=");
+
 	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::scale>(mrb, "scale");
 	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::scale, float>(mrb, "scale=");
 
@@ -117,63 +121,11 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapeBox>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "size", MRUBY_FUNC {
+	MrbWrap::wrap_getter<ShapeBox, &ShapeBox::size>(mrb, "size");
+	MrbWrap::wrap_setter<ShapeBox, &ShapeBox::size, sf::Vector2f>(mrb, "size=");
 
-		auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
-
-		static auto coordinates_class = mrb_class_get_under(mrb, shape_ruby_module, "Coordinates");
-
-		auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-		auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
-
-		*new_vector = shape->size;
-
-		return new_coordinates;
-
-	});
-
-	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "size=", MRUBY_FUNC {
-
-		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
-		auto sizes = std::get<0>(args);
-
-		auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
-
-		auto sizes_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, sizes);
-		shape->scale = *sizes_vector;
-
-		return sizes;
-
-	});
-
-	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "scale", MRUBY_FUNC {
-
-		auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
-
-		static auto coordinates_class = mrb_class_get_under(mrb, shape_ruby_module, "Coordinates");
-
-		auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-		auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
-
-		*new_vector = shape->scale;
-
-		return new_coordinates;
-
-	});
-
-	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "scale=", MRUBY_FUNC {
-
-		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
-		auto factors = std::get<0>(args);
-
-		auto shape = MrbWrap::convert_from_object<ShapeBox>(mrb, self);
-
-		auto factor_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, factors);
-		shape->scale = *factor_vector;
-
-		return factors;
-
-	});
+	MrbWrap::wrap_getter<ShapeBox, &ShapeBox::scale>(mrb, "scale");
+	MrbWrap::wrap_setter<ShapeBox, &ShapeBox::scale, sf::Vector2f>(mrb, "scale=");
 
 	MrbWrap::define_mruby_function(mrb, ruby_shape_triangle_class, "initialize", MRUBY_FUNC {
 
@@ -221,34 +173,8 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_class, "offset", MRUBY_FUNC {
-
-		auto shape = MrbWrap::convert_from_object<Shape>(mrb, self);
-
-		static auto coordinates_class = mrb_class_get_under(mrb, shape_ruby_module, "Coordinates");
-
-		auto new_coordinates = mrb_obj_new(mrb, coordinates_class, 0, NULL);
-		auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_coordinates);
-
-		*new_vector = shape->offset;
-
-		return new_coordinates;
-
-	});
-
-	MrbWrap::define_mruby_function(mrb, ruby_shape_class, "offset=", MRUBY_FUNC {
-
-		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
-		auto ruby_coordinates = std::get<0>(args);
-
-		auto shape = MrbWrap::convert_from_object<Shape>(mrb, self);
-		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
-
-		shape->offset = *coordinates;
-
-		return ruby_coordinates;
-
-	});
+	MrbWrap::wrap_getter<Shape, &Shape::offset>(mrb, "offset");
+	MrbWrap::wrap_setter<Shape, &Shape::offset, sf::Vector2f>(mrb, "offset=");
 
 	mrb_define_module_function(mrb, module_collider, "test", MRUBY_FUNC {
 
