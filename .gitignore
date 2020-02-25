@@ -3,3 +3,4 @@ bin
 CMakeFiles
 CMakeSettings.json
 out
+mruby_build_config.rb.lock
