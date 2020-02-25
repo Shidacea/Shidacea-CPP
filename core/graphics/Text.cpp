@@ -21,6 +21,6 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_ARG(2, 1));
 
 }

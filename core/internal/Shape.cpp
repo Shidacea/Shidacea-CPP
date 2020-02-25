@@ -63,7 +63,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_default_copy_init<ShapePoint>(mrb);
 
@@ -79,7 +79,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_REQ(2));
 
 	MrbWrap::define_default_copy_init<ShapeLine>(mrb);
 
@@ -95,7 +95,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_REQ(2));
 
 	MrbWrap::define_default_copy_init<ShapeCircle>(mrb);
 
@@ -117,7 +117,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_REQ(2));
 
 	MrbWrap::define_default_copy_init<ShapeBox>(mrb);
 
@@ -138,7 +138,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_default_copy_init<ShapeTriangle>(mrb);
 
@@ -153,7 +153,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_default_copy_init<ShapeQuadrangle>(mrb);
 
@@ -169,7 +169,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_REQ(2));
 
 	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb);
 

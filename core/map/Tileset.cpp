@@ -52,7 +52,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "link_texture", MRUBY_FUNC {
 
@@ -66,7 +66,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_true_value();
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::wrap_getter<Tileset, &Tileset::size>(mrb, "size");
 
@@ -87,7 +87,7 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_true_value();
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_tileset_class, "tiles", MRUBY_FUNC {
 
@@ -96,6 +96,6 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 		return ruby_tile_array;
 
-	});
+	}, MRB_ARGS_NONE());
 
 }

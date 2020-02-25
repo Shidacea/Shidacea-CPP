@@ -61,7 +61,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	});
+	}, MRB_ARGS_ARG(3, 1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "clear", MRUBY_FUNC {
 
@@ -70,7 +70,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "display", MRUBY_FUNC {
 
@@ -82,7 +82,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "imgui_update", MRUBY_FUNC {
 
@@ -93,7 +93,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "set_imgui_scale", MRUBY_FUNC {
 
@@ -104,7 +104,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVerticalSyncEnabled, bool>(mrb, "vertical_sync_enabled=");
 
@@ -119,7 +119,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::wrap_member_function<sf::RenderWindow, &sf::RenderWindow::setView, sf::View>(mrb, "set_view");
 
@@ -140,7 +140,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_REQ(2));
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "poll_event", MRUBY_FUNC {
 
@@ -164,7 +164,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		}
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "draw", MRUBY_FUNC {
 
@@ -182,7 +182,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_true_value();
 
-	});
+	}, MRB_ARGS_ARG(1, 1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_window_class, "draw_translated", MRUBY_FUNC {
 
@@ -206,7 +206,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_true_value();
 
-	});
+	}, MRB_ARGS_ARG(2, 1));
 
 	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::hasFocus>(mrb, "has_focus?");
 

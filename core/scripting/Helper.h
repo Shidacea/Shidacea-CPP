@@ -18,6 +18,7 @@
 
 #include "StaticString.h"
 #include "DefaultWrap.h"
+#include "CountArgs.h"
 #include "FormatString.h"
 #include "ClassInfo.h"
 #include "MemberSpec.h"
@@ -504,7 +505,7 @@ namespace MrbWrap {
 			return self;
 
 		//! TODO: Maybe change this at some point if it should become relevant
-		}, MRB_ARGS_NONE());
+		}, ArgType<TArgs...>::value);
 
 	}
 
@@ -554,7 +555,7 @@ namespace MrbWrap {
 
 			}
 
-		}, MRB_ARGS_NONE());
+		}, ArgType<TArgs...>::value);
 
 	}
 

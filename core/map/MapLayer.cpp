@@ -198,7 +198,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_true_value();
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::wrap_member_function<MapLayer, &MapLayer::load_test_map>(mrb, "load_test_map");
 
@@ -217,7 +217,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_nil_value();
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::wrap_getter<MapLayer, &MapLayer::is_collision_active>(mrb, "collision_active");
 	MrbWrap::wrap_setter<MapLayer, &MapLayer::set_collision_active, bool>(mrb, "collision_active=");
@@ -231,6 +231,6 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 		return tileset;
 
-	});
+	}, MRB_ARGS_NONE());
 
 }

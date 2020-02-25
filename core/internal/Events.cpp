@@ -244,7 +244,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(static_cast<int>(event->type));
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_code", MRUBY_FUNC {
 
@@ -252,7 +252,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(static_cast<int>(event->key.code));
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_alt?", MRUBY_FUNC {
 
@@ -260,7 +260,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_bool_value(event->key.alt);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_control?", MRUBY_FUNC {
 
@@ -268,7 +268,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_bool_value(event->key.control);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_shift?", MRUBY_FUNC {
 
@@ -276,7 +276,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_bool_value(event->key.shift);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_system?", MRUBY_FUNC {
 
@@ -284,7 +284,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_bool_value(event->key.system);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_code", MRUBY_FUNC {
 
@@ -292,7 +292,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(static_cast<int>(event->mouseButton.button));
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_x", MRUBY_FUNC {
 
@@ -300,7 +300,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(event->mouseButton.x);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_y", MRUBY_FUNC {
 
@@ -308,7 +308,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(event->mouseButton.y);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_move_x", MRUBY_FUNC {
 
@@ -316,7 +316,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(event->mouseMove.x);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_move_y", MRUBY_FUNC {
 
@@ -324,7 +324,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(event->mouseMove.y);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_wheel", MRUBY_FUNC {
 
@@ -332,7 +332,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(static_cast<mrb_int>(event->mouseWheelScroll.wheel));
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_delta", MRUBY_FUNC {
 
@@ -340,7 +340,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_float_value(mrb, event->mouseWheelScroll.delta);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_x", MRUBY_FUNC {
 
@@ -348,7 +348,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(event->mouseWheelScroll.x);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_y", MRUBY_FUNC {
 
@@ -356,6 +356,6 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(event->mouseWheelScroll.y);
 
-	});
+	}, MRB_ARGS_NONE());
 
 }

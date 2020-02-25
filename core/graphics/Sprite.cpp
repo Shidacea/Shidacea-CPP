@@ -20,7 +20,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_true_value();
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getPosition>(mrb, "position");
 	MrbWrap::wrap_setter<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::setPosition), sf::Vector2f>(mrb, "position=");

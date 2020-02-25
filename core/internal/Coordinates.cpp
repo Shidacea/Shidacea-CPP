@@ -36,7 +36,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return new_value;
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "-", MRUBY_FUNC {
 
@@ -55,7 +55,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return new_value;
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "*", MRUBY_FUNC {
 
@@ -73,7 +73,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return new_value;
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "dot", MRUBY_FUNC {
 
@@ -84,7 +84,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_float_value(mrb, this_vector->x * other_vector.x + this_vector->y * other_vector.y);
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "squared_norm", MRUBY_FUNC {
 
@@ -92,7 +92,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_float_value(mrb, content->x * content->x + content->y * content->y);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "to_s", MRUBY_FUNC {
 
@@ -103,7 +103,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_str_new_cstr(mrb, buffer);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::define_mruby_function(mrb, ruby_coordinates_class, "inspect", MRUBY_FUNC {
 
@@ -114,6 +114,6 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_str_new_cstr(mrb, buffer);
 
-	});
+	}, MRB_ARGS_NONE());
 
 }
