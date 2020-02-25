@@ -30,6 +30,6 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 		return self;
 
-	}, MRB_ARGS_REQ(1));
+	}, MRB_ARGS_ARG(1, 1));
 
 }
