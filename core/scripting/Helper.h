@@ -161,6 +161,29 @@ namespace MrbWrap {
 
 	}
 
+	template <class C> bool check_for_type(mrb_state* mrb, mrb_value obj) {
+
+		auto expected_class = get_class_info_ptr<C>();
+
+		return mrb_obj_is_kind_of(mrb, obj, expected_class);
+
+	}
+
+	template <class C> void verify_type(mrb_state* mrb, mrb_value obj) {
+
+		if (!check_for_type<C>(mrb, obj)) {
+
+			std::string message = std::string("Object of class ")
+				+ std::string(mrb_class_name(mrb, mrb_obj_class(mrb, obj)))
+				+ std::string(" is not of class ")
+				+ std::string(mrb_class_name(mrb, get_class_info_ptr<C>()));
+
+			mrb_raise(mrb, mrb->eException_class, message.c_str());
+
+		}
+
+	}
+
 	//! Return the wrapped C++ object of class 'T' from 'self'
 	//! This can be used to modify the internal properties of a wrapped C++ object
 	//! Use this in callbacks
@@ -168,7 +191,7 @@ namespace MrbWrap {
 
 		auto type = DATA_TYPE(self);
 
-		MrbWrap::verify_type<T>(mrb, self);
+		verify_type<T>(mrb, self);
 
 		return static_cast<T*>(mrb_data_get_ptr(mrb, self, type));
 
@@ -182,8 +205,8 @@ namespace MrbWrap {
 
 		mrb_get_args(mrb, "o", &original);
 
-		auto old_value = MrbWrap::convert_from_object<T>(mrb, original);
-		auto new_value = MrbWrap::convert_to_object<T>(mrb, self);
+		auto old_value = convert_from_object<T>(mrb, original);
+		auto new_value = convert_to_object<T>(mrb, self);
 
 		*new_value = *old_value;
 
@@ -193,7 +216,7 @@ namespace MrbWrap {
 	//! Use this as a callback routine
 	template <class T> mrb_value ruby_class_default_init_copy(mrb_state* mrb, mrb_value self) {
 
-		MrbWrap::copy_object<T>(mrb, self);
+		copy_object<T>(mrb, self);
 
 		return self;
 	}
@@ -275,7 +298,8 @@ namespace MrbWrap {
 
 		} else {
 
-			static_assert(std::false_type::value, "Invalid mruby type given");
+			//! TODO: Make conditional here
+			//static_assert(std::false_type::value, "Invalid mruby type given");
 
 		}
 
@@ -387,40 +411,17 @@ namespace MrbWrap {
 		}
 
 	}
-
-	template <class C> bool check_for_type(mrb_state* mrb, mrb_value obj) {
-
-		auto expected_class = get_class_info_ptr<C>();
-
-		return mrb_obj_is_kind_of(mrb, obj, expected_class);
-
-	}
-
-	template <class C> void verify_type(mrb_state* mrb, mrb_value obj) {
-
-		if (!check_for_type<C>(mrb, obj)) {
-
-			std::string message = std::string("Object of class ")
-				+ std::string(mrb_class_name(mrb, mrb_obj_class(mrb, obj)))
-				+ std::string(" is not of class ")
-				+ std::string(mrb_class_name(mrb, get_class_info_ptr<C>()));
-
-			mrb_raise(mrb, mrb->eException_class, message.c_str());
-
-		}
-
-	}
 	
 	//! Initialize and return a tuple of the ruby arguments
 	template <class ... TArgs> constexpr auto generate_arg_tuple() {
 		//! Generate a tuple of the final mruby types
-		std::tuple<CastToRuby<TArgs>::type...> args;
+		std::tuple<typename CastToRuby<TArgs>::type...> args;
 
 		//! Set the tuple values to their default values if given
 		std::apply([](auto&& ...arg) {
 
 			//! Also ensure correct casting to the mruby type
-			((arg = arg_cast<CastToRuby<TArgs>::type>(get_default(TArgs()))), ...);
+			((arg = arg_cast<typename CastToRuby<TArgs>::type>(get_default(TArgs()))), ...);
 
 		}, args);
 
@@ -458,7 +459,7 @@ namespace MrbWrap {
 
 		auto converted_args = std::apply([&mrb](auto&& ...arg) {
 
-			return std::make_tuple(arg_cast<GetRealType<TArgs>::type>(arg, mrb)...);
+			return std::make_tuple(arg_cast<typename GetRealType<TArgs>::type>(arg, mrb)...);
 
 		}, args);
 
@@ -491,14 +492,14 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
+		define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
 
 			auto args = get_converted_args<TArgs...>(mrb);
 
 			//! Generate the desired object with the called arguments
 			std::apply([&mrb, self](auto& ...arg) {
 
-				MrbWrap::convert_to_object<C>(mrb, self, arg...);
+				convert_to_object<C>(mrb, self, arg...);
 
 			}, args);
 
@@ -511,17 +512,17 @@ namespace MrbWrap {
 
 	template <class C, auto Member, class ... TArgs> void wrap_member_function(mrb_state* mrb, const char* name) {
 
-		using Spec = typename MemberSpec<Member>;
+		using Spec = MemberSpec<Member>;
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			auto args = get_converted_args<TArgs...>(mrb);
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+			auto content = convert_from_object<C>(mrb, self);
 
-			if constexpr(std::is_void_v<GetReturnType<decltype(Member)>::type>) {
+			if constexpr(std::is_void_v<typename GetReturnType<decltype(Member)>::type>) {
 
 				std::apply([&content](auto& ...arg) {
 
@@ -546,7 +547,7 @@ namespace MrbWrap {
 
 				if constexpr (std::is_same_v<casted_ret_type, mrb_value>) {
 
-					auto new_value = MrbWrap::convert_from_object<ret_type>(mrb, casted_return_value);
+					auto new_value = convert_from_object<ret_type>(mrb, casted_return_value);
 					*new_value = return_value;
 
 				}
@@ -564,9 +565,9 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+			auto content = convert_from_object<C>(mrb, self);
 
 			if constexpr (std::is_member_object_pointer_v<decltype(Member)>) {
 
@@ -579,7 +580,7 @@ namespace MrbWrap {
 
 				if constexpr (std::is_same_v<casted_ret_type, mrb_value>) {
 
-					auto new_value = MrbWrap::convert_from_object<ret_type>(mrb, casted_return_value);
+					auto new_value = convert_from_object<ret_type>(mrb, casted_return_value);
 					*new_value = return_value;
 
 				}
@@ -597,7 +598,7 @@ namespace MrbWrap {
 
 				if constexpr (std::is_same_v<casted_ret_type, mrb_value>) {
 
-					auto new_value = MrbWrap::convert_from_object<ret_type>(mrb, casted_return_value);
+					auto new_value = convert_from_object<ret_type>(mrb, casted_return_value);
 					*new_value = return_value;
 
 				}
@@ -620,12 +621,12 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		MrbWrap::define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			typename CastToRuby<ArgType>::type new_value;
 			mrb_get_args(mrb, FormatString<ArgType>::value, &new_value);
 
-			auto content = MrbWrap::convert_from_object<C>(mrb, self);
+			auto content = convert_from_object<C>(mrb, self);
 
 			if constexpr (std::is_member_object_pointer_v<decltype(Member)>) {
 
