@@ -211,6 +211,7 @@ set(AUDIO_SOURCES
 
 set(GRAPHICS_SOURCES
 	core/graphics/RenderStates.cpp
+	core/graphics/Color.cpp
 	core/graphics/View.cpp
 	core/graphics/Window.cpp
 	core/graphics/Texture.cpp

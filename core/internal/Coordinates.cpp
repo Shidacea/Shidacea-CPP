@@ -6,7 +6,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_class_under<sf::Vector2f>(mrb, "Coordinates", ruby_module);
 
-	auto ruby_coordinates_class = MrbWrap::define_data_class_under(mrb, "Coordinates", ruby_module);
+	auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
 
 	MrbWrap::wrap_constructor<sf::Vector2f, MRBW_RAT_OPT<float>, MRBW_RAT_OPT<float>>(mrb);
 	MrbWrap::define_default_copy_init<sf::Vector2f>(mrb);
@@ -25,9 +25,9 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 		auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
-		static auto coordinates_class = mrb_class_get_under(mrb, coordinates_ruby_module, "Coordinates");
+		auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
 
-		auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
+		auto new_value = mrb_obj_new(mrb, ruby_coordinates_class, 0, NULL);
 		auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
 
 		//! The SFML vector has overloaded operators, so we can just do this the easy way
@@ -46,9 +46,9 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 		auto other_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, other_value);
 
-		static auto coordinates_class = mrb_class_get_under(mrb, coordinates_ruby_module, "Coordinates");
+		auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
 
-		auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
+		auto new_value = mrb_obj_new(mrb, ruby_coordinates_class, 0, NULL);
 		auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
 
 		*new_vector = *this_vector - *other_vector;
@@ -64,9 +64,9 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 		auto this_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, self);
 
-		static auto coordinates_class = mrb_class_get_under(mrb, coordinates_ruby_module, "Coordinates");
+		auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
 
-		auto new_value = mrb_obj_new(mrb, coordinates_class, 0, NULL);
+		auto new_value = mrb_obj_new(mrb, ruby_coordinates_class, 0, NULL);
 		auto new_vector = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_value);
 
 		*new_vector = *this_vector * scalar;
