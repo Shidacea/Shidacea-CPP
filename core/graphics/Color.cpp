@@ -5,7 +5,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_class_under<sf::Color>(mrb, "Color", ruby_module);
 	auto ruby_class_color = MrbWrap::get_class_info_ptr<sf::Color>();
 
-	MrbWrap::wrap_constructor<sf::Color, MRBW_OPT<uint8_t, 0>, MRBW_OPT<uint8_t, 0>, MRBW_OPT<uint8_t, 0>, MRBW_OPT<uint8_t, 255>>(mrb);
+	MrbWrap::wrap_constructor<sf::Color, MRBW_OPT<sf::Uint8, 0>, MRBW_OPT<sf::Uint8, 0>, MRBW_OPT<sf::Uint8, 0>, MRBW_OPT<sf::Uint8, 255>>(mrb);
 
 	MrbWrap::wrap_member_function<sf::Color, &sf::Color::toInteger>(mrb, "to_i");
 
@@ -14,10 +14,10 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::Color, &sf::Color::r>(mrb, "b");
 	MrbWrap::wrap_getter<sf::Color, &sf::Color::r>(mrb, "a");
 
-	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, uint8_t>(mrb, "r=");
-	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, uint8_t>(mrb, "g=");
-	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, uint8_t>(mrb, "b=");
-	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, uint8_t>(mrb, "a=");
+	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, sf::Uint8>(mrb, "r=");
+	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, sf::Uint8>(mrb, "g=");
+	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, sf::Uint8>(mrb, "b=");
+	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, sf::Uint8>(mrb, "a=");
 
 	//! TODO: Simplfy friend methods
 
