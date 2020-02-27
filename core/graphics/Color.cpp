@@ -19,6 +19,8 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, uint8_t>(mrb, "b=");
 	MrbWrap::wrap_setter<sf::Color, &sf::Color::r, uint8_t>(mrb, "a=");
 
+	//! TODO: Simplfy friend methods
+
 	MrbWrap::define_mruby_function(mrb, ruby_class_color, "+", MRUBY_FUNC {
 	
 		auto args = MrbWrap::get_raw_args<sf::Color>(mrb);
