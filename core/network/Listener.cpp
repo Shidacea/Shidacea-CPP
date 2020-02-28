@@ -26,7 +26,7 @@ void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(status_code);
 
-	});
+	}, MRB_ARGS_ARG(1, 1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_listener_class, "accept", MRUBY_FUNC {
 
@@ -41,6 +41,6 @@ void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(status_code);
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 }

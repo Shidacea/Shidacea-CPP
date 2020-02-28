@@ -30,7 +30,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(status_code);
 
-	});
+	}, MRB_ARGS_ARG(2, 1));
 
 	MrbWrap::wrap_member_function<sf::TcpSocket, &sf::TcpSocket::disconnect>(mrb, "disconnect");
 
@@ -48,7 +48,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(status_code);
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "receive", MRUBY_FUNC {
 
@@ -67,14 +67,14 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_fixnum_value(status_code);
 
-	});
+	}, MRB_ARGS_REQ(1));
 
 	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "last_message", MRUBY_FUNC {
 
 		static auto sym = mrb_intern_static(mrb, "@last_message", strlen("@last_message"));
 		return mrb_iv_get(mrb, self, sym);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::isBlocking>(mrb, "blocking");
 	MrbWrap::wrap_setter<sf::TcpSocket, &sf::TcpSocket::setBlocking, bool>(mrb, "blocking=");
@@ -88,7 +88,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 		return mrb_str_new_cstr(mrb, address);
 
-	});
+	}, MRB_ARGS_NONE());
 
 	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::getRemotePort>(mrb, "remote_port");
 	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::getLocalPort>(mrb, "local_port");
