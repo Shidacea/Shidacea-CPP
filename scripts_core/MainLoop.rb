@@ -5,7 +5,7 @@ def main_routine(scene_class, title, width, height)
 
 	begin
 		SDC.window = SDC::Window.new(title, width, height)
-		SDC.window.vertical_sync_enabled = true
+		SDC.limiter = SDC::Limiter.new(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)
 
 		SDC.game = SDC::Game.new
 
@@ -13,23 +13,9 @@ def main_routine(scene_class, title, width, height)
 		SDC.next_scene = true
 
 		while SDC.window.is_open? do
-			SDC.scene.main_draw
-			SDC.scene.process_events
-			SDC.scene.main_update 
-
-			if !SDC.next_scene then	# Terminate program
-				SDC.scene.at_exit
-				SDC.scene = nil
-				break
-			elsif SDC.next_scene != true then	# Change scene
-				SDC.scene.at_exit
-				SDC.scene = SDC.next_scene.new
-				SDC.next_scene = true
-				SDC.scene.at_init
-			end
-
-			# The frequency of the Garbage Collector may be subject to change
-			GC.start
+			# Main game loop logic is contained within the limiter
+			# If it returns a false value, the game scene was set to nil
+			break if !SDC.limiter.tick
 		end
 
 		SDC.window.close

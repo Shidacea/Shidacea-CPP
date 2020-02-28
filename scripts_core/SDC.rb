@@ -6,6 +6,7 @@ module SDC
 	@scene = nil
 	@next_scene = nil
 	@game = nil
+	@limiter = nil
 
 	def self.window
 		return @window
@@ -37,6 +38,14 @@ module SDC
 
 	def self.game=(value)
 		@game = value
+	end
+
+	def self.limiter
+		return @limiter
+	end
+
+	def self.limiter=(value)
+		@limiter = value
 	end
 
 	# Script routines for easier readability, directly referencing other methods
