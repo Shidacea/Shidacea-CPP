@@ -64,7 +64,7 @@ class SceneTest < SDC::Scene
 
 		@test_font = SDC::Font.new
 		@test_font.load_from_file("assets/fonts/arial.ttf")
-		@test_text = SDC::Text.new("Hello World", @test_font, 100)
+		@test_text = SDC::Text.new("Hello,\nWorld", @test_font, 100)
 
 		load_map
 
