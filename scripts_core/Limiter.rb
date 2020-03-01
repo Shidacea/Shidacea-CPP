@@ -12,6 +12,22 @@ module SDC
 			@render_interval = (@max / renders_per_second).to_i
 			@tick_interval = (@max / ticks_per_second).to_i
 			@gc_interval = (@max / gc_per_second).to_i
+
+			@update_block = nil
+			@draw_block = nil
+			@gc_block = nil
+		end
+
+		def set_update_routine(&block)
+			@update_block = block
+		end
+
+		def set_draw_routine(&block)
+			@draw_block = block
+		end
+
+		def set_gc_routine(&block)
+			@gc_block = block
 		end
 
 		# Allow for changes via options, if necessary
@@ -23,28 +39,15 @@ module SDC
 			@timer = Time.now if @counter == 0
 
 			if @counter % @tick_interval == 0 then
-				SDC.scene.process_events
-				SDC.scene.main_update
-
-				if !SDC.next_scene then	# Terminate program
-					SDC.scene.at_exit
-					SDC.scene = nil
-					return false
-				elsif SDC.next_scene != true then	# Change scene
-					SDC.scene.at_exit
-					SDC.scene = SDC.next_scene.new
-					SDC.next_scene = true
-					SDC.scene.at_init
-				end
+				@update_block&.call
 			end
 
 			if @counter % @render_interval == 0 then
-				SDC.scene.main_draw
+				@draw_block&.call
 			end
 
 			if @counter % @gc_interval == 0 then
-				# Initiate garbace collector
-				GC.start
+				@gc_block&.call
 			end
 
 			@counter += 1
