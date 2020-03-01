@@ -2,6 +2,13 @@
 
 cmake_minimum_required(VERSION 3.5)
 
+# Compilation options (for future use)
+
+option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
+option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
+
+# Compile flags
+
 set(CMAKE_SHARED_LINKER_FLAGS
     "${CMAKE_SHARED_LINKER_FLAGS}")
 
