@@ -2,10 +2,13 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-# Compilation options (for future use)
+# Compilation options
 
 option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
 option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
+
+message("Core scripts compilation: ${SHIDACEA_COMPILE_CORE_SCRIPTS}")
+message("All scripts compilation: ${SHIDACEA_COMPILE_ALL_SCRIPTS}")
 
 # Compile flags
 
@@ -30,6 +33,19 @@ else()
 endif()
 
 add_definitions(-DMRB_USE_FLOAT)
+
+if(SHIDACEA_COMPILE_CORE_SCRIPTS)
+
+	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
+
+endif()
+
+if(SHIDACEA_COMPILE_ALL_SCRIPTS)
+
+	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
+	add_definitions(-DSHIDACEA_COMPILE_ALL_SCRIPTS)
+
+endif()
 
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
@@ -78,11 +94,18 @@ add_subdirectory(imgui-sfml)
 
 include_directories(${CMAKE_BINARY_DIR})
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(NOT SHIDACEA_COMPILE_ALL_SCRIPTS)
 
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_include)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_core)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_custom)
+	if(SHIDACEA_COMPILE_CORE_SCRIPTS)
+
+		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_include)
+		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_core)
+
+	else()
+
+		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_custom)
+
+	endif()
 
 endif()
 
@@ -90,9 +113,9 @@ endif()
 # If this is a debug build, copy the ruby files to the build directory
 # Otherwise compile them to bytecode
 
-macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module)
+macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module flag)
 
-	if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+	if(${flag})
 
 		message("Preparing header file: ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h")
 
@@ -110,11 +133,11 @@ macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module)
 
 endmacro()
 
-macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module)
+macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module flag)
 
 	file(GLOB_RECURSE RUBYSCRIPTS_${arg_name} "${CMAKE_SOURCE_DIR}/${arg_path}/*.rb")
 
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	if(NOT ${flag})
 
 		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/${arg_path})
 
@@ -125,7 +148,7 @@ macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module)
 		get_filename_component(${arg_name}_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}} NAME_WE)
 		string(REPLACE "${CMAKE_SOURCE_DIR}/${arg_path}/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}})
 
-		if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+		if(NOT ${flag})
 
 			configure_file(
 				${RUBYSCRIPT_${arg_name}}
@@ -140,13 +163,13 @@ macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module)
 
 	endforeach(RUBYSCRIPT_${arg_name})
 
-	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module})
+	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module} ${flag})
 
 endmacro()
 
-macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module)
+macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module flag)
 
-	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	if(NOT ${flag})
 
 		configure_file(
 			${CMAKE_SOURCE_DIR}/${arg_path}/${arg_module}.rb
@@ -159,21 +182,31 @@ macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module)
 
 	endif()
 		
-	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module})
+	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module} ${flag})
 
 endmacro()
 
 # Load and compile all ruby script folders and single scripts
 
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE scripts_include include Include)
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE scripts_core core Core)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES scripts_custom/resources custom_resources CustomResources)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES scripts_custom/scenes custom_scenes CustomScenes)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES scripts_custom/entities custom_entities CustomEntities)
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER scripts_custom/other custom_other CustomOther)
+if(SHIDACEA_COMPILE_CORE_SCRIPTS OR SHIDACEA_COMPILE_ALL_SCRIPTS)
 
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME scripts_custom custom_game Game)
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN scripts_custom custom_main Main)
+	set(SHIDACEA_COMPILE_CORE ON)
+
+else()
+
+	set(SHIDACEA_COMPILE_CORE OFF)
+
+endif()
+
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE scripts_include include Include ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE scripts_core core Core ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES scripts_custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES scripts_custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES scripts_custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER scripts_custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME scripts_custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN scripts_custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
 # Add external libraries from the SFML source directory
 

@@ -34,18 +34,18 @@ For Windows you need to make sure that the paths leading to ruby.exe and bison.e
 CMake can be obtained using Visual Studio, which is the recommended option.
 Also make sure to avoid path names with spaces in them, as mruby might fail to compile otherwise.
 
-For the time being use "-DCMAKE_BUILD_TYPE=Debug" or "-DCMAKE_BUILD_TYPE=Release" as option for CMake.
-This will be fixed at a later time.
-
 # Usage
 
-There are two different ways to use Shidacea.
+There are three different ways to use Shidacea.
 
 First, you can compile Shidacea without any scripts to a launcher.
 If you want to execute a project of someone else, just download its script files and put them into the custom folder.
 
-The second option is to compile your script files together with the Shidacea engine.
+The second two options are to compile your script files together with the Shidacea engine.
 This allows for more optimized code at the expense of portability.
+To use this, use "-DSHIDACEA_COMPILE_ALL_SCRIPTS" or "-DSHIDACEA_COMPILE_CORE_SCRIPTS" as options for CMake.
+In the first case, all scripts will be compiled into the executable, while in the second case
+only the core scripts will be compiled.
 
 ## Load scripts at runtime
 

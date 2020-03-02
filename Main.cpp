@@ -58,8 +58,8 @@ int main(int argc, char** argv) {
 
 	//! Load Ruby core scripts
 
-	MRB_LOAD_SCRIPT_FOLDER(mrb, include, scripts_include);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, core, scripts_core);
+	MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, include, scripts_include);
+	MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, core, scripts_core);
 
 	//! Load main scripts
 	//! If you want to add something, put it here

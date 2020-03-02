@@ -21,9 +21,12 @@ constexpr char VERSION[] = "0.0.1d";
 //! Includes for compiled Ruby scripts
 //! If you want to add any compiled Ruby script, you need to add it here
 
-#ifdef NDEBUG
+#ifdef SHIDACEA_COMPILE_CORE_SCRIPTS
 #include "compiled_scripts/CompiledRubyInclude.h"
 #include "compiled_scripts/CompiledRubyCore.h"
+#endif
+
+#ifdef SHIDACEA_COMPILE_ALL_SCRIPTS
 #include "compiled_scripts/CompiledRubyCustomResources.h"
 #include "compiled_scripts/CompiledRubyCustomScenes.h"
 #include "compiled_scripts/CompiledRubyCustomEntities.h"

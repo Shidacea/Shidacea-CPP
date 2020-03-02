@@ -26,28 +26,46 @@
 #include <SFML/Graphics.hpp>
 
 //! Preprocessor shenanigans to switch between script file loading and pre-compiled bytecode
-//! If debug mode is on (NDEBUG not defined), the macro will directly load the script file "scripts/XXX.rb"
-//! If debug mode is off, the macro will execute the bytecode in the respective array compiled_ruby_XXX
+//! Possible flags are SHIDACEA_COMPILE_ALL_SCRIPTS and SHIDACEA_COMPILE_CORE_SCRIPTS
+//! If the compile flag is off, the macro will directly load the script file "scripts/XXX.rb"
+//! If the compile flag is on, the macro will execute the bytecode in the respective array compiled_ruby_XXX
 //! In the latter case, don't forget to include "compiled_scripts/XXX.h" (but ONLY then), or else the array will not be defined
 //! Sadly, there is no easy way to circumwent the conditioned include directive
-#ifndef NDEBUG
-#define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, #path ".rb")
-#else
+#if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
 #define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#else
+#define MRB_LOAD_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, #path ".rb")
+#endif
+
+#if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
+#define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#else
+#define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, #path ".rb")
 #endif
 
 //! If there are any scripts in the scripts folder of the release version, load them if DYNAMIC_LOADING is set
 //! This way scripts can be loaded at runtime, e.g. for a precompiled engine
 
-#ifndef NDEBUG
-#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, #path)
-#else
+#if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
 #ifdef DYNAMIC_LOADING
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name); \
 MrbWrap::load_all_scripts_recursively(mrb, #path)
 #else
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
+#else
+#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, #path)
+#endif
+
+#if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
+#ifdef DYNAMIC_LOADING
+#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name); \
+MrbWrap::load_all_scripts_recursively(mrb, #path)
+#else
+#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name)
+#endif
+#else
+#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, #path)
 #endif
 
 //! TODO: Rewrite functions above and includes so that only the core and the custom scenes and entities need to be loaded
