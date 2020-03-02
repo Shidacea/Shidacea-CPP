@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.5)
 option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
 option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
 option(SHIDACEA_EXCLUDE_IMGUI "Excludes ImGui from Shidacea" OFF)
+option(SHIDACEA_EXCLUDE_SFML "Excludes SFML from Shidacea" OFF)	# For future use
 
 # Compile flags
 
@@ -310,7 +311,6 @@ include_directories(
 if(NOT SHIDACEA_EXCLUDE_IMGUI)
 	
 	set(GRAPHICS_SOURCES ${GRAPHICS_SOURCES} ${IMGUI_SOURCES})
-	set(IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
 
 endif()
 
@@ -333,13 +333,19 @@ set(SOURCE_FILES
 
 # Set libraries
 
-set(GRAPHIC_LIBRARIES sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+if(NOT SHIDACEA_EXCLUDE_IMGUI)
+
+	set(IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
+
+endif()
+
+set(SFML_LIBRARIES sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
 
 # Create executable and link libraries
 
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
-target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ${IMGUI_LIBRARIES} ${GRAPHIC_LIBRARIES} ${ADDITIONAL_LIBRARIES})
+target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ${IMGUI_LIBRARIES} ${SFML_LIBRARIES} ${ADDITIONAL_LIBRARIES})
 
 configure_file(
 	Changelog.txt
