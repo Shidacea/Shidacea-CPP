@@ -16,8 +16,10 @@ module SDC
 			SDC.window.clear
 			draw
 
-			SDC.window.imgui_update
-			draw_imgui
+			if SDC.window.imgui_defined? then
+				SDC.window.imgui_update
+				draw_imgui
+			end
 
 			SDC.window.display
 		end

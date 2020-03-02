@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 
 			if (!strncmp(argument, "-v", 2) || !strncmp(argument, "--version", 9)) {
 
-				std::cout << "Shidacea Version: " << VERSION << std::endl;
+				std::cout << "Shidacea Version: " << SHIDACEA_VERSION << std::endl;
 
 			}
 
@@ -54,7 +54,11 @@ int main(int argc, char** argv) {
 	setup_ruby_class_socket(mrb, sdc_module);
 	setup_ruby_class_listener(mrb, sdc_module);
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 	setup_ruby_imgui(mrb, sdc_module);
+
+#endif
 
 	//! Load Ruby core scripts
 
@@ -71,7 +75,7 @@ int main(int argc, char** argv) {
 	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_entities, scripts_custom/entities);
 	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_other, scripts_custom/other);
 
-#ifdef MOD_LOADING
+#ifdef SHIDACEA_MOD_LOADING
 
 	//! Load potential mods
 

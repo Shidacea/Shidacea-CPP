@@ -6,9 +6,7 @@ cmake_minimum_required(VERSION 3.5)
 
 option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
 option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
-
-message("Core scripts compilation: ${SHIDACEA_COMPILE_CORE_SCRIPTS}")
-message("All scripts compilation: ${SHIDACEA_COMPILE_ALL_SCRIPTS}")
+option(SHIDACEA_EXCLUDE_IMGUI "Excludes ImGui from Shidacea" OFF)
 
 # Compile flags
 
@@ -44,6 +42,12 @@ if(SHIDACEA_COMPILE_ALL_SCRIPTS)
 
 	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
 	add_definitions(-DSHIDACEA_COMPILE_ALL_SCRIPTS)
+
+endif()
+
+if(SHIDACEA_EXCLUDE_IMGUI)
+
+	add_definitions(-DSHIDACEA_EXCLUDE_IMGUI)
 
 endif()
 
@@ -85,10 +89,14 @@ add_subdirectory(SFML)
 
 # Load ImGui-SFML, may be a bit hacky, but works
 
-set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/imgui")
-set(SFML_DIR "${CMAKE_BINARY_DIR}")
-set(IMGUI_SFML_FIND_SFML OFF)
-add_subdirectory(imgui-sfml)
+if(NOT SHIDACEA_EXCLUDE_IMGUI)
+
+	set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/imgui")
+	set(SFML_DIR "${CMAKE_BINARY_DIR}")
+	set(IMGUI_SFML_FIND_SFML OFF)
+	add_subdirectory(imgui-sfml)
+
+endif()
 
 # Setup directories
 
@@ -258,6 +266,9 @@ set(GRAPHICS_SOURCES
 	core/graphics/Sprite.cpp
 	core/graphics/Font.cpp
 	core/graphics/Text.cpp
+)
+
+set(IMGUI_SOURCES
 	core/graphics/ImGuiWrapper.cpp
 )
 
@@ -296,6 +307,13 @@ include_directories(
 
 # Load source files
 
+if(NOT SHIDACEA_EXCLUDE_IMGUI)
+	
+	set(GRAPHICS_SOURCES ${GRAPHICS_SOURCES} ${IMGUI_SOURCES})
+	set(IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
+
+endif()
+
 set(SOURCE_FILES 
 	${AUDIO_SOURCES}
 	${GRAPHICS_SOURCES}
@@ -313,11 +331,15 @@ set(SOURCE_FILES
 #
 #)
 
+# Set libraries
+
+set(GRAPHIC_LIBRARIES sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+
 # Create executable and link libraries
 
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
-target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ImGui-SFML::ImGui-SFML sfml-system sfml-window sfml-graphics sfml-audio sfml-network ${ADDITIONAL_LIBRARIES})
+target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ${IMGUI_LIBRARIES} ${GRAPHIC_LIBRARIES} ${ADDITIONAL_LIBRARIES})
 
 configure_file(
 	Changelog.txt

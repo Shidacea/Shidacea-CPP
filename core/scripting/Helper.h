@@ -43,11 +43,11 @@
 #define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbWrap::execute_script_file(mrb, #path ".rb")
 #endif
 
-//! If there are any scripts in the scripts folder of the release version, load them if DYNAMIC_LOADING is set
+//! If there are any scripts in the scripts folder of the release version, load them if SHIDACEA_DYNAMIC_LOADING is set
 //! This way scripts can be loaded at runtime, e.g. for a precompiled engine
 
 #if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
-#ifdef DYNAMIC_LOADING
+#ifdef SHIDACEA_DYNAMIC_LOADING
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name); \
 MrbWrap::load_all_scripts_recursively(mrb, #path)
 #else
@@ -58,7 +58,7 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 #endif
 
 #if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
-#ifdef DYNAMIC_LOADING
+#ifdef SHIDACEA_DYNAMIC_LOADING
 #define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbWrap::execute_bytecode(mrb, compiled_ruby_##name); \
 MrbWrap::load_all_scripts_recursively(mrb, #path)
 #else

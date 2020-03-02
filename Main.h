@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-constexpr char VERSION[] = "0.0.1d";
+constexpr char SHIDACEA_VERSION[] = "0.0.1d";
 
 //! Mandatory includes if you want anything to work at all
 
@@ -8,12 +8,13 @@ constexpr char VERSION[] = "0.0.1d";
 #include <iostream>
 
 //! Uncomment the following line if you want to allow dynamic script loading
+//! WARNING: Will probably be removed
 
-//#define DYNAMIC_LOADING
+//#define SHIDACEA_DYNAMIC_LOADING
 
 //! Uncomment the following line if you want to allow mod loading
 
-//#define MOD_LOADING
+//#define SHIDACEA_MOD_LOADING
 
 #include "Definitions.h"
 #include "Helper.h"
@@ -55,5 +56,8 @@ constexpr char VERSION[] = "0.0.1d";
 #include "Texture.h"
 #include "MapLayer.h"
 #include "Tileset.h"
-#include "ImGuiWrapper.h"
 #include "Music.h"
+
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+#include "ImGuiWrapper.h"
+#endif

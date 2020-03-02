@@ -57,7 +57,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 		ImGui::SFML::Init(*window);
+
+#endif
 
 		return self;
 
@@ -76,7 +80,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 		ImGui::SFML::Render(*window);
+
+#endif
 
 		window->display();
 
@@ -89,7 +97,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 		auto clock = MrbWrap::convert_from_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 		ImGui::SFML::Update(*window, clock->restart());
+
+#endif
 
 		return mrb_nil_value();
 
@@ -100,7 +112,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		auto args = MrbWrap::get_converted_args<float>(mrb);
 		auto scale = std::get<0>(args);
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 		ImGui::GetIO().FontGlobalScale = scale;
+
+#endif
 
 		return mrb_nil_value();
 
@@ -115,7 +131,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 		window->close();
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 		ImGui::SFML::Shutdown();
+
+#endif
 
 		return mrb_nil_value();
 
@@ -155,7 +175,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		if (success) {
 
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
 			ImGui::SFML::ProcessEvent(*event);
+#endif
+
 			return new_event;
 
 		} else {
@@ -211,5 +235,19 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::hasFocus>(mrb, "has_focus?");
 
 	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVisible, bool>(mrb, "visible=");
+
+	MrbWrap::define_mruby_function(mrb, ruby_window_class, "imgui_defined?", MRUBY_FUNC {
+
+#ifdef SHIDACEA_EXCLUDE_IMGUI
+
+		return mrb_false_value();
+
+#else
+
+		return mrb_true_value();
+
+#endif
+
+	}, MRB_ARGS_NONE());
 
 }

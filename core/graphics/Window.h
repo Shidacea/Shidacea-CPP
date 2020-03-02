@@ -4,8 +4,12 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "imgui.h"
-#include "imgui-SFML.h"
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
+	#include "imgui.h"
+	#include "imgui-SFML.h"
+
+#endif
 
 #include "Sprite.h"
 #include "MapLayer.h"
