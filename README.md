@@ -111,11 +111,28 @@ Functions may reference other classes, but you should put inherited classes insi
 The order of loading the script folders is: 
 scripts_include -> scripts_core -> scripts_custom/resources -> scripts_custom/scenes -> scripts_custom/entities -> scripts_custom/other -> scripts_custom/Game.rb -> scripts_custom/Main.rb
 
-## Linux
+## Linux troubleshooting
 
 This project should (read: SHOULD) run on Linux systems.
 However, several libraries are required to do so (see documentation for SFML).
+Some problems are discussed below.
 
-Tested distributions:
-* WSL Ubuntu 18.04 (yep, it DOES work, but only if you install GCC 8 and all libraries required for SFML, and you also need an XServer)
-* Manjaro 18.1.0 (works out of the box, only CMake was missing)
+### Dependencies are missing when generating or compiling
+
+Make sure that g++, Ruby, Bison and CMake are installed properly. 
+Also visit the SFML documentation to check for requirements.
+If the filesystem library is missing, g++ needs to be updated to version 8 or higher.
+If the problem persists after installing the missing libraries and programs, you may want to reboot and try again.
+
+### Executables trigger a segmentation fault on WSL
+
+Shidacea may not work correctly on WSL despite a successful compilation.
+If a segmentation fault occurs on WSL, change the XServer application to another one.
+The segmentation fault issue is known to occur on XMing, for example.
+The Windows store application X410 works fine, but is not free.
+Reverting SFML to an earlier version can also work.
+
+### Other problems
+
+Please report your problem as an issue if your problem is none of the above or none of the solutions worked.
+Shidacea aims to be compatible to as many platforms as possible, so please help reaching this goal.
