@@ -132,6 +132,13 @@ The segmentation fault issue is known to occur on XMing, for example.
 The Windows store application X410 works fine, but is not free.
 Reverting SFML to an earlier version can also work.
 
+### Shidacea yields other error messages on WSL
+
+Try the solution above first.
+If that does not help, the command "export LIBGL_ALWAYS_INDIRECT=" might help, too.
+Also make sure to properly connect your WSL with the correct XServer and a PulseAudio server.
+If Shidacea runs otherwise flawlessly, some errors are completely normal.
+
 ### Other problems
 
 Please report your problem as an issue if your problem is none of the above or none of the solutions worked.
