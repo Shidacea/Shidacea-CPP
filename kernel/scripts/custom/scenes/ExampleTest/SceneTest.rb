@@ -59,11 +59,11 @@ class SceneTest < SDC::Scene
 
 		@counter = 0
 
-		@music = SDC::Data.load_music(:TestMusic, filename: "assets/music/Example.wav")
+		@music = SDC::Data.load_music(:TestMusic, filename: "kernel/assets/music/Example.wav")
 		@music.looping = true
 
 		@test_font = SDC::Font.new
-		@test_font.load_from_file("assets/fonts/arial.ttf")
+		@test_font.load_from_file("kernel/assets/fonts/arial.ttf")
 		@test_text = SDC::Text.new("Hello,\nWorld", @test_font, 100)
 
 		load_map

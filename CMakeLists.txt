@@ -207,15 +207,15 @@ else()
 
 endif()
 
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE kernel_scripts/include include Include ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE kernel_scripts/core core Core ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES kernel_scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES kernel_scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES kernel_scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER kernel_scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE kernel/scripts/include include Include ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE kernel/scripts/core core Core ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES kernel/scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES kernel/scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES kernel/scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER kernel/scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME kernel_scripts/custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN kernel_scripts/custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME kernel/scripts/custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN kernel/scripts/custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
 # Add external libraries from the SFML source directory
 
@@ -237,7 +237,7 @@ endif()
 
 # Copy all asset files and preserve their tree structure
 
-file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/assets/*.*")
+file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/kernel/assets/*.*")
 
 foreach(ASSET_FILE ${ASSET_FILES})
 
