@@ -1,13 +1,25 @@
 [submodule "mruby"]
-	path = mruby
+	path = third_party/mruby
 	url = https://github.com/mruby/mruby
 	branch = master
 [submodule "SFML"]
-	path = SFML
+	path = third_party/SFML
 	url = https://github.com/SFML/SFML
 [submodule "imgui"]
-	path = imgui
+	path = third_party/imgui
 	url = https://github.com/ocornut/imgui
 [submodule "imgui-sfml"]
-	path = imgui-sfml
+	path = third_party/imgui-sfml
+	url = https://github.com/eliasdaler/imgui-sfml
+[submodule "third_party/mruby"]
+	path = third_party/mruby
+	url = https://github.com/mruby/mruby
+[submodule "third_party/SFML"]
+	path = third_party/SFML
+	url = https://github.com/SFML/SFML
+[submodule "third_party/imgui"]
+	path = third_party/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "third_party/imgui-sfml"]
+	path = third_party/imgui-sfml
 	url = https://github.com/eliasdaler/imgui-sfml
