@@ -22,12 +22,12 @@ set(CMAKE_EXE_LINKER_FLAGS
 if(WIN32)
 	
 	set(ADDITIONAL_LIBRARIES sfml-main Ws2_32)
-	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.lib")
+	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/third_party/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/third_party/mruby/lib/libmruby_core.lib")
 
 else()
 
 	set(ADDITIONAL_LIBRARIES stdc++fs)
-	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/mruby/lib/libmruby.a" "${CMAKE_BINARY_DIR}/mruby/lib/libmruby_core.a")
+	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/third_party/mruby/lib/libmruby.a" "${CMAKE_BINARY_DIR}/third_party/mruby/lib/libmruby_core.a")
 
 endif()
 
@@ -72,30 +72,30 @@ find_program(BISON_EXECUTABLE bison)
 # Load mRuby
 
 ExternalProject_Add(mruby
-  PREFIX "${CMAKE_BINARY_DIR}/mruby"
+  PREFIX "${CMAKE_BINARY_DIR}/third_party/mruby"
   DOWNLOAD_COMMAND ""
   UPDATE_COMMAND ""
   BUILD_IN_SOURCE 1
-  SOURCE_DIR "${CMAKE_SOURCE_DIR}/mruby" 
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/third_party/mruby" 
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${RUBY_EXECUTABLE} minirake MRUBY_BUILD_DIR=${CMAKE_BINARY_DIR}/mruby MRUBY_CONFIG=${CMAKE_SOURCE_DIR}/mruby_build_config.rb
+  BUILD_COMMAND ${RUBY_EXECUTABLE} minirake MRUBY_BUILD_DIR=${CMAKE_BINARY_DIR}/third_party/mruby MRUBY_CONFIG=${CMAKE_SOURCE_DIR}/mruby_build_config.rb
   INSTALL_COMMAND ""
   BUILD_BYPRODUCTS "${MRUBY_LIBRARIES}")
-include_directories("${CMAKE_SOURCE_DIR}/mruby/include")
+include_directories("${CMAKE_SOURCE_DIR}/third_party/mruby/include")
 
 # Load SFML libraries
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-add_subdirectory(SFML)
+add_subdirectory(third_party/SFML)
 
 # Load ImGui-SFML, may be a bit hacky, but works
 
 if(NOT SHIDACEA_EXCLUDE_IMGUI)
 
-	set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/imgui")
+	set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/third_party/imgui")
 	set(SFML_DIR "${CMAKE_BINARY_DIR}")
 	set(IMGUI_SFML_FIND_SFML OFF)
-	add_subdirectory(imgui-sfml)
+	add_subdirectory(third_party/imgui-sfml)
 
 endif()
 
@@ -130,8 +130,8 @@ macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module flag)
 
 		add_custom_target(TargetRuby${arg_module}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-			COMMAND ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${COMPILED_RUBY_${arg_name}_SCRIPTS} 
-			|| ${CMAKE_BINARY_DIR}/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/core/Void.rb
+			COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${COMPILED_RUBY_${arg_name}_SCRIPTS} 
+			|| ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/core/Void.rb
 			DEPENDS ${COMPILED_RUBY_${arg_name}_SCRIPTS} mruby
 			VERBATIM
 		)
@@ -207,15 +207,15 @@ else()
 
 endif()
 
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE scripts_include include Include ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE scripts_core core Core ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES scripts_custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES scripts_custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES scripts_custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER scripts_custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE kernel_scripts/include include Include ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE kernel_scripts/core core Core ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES kernel_scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES kernel_scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES kernel_scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER kernel_scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME scripts_custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN scripts_custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME kernel_scripts/custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN kernel_scripts/custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
 # Add external libraries from the SFML source directory
 
@@ -223,12 +223,12 @@ if(WIN32)
 
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-		file(COPY ${CMAKE_SOURCE_DIR}/SFML/extlibs/bin/x64/openal32.dll
+		file(COPY ${CMAKE_SOURCE_DIR}/third_party/SFML/extlibs/bin/x64/openal32.dll
 		DESTINATION ${CMAKE_BINARY_DIR})
 
 	else()
 
-		file(COPY ${CMAKE_SOURCE_DIR}/SFML/extlibs/bin/x86/openal32.dll
+		file(COPY ${CMAKE_SOURCE_DIR}/third_party/SFML/extlibs/bin/x86/openal32.dll
 		DESTINATION ${CMAKE_BINARY_DIR})
 
 	endif()
