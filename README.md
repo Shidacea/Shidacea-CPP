@@ -43,7 +43,7 @@ If you want to execute a project of someone else, just download its script files
 
 The second two options are to compile your script files together with the Shidacea engine.
 This allows for more optimized code at the expense of portability.
-To use this, use "-DSHIDACEA_COMPILE_ALL_SCRIPTS" or "-DSHIDACEA_COMPILE_CORE_SCRIPTS" as options for CMake.
+To use this, use `-DSHIDACEA_COMPILE_ALL_SCRIPTS` or `-DSHIDACEA_COMPILE_CORE_SCRIPTS` as options for CMake.
 In the first case, all scripts will be compiled into the executable, while in the second case
 only the core scripts will be compiled.
 
@@ -135,7 +135,7 @@ Reverting SFML to an earlier version can also work.
 ### Shidacea yields other error messages on WSL
 
 Try the solution above first.
-If that does not help, the command "export LIBGL_ALWAYS_INDIRECT=" might help, too.
+If that does not help, the command `export LIBGL_ALWAYS_INDIRECT=` might help, too.
 Also make sure to properly connect your WSL with the correct XServer and a PulseAudio server.
 If Shidacea runs otherwise flawlessly, some errors are completely normal.
 
