@@ -19,12 +19,14 @@ int main(int argc, char** argv) {
 		return 0;
 	}
 
-	auto mrb = mrb_open();
-	auto sdc_module = mrb_define_module(mrb, "SDC");
-
 	//! Load wrapped classes and Ruby scripts
 	//! These are the fundament of Shidacea, so you should know what you're doing if you change these
+
+	auto mrb = mrb_open();
+	auto sdc_module = mrb_define_module(mrb, "SDC");
 	
+	setup_ruby_script_module(mrb, sdc_module);
+
 	setup_ruby_class_intrect(mrb, sdc_module);
 	setup_ruby_class_floatrect(mrb, sdc_module);
 

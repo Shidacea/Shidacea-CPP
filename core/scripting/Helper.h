@@ -98,6 +98,7 @@ namespace MrbWrap {
 	//! Easiest way to execute script files, but also the slowest
 	void execute_script_file(mrb_state* mrb, std::string const& filename);
 
+	//! TODO: Future option for projects?
 	//! Execute a file containing mruby bytecode
 	//! WARNING: Does not work correctly for some reason, so this should NEVER be used!
 	[[deprecated("May not work in many situations")]] void execute_bytecode_file(mrb_state* mrb, std::string const& filename);

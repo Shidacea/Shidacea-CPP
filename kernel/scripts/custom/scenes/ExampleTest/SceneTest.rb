@@ -18,9 +18,6 @@ class SceneTest < SDC::Scene
 		if SDC::key_pressed?(:F10) then
 			SDC.window.set_imgui_scale(2.0)
 
-		elsif SDC::key_pressed?(:Enter) then
-			@entities[0].position.x += 30
-
 		elsif SDC::key_pressed?(:R) then
 			@entities[0].sprites[0].rotation += 0.5
 		

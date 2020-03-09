@@ -86,7 +86,7 @@ void MrbWrap::load_all_scripts_recursively(mrb_state* mrb, std::string path) {
 
 	if (!std::filesystem::exists(complete_path)) {
 
-		//! TODO: Error message
+		std::cout << "Ignored empty path: " << path << std::endl;
 
 	} else {
 

@@ -295,6 +295,7 @@ set(INTERNAL_SOURCES
 
 set(SCRIPTING_SOURCES
 	core/scripting/Helper.cpp
+	core/scripting/Script.cpp
 )
 
 include_directories(
