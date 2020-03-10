@@ -2,15 +2,17 @@
 
 What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasion 2.
 
-This repository is a template for game projects. Depending on your level of knowledge and desire to mess around with my code, you can do several things:
+This repository is an engine, a template for game projects and also a launcher for custom projects.
+Depending on your level of knowledge and desire to mess around with my code, you can do several things:
 
-* Just change the main mruby scripts and some configuration files to launch your game directly
-* Change the core mruby scripts and add new ones
-* Change stuff in the C++ wrapper files
-* Dive into mruby and SFML and modify them
+* Download projects from other people and launch them using an executable of Shidacea
+* Write your own project using mruby scripts and test them directly
+* Change the core mruby scripts of Shidacea and add new ones
+* Wrap your own methods in C++ using the MrbWrap modules
+* Dive into mruby or one of the submodules and modify them
 * Disassemble the whole thing, write some assembly code and segfault yourself into oblivion (not recommended)
 
-Overall, this engine was designed to appeal to many people instead of a single group. 
+Overall, this engine was designed to appeal to many people instead of just a single group. 
 However, a certain degree of knowledge about Ruby is needed.
 
 # Idea and history
@@ -20,6 +22,12 @@ It aims to combine the beauty of Ruby for scripting with the speed of C++ for cr
 
 The original purpose of this engine was to serve as a backbone to Inuhh Shinvasion 2, but it quickly became its own thing.
 Even if the original idea was to create a Jump'n'run game, it can technically be used for any 2D project.
+
+The final version will include the following components:
+
+* Shidacea - The main engine
+* Launchi - A launcher for custom projects
+* Hyashi - A level editor
 
 # Requirements
 
@@ -39,13 +47,12 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 There are three different ways to use Shidacea.
 
 First, you can compile Shidacea without any scripts to a launcher.
-If you want to execute a project of someone else, just download its script files and put them into the custom folder.
+If you want to execute a project from someone else, just download its script files and put them into the custom folder.
 
 The second two options are to compile your script files together with the Shidacea engine.
 This allows for more optimized code at the expense of portability.
 To use this, use `-DSHIDACEA_COMPILE_ALL_SCRIPTS` or `-DSHIDACEA_COMPILE_CORE_SCRIPTS` as options for CMake.
-In the first case, all scripts will be compiled into the executable, while in the second case
-only the core scripts will be compiled.
+In the first case, all scripts will be compiled into the executable, while in the second case only the core scripts will be compiled.
 
 ## Load scripts at runtime
 
@@ -70,7 +77,6 @@ Disadvantages:
 * Your projects need to be recompiled every time you change a script
 * You need to have at least basic knowledge about C++ compiling and CMake
 * Your project needs to be recompiled for each platform
-
 
 # Properties
 
@@ -100,11 +106,11 @@ Disadvantages:
 ## Submodules
 
 If you download this repository, make sure to download the submodules as well, since a simple download won't include them.
-The best way to use Shidacea is to fork it and use Git for maintaining it and updating the submodules.
+The best way to use Shidacea is to fork it and use Git for maintaining it and updating the submodules (e.g. using `git clone --recursive`).
 
 ## Loading other mruby script files
 
-The ruby instruction `require` is NOT available (adding it as a gem would be possible, but not applicable to the concept of pre-compiled bytecode).
+The ruby instruction `require` is currently NOT available (adding it as a gem would be possible, but not applicable to the concept of pre-compiled bytecode).
 This means that you need to write files with no direct dependencies, as they could be loaded in an arbitrary order.
 Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
 
