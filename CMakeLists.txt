@@ -252,6 +252,25 @@ foreach(ASSET_FILE ${ASSET_FILES})
 
 endforeach(ASSET_FILE)
 
+# Copy the demo projects
+
+file(GLOB_RECURSE DEMO_FILES "${CMAKE_SOURCE_DIR}/demo_projects/*.*")
+
+foreach(DEMO_FILE ${DEMO_FILES})
+
+	string(REPLACE "${CMAKE_SOURCE_DIR}/" "" TRUNCATED_DEMO_FILE ${DEMO_FILE})
+
+	configure_file(
+	
+		${TRUNCATED_DEMO_FILE}
+		${TRUNCATED_DEMO_FILE}
+
+	COPYONLY)
+
+endforeach(DEMO_FILE)
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/projects)
+
 # Source files
 
 set(AUDIO_SOURCES
