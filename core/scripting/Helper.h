@@ -22,6 +22,7 @@
 #include "FormatString.h"
 #include "ClassInfo.h"
 #include "MemberSpec.h"
+#include "FileString.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -81,6 +82,7 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 
 #define MRBW_OPT MrbWrap::DefaultWrap
 #define MRBW_RAT_OPT MrbWrap::RationalDefaultWrap
+#define MRBW_FILE MrbWrap::FileString
 
 namespace MrbWrap {
 
@@ -339,6 +341,7 @@ namespace MrbWrap {
 
 	template <> struct CastToRuby<bool> { using type = mrb_bool; };
 	template <> struct CastToRuby<std::string> { using type = char*; };
+	template <> struct CastToRuby<FileString> { using type = char*; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { using type = mrb_float; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_integral_v<T>>::type> { using type = mrb_int; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { using type = mrb_value; };
@@ -365,6 +368,10 @@ namespace MrbWrap {
 
 			return arg;
 
+		} else if constexpr (std::conjunction_v<std::is_same<C, FileString>, std::is_same<Dest, char*>>) {
+
+			return const_cast<char*>(arg.content.c_str());
+
 		} else if constexpr (std::is_same_v<Dest, std::string>) {
 
 			return std::string(arg);
@@ -372,6 +379,17 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, char*>) {
 
 			return const_cast<char*>(arg.c_str());
+
+		} else if constexpr (std::is_same_v<Dest, FileString>) {
+
+			//! TODO: Cache these maybe
+
+			//! This is a really vile solution, but it pays out massively.
+
+			auto script_module = mrb_module_get_under(mrb, mrb_module_get(mrb, "SDC"), "Script");
+			auto path = mrb_mod_cv_get(mrb, script_module, mrb_intern_static(mrb, "@@_path", strlen("@@_path")));
+
+			return std::string(mrb_string_cstr(mrb, path)) + std::string("/") + std::string(arg);
 
 		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
 
@@ -407,6 +425,10 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, char*>) {
 
 			return const_cast<char*>(arg.c_str());
+
+		} else if constexpr (std::is_same_v<Dest, FileString>) {
+
+			return std::string(arg);
 
 		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
 

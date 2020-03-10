@@ -4,7 +4,7 @@ class TestEntity < SDC::Entity
 	add_shape(index: 0, type: SDC::ShapeCircle, radius: 25.0)
 	add_box(index: 0, size: SDC::Coordinates.new(25.0, 25.0))
 
-	SDC::Data.preload_texture(:EntityChishi, "kernel/assets/graphics/test/Chishi.png")
+	SDC::Data.preload_texture(:EntityChishi, "assets/graphics/test/Chishi.png")
 
 	add_sprite(index: 0, texture_index: :EntityChishi, offset: SDC::Coordinates.new(-25.0, -25.0), rect: SDC::IntRect.new(0, 0, 50, 50))
 

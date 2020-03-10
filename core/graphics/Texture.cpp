@@ -17,14 +17,23 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 		auto texture = MrbWrap::convert_from_object<sf::Texture>(mrb, self);
 
+		//! TODO: Simplifiy
+
+		auto script_module = mrb_module_get_under(mrb, mrb_module_get(mrb, "SDC"), "Script");
+		auto path = mrb_mod_cv_get(mrb, script_module, mrb_intern_static(mrb, "@@_path", strlen("@@_path")));
+
+		auto path_file_name = std::string(mrb_string_cstr(mrb, path)) + std::string("/") + std::string(filename);
+
+		//! TODO: Check for missing files, so that tilesets don't yield div by zero errors, for example
+
 		if (mrb_nil_p(intrect)) {
 
-			texture->loadFromFile(filename);	//! TODO: Find out why this yields a warning
+			texture->loadFromFile(path_file_name);	//! TODO: Find out why this yields a warning
 
 		} else {
 
 			auto intrect_value = MrbWrap::convert_from_object<sf::IntRect>(mrb, intrect);
-			texture->loadFromFile(filename, static_cast<sf::IntRect>(*intrect_value));	//! May not work everywhere, test it!
+			texture->loadFromFile(path_file_name, static_cast<sf::IntRect>(*intrect_value));	//! May not work everywhere, test it!
 
 		}
 

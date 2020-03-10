@@ -5,6 +5,7 @@
 
 #include "DefaultWrap.h"
 #include "StaticString.h"
+#include "FileString.h"
 
 //! Templates to generate mruby argument format strings
 
@@ -26,6 +27,7 @@ namespace MrbWrap {
 	template <> struct FormatChar<bool> { constexpr static const char value = 'b'; };
 	template <> struct FormatChar<const char*> { constexpr static const char value = 'z'; };
 	template <> struct FormatChar<std::string> { constexpr static const char value = 'z'; };
+	template <> struct FormatChar<FileString> { constexpr static const char value = 'z'; };
 	template <class T> struct FormatChar<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { constexpr static const char value = 'f'; };
 	template <class T> struct FormatChar<T, typename std::enable_if<std::is_integral_v<T>>::type> { constexpr static const char value = 'i'; };
 	template <class T> struct FormatChar<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { constexpr static const char value = 'o'; };

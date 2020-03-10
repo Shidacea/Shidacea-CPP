@@ -1,6 +1,6 @@
 tileset = SDC::Tileset.new
 
-SDC::Data.preload_texture(:TilesetDefault, "kernel/assets/graphics/maptest/Tileset.png")
+SDC::Data.preload_texture(:TilesetDefault, "assets/graphics/maptest/Tileset.png")
 
 8.times {tileset.add_tile(SDC::CustomTile.new)}
 tileset.tiles[3].solid = true
