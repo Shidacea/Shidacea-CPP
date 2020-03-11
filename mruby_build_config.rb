@@ -8,6 +8,8 @@ MRuby::Build.new do |conf|
 
   conf.gembox 'default'
 
+  conf.gem :mgem => 'json'
+
   conf.cc.flags << '-DMRB_USE_FLOAT'
 
   conf.build_dir = ENV["MRUBY_BUILD_DIR"] || raise("MRUBY_BUILD_DIR undefined!")

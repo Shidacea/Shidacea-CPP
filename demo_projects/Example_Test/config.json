@@ -1,0 +1,13 @@
+{
+	"name": "Shidacea test project",
+
+	"description": "A simple test project to demonstrate the capabilities of Shidacea.",
+
+	"scripts": [
+		"scripts/custom/resources/",
+		"scripts/custom/scenes/",
+		"scripts/custom/entities/",
+		"scripts/custom/Game.rb",
+		"scripts/custom/Main.rb"
+	]
+}

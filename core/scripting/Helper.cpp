@@ -1,5 +1,7 @@
 #include "Helper.h"
 
+//! TODO: Add consistent log messages
+
 void MrbWrap::execute_string(mrb_state* mrb, std::string const& code) {
 
 	mrb_load_string(mrb, code.c_str());
@@ -11,8 +13,6 @@ void MrbWrap::execute_bytecode_file(mrb_state* mrb, std::string const& filename)
 	auto f = fopen(filename.c_str(), "r");
 	
 	if (!f) {
-
-		//! TODO: Error handling
 
 	}
 
@@ -33,9 +33,6 @@ void MrbWrap::execute_script_file(mrb_state* mrb, std::string const& filename) {
 	auto f = fopen(filename.c_str(), "r");
 
 	if (!f) {
-
-		std::cerr << "ERROR loading file: " << filename << std::endl;
-		//! TODO: Error handling
 
 	}
 
@@ -58,18 +55,12 @@ void MrbWrap::load_mods(mrb_state* mrb) {
 
 	if (!std::filesystem::exists(mod_path)) {
 
-		std::clog << "No mod folder found." << std::endl;
-
-	}
-	else {
-
-		std::clog << "Mod folder found. Loading mod files..." << std::endl;
+	} else {
 
 		for (const auto& entry : std::filesystem::recursive_directory_iterator(mod_path)) {
 
 			if (std::filesystem::is_directory(entry)) continue;
 
-			std::cout << "Loading file: " << entry << std::endl;
 			const std::string str = entry.path().string();
 			MrbWrap::execute_script_file(mrb, str);
 
@@ -85,8 +76,6 @@ void MrbWrap::load_all_scripts_recursively(mrb_state* mrb, std::string path) {
 	auto complete_path = current_path / path;
 
 	if (!std::filesystem::exists(complete_path)) {
-
-		std::cout << "Ignored empty path: " << path << std::endl;
 
 	} else {
 
