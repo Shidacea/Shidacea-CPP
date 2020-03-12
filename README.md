@@ -26,7 +26,7 @@ Even if the original idea was to create a Jump'n'run game, it can technically be
 The final version will include the following components:
 
 * Shidacea - The main engine
-* Launchi - A launcher for custom projects
+* Launshi - A launcher for custom projects
 * Hyashi - A level editor
 
 # Requirements

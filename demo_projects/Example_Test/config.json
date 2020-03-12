@@ -1,7 +1,36 @@
 {
-	"name": "Shidacea test project",
+	"title": "Shidacea test project",
 
-	"description": "A simple test project to demonstrate the capabilities of Shidacea.",
+	"subtitle": "Testing environment for Shidacea and its extensions",
+
+	"description": "A simple test project to demonstrate the capabilities of Shidacea.\nStart it and play around with the options.",
+
+	"genre": "demo",
+
+	"project_version": "0.0.1d",
+
+	"shidacea_version": "0.0.1d",
+
+	"developers": [
+		"Hadeweka"
+	],
+
+	"year": 2020,
+
+	"keywords": [
+		"test"
+	],
+
+	"thumbnail": "",
+
+	"screenshots": [
+		{
+			"file": "",
+			"caption": "Dummy"
+		}
+	],
+
+	"jingle": "",
 
 	"scripts": [
 		"scripts/custom/resources/",

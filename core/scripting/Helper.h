@@ -210,9 +210,9 @@ namespace MrbWrap {
 	//! Use this in callbacks
 	template <class T> T* convert_from_object(mrb_state* mrb, mrb_value self) {
 
-		auto type = DATA_TYPE(self);
-
 		verify_type<T>(mrb, self);
+
+		auto type = DATA_TYPE(self);
 
 		return static_cast<T*>(mrb_data_get_ptr(mrb, self, type));
 

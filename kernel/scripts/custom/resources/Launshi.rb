@@ -18,11 +18,7 @@ module SDC
 		end
 
 		def self.load_scripts(config)
-			name = config["name"]
-			scripts = config["scripts"]
-			description = config["description"]
-
-			scripts.each do |script|
+			config["scripts"]&.each do |script|
 				if script.end_with?("/") then
 					SDC::Script.load_recursively(script.chop)
 				elsif script.end_with?(".rb") then
