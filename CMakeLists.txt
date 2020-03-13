@@ -57,7 +57,7 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 # Project name
 
 project(NewProject)
-set(EXECUTABLE_NAME "NewProject")
+set(EXECUTABLE_NAME "Launshi")
 
 # C++ Standard
 
