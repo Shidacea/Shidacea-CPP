@@ -124,7 +124,7 @@ module SDC
 
 		elsif index then
 			texture = SDC::Data.textures[index]
-			puts "Warning: Texture index #{index} not loaded."
+			puts "Warning: Texture index #{index} not loaded." if !texture
 
 		else
 			raise("No arguments given for texture drawing")
