@@ -110,4 +110,29 @@ module SDC
 		@game.multiply_variable(index, value, default: default)
 	end
 
+	# Other utility methods for rapid development
+
+	def self.draw_texture(index: nil, filename: nil, coordinates: Coordinates.new)
+		texture = nil
+		if filename then
+			if index then
+				texture = SDC::Data.load_texture(index, filename: filename)
+			else
+				# TODO: Maybe transfer this ability into the Data class itself for the case of index = 0
+				texture = SDC::Data.load_texture((SDC::Data::SYMBOL_PREFIX + filename).to_sym, filename: filename)
+			end
+
+		elsif index then
+			texture = SDC::Data.textures[index]
+			puts "Warning: Texture index #{index} not loaded."
+
+		else
+			raise("No arguments given for texture drawing")
+
+		end
+
+		sprite = Sprite.new
+		sprite.link_texture(texture)
+		SDC.window.draw_translated(sprite, coordinates)
+	end
 end

@@ -1,6 +1,9 @@
 module SDC
 	module Data
 
+		# If an actual symbol is not needed, e.g. for one-time draw routines
+		SYMBOL_PREFIX = "_UNKNOWN_"
+
 		extend SDCMeta::DataStorage
 
 		self.define_new_data_type(:entity, plural: :entities, as_hash: true)
