@@ -1,0 +1,48 @@
+{
+	"title": "Shooting game",
+
+	"subtitle": "A shooter as a test project",
+
+	"description": "TODO",
+
+	"genres": [
+		"Demo",
+		"Shooter"
+	],
+
+	"project_version": "0.0.1d",
+
+	"shidacea_version": "0.0.1d",
+
+	"developers": [
+		"Hadeweka"
+	],
+
+	"year": 2020,
+
+	"keywords": [
+		"test",
+		"imgui",
+		"sfml",
+		"shooter"
+	],
+
+	"thumbnail": "",
+
+	"screenshots": [
+		{
+			"file": "",
+			"caption": "Dummy"
+		}
+	],
+
+	"jingle": "",
+
+	"scripts": [
+		"scripts/custom/resources/",
+		"scripts/custom/scenes/",
+		"scripts/custom/entities/",
+		"scripts/custom/Game.rb",
+		"scripts/custom/Main.rb"
+	]
+}

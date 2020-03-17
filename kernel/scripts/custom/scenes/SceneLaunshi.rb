@@ -58,7 +58,7 @@ module SDC
 					next if !config
 
 					SDC.draw_texture(filename: "assets/graphics/FrameGame.png", coordinates: SDC::Coordinates.new(400, i*180))
-					SDC.draw_texture(index: config.path.to_sym, coordinates: SDC::Coordinates.new(426, i*180 + 26))
+					SDC.draw_texture(index: config.path.to_sym, coordinates: SDC::Coordinates.new(426, i*180 + 26)) if config.json["thumbnail"] && !config.json["thumbnail"].empty?
 					
 					# Information block
 
