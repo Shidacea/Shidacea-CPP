@@ -112,7 +112,7 @@ module SDC
 
 	# Other utility methods for rapid development
 
-	def self.draw_texture(index: nil, filename: nil, coordinates: Coordinates.new)
+	def self.draw_texture(index: nil, filename: nil, coordinates: SDC::Coordinates.new)
 		texture = nil
 		if filename then
 			if index then
@@ -134,5 +134,12 @@ module SDC
 		sprite = Sprite.new
 		sprite.link_texture(texture)
 		SDC.window.draw_translated(sprite, coordinates)
+	end
+
+	# TODO: Extend and cache
+	def self.draw_text(font_index: nil, text: "", size: 10, coordinates: SDC::Coordinates.new)
+		font = SDC::Data.fonts[font_index]
+		text = SDC::Text.new(text, font, size)
+		SDC.window.draw_translated(text, coordinates)
 	end
 end

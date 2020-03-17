@@ -9,6 +9,7 @@ MRuby::Build.new do |conf|
   conf.gembox 'default'
 
   conf.gem :mgem => 'json'
+  conf.gem :mgem => 'dir'
 
   conf.cc.flags << '-DMRB_USE_FLOAT'
 

@@ -5,7 +5,9 @@
 
 	"description": "A simple test project to demonstrate the capabilities of Shidacea.\nStart it and play around with the options.",
 
-	"genre": "demo",
+	"genres": [
+		"Demo" 
+	],
 
 	"project_version": "0.0.1d",
 
@@ -18,7 +20,9 @@
 	"year": 2020,
 
 	"keywords": [
-		"test"
+		"test",
+		"imgui",
+		"sfml"
 	],
 
 	"thumbnail": "assets/graphics/project/Thumbnail.png",

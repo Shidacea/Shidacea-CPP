@@ -7,6 +7,7 @@ module SDC
 		extend SDCMeta::DataStorage
 
 		self.define_new_data_type(:entity, plural: :entities, as_hash: true)
+		self.define_new_data_type(:font, as_hash: true)
 		self.define_new_data_type(:text)
 		self.define_new_data_type(:tileset, as_hash: true)
 		self.define_new_data_type(:texture, as_hash: true)
@@ -49,6 +50,18 @@ module SDC
 		def self.preload_music(file_index, filename)
 			self.add_filename(filename, index: file_index)
 			self.load_music(file_index)
+		end
+
+		def self.load_font(file_index, filename: nil)
+			filename = self.filenames[file_index] if !filename
+
+			if !self.fonts[file_index] then
+				font = SDC::Font.new
+				font.load_from_file(filename)
+				self.add_font(font, index: file_index)
+			end
+
+			return self.fonts[file_index]
 		end
 
 	end
