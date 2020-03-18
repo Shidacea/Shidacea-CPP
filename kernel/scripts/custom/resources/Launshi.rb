@@ -27,7 +27,6 @@ module SDC
 					config_file_name = path + "/" + entry + "/" + PROJECT_FILE_NAME
 
 					if File.exist?(config_file_name) then
-						puts "Found project folder #{entry}"
 						new_config = self.load_config_file(path + "/" + entry, PROJECT_FILE_NAME)
 
 						@configs.push(new_config)

@@ -31,12 +31,30 @@ module SDC
 			def handle_event(event)
 				if event.has_type?(:Closed) then
 					SDC.next_scene = nil
+
 				elsif event.has_type?(:KeyPressed) then
 					if event.key_pressed?(:Down) then
 						scroll_down
-					end
-					if event.key_pressed?(:Up) then
+					elsif event.key_pressed?(:Up) then
 						scroll_up
+					end
+
+				elsif event.has_type?(:MouseWheelScrolled) then
+					if event.mouse_scrolled_up? then
+						scroll_up
+					elsif event.mouse_scrolled_down? then
+						scroll_down
+					end
+
+				elsif event.has_type?(:MouseButtonReleased) then
+					if event.mouse_left_click? then
+						# TODO: Check collision of mouse pointer with buttons
+						new_id = @active_config_id + event.mouse_coordinates.y * 4 / 720
+
+						if new_id < SDC::Launshi.get_configs.size then
+							SDC::Launshi.set_final_config(new_id)
+							SDC.next_scene = nil
+						end
 					end
 				end
 			end

@@ -13,7 +13,23 @@ module SDC
 		end
 
 		def mouse_button_pressed?(button)
-			return self.mouse_button_code == SDC.button(button)
+			return self.mouse_button_code == SDC.mouse_button(button)
+		end
+
+		def mouse_left_click?
+			return mouse_button_pressed?(:Left)
+		end
+
+		def mouse_right_click?
+			return mouse_button_pressed?(:Right)
+		end
+
+		def mouse_scrolled_down?
+			return self.mouse_scroll_wheel == SDC::EventMouse::VerticalWheel && self.mouse_scroll_delta < 0.0
+		end
+
+		def mouse_scrolled_up?
+			return self.mouse_scroll_wheel == SDC::EventMouse::VerticalWheel && self.mouse_scroll_delta > 0.0
 		end
 
 		def mouse_coordinates
