@@ -20,7 +20,7 @@ module SDC
 			
 			def scroll_down
 				@active_config_id += 1
-				@active_config_id = [@active_config_id, SDC::Launshi.get_configs.size - 1].min
+				@active_config_id = [@active_config_id, [0, SDC::Launshi.get_configs.size - 4 - 1].max].min
 			end
 
 			def scroll_up
@@ -51,7 +51,7 @@ module SDC
 						# TODO: Check collision of mouse pointer with buttons
 						new_id = @active_config_id + event.mouse_coordinates.y * 4 / 720
 
-						if new_id < SDC::Launshi.get_configs.size then
+						if new_id < SDC::Launshi.get_configs.size && event.mouse_coordinates.x.between?(400, 1240) then
 							SDC::Launshi.set_final_config(new_id)
 							SDC.next_scene = nil
 						end
