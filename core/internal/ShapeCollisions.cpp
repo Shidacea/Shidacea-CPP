@@ -24,7 +24,12 @@ DEFINE_COLLISION(ShapePoint, ShapeCircle) {
 
 DEFINE_COLLISION(ShapePoint, ShapeBox) {
 
-	return false;	// TODO
+	GET_POSITIONS
+
+	auto w2 = shape2.size.x * shape2.scale.x;
+	auto h2 = shape2.size.y * shape2.scale.y;
+
+	return collision_point_box(x1, y1, x2, y2, w2, h2);
 
 }
 

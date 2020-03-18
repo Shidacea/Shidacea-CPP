@@ -66,6 +66,15 @@ module SDC
 		return SDC::EventMouse.const_get(button) if SDC::EventMouse.const_defined?(button)
 	end
 
+	def self.get_mouse_pos
+		return SDC::EventMouse.get_position(SDC.window)
+	end
+
+	def self.get_mouse_point
+		coords = self.get_mouse_pos
+		return SDC::ShapePoint.new(SDC::Coordinates.new(coords[0].to_f, coords[1].to_f))
+	end
+
 	def self.right_klick?
 		return self.mouse_button_pressed?(:Right)
 	end
