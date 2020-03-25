@@ -75,10 +75,7 @@ module SDC
 			end
 
 			def update
-				if SDC::key_pressed?(:Enter) then
-					SDC::Launshi.set_final_config(@active_config_id)
-					SDC.next_scene = nil
-				end
+
 			end
 
 			def draw
