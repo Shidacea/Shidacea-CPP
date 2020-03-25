@@ -12,7 +12,18 @@ module SDC
 
 				@active_config_id = 0
 
-				@button_shape = SDC::ShapeBox.new(SDC::Coordinates.new, SDC::Coordinates.new(40, 15))
+				@start_buttons = []
+				@info_buttons = []
+
+				0.upto(3) do |i|
+					button_start_shape = SDC::ShapeBox.new(SDC::Coordinates.new(585 + 40, i*180 + 140 + 15), SDC::Coordinates.new(40, 15))
+					button_start = SDC::Button.new(shape: button_start_shape)
+					@start_buttons[i] = button_start
+
+					button_info_shape = SDC::ShapeBox.new(SDC::Coordinates.new(585 + 100 + 40, i*180 + 140 + 15), SDC::Coordinates.new(40, 15))
+					button_info = SDC::Button.new(shape: button_info_shape)
+					@info_buttons[i] = button_info
+				end
 
 				SDC::Data.load_font(:Standard, filename: "assets/fonts/arial.ttf")
 				@title_size = 20
@@ -54,13 +65,13 @@ module SDC
 						project_info_id = nil
 
 						0.upto(3) do |i|
-							point_mouse = SDC.get_mouse_point
+							@start_buttons[i].on_mouse_touch do
+								project_start_id = @active_config_id + i
+							end
 
-							clicked_on_start = SDC::Collider.test(point_mouse, SDC::Coordinates.new, @button_shape, SDC::Coordinates.new(585 + 40, i*180 + 140 + 15))
-							clicked_on_info = SDC::Collider.test(point_mouse, SDC::Coordinates.new, @button_shape, SDC::Coordinates.new(585 + 100 + 40, i*180 + 140 + 15))
-
-							project_start_id = @active_config_id + i if clicked_on_start
-							project_info_id = @active_config_id + i if clicked_on_info
+							@info_buttons[i].on_mouse_touch do
+								project_info_id = @active_config_id + i
+							end
 						end
 
 						if project_start_id && project_start_id < SDC::Launshi.get_configs.size then
@@ -112,7 +123,10 @@ module SDC
 					offset.y += @title_size + @title_offset_y
 					SDC.draw_text(font_index: :Standard, text: dev_list, size: @title_size, coordinates: offset)
 
-					# TODO: Generalize positions somehow, maybe using a specialized entity
+					# TODO: Use buttons to simplify this
+
+					@start_buttons[i].draw
+					@info_buttons[i].draw
 
 					SDC.draw_texture(filename: "assets/graphics/Button.png", coordinates: SDC::Coordinates.new(585, i*180 + 140))
 					SDC.draw_text(font_index: :Standard, text: "START", size: @title_size, coordinates: SDC::Coordinates.new(585 + 8, i*180 + 140 + 2))

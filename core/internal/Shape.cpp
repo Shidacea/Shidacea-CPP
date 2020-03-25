@@ -185,6 +185,8 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		//! There seem to be ghoooosts
 
+		//! TODO: Add method without additional offset maybe
+
 		mrb_get_args(mrb, "oooo", &ruby_shape_1, &ruby_pos_1, &ruby_shape_2, &ruby_pos_2);
 
 		auto type_1 = get_type_of_ruby_shape(mrb, ruby_shape_1);
