@@ -160,7 +160,7 @@ class SceneTest < SDC::Scene
 			SDC::ImGui.text "Counter = #{@counter}"
 
 			SDC::ImGui.button "Reset mouse" {SDC::EventMouse.set_position([300, 200], SDC.window)}
-			SDC::ImGui.text "Mouse pos = #{SDC.get_mouse_pos}"
+			SDC::ImGui.text "Mouse pos = #{SDC.get_mouse_coords}"
 
 			SDC::ImGui.button "Rescale entity" do
 				@entities[0].shapes[0].scale *= 1.1

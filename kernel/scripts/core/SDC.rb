@@ -66,13 +66,20 @@ module SDC
 		return SDC::EventMouse.const_get(button) if SDC::EventMouse.const_defined?(button)
 	end
 
+	# Returns an integer array with two elements of the pixel coordinates.
+	# Therefore, window scaling WILL change the dimensions of the area the mouse can operate in.
 	def self.get_mouse_pos
 		return SDC::EventMouse.get_position(SDC.window)
 	end
 
+	# Returns the mouse coordinate for the current view.
+	# If you want to check for another view, you need to activate it first or execute any mouse check methods in a view block.
+	def self.get_mouse_coords
+		return SDC::EventMouse.get_coordinates(SDC.window)
+	end
+
 	def self.get_mouse_point
-		coords = self.get_mouse_pos
-		return SDC::ShapePoint.new(SDC::Coordinates.new(coords[0].to_f, coords[1].to_f))
+		return SDC::ShapePoint.new(self.get_mouse_coords)
 	end
 
 	def self.right_klick?

@@ -181,6 +181,27 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_OPT(1));
 
+	mrb_define_module_function(mrb, module_mouse, "get_coordinates", MRUBY_FUNC{
+
+		mrb_value ruby_window;
+
+		mrb_get_args(mrb, "o", &ruby_window);
+
+		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
+
+		auto coords = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+
+		auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
+
+		auto ruby_coords = mrb_obj_new(mrb, ruby_coordinates_class, 0, NULL);
+		auto converted_coords = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coords);
+
+		*converted_coords = coords;
+
+		return ruby_coords;
+
+	}, MRB_ARGS_REQ(1));
+
 	mrb_define_module_function(mrb, module_mouse, "is_button_pressed?", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<int>(mrb);
