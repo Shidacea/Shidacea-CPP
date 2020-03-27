@@ -1,7 +1,7 @@
 # This file is a template for a basic game loop
 # It can be used in its current form or it can be modified
 
-def main_routine(scene_class, title, width, height)
+def main_routine(scene_class, game_class, title, width, height)
 
 	begin
 		SDC.window = SDC::Window.new(title, width, height)
@@ -35,7 +35,7 @@ def main_routine(scene_class, title, width, height)
 			GC.start
 		end
 
-		SDC.game = SDC::Game.new
+		SDC.game = game_class.new
 
 		SDC.scene = scene_class.new
 		SDC.next_scene = true
