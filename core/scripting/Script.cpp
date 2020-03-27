@@ -7,7 +7,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 	//! TODO: Change this depending on compilation parameters
 	mrb_mod_cv_set(mrb, script_module, mrb_intern_static(mrb, "@@_path", strlen("@@_path")), mrb_str_new_cstr(mrb, "kernel"));
 
-	mrb_define_module_function(mrb, script_module, "load", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, script_module, "load", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<MRBW_FILE>(mrb);
 		auto filename = std::get<0>(args);
@@ -18,7 +18,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	mrb_define_module_function(mrb, script_module, "load_recursively", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, script_module, "load_recursively", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<MRBW_FILE>(mrb);
 		auto path = std::get<0>(args);
@@ -29,7 +29,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	mrb_define_module_function(mrb, script_module, "path", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, script_module, "path", MRUBY_FUNC {
 
 		//! TODO: Remove SDC module reference, maybe via a global function
 
@@ -40,7 +40,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	mrb_define_module_function(mrb, script_module, "path=", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, script_module, "path=", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_raw_args<std::string>(mrb);
 		auto path = std::get<0>(args);

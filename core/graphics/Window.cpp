@@ -35,7 +35,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_window_class = MrbWrap::define_data_class_under(mrb, "Window", ruby_module);
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<std::string, unsigned int, unsigned int, MRBW_OPT<bool, false>>(mrb);
 		auto title = std::get<0>(args);
@@ -67,7 +67,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(3, 1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "clear", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "clear", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 		window->clear();
@@ -76,7 +76,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "display", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "display", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
@@ -92,7 +92,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "imgui_update", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "imgui_update", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 		auto clock = MrbWrap::convert_from_instance_variable<sf::Clock>(mrb, self, "@_clock");
@@ -107,7 +107,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "set_imgui_scale", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "set_imgui_scale", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<float>(mrb);
 		auto scale = std::get<0>(args);
@@ -126,7 +126,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::isOpen>(mrb, "is_open?");
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "close", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "close", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 		window->close();
@@ -143,7 +143,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_member_function<sf::RenderWindow, &sf::RenderWindow::setView, sf::View>(mrb, "set_view");
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "use_view", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "use_view", MRUBY_FUNC {
 
 		mrb_value ruby_view;
 		mrb_value block = mrb_nil_value();
@@ -162,7 +162,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(2));
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "poll_event", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "poll_event", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
@@ -190,7 +190,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "draw", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "draw", MRUBY_FUNC {
 
 		mrb_value ruby_draw_object;
 		mrb_value ruby_render_states = mrb_nil_value();
@@ -208,7 +208,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(1, 1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "draw_translated", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "draw_translated", MRUBY_FUNC {
 
 		mrb_value ruby_draw_object;
 		mrb_value ruby_coordinates;
@@ -236,7 +236,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVisible, bool>(mrb, "visible=");
 
-	MrbWrap::define_mruby_function(mrb, ruby_window_class, "imgui_defined?", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_window_class, "imgui_defined?", MRUBY_FUNC {
 
 #ifdef SHIDACEA_EXCLUDE_IMGUI
 

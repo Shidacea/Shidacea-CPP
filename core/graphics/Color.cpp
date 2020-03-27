@@ -21,7 +21,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	//! TODO: Simplfy friend methods
 
-	MrbWrap::define_mruby_function(mrb, ruby_class_color, "+", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_class_color, "+", MRUBY_FUNC {
 	
 		auto args = MrbWrap::get_raw_args<sf::Color>(mrb);
 		auto other_value = std::get<0>(args);
@@ -40,7 +40,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_class_color, "-", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_class_color, "-", MRUBY_FUNC {
 	
 		auto args = MrbWrap::get_raw_args<sf::Color>(mrb);
 		auto other_value = std::get<0>(args);
@@ -59,7 +59,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_class_color, "*", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_class_color, "*", MRUBY_FUNC {
 	
 		auto args = MrbWrap::get_raw_args<sf::Color>(mrb);
 		auto other_value = std::get<0>(args);
@@ -78,7 +78,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_class_color, "to_s", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_class_color, "to_s", MRUBY_FUNC {
 
 		auto content = MrbWrap::convert_from_object<sf::Color>(mrb, self);
 
@@ -89,7 +89,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_class_color, "inspect", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_class_color, "inspect", MRUBY_FUNC {
 
 		auto content = MrbWrap::convert_from_object<sf::Color>(mrb, self);
 

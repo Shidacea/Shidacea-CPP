@@ -176,6 +176,8 @@ void setup_ruby_imgui(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_imgui_module = mrb_define_module_under(mrb, ruby_module, "ImGui");
 
+	//! TODO: Rework
+
 	mrb_define_module_function(mrb, ruby_imgui_module, "begin", ruby_imgui_begin, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "button", ruby_imgui_button, MRB_ARGS_ARG(1, 1));
 	mrb_define_module_function(mrb, ruby_imgui_module, "text", ruby_imgui_text, MRB_ARGS_REQ(1));

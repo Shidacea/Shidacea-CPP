@@ -16,7 +16,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 	//! TODO: Implement UDP support as optional argument
 	MrbWrap::wrap_constructor<sf::TcpSocket>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "connect", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_socket_class, "connect", MRUBY_FUNC {
 
 		char* address;
 		mrb_int port;
@@ -34,7 +34,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_member_function<sf::TcpSocket, &sf::TcpSocket::disconnect>(mrb, "disconnect");
 
-	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "send_message", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_socket_class, "send_message", MRUBY_FUNC {
 
 		char* message;
 
@@ -50,7 +50,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "receive", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_socket_class, "receive", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<MRBW_OPT<size_t, 1024>>(mrb);
 		auto max_length = std::get<0>(args);
@@ -69,7 +69,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "last_message", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_socket_class, "last_message", MRUBY_FUNC {
 
 		static auto sym = mrb_intern_static(mrb, "@last_message", strlen("@last_message"));
 		return mrb_iv_get(mrb, self, sym);
@@ -79,7 +79,7 @@ void setup_ruby_class_socket(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::TcpSocket, &sf::TcpSocket::isBlocking>(mrb, "blocking");
 	MrbWrap::wrap_setter<sf::TcpSocket, &sf::TcpSocket::setBlocking, bool>(mrb, "blocking=");
 
-	MrbWrap::define_mruby_function(mrb, ruby_socket_class, "remote_address", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_socket_class, "remote_address", MRUBY_FUNC {
 
 		//! TODO: May need testing
 

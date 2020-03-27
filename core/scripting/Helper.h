@@ -145,7 +145,9 @@ namespace MrbWrap {
 	}
 
 	//! Define a new function for ruby
-	void define_mruby_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
+	void define_member_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
+
+	void define_module_function(mrb_state* mrb, RClass* ruby_module, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
 
 	//! Define a copy method automatically for any wrapped C++ object
 	//! Use this when setting up a ruby class
@@ -533,7 +535,7 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		define_mruby_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
+		define_member_function(mrb, ruby_class, "initialize", MRUBY_FUNC {
 
 			auto args = get_converted_args<TArgs...>(mrb);
 
@@ -557,7 +559,7 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		define_member_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			auto args = get_converted_args<TArgs...>(mrb);
 
@@ -606,7 +608,7 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		define_member_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			auto content = convert_from_object<C>(mrb, self);
 
@@ -662,7 +664,7 @@ namespace MrbWrap {
 
 		auto ruby_class = get_class_info_ptr<C>();
 
-		define_mruby_function(mrb, ruby_class, name, MRUBY_FUNC {
+		define_member_function(mrb, ruby_class, name, MRUBY_FUNC {
 
 			typename CastToRuby<ArgType>::type new_value;
 			mrb_get_args(mrb, FormatString<ArgType>::value, &new_value);

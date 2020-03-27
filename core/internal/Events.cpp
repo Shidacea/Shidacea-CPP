@@ -144,7 +144,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	REGISTER_KEY(mrb, module_key, Pause);
 
-	mrb_define_module_function(mrb, module_key, "is_pressed?", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, module_key, "is_pressed?", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<int>(mrb);
 		auto key_value = std::get<0>(args);
@@ -155,7 +155,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	auto module_mouse = mrb_define_module_under(mrb, ruby_module, "EventMouse");
 
-	mrb_define_module_function(mrb, module_mouse, "get_position", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, module_mouse, "get_position", MRUBY_FUNC {
 		
 		mrb_value ruby_window = mrb_nil_value();
 
@@ -181,7 +181,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_OPT(1));
 
-	mrb_define_module_function(mrb, module_mouse, "get_coordinates", MRUBY_FUNC{
+	MrbWrap::define_module_function(mrb, module_mouse, "get_coordinates", MRUBY_FUNC{
 
 		mrb_value ruby_window;
 
@@ -202,7 +202,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	mrb_define_module_function(mrb, module_mouse, "is_button_pressed?", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, module_mouse, "is_button_pressed?", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<int>(mrb);
 		auto button_value = std::get<0>(args);
@@ -211,7 +211,7 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	mrb_define_module_function(mrb, module_mouse, "set_position", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, module_mouse, "set_position", MRUBY_FUNC {
 
 		mrb_value val;
 		mrb_value ruby_window = mrb_nil_value();
@@ -239,6 +239,8 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(1, 1));
 
+	//! TODO: Function to set mouse coordinates
+
 	REGISTER_BUTTON(mrb, module_mouse, Left);
 	REGISTER_BUTTON(mrb, module_mouse, Right);
 	REGISTER_BUTTON(mrb, module_mouse, Middle);
@@ -259,7 +261,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<sf::Event>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "type", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "type", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -267,7 +269,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_code", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "key_code", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -275,7 +277,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_alt?", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "key_alt?", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -283,7 +285,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_control?", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "key_control?", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -291,7 +293,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_shift?", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "key_shift?", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -299,7 +301,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "key_system?", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "key_system?", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -307,7 +309,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_code", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_button_code", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -315,7 +317,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_x", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_button_x", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -323,7 +325,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_button_y", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_button_y", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -331,7 +333,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_move_x", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_move_x", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -339,7 +341,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_move_y", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_move_y", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -347,7 +349,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_wheel", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_scroll_wheel", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -355,7 +357,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_delta", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_scroll_delta", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -363,7 +365,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_x", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_scroll_x", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 
@@ -371,7 +373,7 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_mruby_function(mrb, ruby_event_class, "mouse_scroll_y", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_event_class, "mouse_scroll_y", MRUBY_FUNC {
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
 

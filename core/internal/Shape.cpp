@@ -53,7 +53,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	//! TODO: Write standard constructors accepting the respective arguments
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_point_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_point_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f>(mrb);
 		auto offset = std::get<0>(args);
@@ -67,7 +67,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapePoint>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_line_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_line_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f, sf::Vector2f>(mrb);
 		auto offset = std::get<0>(args);
@@ -83,7 +83,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapeLine>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_circle_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_circle_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f, float>(mrb);
 		auto offset = std::get<0>(args);
@@ -105,7 +105,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::scale>(mrb, "scale");
 	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::scale, float>(mrb, "scale=");
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_box_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_box_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f, sf::Vector2f>(mrb);
 		auto offset = std::get<0>(args);
@@ -127,7 +127,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<ShapeBox, &ShapeBox::scale>(mrb, "scale");
 	MrbWrap::wrap_setter<ShapeBox, &ShapeBox::scale, sf::Vector2f>(mrb, "scale=");
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_triangle_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_triangle_class, "initialize", MRUBY_FUNC {
 
 		//! TODO
 
@@ -142,7 +142,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapeTriangle>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_quadrangle_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_quadrangle_class, "initialize", MRUBY_FUNC {
 
 		//! TODO
 
@@ -157,7 +157,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapeQuadrangle>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_shape_ellipse_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_shape_ellipse_class, "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f, sf::Vector2f>(mrb);
 		auto offset = std::get<0>(args);
@@ -176,7 +176,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<Shape, &Shape::offset>(mrb, "offset");
 	MrbWrap::wrap_setter<Shape, &Shape::offset, sf::Vector2f>(mrb, "offset=");
 
-	mrb_define_module_function(mrb, module_collider, "test", MRUBY_FUNC {
+	MrbWrap::define_module_function(mrb, module_collider, "test", MRUBY_FUNC {
 
 		mrb_value ruby_shape_1;
 		mrb_value ruby_shape_2;

@@ -114,9 +114,14 @@ RClass* MrbWrap::define_data_class_under(mrb_state* mrb, const char* name, RClas
 
 }
 
-//! Make template specification for this
-void MrbWrap::define_mruby_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec) {
+void MrbWrap::define_member_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec) {
 
 	mrb_define_method(mrb, ruby_class, name, func, aspec);
+
+}
+
+void MrbWrap::define_module_function(mrb_state* mrb, RClass* ruby_module, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec) {
+
+	mrb_define_module_function(mrb, ruby_module, name, func, aspec);
 
 }

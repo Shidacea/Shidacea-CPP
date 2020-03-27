@@ -6,7 +6,7 @@ void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
 	auto ruby_view_class = MrbWrap::define_data_class_under(mrb, "View", ruby_module);
 
-	MrbWrap::define_mruby_function(mrb, ruby_view_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_view_class, "initialize", MRUBY_FUNC {
 
 		mrb_value first_arg = mrb_nil_value();
 		mrb_value second_arg = mrb_nil_value();

@@ -8,7 +8,7 @@ void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<sf::TcpListener>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_listener_class, "listen", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_listener_class, "listen", MRUBY_FUNC {
 
 		mrb_int port;
 		mrb_value address;
@@ -28,7 +28,7 @@ void setup_ruby_class_listener(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(1, 1));
 
-	MrbWrap::define_mruby_function(mrb, ruby_listener_class, "accept", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_listener_class, "accept", MRUBY_FUNC {
 
 		mrb_value ruby_socket;
 

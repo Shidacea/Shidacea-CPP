@@ -8,7 +8,7 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<sf::Texture>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_texture_class, "load_from_file", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_texture_class, "load_from_file", MRUBY_FUNC {
 
 		char* filename;
 		mrb_value intrect = mrb_nil_value();

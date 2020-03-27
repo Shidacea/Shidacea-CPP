@@ -188,7 +188,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<MapLayer, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>(mrb);
 
-	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "reload", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_map_layer_class, "reload", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<sf::Vector2f>(mrb);
 		auto coordinates = std::get<0>(args);
@@ -202,7 +202,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_member_function<MapLayer, &MapLayer::load_test_map>(mrb, "load_test_map");
 
-	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "link_tileset", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_map_layer_class, "link_tileset", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_raw_args<Tileset>(mrb);	//! TODO: Can this be solved with get_converted_args ?
 		auto ruby_tileset = std::get<0>(args);
@@ -224,7 +224,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 	
 	MrbWrap::wrap_member_function<MapLayer, &MapLayer::get_tile, unsigned int, unsigned int>(mrb, "[]");
 
-	MrbWrap::define_mruby_function(mrb, ruby_map_layer_class, "tileset", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, ruby_map_layer_class, "tileset", MRUBY_FUNC {
 
 		static auto tileset_sym = mrb_intern_static(mrb, "@tileset", strlen("@tileset"));
 		auto tileset = mrb_iv_get(mrb, self, tileset_sym);
