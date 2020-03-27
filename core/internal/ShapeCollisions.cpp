@@ -12,13 +12,19 @@ DEFINE_COLLISION(ShapePoint, ShapePoint) {
 
 DEFINE_COLLISION(ShapePoint, ShapeLine) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapePoint, ShapeCircle) {
 
-	return false;	// TODO
+	GET_POSITIONS
+
+	auto r2 = shape2.radius * shape2.scale;
+
+	return collision_point_circle(x1, y1, x2, y2, r2);
 
 }
 
@@ -35,11 +41,15 @@ DEFINE_COLLISION(ShapePoint, ShapeBox) {
 
 DEFINE_COLLISION(ShapePoint, ShapeTriangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapePoint, ShapeQuadrangle) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -47,11 +57,15 @@ DEFINE_COLLISION(ShapePoint, ShapeQuadrangle) {
 
 DEFINE_COLLISION(ShapePoint, ShapeEllipse) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeLine, ShapeLine) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -59,11 +73,15 @@ DEFINE_COLLISION(ShapeLine, ShapeLine) {
 
 DEFINE_COLLISION(ShapeLine, ShapeCircle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeLine, ShapeBox) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -71,17 +89,23 @@ DEFINE_COLLISION(ShapeLine, ShapeBox) {
 
 DEFINE_COLLISION(ShapeLine, ShapeTriangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeLine, ShapeQuadrangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeLine, ShapeEllipse) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -113,17 +137,23 @@ DEFINE_COLLISION(ShapeCircle, ShapeBox) {
 
 DEFINE_COLLISION(ShapeCircle, ShapeTriangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeCircle, ShapeQuadrangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeCircle, ShapeEllipse) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -145,11 +175,15 @@ DEFINE_COLLISION(ShapeBox, ShapeBox) {
 
 DEFINE_COLLISION(ShapeBox, ShapeTriangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeBox, ShapeQuadrangle) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -157,11 +191,15 @@ DEFINE_COLLISION(ShapeBox, ShapeQuadrangle) {
 
 DEFINE_COLLISION(ShapeBox, ShapeEllipse) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeTriangle, ShapeTriangle) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -169,11 +207,15 @@ DEFINE_COLLISION(ShapeTriangle, ShapeTriangle) {
 
 DEFINE_COLLISION(ShapeTriangle, ShapeQuadrangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeTriangle, ShapeEllipse) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
@@ -181,17 +223,23 @@ DEFINE_COLLISION(ShapeTriangle, ShapeEllipse) {
 
 DEFINE_COLLISION(ShapeQuadrangle, ShapeQuadrangle) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeQuadrangle, ShapeEllipse) {
 
+	GET_POSITIONS
+
 	return false;	// TODO
 
 }
 
 DEFINE_COLLISION(ShapeEllipse, ShapeEllipse) {
+
+	GET_POSITIONS
 
 	return false;	// TODO
 
