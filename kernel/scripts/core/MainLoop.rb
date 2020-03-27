@@ -35,7 +35,7 @@ def main_routine(scene_class, game_class, title, width, height)
 			GC.start
 		end
 
-		SDC.game = game_class.new
+		SDC.game = game_class&.new
 
 		SDC.scene = scene_class.new
 		SDC.next_scene = true
