@@ -67,7 +67,12 @@ DEFINE_COLLISION(ShapeLine, ShapeLine) {
 
 	GET_POSITIONS
 
-	return false;	// TODO
+	auto dx1 = shape1.line.x;
+	auto dy1 = shape1.line.y;
+	auto dx2 = shape2.line.x;
+	auto dy2 = shape2.line.y;
+
+	return collision_line_line(x1, y1, dx1, dy1, x2, y2, dx2, dy2);
 
 }
 
