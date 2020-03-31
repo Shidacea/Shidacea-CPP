@@ -23,8 +23,7 @@ bool collision_point_circle(float x1, float y1, float x2, float y2, float r2) {
 
 bool collision_point_box(float x1, float y1, float x2, float y2, float w2, float h2) {
 
-	//! If you do not understand this algorithm, do not look any further
-	//! This is one of the easy ones
+	//! Literally the definition of an AABB
 
 	if (x1 LESS_THAN x2 - w2) return false;
 	else if (y1 LESS_THAN y2 - h2) return false;
