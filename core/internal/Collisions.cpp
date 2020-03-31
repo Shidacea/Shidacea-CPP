@@ -23,7 +23,7 @@ bool collision_point_circle(float x1, float y1, float x2, float y2, float r2) {
 
 bool collision_point_box(float x1, float y1, float x2, float y2, float w2, float h2) {
 
-	//! If you do not understand this algorith, do not look any further
+	//! If you do not understand this algorithm, do not look any further
 	//! This is one of the easy ones
 
 	if (x1 LESS_THAN x2 - w2) return false;
@@ -149,7 +149,10 @@ bool collision_circle_box(float x1, float y1, float r1, float x2, float y2, floa
 		else if (r2 GREATER_THAN dxm2 + dyp2) return true;
 		else if (r2 GREATER_THAN dxp2 + dym2) return true;
 		else if (r2 GREATER_THAN dxm2 + dym2) return true;
-		else return false;
+
+		//! The last possibility is that the circle is inside the box, which can be checked quickly
+
+		else return collision_point_box(x1, y1, x2, y2, w2, h2);
 
 	}
 
