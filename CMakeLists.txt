@@ -309,7 +309,6 @@ set(INTERNAL_SOURCES
 	core/internal/Coordinates.cpp
 	core/internal/Events.cpp
 	core/internal/Shape.cpp
-	core/internal/Collisions.cpp
 )
 
 set(SCRIPTING_SOURCES
