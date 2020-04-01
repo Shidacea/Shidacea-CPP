@@ -9,6 +9,41 @@ bool collision_point_point(float x1, float y1, float x2, float y2) {
 
 }
 
+bool collision_point_line(float x1, float y1, float x2, float y2, float dx2, float dy2) {
+
+	//! If equal overlap is not set, this is always false
+
+	if (!EQUAL_OVERLAP) return false;
+
+	//! First, check whether the point is behind one of the line segment points
+	//! It is not necessary to check whether the point is actually on the line yet
+	//! Effectively, this is the equation to check if the line parameter is smaller than 0
+	//! The same test could be done with dy12 and dx2, but if they are not equal, a collision is excluded
+
+	auto dx12 = x1 - x2;
+
+	if (static_cast<bool>(dx12 LESS_THAN 0.0) != static_cast<bool>(dy2 LESS_THAN 0.0)) return false;
+
+	//! The next check tests whether the line parameter is greater than 1
+	//! Checking the absolute values is sufficient, as the signs of dx12 and dy2 is now proven equal
+
+	else if (std::abs(dx12) LESS_THAN std::abs(dy2)) return false;
+	else {
+
+		auto dy12 = y1 - y2;
+
+		//! If the following equation is not satisfied, the point has a normal component to the line
+		//! This formula can be obtained via two ways
+		//! Firstly, the line parameter of the point can be obtained from a oversatisfied equation system
+		//! Also the cross product of the distance from point to start point with the line direction can be taken
+		//! The latter one should be zero if the point is on the infinitely extended line
+		//! If it isn't, the following statement is true and the function returns false
+
+		if (dx12 * dy2 != dy12 * dx2) return false;
+	}
+
+}
+
 bool collision_point_circle(float x1, float y1, float x2, float y2, float r2) {
 
 	//! Simple check whether the point is inside the circle radius
@@ -57,7 +92,7 @@ bool collision_line_line(float x1, float y1, float dx1, float dy1, float x2, flo
 
 	//! If nominator and denominator signs are different, the parameter is smaller than 0
 
-	if (static_cast<bool>(nominator_1 LESS_THAN 0) != static_cast<bool>(denominator_1 LESS_THAN 0)) return false;
+	if (static_cast<bool>(nominator_1 LESS_THAN 0.0) != static_cast<bool>(denominator_1 LESS_THAN 0.0)) return false;
 	else {
 
 		//! First line parameter is positive, so check the other one
@@ -68,7 +103,7 @@ bool collision_line_line(float x1, float y1, float dx1, float dy1, float x2, flo
 		auto nominator_2 = dx21_y1 - x1_dy21;
 		auto denominator_2 = dx1_dy2 - dx2_dy1;
 
-		if (static_cast<bool>(nominator_2 LESS_THAN 0) != static_cast<bool>(denominator_2 LESS_THAN 0)) return false;
+		if (static_cast<bool>(nominator_2 LESS_THAN 0.0) != static_cast<bool>(denominator_2 LESS_THAN 0.0)) return false;
 
 		//! Check whether one of the line parameters is greater than 1
 		//! This can again be done by comparing nominator and denominator

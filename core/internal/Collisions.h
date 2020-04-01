@@ -15,6 +15,7 @@
 #define EQUAL_OVERLAP false
 
 bool collision_point_point(float x1, float y1, float x2, float y2);
+bool collision_point_line(float x1, float y1, float x2, float y2, float dx2, float dy2);
 bool collision_point_circle(float x1, float y1, float x2, float y2, float r2);
 bool collision_point_box(float x1, float y1, float x2, float y2, float w2, float h2);
 bool collision_line_line(float x1, float y1, float dx1, float dy1, float x2, float y2, float dx2, float dy2);
