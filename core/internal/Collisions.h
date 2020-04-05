@@ -128,6 +128,33 @@ constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, flo
 
 }
 
+constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, float x2, float y2, float r2) {
+
+	//! Calculate difference coordinates
+	
+	auto x21 = x2 - x1;
+	auto y21 = y2 - y1;
+
+	//! Project the circle directly on the line and check whether there is a gap or not
+
+	auto proj_par = x21 * dx1 + y21 * dy1;
+	
+	if (proj_par + r2 < 0.0) return false;
+	if (proj_par - r2 > dx1 * dx1 + dy1 * dy1) return false;
+	
+	//! Now project the circle on the normal of the line and check for a gap
+
+	auto proj_perp = y21 * dx1 - x21 * dy1;
+
+	if (proj_perp - r2 > 0.0) return false;
+	if (proj_perp + r2 < 0.0) return false;
+
+	//! If no gaps are present, the circle and the line are intersecting
+
+	return true;
+
+}
+
 constexpr bool collision_line_box(float x1, float y1, float dx1, float dy1, float x2, float y2, float w2, float h2) {
 
 	//! First check whether any end point lies inside the box
@@ -269,7 +296,7 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 
 	//! Squared values of the points
 
-	auto r2 = r1 * r1;
+	auto r_squared = r1 * r1;
 
 	auto dxp2 = dxp * dxp;
 	auto dxm2 = dxm * dxm;
@@ -279,10 +306,10 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 	//! Test collision of each border point with the circle
 	//! This is effectively just another point/circle test
 
-	if (r2 > dxp2 + dyp2) return true;
-	if (r2 > dxm2 + dyp2) return true;
-	if (r2 > dxp2 + dym2) return true;
-	if (r2 > dxm2 + dym2) return true;
+	if (r_squared > dxp2 + dyp2) return true;
+	if (r_squared > dxm2 + dyp2) return true;
+	if (r_squared > dxp2 + dym2) return true;
+	if (r_squared > dxm2 + dym2) return true;
 
 	//! The last possibility is that the circle is inside the box, which can be checked quickly
 
@@ -299,6 +326,10 @@ static_assert(true == collision_point_point(1.0f, 9.0f,     1.0f, 9.0f));
 static_assert(true == collision_point_circle(2.0f, 3.0f,     4.0f, 5.0f, 3.0f));
 
 static_assert(true == collision_point_box(-3.0f, -5.0f,     3.0f, 2.0f, 10.0f, 9.0f));
+
+static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,     -3.0f, -3.0f, 100.0f));
+static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      4.0f, 4.0f, 0.1f));
+static_assert(false == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      10.0f, 10.0f, 0.9f));
 
 static_assert(true == collision_line_box(3.0f, 2.0f, 8.0f, 11.0f,     5.0f, 6.0f, 5.0f, 5.0f));
 static_assert(false == collision_line_box(11.0f, 0.0f, 11.0f, 13.0f,     5.0f, 6.0f, 5.0f, 5.0f));
