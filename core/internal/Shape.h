@@ -83,7 +83,8 @@ struct ShapeTriangle : public Shape {
 
 public:
 
-	//! TODO
+	sf::Vector2f side_1 = {0.0, 0.0};
+	sf::Vector2f side_2 = {0.0, 0.0};
 
 };
 

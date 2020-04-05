@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.5)
 option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
 option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
 option(SHIDACEA_EXCLUDE_IMGUI "Excludes ImGui from Shidacea" OFF)
+option(SHIDACEA_IGNORE_STATIC_ASSERTIONS "Ignores static assertions" OFF)
 option(SHIDACEA_EXCLUDE_SFML "Excludes SFML from Shidacea" OFF)	# For future use
 
 # Compile flags
@@ -49,6 +50,12 @@ endif()
 if(SHIDACEA_EXCLUDE_IMGUI)
 
 	add_definitions(-DSHIDACEA_EXCLUDE_IMGUI)
+
+endif()
+
+if(SHIDACEA_IGNORE_STATIC_ASSERTIONS)
+
+	add_definitions(-DSHIDACEA_IGNORE_STATIC_ASSERTIONS)
 
 endif()
 
