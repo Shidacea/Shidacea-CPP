@@ -9,7 +9,7 @@
 
 template <class T> constexpr T constexpr_abs(T value) {
 
-	return (value < 0.0 ? -value : value);
+	return (value < 0.0f ? -value : value);
 
 }
 
@@ -32,7 +32,7 @@ constexpr bool collision_point_line(float x1, float y1, float x2, float y2, floa
 
 	auto dx12 = x1 - x2;
 
-	if (static_cast<bool>(dx12 < 0.0) != static_cast<bool>(dy2 < 0.0)) return false;
+	if (static_cast<bool>(dx12 < 0.0f) != static_cast<bool>(dy2 < 0.0f)) return false;
 
 	//! The next check tests whether the line parameter is greater than 1
 	//! Checking the absolute values is sufficient, as the signs of dx12 and dy2 is now proven equal
@@ -103,7 +103,7 @@ constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, flo
 
 	//! If nominator and denominator signs are different, the parameter is smaller than 0
 
-	if (static_cast<bool>(nominator_1 < 0.0) != static_cast<bool>(denominator_1 < 0.0)) return false;
+	if (static_cast<bool>(nominator_1 < 0.0f) != static_cast<bool>(denominator_1 < 0.0f)) return false;
 
 	//! First line parameter is positive, so check the other one
 
@@ -113,7 +113,7 @@ constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, flo
 	auto nominator_2 = dx21_y1 - x1_dy21;
 	auto denominator_2 = dx1_dy2 - dx2_dy1;
 
-	if (static_cast<bool>(nominator_2 < 0.0) != static_cast<bool>(denominator_2 < 0.0)) return false;
+	if (static_cast<bool>(nominator_2 < 0.0f) != static_cast<bool>(denominator_2 < 0.0f)) return false;
 
 	//! Check whether one of the line parameters is greater than 1
 	//! This can again be done by comparing nominator and denominator
@@ -142,15 +142,15 @@ constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, f
 
 	auto proj_par = x21 * dx1 + y21 * dy1;
 	
-	if (proj_par + r2 < 0.0) return false;
+	if (proj_par + r2 < 0.0f) return false;
 	if (proj_par - r2 > dx1 * dx1 + dy1 * dy1) return false;
 	
 	//! Now project the circle on the normal of the line and check for a gap
 
 	auto proj_perp = y21 * dx1 - x21 * dy1;
 
-	if (proj_perp - r2 > 0.0) return false;
-	if (proj_perp + r2 < 0.0) return false;
+	if (proj_perp - r2 > 0.0f) return false;
+	if (proj_perp + r2 < 0.0f) return false;
 
 	//! If no gaps are present, the circle and the line are intersecting
 
@@ -196,7 +196,7 @@ constexpr bool collision_line_box(float x1, float y1, float dx1, float dy1, floa
 		//! This can again be checked by comparing the signs of the nominator and the denominator
 		//! We still need to check the other sides, however
 
-		if (static_cast<bool>(nominator_x_neg < 0.0) == static_cast<bool>(dx1 < 0.0)) {
+		if (static_cast<bool>(nominator_x_neg < 0.0f) == static_cast<bool>(dx1 < 0.0f)) {
 
 			//! Check whether the line parameter is smaller than 1
 			//! If it is, a collision definitely occurs here and we can finally return a value
@@ -213,7 +213,7 @@ constexpr bool collision_line_box(float x1, float y1, float dx1, float dy1, floa
 
 		//! The line got shifted in its coordinates, so a new line parameter check is necessary
 
-		if (static_cast<bool>(nominator_x_pos < 0.0) == static_cast<bool>(dx1 < 0.0)) {
+		if (static_cast<bool>(nominator_x_pos < 0.0f) == static_cast<bool>(dx1 < 0.0f)) {
 
 			if (constexpr_abs(nominator_x_pos) <= constexpr_abs(dx1)) return true;
 
@@ -225,7 +225,7 @@ constexpr bool collision_line_box(float x1, float y1, float dx1, float dy1, floa
 
 	if ((nom_y_neg_dx >= nom_x_neg_dy) && (nom_y_neg_dx <= nom_x_pos_dy)) {
 
-		if (static_cast<bool>(nominator_y_neg < 0.0) == static_cast<bool>(dy1 < 0.0)) {
+		if (static_cast<bool>(nominator_y_neg < 0.0f) == static_cast<bool>(dy1 < 0.0f)) {
 
 			if (constexpr_abs(nominator_y_neg) <= constexpr_abs(dy1)) return true;
 
@@ -237,7 +237,7 @@ constexpr bool collision_line_box(float x1, float y1, float dx1, float dy1, floa
 
 	if ((nom_y_pos_dx >= nom_x_neg_dy) && (nom_y_pos_dx <= nom_x_pos_dy)) {
 
-		if (static_cast<bool>(nominator_y_pos < 0.0) == static_cast<bool>(dy1 < 0.0)) {
+		if (static_cast<bool>(nominator_y_pos < 0.0f) == static_cast<bool>(dy1 < 0.0f)) {
 
 			if (constexpr_abs(nominator_y_pos) <= constexpr_abs(dy1)) return true;
 
