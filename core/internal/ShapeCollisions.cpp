@@ -83,7 +83,11 @@ DEFINE_COLLISION(ShapeLine, ShapeCircle) {
 
 	GET_POSITIONS
 
-	return false;	// TODO
+	auto dx1 = shape1.line.x;
+	auto dy1 = shape1.line.y;
+	auto r2 = shape2.radius;
+
+	return collision_line_circle(x1, y1, dx1, dy1, x2, y2, r2);
 
 }
 
