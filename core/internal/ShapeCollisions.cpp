@@ -91,7 +91,12 @@ DEFINE_COLLISION(ShapeLine, ShapeBox) {
 
 	GET_POSITIONS
 
-	return false;	// TODO
+	auto dx1 = shape1.line.x;
+	auto dy1 = shape1.line.y;
+	auto w2 = shape2.size.x * shape2.scale.x;
+	auto h2 = shape2.size.y * shape2.scale.y;
+
+	return collision_line_box(x1, y1, dx1, dy1, x2, y2, w2, h2);
 
 }
 
