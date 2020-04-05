@@ -130,6 +130,9 @@ constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, flo
 
 constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, float x2, float y2, float r2) {
 
+	//! This algorithm is a direct implementation of the separating axis theorem
+	//! If there is axis at which the projections of both objects do not overlap, they don't intersect
+
 	//! Calculate difference coordinates
 	
 	auto x21 = x2 - x1;
