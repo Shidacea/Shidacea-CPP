@@ -45,25 +45,27 @@ constexpr bool collision_point_point(float x1, float y1, float x2, float y2) {
 
 constexpr bool collision_point_line(float x1, float y1, float x2, float y2, float dx2, float dy2) {
 
-	//! First, check whether the point is behind one of the line segment points
-	//! It is not necessary to check whether the point is actually on the line yet
-	//! Effectively, this is the equation to check if the line parameter is smaller than 0 or greater than 1
-	//! The same test could be done with dy12 and dx2, but if they are not equal, a collision is excluded
+	//! The most useful check is to check whether the point has a normal component to the line
+	//! If so, it is impossible for the point to intersect the line
+	//! This case is also the most common one, so it is wise to check it first
 
 	auto dx12 = x1 - x2;
-
-	if (!fraction_between_zero_and_one(dx12, dy2)) return false;
-
 	auto dy12 = y1 - y2;
 
-	//! If the following equation is not satisfied, the point has a normal component to the line
-	//! This formula can be obtained via two ways
-	//! Firstly, the line parameter of the point can be obtained from a oversatisfied equation system
-	//! Also the cross product of the distance from point to start point with the line direction can be taken
-	//! The latter one should be zero if the point is on the infinitely extended line
-	//! If it isn't, the following statement is true and the function returns false
+	//! Check whether the cross product of the distance vector and the line vector is vanishing
 
 	if (dx12 * dy2 != dy12 * dx2) return false;
+
+	//! Otherwise, the point is on the infinite extension of the line
+	//! Now, the point will be projected to the line
+	//! If this projection value is smaller than 0, the point is not on the line
+	//! If it is greater than the line end point projected on the line, it is also not on the line
+
+	auto projection = dx12 * dx2 + dy12 * dy2;
+
+	if (projection < 0.0f) return false;
+	if (projection > dx2 * dx2 + dy2 * dy2) return false;
+
 	return true;
 
 }
@@ -129,45 +131,28 @@ constexpr bool collision_point_triangle(float x1, float y1, float x2, float y2, 
 
 constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, float x2, float y2, float dx2, float dy2) {
 
-	//! Determine difference vector between line starting points
+	//! TODO: Check parallel lines on one exactly one axis
 
-	auto dx21 = x2 - x1;
-	auto dy21 = y2 - y1;
+	auto y21 = y2 - y1;
+	auto x21 = x2 - x1;
 
-	//! Cross-terms which are needed to calculate the line parameters at which the lines intersect
-	//! These can be obtained by solving the equation system of two separating lines
+	auto projection_2_on_n1 = y21 * dx1 - x21 * dy1;
+	auto cross_term = dx2 * dy1 - dy2 * dx1;
 
-	auto dx1_dy2 = dx1 * dy2;
-	auto dx2_dy1 = dx2 * dy1;
-	auto dx2_dy21 = dx2 * dy21;
-	auto dx21_dy2 = dx21 * dy2;
+	if (cross_term == 0.0f) {
 
-	//! Parameter for the first line at which intersection happens
-	//! The split into nominator and denominator avoids divisions
-	//! Both parameters need to be between 0 and 1 for a collision
-	//! An easy way to check this is to study nominator and denominator
+		if (collision_point_line(x1, y1, x2, y2, dx2, dy2)) return true;
+		if (collision_point_line(x2, y2, x1, y1, dx1, dy1)) return true;
+	
+	}
 
-	auto nominator_1 = dx2_dy21 - dx21_dy2;
-	auto denominator_1 = dx2_dy1 - dx1_dy2;
+	if (static_cast<bool>(projection_2_on_n1 < 0.0f) == static_cast<bool>(projection_2_on_n1 < cross_term)) return false;
 
-	//! Check range of line parameters
+	auto projection_1_on_n2 = x21 * dy2 - y21 * dx2;
 
-	if (!fraction_between_zero_and_one(nominator_1, denominator_1)) return false;
-
-	//! First line parameter is inside the range, so check the other one
-
-	auto dx21_y1 = dx21 * y1;
-	auto x1_dy21 = x1 * dy21;
-
-	auto nominator_2 = dx21_y1 - x1_dy21;
-	auto denominator_2 = dx1_dy2 - dx2_dy1;
-
-	if (!fraction_between_zero_and_one(nominator_2, denominator_2)) return false;
-
-	//! Both line parameters are between 0 and 1, so a collision is definitely happening
+	if (static_cast<bool>(projection_1_on_n2 < 0.0f) == static_cast<bool>(projection_1_on_n2 < -cross_term)) return false;
 
 	return true;
-
 }
 
 constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, float x2, float y2, float r2) {
@@ -347,6 +332,7 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 
 //! Compile time assertions to check some test cases
 //! Please submit a bug report if one of these fails
+//! Also please submit a bug report if you encounter a case which fails and can be reproduced using an assertion
 
 static_assert(true == fraction_less_than_zero(-1.0, 3.0));
 static_assert(true == fraction_less_than_zero(1.0, -3.0));
@@ -370,6 +356,9 @@ static_assert(true == collision_point_point(1.0f, 9.0f,     1.0f, 9.0f));
 
 static_assert(true == collision_point_line(0.2f, 0.2f,     0.0f, 0.0f, 1.0f, 1.0f));
 static_assert(false == collision_point_line(0.2f, 0.3f,     0.0f, 0.0f, 1.0f, 1.0f));
+static_assert(true == collision_point_line(1.0f, 0.0f,     0.0f, 0.0f, 1.0f, 0.0f));
+static_assert(true == collision_point_line(1.0f, 0.0f,      1.0f, 0.0f, 1.0f, 0.0f));
+static_assert(false == collision_point_line(1.0f, 0.0f,     1.1f, 0.0f, 1.0f, 0.0f));
 
 static_assert(true == collision_point_circle(2.0f, 3.0f,     4.0f, 5.0f, 3.0f));
 
@@ -379,7 +368,13 @@ static_assert(true == collision_point_triangle(0.0f, 0.0f,     0.0f, 0.2f, 3.0f,
 static_assert(false == collision_point_triangle(0.0f, 0.0f,     0.0f, 0.2f, 3.0f, 1.0f, -3.0f, 1.0f));
 
 static_assert(true == collision_line_line(0.0f, 0.0f, 1.0f, 1.0f,     0.0f, 1.0f, 1.0f, -1.0f));
+static_assert(false == collision_line_line(0.0f, 0.0f, 1.0f, 0.0f,     1.1f, -1.0f, 0.0f, 2.0f));
+static_assert(true == collision_line_line(0.0f, 0.0f, 1.0f, 0.0f,     0.9f, -1.0f, 0.0f, 2.0f));
 static_assert(false == collision_line_line(0.0f, 0.0f, 1.0f, 1.0f,     0.0f, 0.1f, 1.0f, 1.0f));
+
+static_assert(true == collision_line_line(0.0f, 0.0f, 1.0f, 0.0f,     1.0f, 0.0f, 1.0f, 0.0f));
+static_assert(false == collision_line_line(0.0f, 0.0f, 1.0f, 0.0f,     1.1f, 0.0f, 1.0f, 0.0f));
+static_assert(false == collision_line_line(1.1f, 0.0f, 1.0f, 0.0f,     0.0f, 0.0f, 1.0f, 0.0f));
 
 static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,     -3.0f, -3.0f, 100.0f));
 static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      4.0f, 4.0f, 0.1f));
