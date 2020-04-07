@@ -131,12 +131,12 @@ constexpr bool collision_point_triangle(float x1, float y1, float x2, float y2, 
 
 constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, float x2, float y2, float dx2, float dy2) {
 
-	//! TODO: Check parallel lines on one exactly one axis
-
-	auto y21 = y2 - y1;
-	auto x21 = x2 - x1;
-
-	auto projection_2_on_n1 = y21 * dx1 - x21 * dy1;
+	//! This algorithm is an extension of point/line collisions
+	//! First, the cross product of the two lines will be calculated
+	//! If it is vanishing, the lines are both on their respective infinite extensions
+	//! In that case, if the start points of one lines lies on the other line, they intersect
+	//! Checking the end points is not necessary here
+	
 	auto cross_term = dx2 * dy1 - dy2 * dx1;
 
 	if (cross_term == 0.0f) {
@@ -145,6 +145,17 @@ constexpr bool collision_line_line(float x1, float y1, float dx1, float dy1, flo
 		if (collision_point_line(x2, y2, x1, y1, dx1, dy1)) return true;
 	
 	}
+
+	//! The lines have a normal component, so they have only up to one intersection point
+	//! Now, the separating axis theorem can be applied to the situation
+	//! Both lines are then projected on the other line normal
+	//! If the two projections (start and end point) change their sign, they intersect the other line
+	//! If the projection interval doesn't contain 0, an intersection is excluded completely
+
+	auto y21 = y2 - y1;
+	auto x21 = x2 - x1;
+
+	auto projection_2_on_n1 = y21 * dx1 - x21 * dy1;
 
 	if (static_cast<bool>(projection_2_on_n1 < 0.0f) == static_cast<bool>(projection_2_on_n1 < cross_term)) return false;
 
