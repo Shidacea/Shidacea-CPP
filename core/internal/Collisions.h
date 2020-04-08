@@ -361,24 +361,10 @@ constexpr bool collision_circle_circle(float x1, float y1, float r1, float x2, f
 
 }
 
-constexpr bool collision_box_box(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
-
-	//! Simple generalization of point/box
-
-	if (x1 + w1 < x2 - w2) return false;
-	if (y1 + h1 < y2 - h2) return false;
-	if (x2 + w2 < x1 - w1) return false;
-	if (y2 + h2 < y1 - h1) return false;
-
-	return true;
-
-}
-
 constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, float y2, float w2, float h2) {
 
 	//! This algorithm makes use of the separating axis theorem (SAT)
 	//! Essentially, the circle is projected onto both cardinal axes
-	//! Then, the border points of the AABB are checked for intersection with the circle
 
 	//! Projections of the circle onto the axes
 
@@ -394,26 +380,81 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 	if (dxp < - r1) return false;
 	if (dyp < - r1) return false;
 
-	//! Squared values of the points
-
-	auto r_squared = r1 * r1;
+	//! Calculated distances to circle to determine closest vertex
 
 	auto dxp2 = dxp * dxp;
 	auto dxm2 = dxm * dxm;
 	auto dyp2 = dyp * dyp;
 	auto dym2 = dym * dym;
 
-	//! Test collision of each border point with the circle
-	//! This is effectively just another point/circle test
+	auto dxp2yp2 = dxp2 + dyp2;
+	auto dyp2xm2 = dyp2 + dxm2;
+	auto dxm2ym2 = dxm2 + dym2;
+	auto dym2xp2 = dym2 + dxp2;
 
-	if (r_squared > dxp2 + dyp2) return true;
-	if (r_squared > dxm2 + dyp2) return true;
-	if (r_squared > dxp2 + dym2) return true;
-	if (r_squared > dxm2 + dym2) return true;
+	//! Find out the vertex by brute forcing
 
-	//! The last possibility is that the circle is inside the box, which can be checked quickly
+	float min_dist = dxp2yp2;
+	float vx = dxp;
+	float vy = dyp;
 
-	return collision_point_box(x1, y1, x2, y2, w2, h2);
+	if (dyp2xm2 < min_dist) {
+		
+		min_dist = dyp2xm2;
+		vx = dxm;
+		vy = dyp;
+	
+	}
+
+	if (dxm2ym2 < min_dist) {
+
+		min_dist = dxm2ym2;
+		vx = dxm;
+		vy = dym;
+
+	}
+
+	if (dym2xp2 < min_dist) {
+
+		min_dist = dym2xp2;
+		vx = dxp;
+		vy = dym;
+
+	}
+
+	//! Project AABB on difference vector with circle midpoint defined as zero
+
+	auto dypvx = dyp * vx;
+	auto dymvx = dym * vx;
+	auto dxpvy = dxp * vy;
+	auto dxmvy = dxm * vy;
+
+	auto projection_vertex_pp_line = dypvx - dxpvy;
+	auto projection_vertex_pm_line = dypvx - dxmvy;
+	auto projection_vertex_mp_line = dymvx - dxpvy;
+	auto projection_vertex_mm_line = dymvx - dxmvy;
+
+	//! Check all vertices for intersection with the circle
+
+	if (!between(projection_vertex_pp_line, -r1, r1) 
+		&& !between(projection_vertex_pm_line, -r1, r1)
+		&& !between(projection_vertex_mp_line, -r1, r1)
+		&& !between(projection_vertex_mm_line, -r1, r1)) return false;
+
+	return true;
+
+}
+
+constexpr bool collision_box_box(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
+
+	//! Simple generalization of point/box
+
+	if (x1 + w1 < x2 - w2) return false;
+	if (y1 + h1 < y2 - h2) return false;
+	if (x2 + w2 < x1 - w1) return false;
+	if (y2 + h2 < y1 - h1) return false;
+
+	return true;
 
 }
 
@@ -478,10 +519,14 @@ static_assert(false == collision_line_triangle(2.0f, 4.0f, 2.0f, 0.0f,     2.0f,
 static_assert(true == collision_line_triangle(2.0f, 1.0f, -1.0f, 3.0f,     2.0f, 1.0f, -1.0f, 3.0f, 2.0f, 1.0f));
 static_assert(true == collision_line_triangle(2.0f, 1.0f, 2.0f, 1.0f,     2.0f, 1.0f, -1.0f, 3.0f, 2.0f, 1.0f));
 
-static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f,     4.5f, 7.5f, 2.0f, 2.0f));
-static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f,     4.5f, 7.5f, 1.4f, 1.4f));
-
 static_assert(true == collision_circle_box(1.0f, -3.0f, 4.0f,     0.0f, 0.0f, 5.0f, 4.0f));
-static_assert(false == collision_circle_box(1.0f, -3.0f, 4.0f,     0.0f, 0.0f, 5.0f, 2.0f));
+static_assert(true == collision_circle_box(1.0f, -3.0f, 1.0f,     0.0f, 0.0f, 5.0f, 2.0f));
+static_assert(false == collision_circle_box(1.0f, -3.0f, 0.9f,     0.0f, 0.0f, 5.0f, 2.0f));
+static_assert(true == collision_circle_box(2.0f, 1.0f, 0.1f,     0.0f, 0.0f, 2.0f, 2.0f));
+static_assert(false == collision_circle_box(3.0f, 3.0f, 0.9f,     0.0f, 0.0f, 2.0f, 2.0f));
+static_assert(true == collision_circle_box(3.0f, 3.0f, 1.0f, 0.0f, 0.0f, 2.0f, 2.0f));
+
+static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 2.0f, 2.0f));
+static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 1.4f, 1.4f));
 
 #endif

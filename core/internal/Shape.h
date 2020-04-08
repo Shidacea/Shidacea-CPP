@@ -9,7 +9,7 @@
 auto x1 = pos1.x; \
 auto y1 = pos1.y; \
 auto x2 = pos2.x; \
-auto y2 = pos2.y;
+auto y2 = pos2.y
 
 #define DEFINE_COLLISION(type1, type2) template <> bool check_collision(type1 shape1, type2 shape2, sf::Vector2f pos1, sf::Vector2f pos2)
 
