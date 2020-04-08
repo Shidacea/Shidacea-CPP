@@ -33,6 +33,24 @@ template <class T> constexpr bool fraction_between_zero_and_one(T nominator, T d
 
 }
 
+template <class T> constexpr bool between(T value, T border_1, T border_2) {
+
+	if (border_1 < border_2) {
+
+		return (value >= border_1 && value <= border_2);
+
+	} else if (border_1 > border_2) {
+
+		return (value >= border_2 && value <= border_1);
+
+	} else {
+
+		return (value == border_1);
+
+	}
+
+}
+
 constexpr bool collision_point_point(float x1, float y1, float x2, float y2) {
 
 	//! Usually, this routine will yield false
@@ -268,6 +286,66 @@ constexpr bool collision_line_box(float x1, float y1, float dx1, float dy1, floa
 
 }
 
+constexpr bool collision_line_triangle(float x1, float y1, float dx1, float dy1, float x2, float y2, float sxa2, float sya2, float sxb2, float syb2) {
+	
+	//! This function is another application of the separating axis theorem
+	//! First, the distances between the line starting point and the three triangle vertices will be calculated
+
+	auto x21 = x2 - x1;
+	auto y21 = y2 - y1;
+
+	auto xa1 = x21 + sxa2;
+	auto ya1 = y21 + sya2;
+
+	auto xb1 = x21 + sxb2;
+	auto yb1 = y21 + syb2;
+
+	//! Now, all three vertices will be projected on the line
+
+	auto projection_2_on_n1 = y21 * dx1 - x21 * dy1;
+	auto projection_a_on_n1 = ya1 * dx1 - xa1 * dy1;
+	auto projection_b_on_n1 = yb1 * dx1 - xb1 * dy1;
+
+	//! If no sign change occurs between all three projections, the triangle doesn't intersect the line
+
+	auto p2_n1_negative = static_cast<short>(projection_2_on_n1 < 0.0f);
+	auto pa_n1_negative = static_cast<short>(projection_a_on_n1 < 0.0f);
+	auto pb_n1_negative = static_cast<short>(projection_b_on_n1 < 0.0f);
+
+	if (p2_n1_negative + pa_n1_negative + pb_n1_negative == 3) return false;
+
+	//! Now, the line needs to be projected on each triangle side
+	//! This time, if both line points are outside of the interval between 0 and the opposite vertex, no intersection happens
+
+	auto projection_1_on_na = x21 * sya2 - y21 * sxa2;
+	auto projection_d_on_na = dy1 * sxa2 - dx1 * sya2;
+	auto projection_b_on_na = syb2 * sxa2 - sxb2 * sya2;
+
+	if (!between(projection_1_on_na, 0.0f, projection_b_on_na) && !between(projection_1_on_na + projection_d_on_na, 0.0f, projection_b_on_na)) return false;
+
+	//! This needs to be repeated for the other given triangle side
+
+	auto projection_1_on_nb = x21 * syb2 - y21 * sxb2;
+	auto projection_d_on_nb = dy1 * sxb2 - dx1 * syb2;
+	auto projection_a_on_nb = -projection_b_on_na;
+
+	if (!between(projection_1_on_nb, 0.0f, projection_a_on_nb) && !between(projection_1_on_nb + projection_d_on_nb, 0.0f, projection_a_on_nb)) return false;
+
+	//! The last line is the difference vector between the vertices A and B
+
+	auto sxc2 = sxb2 - sxa2;
+	auto syc2 = syb2 - sya2;
+
+	auto projection_1_on_nc = xa1 * syc2 - ya1 * sxc2;
+	auto projection_d_on_nc = dy1 * sxc2 - dx1 * syc2;
+	auto projection_2_on_nc = projection_b_on_na;
+
+	if (!between(projection_1_on_nc, 0.0f, projection_2_on_nc) && !between(projection_1_on_nc + projection_d_on_nc, 0.0f, projection_2_on_nc)) return false;
+
+	return true;
+
+}
+
 constexpr bool collision_circle_circle(float x1, float y1, float r1, float x2, float y2, float r2) {
 
 	//! Simple generalization of point/circle
@@ -394,6 +472,11 @@ static_assert(false == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      10.0f,
 static_assert(true == collision_line_box(3.0f, 2.0f, 8.0f, 11.0f,     5.0f, 6.0f, 5.0f, 5.0f));
 static_assert(false == collision_line_box(11.0f, 0.0f, 11.0f, 13.0f,     5.0f, 6.0f, 5.0f, 5.0f));
 static_assert(true == collision_line_box(1.0f, 1.0f, 7.0f, 7.0f,     4.0f, 4.0f, 2.0f, 2.0f));
+
+static_assert(true == collision_line_triangle(3.0f, 0.0f, 0.0f, 2.0f,     2.0f, 1.0f, -1.0f, 3.0f, 2.0f, 1.0f));
+static_assert(false == collision_line_triangle(2.0f, 4.0f, 2.0f, 0.0f,     2.0f, 1.0f, -1.0f, 3.0f, 2.0f, 1.0f));
+static_assert(true == collision_line_triangle(2.0f, 1.0f, -1.0f, 3.0f,     2.0f, 1.0f, -1.0f, 3.0f, 2.0f, 1.0f));
+static_assert(true == collision_line_triangle(2.0f, 1.0f, 2.0f, 1.0f,     2.0f, 1.0f, -1.0f, 3.0f, 2.0f, 1.0f));
 
 static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f,     4.5f, 7.5f, 2.0f, 2.0f));
 static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f,     4.5f, 7.5f, 1.4f, 1.4f));
