@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cmath>
-
 //! Here resides the actual mathematical core of the collision routines
 //! These are completely decoupled from any Ruby or SFML magic
 
@@ -208,7 +206,36 @@ constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, f
 	if (proj_perp - r2 > 0.0f) return false;
 	if (proj_perp + r2 < 0.0f) return false;
 
-	//! If no gaps are present, the circle and the line are intersecting
+	//! Check closest point on the line
+
+	auto x2d1 = x21 - dx1;
+	auto y2d1 = y21 - dy1;
+
+	auto distance_1_2 = x21 * x21 + y21 * y21;
+	auto distance_d_2 = x2d1 * x2d1 + y2d1 * y2d1;
+
+	if (distance_1_2 < distance_d_2) {
+
+		//! Start point is closer to circle
+
+		auto p1 = distance_1_2;
+		auto p2 = distance_1_2 - dx1 * x21 - dy1 * y21;
+
+		//! TODO: Improve this expression
+
+		if (!between(p1, -r2, r2) && !between(p2, -r2, r2) &&!between(0.0f, p1, p2)) return false;
+		
+
+	} else {
+
+		//! End point is closer to circle
+
+		auto p1 = distance_d_2;
+		auto p2 = distance_1_2 - dx1 * x21 - dy1 * y21;
+
+		if (!between(p1, -r2, r2) && !between(p2, -r2, r2) && !between(0.0f, p1, p2)) return false;
+
+	}
 
 	return true;
 
@@ -435,11 +462,12 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 	auto projection_vertex_mm_line = dymvx - dxmvy;
 
 	//! Check all vertices for intersection with the circle
+	//! TODO: This should NOT work with the normal!!!
 
-	if (!between(projection_vertex_pp_line, -r1, r1) 
-		&& !between(projection_vertex_pm_line, -r1, r1)
-		&& !between(projection_vertex_mp_line, -r1, r1)
-		&& !between(projection_vertex_mm_line, -r1, r1)) return false;
+	if (constexpr_abs(projection_vertex_pp_line) > r1
+		&& constexpr_abs(projection_vertex_pm_line) > r1
+		&& constexpr_abs(projection_vertex_mp_line) > r1
+		&& constexpr_abs(projection_vertex_mm_line) > r1) return false;
 
 	return true;
 
