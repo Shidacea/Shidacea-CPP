@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 //! Here resides the actual mathematical core of the collision routines
 //! These are completely decoupled from any Ruby or SFML magic
 
@@ -49,6 +51,26 @@ template <class T> constexpr bool between(T value, T border_1, T border_2) {
 
 }
 
+template <class T> constexpr bool overlap(std::initializer_list<T> interval_1, std::initializer_list<T> interval_2) {
+
+	auto interval_1_minmax = std::minmax(interval_1);
+	auto interval_2_minmax = std::minmax(interval_2);
+
+	if (interval_2_minmax.second < interval_1_minmax.first) return false;
+	if (interval_1_minmax.second < interval_2_minmax.first) return false;
+
+	return true;
+
+}
+
+template <class T> constexpr T sign_square(T x) {
+
+	return (x < 0.0f ? -x * x : x * x);
+
+}
+
+//! Actual collision routines
+
 constexpr bool collision_point_point(float x1, float y1, float x2, float y2) {
 
 	//! Usually, this routine will yield false
@@ -79,8 +101,7 @@ constexpr bool collision_point_line(float x1, float y1, float x2, float y2, floa
 
 	auto projection = dx12 * dx2 + dy12 * dy2;
 
-	if (projection < 0.0f) return false;
-	if (projection > dx2 * dx2 + dy2 * dy2) return false;
+	if (!between(projection, 0.0f, dx2 * dx2 + dy2 * dy2)) return false;
 
 	return true;
 
@@ -214,26 +235,25 @@ constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, f
 	auto distance_1_2 = x21 * x21 + y21 * y21;
 	auto distance_d_2 = x2d1 * x2d1 + y2d1 * y2d1;
 
+	auto proj_r2_squared = r2 * r2 * (x21 * x21 + y21 * y21);
+
 	if (distance_1_2 < distance_d_2) {
 
 		//! Start point is closer to circle
 
-		auto p1 = distance_1_2;
-		auto p2 = distance_1_2 - dx1 * x21 - dy1 * y21;
+		auto p1 = sign_square(distance_1_2);
+		auto p2 = sign_square(distance_1_2 - dx1 * x21 - dy1 * y21);
 
-		//! TODO: Improve this expression
-
-		if (!between(p1, -r2, r2) && !between(p2, -r2, r2) &&!between(0.0f, p1, p2)) return false;
-		
+		if (!overlap({ p1, p2 }, { -proj_r2_squared, proj_r2_squared })) return false;
 
 	} else {
 
 		//! End point is closer to circle
 
-		auto p1 = distance_d_2;
-		auto p2 = distance_1_2 - dx1 * x21 - dy1 * y21;
+		auto p1 = sign_square(distance_d_2);
+		auto p2 = sign_square(distance_1_2 - dx1 * x21 - dy1 * y21);
 
-		if (!between(p1, -r2, r2) && !between(p2, -r2, r2) && !between(0.0f, p1, p2)) return false;
+		if (!overlap({ p1, p2 }, { -proj_r2_squared, proj_r2_squared })) return false;
 
 	}
 
@@ -348,7 +368,7 @@ constexpr bool collision_line_triangle(float x1, float y1, float dx1, float dy1,
 	auto projection_d_on_na = dy1 * sxa2 - dx1 * sya2;
 	auto projection_b_on_na = syb2 * sxa2 - sxb2 * sya2;
 
-	if (!between(projection_1_on_na, 0.0f, projection_b_on_na) && !between(projection_1_on_na + projection_d_on_na, 0.0f, projection_b_on_na)) return false;
+	if (!overlap({ projection_1_on_na, projection_1_on_na + projection_d_on_na }, { 0.0f, projection_b_on_na })) return false;
 
 	//! This needs to be repeated for the other given triangle side
 
@@ -356,7 +376,7 @@ constexpr bool collision_line_triangle(float x1, float y1, float dx1, float dy1,
 	auto projection_d_on_nb = dy1 * sxb2 - dx1 * syb2;
 	auto projection_a_on_nb = -projection_b_on_na;
 
-	if (!between(projection_1_on_nb, 0.0f, projection_a_on_nb) && !between(projection_1_on_nb + projection_d_on_nb, 0.0f, projection_a_on_nb)) return false;
+	if (!overlap({ projection_1_on_nb, projection_1_on_nb + projection_d_on_nb }, { 0.0f, projection_a_on_nb })) return false;
 
 	//! The last line is the difference vector between the vertices A and B
 
@@ -367,7 +387,7 @@ constexpr bool collision_line_triangle(float x1, float y1, float dx1, float dy1,
 	auto projection_d_on_nc = dy1 * sxc2 - dx1 * syc2;
 	auto projection_2_on_nc = projection_b_on_na;
 
-	if (!between(projection_1_on_nc, 0.0f, projection_2_on_nc) && !between(projection_1_on_nc + projection_d_on_nc, 0.0f, projection_2_on_nc)) return false;
+	if (!overlap({ projection_1_on_nc, projection_1_on_nc + projection_d_on_nc }, { 0.0f, projection_2_on_nc })) return false;
 
 	return true;
 
@@ -402,10 +422,8 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 
 	//! Check for intersection of the circle projections with the AABB projections
 
-	if (r1 < dxm) return false;
-	if (r1 < dym) return false;
-	if (dxp < - r1) return false;
-	if (dyp < - r1) return false;
+	if (!overlap({ dxm, dxp }, { -r1, r1 })) return false;
+	if (!overlap({ dym, dyp }, { -r1, r1 })) return false;
 
 	//! Calculated distances to circle to determine closest vertex
 
@@ -451,23 +469,14 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 
 	//! Project AABB on difference vector with circle midpoint defined as zero
 
-	auto dypvx = dyp * vx;
-	auto dymvx = dym * vx;
-	auto dxpvy = dxp * vy;
-	auto dxmvy = dxm * vy;
+	auto proj_v_pp = sign_square(dxp * vx + dyp * vy);
+	auto proj_v_pm = sign_square(dxp * vx + dym * vy);
+	auto proj_v_mp = sign_square(dxm * vx + dyp * vy);
+	auto proj_v_mm = sign_square(dxm * vx + dym * vy);
 
-	auto projection_vertex_pp_line = dypvx - dxpvy;
-	auto projection_vertex_pm_line = dypvx - dxmvy;
-	auto projection_vertex_mp_line = dymvx - dxpvy;
-	auto projection_vertex_mm_line = dymvx - dxmvy;
+	auto proj_r1_squared = r1 * r1 * (vx * vx + vy * vy);
 
-	//! Check all vertices for intersection with the circle
-	//! TODO: This should NOT work with the normal!!!
-
-	if (constexpr_abs(projection_vertex_pp_line) > r1
-		&& constexpr_abs(projection_vertex_pm_line) > r1
-		&& constexpr_abs(projection_vertex_mp_line) > r1
-		&& constexpr_abs(projection_vertex_mm_line) > r1) return false;
+	if (!overlap({ proj_v_pp, proj_v_pm, proj_v_mp, proj_v_mm }, { -proj_r1_squared, proj_r1_squared })) return false;
 
 	return true;
 
@@ -508,6 +517,13 @@ static_assert(true == fraction_between_zero_and_one(-1.0, -3.0));
 static_assert(false == fraction_between_zero_and_one(3.0, 1.0));
 static_assert(false == fraction_between_zero_and_one(-3.0, 1.0));
 static_assert(false == fraction_between_zero_and_one(-3.0, -1.0));
+
+static_assert(true == overlap({ 1, 3, 4 }, { 2, 1 }));
+static_assert(false == overlap({ 1, 3, 4 }, { 6, 5 }));
+static_assert(false == overlap({ -1, 6 }, { -3 }));
+static_assert(true == overlap({ -1, 6 }, { 3 }));
+static_assert(true == overlap({ -1, 6 }, { -1 }));
+static_assert(true == overlap({ -1, 6 }, { 6 }));
 
 static_assert(false == collision_point_point(1.0f, 2.0f,     3.0f, 4.0f));
 static_assert(true == collision_point_point(1.0f, 9.0f,     1.0f, 9.0f));
@@ -551,8 +567,9 @@ static_assert(true == collision_circle_box(1.0f, -3.0f, 4.0f,     0.0f, 0.0f, 5.
 static_assert(true == collision_circle_box(1.0f, -3.0f, 1.0f,     0.0f, 0.0f, 5.0f, 2.0f));
 static_assert(false == collision_circle_box(1.0f, -3.0f, 0.9f,     0.0f, 0.0f, 5.0f, 2.0f));
 static_assert(true == collision_circle_box(2.0f, 1.0f, 0.1f,     0.0f, 0.0f, 2.0f, 2.0f));
-static_assert(false == collision_circle_box(3.0f, 3.0f, 0.9f,     0.0f, 0.0f, 2.0f, 2.0f));
-static_assert(true == collision_circle_box(3.0f, 3.0f, 1.0f, 0.0f, 0.0f, 2.0f, 2.0f));
+static_assert(false == collision_circle_box(3.0f, 3.0f, 1.0f,     0.0f, 0.0f, 2.0f, 2.0f));
+static_assert(true == collision_circle_box(3.0f, 3.0f, 1.5f,     0.0f, 0.0f, 2.0f, 2.0f));
+static_assert(true == collision_circle_box(3.0f, 3.0f, 2.0f,     0.0f, 0.0f, 2.0f, 2.0f));
 
 static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 2.0f, 2.0f));
 static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 1.4f, 1.4f));
