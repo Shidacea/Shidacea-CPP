@@ -213,21 +213,23 @@ constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, f
 	auto x21 = x2 - x1;
 	auto y21 = y2 - y1;
 
+	auto r2_squared = r2 * r2;
+
 	//! Project the circle directly on the line and check whether there is a gap or not
+	//! This involves a small trick, since the projection of the circle itself is not trivial on non-axis-aligned lines
+	//! Normally, this projection would be r2 * sqrt(|line|), where line is the vector to which the circle will be projected
+	//! The test would then be whether 0 (the projection of the line on itself) is between proj_circle_normal +/- r2 * sqrt(|line|)
+	//! The square root can be removed by taking the square of the whole test, but conserving the signs of each side
+	//! Then, only a square instead of a square root is necessary, speeding up the procedure
+	//! Finally, both sides can be substracted by proj_circle_normal
 
-	auto proj_par = x21 * dx1 + y21 * dy1;
-	
-	if (proj_par + r2 < 0.0f) return false;
-	if (proj_par - r2 > dx1 * dx1 + dy1 * dy1) return false;
-	
-	//! Now project the circle on the normal of the line and check for a gap
+	auto proj_circle_normal = y21 * dx1 - x21 * dy1;
+	auto proj_circle_normal_max = r2_squared * (dx1 * dx1 + dy1 * dy1);
 
-	auto proj_perp = y21 * dx1 - x21 * dy1;
+	if (!between(sign_square(proj_circle_normal), -proj_circle_normal_max, proj_circle_normal_max)) return false;
 
-	if (proj_perp - r2 > 0.0f) return false;
-	if (proj_perp + r2 < 0.0f) return false;
-
-	//! Check closest point on the line
+	//! Now check the closest point on the line and take the difference between it and the circle midpoint as a new axis to test
+	//! If this test is done, no other axes need to be tested
 
 	auto x2d1 = x21 - dx1;
 	auto y2d1 = y21 - dy1;
@@ -235,14 +237,14 @@ constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, f
 	auto distance_1_2 = x21 * x21 + y21 * y21;
 	auto distance_d_2 = x2d1 * x2d1 + y2d1 * y2d1;
 
-	auto proj_r2_squared = r2 * r2 * (x21 * x21 + y21 * y21);
-
 	if (distance_1_2 < distance_d_2) {
 
 		//! Start point is closer to circle
 
 		auto p1 = sign_square(distance_1_2);
 		auto p2 = sign_square(distance_1_2 - dx1 * x21 - dy1 * y21);
+
+		auto proj_r2_squared = r2_squared * (x21 * x21 + y21 * y21);
 
 		if (!overlap({ p1, p2 }, { -proj_r2_squared, proj_r2_squared })) return false;
 
@@ -252,6 +254,8 @@ constexpr bool collision_line_circle(float x1, float y1, float dx1, float dy1, f
 
 		auto p1 = sign_square(distance_d_2);
 		auto p2 = sign_square(distance_1_2 - dx1 * x21 - dy1 * y21);
+
+		auto proj_r2_squared = r2_squared * (x2d1 * x2d1 + y2d1 * y2d1);
 
 		if (!overlap({ p1, p2 }, { -proj_r2_squared, proj_r2_squared })) return false;
 
@@ -552,7 +556,8 @@ static_assert(false == collision_line_line(1.1f, 0.0f, 1.0f, 0.0f,     0.0f, 0.0
 
 static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,     -3.0f, -3.0f, 100.0f));
 static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      4.0f, 4.0f, 0.1f));
-static_assert(false == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      10.0f, 10.0f, 0.9f));
+static_assert(false == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      10.0f, 10.0f, 1.4f));
+static_assert(true == collision_line_circle(1.0f, 1.0f, 8.0f, 8.0f,      10.0f, 10.0f, 1.5f));
 
 static_assert(true == collision_line_box(3.0f, 2.0f, 8.0f, 11.0f,     5.0f, 6.0f, 5.0f, 5.0f));
 static_assert(false == collision_line_box(11.0f, 0.0f, 11.0f, 13.0f,     5.0f, 6.0f, 5.0f, 5.0f));
