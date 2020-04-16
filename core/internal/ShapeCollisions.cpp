@@ -1,6 +1,7 @@
 #include "Shape.h"
 
 //! Collision algorithms referencing to pure mathematical methods
+//! TODO: Implement scaling and rotations properly
 
 DEFINE_COLLISION(ShapePoint, ShapePoint) {
 
@@ -90,7 +91,7 @@ DEFINE_COLLISION(ShapeLine, ShapeCircle) {
 
 	auto dx1 = shape1.line.x;
 	auto dy1 = shape1.line.y;
-	auto r2 = shape2.radius;
+	auto r2 = shape2.radius * shape2.scale;
 
 	return collision_line_circle(x1, y1, dx1, dy1, x2, y2, r2);
 
@@ -169,7 +170,14 @@ DEFINE_COLLISION(ShapeCircle, ShapeTriangle) {
 
 	GET_POSITIONS;
 
-	return false;	// TODO
+	auto r1 = shape1.radius * shape1.scale;
+
+	auto sxa2 = shape2.side_1.x;
+	auto sya2 = shape2.side_1.y;
+	auto sxb2 = shape2.side_2.x;
+	auto syb2 = shape2.side_2.y;
+
+	return collision_circle_triangle(x1, y1, r1, x2, y2, sxa2, sya2, sxb2, syb2);
 
 }
 

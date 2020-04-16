@@ -486,6 +486,91 @@ constexpr bool collision_circle_box(float x1, float y1, float r1, float x2, floa
 
 }
 
+constexpr bool collision_circle_triangle(float x1, float y1, float r1, float x2, float y2, float sxa2, float sya2, float sxb2, float syb2) {
+
+	//! This test is similar to circle/box, but the checked axes are different
+	//! The first three axes are the normals of the triangle edges
+	//! The procedure here is fully according to the separating axis theorem again
+
+	auto dx = x1 - x2;
+	auto dy = y1 - y2;
+
+	auto r1_squared = r1 * r1;
+	auto cross_term = sxa2 * syb2 - sxb2 * sya2;
+
+	//! Check edge a
+
+	auto proj_x1_a = dy * sxa2 - dx * sya2;
+	auto proj_r1_a_squared = r1_squared * (sxa2 * sxa2 + sya2 * sya2);
+	
+	if (!overlap({ sign_square(-proj_x1_a), sign_square(cross_term - proj_x1_a) }, { -proj_r1_a_squared, proj_r1_a_squared })) return false;
+
+	//! Check edge b
+
+	auto proj_x1_b = dy * sxb2 - dx * syb2;
+	auto proj_r1_b_squared = r1_squared * (sxb2 * sxb2 + syb2 * syb2);
+
+	if (!overlap({ sign_square(-proj_x1_b), sign_square(-cross_term - proj_x1_b) }, { -proj_r1_b_squared, proj_r1_b_squared })) return false;
+
+	//! Check edge c (the one spanned by vertices A and B)
+
+	auto sxc2 = sxb2 - sxa2;
+	auto syc2 = syb2 - sya2;
+	
+	//! Normally, the following term also contains the cross term, but the projection of the base vertex on this line lets this term vanish
+	//! Therefore, it is possible to drop it completely from the following comparison
+
+	auto proj_x1_c = dy * (sxb2 - sxa2) - dx * (syb2 - sya2);
+	auto proj_r1_c_squared = r1_squared * (sxc2 * sxc2 + syc2 * syc2);
+
+	if (!overlap({ sign_square(-proj_x1_c), sign_square(proj_x1_c) }, { -proj_r1_c_squared, proj_r1_c_squared })) return false;
+
+	//! All normal checks were inconclusive, so the line from the circle to the closest vertex is required for a last test
+	//! This is again the same principle as for circle/box
+
+	float min_dist = dx * dx + dy * dy;
+	float vx = -dx;
+	float vy = -dy;
+
+	auto dxa = dx - sxa2;
+	auto dya = dy - sya2;
+
+	auto dxb = dx - sxb2;
+	auto dyb = dy - syb2;
+
+	auto da_norm = dxa * dxa + dya * dya;
+	auto db_norm = dxb * dxb + dyb * dyb;
+
+	if (da_norm < min_dist) {
+
+		min_dist = da_norm;
+		vx = -dxa;
+		vy = -dya;
+
+	}
+
+	if (db_norm < min_dist) {
+
+		min_dist = db_norm;
+		vx = -dxb;
+		vy = -dyb;
+
+	}
+
+	//! Projection of the triangle on the line
+
+	auto proj_2_0_v = sign_square(-dx * vx - dy * vy);
+	auto proj_2_a_v = sign_square(-dxa * vx - dya * vy);
+	auto proj_2_b_v = sign_square(-dxb * vx - dyb * vy);
+
+	auto proj_r_v_squared = r1_squared * min_dist;
+
+	if (!overlap({ proj_2_0_v, proj_2_a_v, proj_2_b_v }, { -proj_r_v_squared, proj_r_v_squared })) return false;
+
+	return true;
+
+}
+
 constexpr bool collision_box_box(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
 
 	//! Simple generalization of point/box
@@ -575,6 +660,10 @@ static_assert(true == collision_circle_box(2.0f, 1.0f, 0.1f,     0.0f, 0.0f, 2.0
 static_assert(false == collision_circle_box(3.0f, 3.0f, 1.0f,     0.0f, 0.0f, 2.0f, 2.0f));
 static_assert(true == collision_circle_box(3.0f, 3.0f, 1.5f,     0.0f, 0.0f, 2.0f, 2.0f));
 static_assert(true == collision_circle_box(3.0f, 3.0f, 2.0f,     0.0f, 0.0f, 2.0f, 2.0f));
+
+static_assert(false == collision_circle_triangle(5.0f, 5.0f, 3.0f,     3.0f, 2.0f, -1.0f, -5.0f, -5.0f, -1.0f));
+static_assert(true == collision_circle_triangle(0.0f, 0.0f, 1.0f,     3.0f, 2.0f, -1.0f, -5.0f, -5.0f, -1.0f));
+static_assert(true == collision_circle_triangle(5.0f, 5.0f, 4.0f,     3.0f, 2.0f, -1.0f, -5.0f, -5.0f, -1.0f));
 
 static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 2.0f, 2.0f));
 static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 1.4f, 1.4f));
