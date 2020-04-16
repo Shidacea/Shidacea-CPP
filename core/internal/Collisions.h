@@ -35,19 +35,12 @@ template <class T> constexpr bool fraction_between_zero_and_one(T nominator, T d
 
 template <class T> constexpr bool between(T value, T border_1, T border_2) {
 
-	if (border_1 < border_2) {
+	auto interval = std::minmax(border_1, border_2);
 
-		return (value >= border_1 && value <= border_2);
+	if (value < interval.first) return false;
+	if (value > interval.second) return false;
 
-	} else if (border_1 > border_2) {
-
-		return (value >= border_2 && value <= border_1);
-
-	} else {
-
-		return (value == border_1);
-
-	}
+	return true;
 
 }
 
@@ -665,7 +658,7 @@ static_assert(false == collision_circle_triangle(5.0f, 5.0f, 3.0f,     3.0f, 2.0
 static_assert(true == collision_circle_triangle(0.0f, 0.0f, 1.0f,     3.0f, 2.0f, -1.0f, -5.0f, -5.0f, -1.0f));
 static_assert(true == collision_circle_triangle(5.0f, 5.0f, 4.0f,     3.0f, 2.0f, -1.0f, -5.0f, -5.0f, -1.0f));
 
-static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 2.0f, 2.0f));
-static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f, 4.5f, 7.5f, 1.4f, 1.4f));
+static_assert(true == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f,     4.5f, 7.5f, 2.0f, 2.0f));
+static_assert(false == collision_box_box(1.0f, 2.0f, 3.0f, 4.0f,     4.5f, 7.5f, 1.4f, 1.4f));
 
 #endif
