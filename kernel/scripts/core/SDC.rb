@@ -147,7 +147,7 @@ module SDC
 
 		end
 
-		sprite = Sprite.new
+		sprite = SDC::Sprite.new
 		sprite.link_texture(texture)
 		SDC.window.draw_translated(sprite, coordinates)
 	end
