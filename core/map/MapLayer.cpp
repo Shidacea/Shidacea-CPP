@@ -1,7 +1,5 @@
 #include "MapLayer.h"
 
-#include <iostream>
-
 MapLayer::MapLayer(unsigned int width, unsigned int height, unsigned int view_width, unsigned int view_height, unsigned int tile_width, unsigned int tile_height) {
 
 	this->width = width;

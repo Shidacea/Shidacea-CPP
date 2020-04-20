@@ -69,11 +69,6 @@ MrbWrap::load_all_scripts_recursively(mrb, #path)
 #define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbWrap::load_all_scripts_recursively(mrb, #path)
 #endif
 
-//! TODO: Rewrite functions above and includes so that only the core and the custom scenes and entities need to be loaded
-//! TODO: Do this by defining macros which may either load one single header or a folder with scripts recursively
-
-#include <iostream>
-
 //! Alias for the lamdba type used for mruby functions
 
 #define MRUBY_FUNC [](mrb_state* mrb, mrb_value self) noexcept -> mrb_value
