@@ -8,6 +8,22 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<sf::Texture>(mrb);
 
+	MrbWrap::define_member_function(mrb, ruby_texture_class, "size", MRUBY_FUNC {
+
+		auto texture = MrbWrap::convert_from_object<sf::Texture>(mrb, self);
+
+		auto size = static_cast<sf::Vector2f>(texture->getSize());
+
+		auto ivec_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
+		auto new_mruby_size = mrb_obj_new(mrb, ivec_class, 0, NULL);
+
+		auto ruby_size = MrbWrap::convert_from_object<sf::Vector2f>(mrb, new_mruby_size);
+		*ruby_size = size;
+
+		return new_mruby_size;
+
+	});
+
 	MrbWrap::define_member_function(mrb, ruby_texture_class, "load_from_file", MRUBY_FUNC {
 
 		char* filename;
