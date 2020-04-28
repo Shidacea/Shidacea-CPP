@@ -10,7 +10,7 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::Sprite>(), "link_texture", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_raw_args<sf::Vector2f>(mrb);
+		auto args = MrbWrap::get_raw_args<sf::Texture>(mrb);
 		auto ruby_texture = std::get<0>(args);
 
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, self);

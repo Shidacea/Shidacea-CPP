@@ -57,6 +57,13 @@ class SceneTest < SDC::Scene
 
 		@music.pitch *= (1.0 + (rand - 0.5)*0.1) if SDC.get_switch("chaos")
 
+		if @decrease > 0 then
+			@example_sound_1.pitch *= 0.99
+			@example_sound_2.pitch *= 1.01
+			@example_sound_3.pitch *= 0.97
+			@decrease -= 1
+		end
+
 		v = 20.0 * (SDC.game.meter / SDC.game.second**2)
 		dx = (SDC.key_pressed?(:A) ? -v : 0.0) + (SDC.key_pressed?(:D) ? v : 0.0)
 		dy = (SDC.key_pressed?(:S) ? v : 0.0)
@@ -90,6 +97,19 @@ class SceneTest < SDC::Scene
 		@test_font = SDC::Font.new
 		@test_font.load_from_file("assets/fonts/arial.ttf")
 		@test_text = SDC::Text.new("Hello,\nWorld", @test_font, 100)
+
+		SDC::Data.load_sound_buffer(:Yeow, filename: "assets/sounds/Yeow.ogg")
+
+		@example_sound = SDC::Sound.new
+		@example_sound_1 = SDC::Sound.new
+		@example_sound_2 = SDC::Sound.new
+		@example_sound_3 = SDC::Sound.new
+		@decrease = 0
+
+		@example_sound.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
+		@example_sound_1.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
+		@example_sound_2.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
+		@example_sound_3.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
 
 		load_map
 
@@ -177,6 +197,22 @@ class SceneTest < SDC::Scene
 			SDC::ImGui.button "Pitch up" {@music.pitch *= 1.1}
 			SDC::ImGui.button "Pitch down" {@music.pitch /= 1.1}
 			SDC::ImGui.button "Pitch ??? #{!SDC.get_switch("chaos") ? "on" : "off"}" {SDC.toggle_switch("chaos")}
+
+			SDC::ImGui.button "Play sound" do
+				@example_sound.play
+			end
+
+			SDC::ImGui.button "Play demonic sound" do
+				@example_sound_1.pitch = 0.5
+				@example_sound_2.pitch = 0.4
+				@example_sound_3.pitch = 0.3
+
+				@example_sound_1.play
+				@example_sound_2.play
+				@example_sound_3.play
+
+				@decrease = 100
+			end
 
 			SDC::ImGui.text "Shape Collision: #{shape_collision_no.div(2)}"	# Filter double collisions
 			SDC::ImGui.text "Box Collision:   #{box_collision_no.div(2)}"

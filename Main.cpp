@@ -40,6 +40,8 @@ int main(int argc, char** argv) {
 	setup_ruby_class_event(mrb, sdc_module);
 
 	setup_ruby_class_music(mrb, sdc_module);
+	setup_ruby_class_sound_buffer(mrb, sdc_module);
+	setup_ruby_class_sound(mrb, sdc_module);
 
 	setup_ruby_class_color(mrb, sdc_module);
 	setup_ruby_class_texture(mrb, sdc_module);

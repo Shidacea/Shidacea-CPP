@@ -8,10 +8,10 @@ module SDC
 
 		self.define_new_data_type(:entity, plural: :entities, as_hash: true)
 		self.define_new_data_type(:font, as_hash: true)
-		self.define_new_data_type(:text)
+		self.define_new_data_type(:text, as_hash: true)
 		self.define_new_data_type(:tileset, as_hash: true)
 		self.define_new_data_type(:texture, as_hash: true)
-		self.define_new_data_type(:sound_buffer)
+		self.define_new_data_type(:sound_buffer, as_hash: true)
 		self.define_new_data_type(:music_track, as_hash: true)
 		self.define_new_data_type(:map_config, as_hash: true)
 		self.define_new_data_type(:filename, as_hash: true)
@@ -33,6 +33,23 @@ module SDC
 		def self.preload_texture(file_index, filename)
 			self.add_filename(filename, index: file_index)
 			self.load_texture(file_index)
+		end
+
+		def self.load_sound_buffer(file_index, filename: nil)
+			filename = self.filenames[file_index] if !filename
+
+			if !self.sound_buffers[file_index] then
+				sound_buffer = SDC::SoundBuffer.new
+				sound_buffer.load_from_file(filename)
+				self.add_sound_buffer(sound_buffer, index: file_index)
+			end
+
+			return self.sound_buffers[file_index]
+		end
+
+		def self.preload_sound_buffer(file_index, filename)
+			self.add_filename(filename, index: file_index)
+			self.load_sound_buffer(file_index)
 		end
 
 		def self.load_music(file_index, filename: nil)

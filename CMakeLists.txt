@@ -282,6 +282,8 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/projects)
 
 set(AUDIO_SOURCES
 	core/audio/Music.cpp
+	core/audio/SoundBuffer.cpp
+	core/audio/Sound.cpp
 )
 
 set(GRAPHICS_SOURCES

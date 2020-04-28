@@ -1,29 +1,11 @@
 #include "SoundBuffer.h"
 
-//! TODO
+void setup_ruby_class_sound_buffer(mrb_state* mrb, RClass* ruby_module) {
 
-//mrb_value ruby_sound_buffer_load_from_file(mrb_state* mrb, mrb_value self) {
-//
-//	char* filename;
-//
-//	mrb_get_args(mrb, "z", &filename);
-//
-//	auto buffer = MrbWrap::convert_from_object<sf::SoundBuffer>(mrb, self);
-//
-//	buffer->loadFromFile(filename);	//! TODO: Find out why this yields a warning
-//
-//	return self;
-//
-//}
-//
-//void setup_ruby_class_sound_buffer(mrb_state* mrb) {
-//
-//	auto ruby_sound_buffer_class = MrbWrap::define_data_class(mrb, "SoundBuffer");
-//
-//	MrbWrap::wrap_class_under<sf::SoundBuffer>(mrb, "SoundBuffer", ruby_module);
-//
-//	MrbWrap::wrap_constructor<sf::SoundBuffer>(mrb);
-//
-//	mrb_define_method(mrb, ruby_sound_buffer_class, "load_from_file", ruby_sound_buffer_load_from_file, MRB_ARGS_REQ(1));
-//
-//}
+	MrbWrap::wrap_class_under<sf::SoundBuffer>(mrb, "SoundBuffer", ruby_module);
+
+	MrbWrap::wrap_constructor<sf::SoundBuffer>(mrb);
+
+	MrbWrap::wrap_member_function<sf::SoundBuffer, &sf::SoundBuffer::loadFromFile, MRBW_FILE>(mrb, "load_from_file");
+
+}

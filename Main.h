@@ -58,6 +58,8 @@ constexpr char SHIDACEA_VERSION[] = "0.0.1d";
 #include "MapLayer.h"
 #include "Tileset.h"
 #include "Music.h"
+#include "SoundBuffer.h"
+#include "Sound.h"
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 #include "ImGuiWrapper.h"
