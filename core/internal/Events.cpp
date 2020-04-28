@@ -381,4 +381,12 @@ void setup_ruby_class_event(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
+	MrbWrap::define_member_function(mrb, ruby_event_class, "text_unicode", MRUBY_FUNC {
+
+		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, self);
+
+		return mrb_fixnum_value(static_cast<mrb_int>(event->text.unicode));
+
+	}, MRB_ARGS_NONE());
+
 }

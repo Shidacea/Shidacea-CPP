@@ -1,15 +1,42 @@
 class SceneTest < SDC::Scene 
 
 	def handle_event(event)
-		if event.has_type?(:KeyPressed) then
+		if event.has_type?(:Closed) then
+			SDC.next_scene = nil
+
+		elsif SDC.text_input then
+			if event.has_type?(:TextEntered) then
+				char = event.text_char
+				puts event.text_unicode
+
+				if char == "\n" then
+
+				elsif char == "\r" then
+
+				elsif char == "\t" then
+
+				elsif char == "\b" then
+					@text_buffer.chop!
+				elsif char == "\x7F" then
+					# Remove the last word and every whitespace after it
+					@text_buffer.rstrip!
+					last_space = @text_buffer.rindex(" ")
+					if last_space then
+						@text_buffer = @text_buffer[0..last_space]
+					else
+						@text_buffer = ""
+					end
+				else
+					@text_buffer += event.text_char
+				end
+			end
+
+		elsif event.has_type?(:KeyPressed) then
 			if event.key_pressed?(:W) then
 				@entities[0].accelerate(SDC.game.gravity * (-50.0))
 			end
 
 			@last_key_code = event.key_code.to_s
-
-		elsif event.has_type?(:Closed)
-			SDC.next_scene = nil
 
 		end
 	end
@@ -21,10 +48,9 @@ class SceneTest < SDC::Scene
 		elsif SDC::key_pressed?(:R) then
 			@entities[0].sprites[0].rotation += 0.5
 		
-		elsif SDC::key_pressed?(:F1) then
+		elsif SDC::key_pressed?(:F1, override_text_input: true) then
 			# Should trigger an error with backtrace
 			do_stuff_which_does_not_exist
-
 		end
 
 		@test_map.update
@@ -55,6 +81,8 @@ class SceneTest < SDC::Scene
 		@last_key_code = nil
 
 		@counter = 0
+
+		@text_buffer = ""
 
 		@music = SDC::Data.load_music(:TestMusic, filename: "assets/music/Example.wav")
 		@music.looping = true
@@ -89,6 +117,10 @@ class SceneTest < SDC::Scene
 		@test_array = [1, 2, 3]
 		@test_string = "Hello"
 		@test_string2 = "Derp"
+	end
+
+	def at_exit
+		SDC.text_input = nil
 	end
 
 	def load_map
@@ -161,6 +193,9 @@ class SceneTest < SDC::Scene
 
 			SDC::ImGui.button "Reset mouse" {SDC::EventMouse.set_position([300, 200], SDC.window)}
 			SDC::ImGui.text "Mouse pos = #{SDC.get_mouse_coords}"
+
+			SDC::ImGui.button "Set text input to #{!SDC.text_input}" {SDC.text_input = !SDC.text_input}
+			SDC::ImGui.text "Text = #{@text_buffer}"
 
 			SDC::ImGui.button "Rescale entity" do
 				@entities[0].shapes[0].scale *= 1.1

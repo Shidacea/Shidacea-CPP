@@ -7,6 +7,7 @@ module SDC
 	@next_scene = nil
 	@game = nil
 	@limiter = nil
+	@text_input = nil
 
 	def self.window
 		return @window
@@ -48,10 +49,18 @@ module SDC
 		@limiter = value
 	end
 
+	def self.text_input
+		return @text_input 
+	end
+
+	def self.text_input=(value)
+		@text_input = value
+	end
+
 	# Script routines for easier readability, directly referencing other methods
 
-	def self.key_pressed?(key)
-		return @window.has_focus? && SDC::EventKey.const_defined?(key) && SDC::EventKey.is_pressed?(SDC::EventKey.const_get(key))
+	def self.key_pressed?(key, override_text_input: false)
+		return @window.has_focus? && (override_text_input || !@text_input) && SDC::EventKey.const_defined?(key) && SDC::EventKey.is_pressed?(SDC::EventKey.const_get(key))
 	end
 
 	def self.key(key)

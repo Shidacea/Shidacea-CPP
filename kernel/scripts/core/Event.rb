@@ -40,6 +40,10 @@ module SDC
 			return SDC::Coordinates.new(self.mouse_move_x.to_f, self.mouse_move_y.to_f)
 		end
 
+		def text_char
+			return self.text_unicode.chr
+		end
+
 	end
 
 end
