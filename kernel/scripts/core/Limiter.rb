@@ -6,6 +6,7 @@ module SDC
 
 		def initialize(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)
 			@counter = 0
+			@temp_counter = 0
 			@max = max
 
 			# Intervals are rounded down, for now
@@ -36,17 +37,23 @@ module SDC
 		end
 
 		def tick
-			@timer = Time.now if @counter == 0
+			@timer = Time.now if !@timer
 
-			if @counter % @tick_interval == 0 then
+			is_update_frame = (@counter % @tick_interval == 0)
+			is_draw_frame = (@counter % @render_interval == 0)
+			is_gc_frame = (@counter % @gc_interval == 0)
+
+			scheduled_frame = is_update_frame || is_draw_frame || is_gc_frame
+
+			if is_update_frame then
 				@update_block&.call
 			end
 
-			if @counter % @render_interval == 0 then
+			if is_draw_frame then
 				@draw_block&.call
 			end
 
-			if @counter % @gc_interval == 0 then
+			if is_gc_frame then
 				@gc_block&.call
 			end
 
@@ -56,10 +63,19 @@ module SDC
 				@counter = 0
 			end
 
-			# Check how advanced the timer is
-			# If it is too far ahead of the scheduled time, just stall a bit
-			# This ensures a stable framerate without an desynchronization
-			while (Time.now - @timer) < ((1.0 + @counter.to_f) / @max) do
+			# Check how advanced the timer is, if this is an scheduled frame
+			# If the frame got executed too fast, some time can be stalled
+			# The non-scheduled frames then stabilize the framerate to a fixed pace
+			# A frame lasting longer than scheduled will therefore not be catched up
+			# This prevents the framerate boosting beyond the schedule
+
+			if scheduled_frame then
+				while (Time.now - @timer) < @temp_counter / @max do
+				end
+				@temp_counter = 0
+				@timer = Time.now
+			else
+				@temp_counter += 1
 			end
 
 			return true
