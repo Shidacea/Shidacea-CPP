@@ -26,4 +26,7 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::Text, &sf::Text::getCharacterSize>(mrb, "character_size");
 	MrbWrap::wrap_setter<sf::Text, &sf::Text::setCharacterSize, unsigned int>(mrb, "character_size=");
 
+	MrbWrap::wrap_getter<sf::Text, &sf::Text::getColor>(mrb, "color");
+	MrbWrap::wrap_setter<sf::Text, &sf::Text::setColor, sf::Color>(mrb, "color=");
+
 }
