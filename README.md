@@ -1,5 +1,9 @@
 # Shidacea 2D Game Engine
 
+<img src="https://img.shields.io/github/v/release/Hadeweka/Shidacea"> <img src="https://img.shields.io/github/release-date/Hadeweka/Shidacea">
+
+<img src="https://img.shields.io/github/license/Hadeweka/Shidacea"> 
+
 What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasion 2.
 
 This repository is an engine, a template for game projects and also a launcher for custom projects.
