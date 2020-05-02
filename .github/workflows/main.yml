@@ -2,8 +2,7 @@ name: BuildTest
 
 on:
   release:
-    types:
-      created
+    types: [published, created, edited, prereleased]
 
 jobs:
 
