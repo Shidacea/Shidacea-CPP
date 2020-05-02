@@ -26,6 +26,13 @@ jobs:
         sudo apt install -y libflac-dev
         sudo apt install -y xorg-dev
         sudo apt install -y libglu1-mesa-dev
+        sudo apt install -y g++-8
+        sudo apt install -y gcc-8
+        sudo update-alternatives --remove-all gcc
+        sudo update-alternatives --remove-all g++
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8
+        
         echo "Dependencies installed."
         echo "g++ version is:"
         g++ --version
