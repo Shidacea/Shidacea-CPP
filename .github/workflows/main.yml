@@ -4,7 +4,7 @@ on:
   push:
     branches: [ test-actions ]
   pull_request:
-    branches: [ trst-actions ]
+    branches: [ test-actions ]
 
 jobs:
 
@@ -19,7 +19,16 @@ jobs:
         sudo apt update
         sudo apt install -y bison
         sudo apt install -y ruby
+        sudo apt install -y libx11-dev
+        sudo apt install -y libudev-dev
+        sudo apt install -y libopenal-dev
+        sudo apt install -y libvorbis-dev
+        sudo apt install -y libflac-dev
+        sudo apt install -y xorg-dev
+        sudo apt install -y libglu1-mesa-dev
         echo "Dependencies installed."
+        echo "g++ version is:"
+        g++ --version
     
     - name: Main
       run: |
