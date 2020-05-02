@@ -24,7 +24,7 @@ jobs:
     - name: Main
       run: |
         sudo apt-get update
-        git clone https://github.com/Hadeweka/Shidacea/tree/test-actions Shidacea --recursive
+        git clone https://github.com/Hadeweka/Shidacea --recursive Shidacea
         mkdir build
         cd build
         cmake ..
