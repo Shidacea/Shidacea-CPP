@@ -1,7 +1,5 @@
-# TODO: Use this
-
 module SDC
-	module Launshi
+	class Launshi
 
 		COLOR_TEXT_REGULAR = SDC::Color.new(255, 255, 255, 255)
 		COLOR_TEXT_DISABLED = SDC::Color.new(127, 0, 0, 255)
@@ -9,14 +7,23 @@ module SDC
 		class SceneLaunshi < SDC::Scene
 
 			def at_init
-				SDC::Launshi.reset_configs
-				SDC::Launshi.load_configs("demo_projects")
-				SDC::Launshi.load_configs("projects", create_if_missing: true)
+				@launshi = SDC::Launshi.new
+				@launshi.load_configs("demo_projects")
+				@launshi.load_configs("projects", create_if_missing: true)
+
+				SDC::Data.load_font(:Standard, filename: "assets/fonts/arial.ttf")
+				@title_size = 20
+				@wrong_version_size = 15
+				@title_offset_x = 5
+				@title_offset_y = 5
+
+				@launshi.apply_filters
 
 				@active_config_id = 0
 
 				@start_buttons = []
 				@info_buttons = []
+				@genre_buttons = []
 
 				0.upto(3) do |i|
 					button_start_shape = SDC::ShapeBox.new(SDC::Coordinates.new(585 + 40, i*180 + 140 + 15), SDC::Coordinates.new(40, 15))
@@ -28,16 +35,25 @@ module SDC
 					@info_buttons[i] = button_info
 				end
 
-				SDC::Data.load_font(:Standard, filename: "assets/fonts/arial.ttf")
-				@title_size = 20
-				@wrong_version_size = 15
-				@title_offset_x = 5
-				@title_offset_y = 5
+				offset_y = 10 + 5*(@title_offset_y + @title_size) + 5
+				gx = 0
+				gy = 0
+				SDC::Launshi::AVAILABLE_GENRES.each do |genre|
+					button_genre_shape = SDC::ShapeBox.new(SDC::Coordinates.new(10 + 180*gx + 15, offset_y + (30 + 10)*gy + 15), SDC::Coordinates.new(15, 15))
+					button_genre = SDC::Button.new(shape: button_genre_shape)
+					@genre_buttons.push(button_genre)
+
+					gx += 1
+					if gx == 2 then
+						gx = 0
+						gy += 1
+					end
+				end
 			end
 			
 			def scroll_down
 				@active_config_id += 1
-				@active_config_id = [@active_config_id, [0, SDC::Launshi.get_configs.size - 4 - 1].max].min
+				@active_config_id = [@active_config_id, [0, @launshi.get_configs.size - 4 - 1].max].min
 			end
 
 			def scroll_up
@@ -70,11 +86,10 @@ module SDC
 
 						0.upto(3) do |i|
 
-							
-							configs = SDC::Launshi.get_configs
+							configs = @launshi.get_filtered_configs
 							config = configs[@active_config_id + i]
 
-							if config && SDC::Launshi::check_version(config) then
+							if config && @launshi.check_version(config) then
 								@start_buttons[i].on_mouse_touch do
 									project_start_id = @active_config_id + i
 								end
@@ -85,13 +100,21 @@ module SDC
 							end
 						end
 
-						if project_start_id && project_start_id < SDC::Launshi.get_configs.size then
-							SDC::Launshi.set_final_config(project_start_id)
+						if project_start_id && project_start_id < @launshi.get_filtered_configs.size then
+							SDC::Launshi.set_final_config(project_start_id, @launshi)
 							SDC.next_scene = nil
 
-						elsif project_info_id && project_info_id < SDC::Launshi.get_configs.size then
+						elsif project_info_id && project_info_id < @launshi.get_filtered_configs.size then
 							# TODO: Info window
 						end
+
+						0.upto(SDC::Launshi::AVAILABLE_GENRES.size - 1) do |i|
+							@genre_buttons[i].on_mouse_touch do	
+								@launshi.genre_filters[i] = !@launshi.genre_filters[i]
+								@launshi.apply_filters
+							end
+						end
+
 					end
 				end
 			end
@@ -103,7 +126,33 @@ module SDC
 			def draw
 				SDC.draw_texture(filename: "assets/graphics/FrameFilters.png", coordinates: SDC::Coordinates.new(0, 0))
 
-				configs = SDC::Launshi.get_configs
+				SDC.draw_text(font_index: :Standard, text: "Title filter", size: @title_size, coordinates: SDC::Coordinates.new(10, 10))
+
+				SDC.draw_text(font_index: :Standard, text: "Description filter", size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 2*(@title_offset_y + @title_size)))
+
+				SDC.draw_text(font_index: :Standard, text: "Genre filter", size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 4*(@title_offset_y + @title_size)))
+				
+				offset_y = 10 + 5*(@title_offset_y + @title_size) + 5
+				gx = 0
+				gy = 0
+				0.upto(SDC::Launshi::AVAILABLE_GENRES.size - 1) do |i|
+					genre = SDC::Launshi::AVAILABLE_GENRES[i]
+					if @launshi.genre_filters[i] then
+						SDC.draw_texture(filename: "assets/graphics/Checkbox_ticked.png", coordinates: SDC::Coordinates.new(10 + 180*gx, offset_y + (30 + 10)*gy))
+					else
+						SDC.draw_texture(filename: "assets/graphics/Checkbox.png", coordinates: SDC::Coordinates.new(10 + 180*gx, offset_y + (30 + 10)*gy))
+					end
+					SDC.draw_text(font_index: :Standard, text: genre, size: @title_size, coordinates: SDC::Coordinates.new(10 + 30 + 10 + 180*gx, offset_y + 2 + (30 + 10)*gy))
+					@genre_buttons[gy*2 + gx].draw
+					
+					gx += 1
+					if gx == 2 then
+						gx = 0
+						gy += 1
+					end
+				end
+
+				configs = @launshi.get_filtered_configs
 
 				0.upto(3) do |i|
 					config = configs[@active_config_id + i]
@@ -136,7 +185,7 @@ module SDC
 
 					version = config.json["shidacea_version"]
 
-					correct_version = SDC::Launshi::check_version(config)
+					correct_version = @launshi.check_version(config)
 					text_color = (correct_version ? COLOR_TEXT_REGULAR : COLOR_TEXT_DISABLED)
 
 					# TODO: Use buttons to simplify this

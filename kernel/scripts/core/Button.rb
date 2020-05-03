@@ -22,6 +22,7 @@ module SDC
 			function&.call if touched_by_mouse?
 		end
 
+		# TODO: Clicking is wonky, maybe this can be handled better
 		def touched_by_mouse?
 			return false if !@shape
 

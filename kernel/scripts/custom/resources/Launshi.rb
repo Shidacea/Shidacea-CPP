@@ -1,9 +1,17 @@
 # Launshi module with helper functions and singleton instance variables
 
 module SDC
-	module Launshi
+	class Launshi
 
 		PROJECT_FILE_NAME = "project.json"
+
+		AVAILABLE_GENRES = ["Demo", "Shooter", "Platformer", "Fighting", "Survival", 
+			"Adventure", "Horror", "Visual novel", "RPG", "Roguelike", 
+			"Simulation", "Strategy", "Sports", "Racing", "Board game", 
+			"Card game", "Turn-based", "Puzzle", "Logic", "Party",
+			"Action", "Adult"].sort
+
+		attr_accessor :name_filter, :description_filter, :genre_filters, :keyword_filters
 
 		class Config
 
@@ -16,12 +24,26 @@ module SDC
 
 		end
 
-		def self.reset_configs
-			@configs = []
-			@final_config = nil
+		def initialize
+			reset_configs
+			reset_filters
 		end
 
-		def self.load_configs(path, create_if_missing: false)
+		def reset_configs
+			@configs = []
+			@filtered_configs = []
+
+			self.class.reset_final_config
+		end
+
+		def reset_filters
+			@name_filter = ""
+			@description_filter = ""
+			@genre_filters = []
+			@keyword_filters = []
+		end
+
+		def load_configs(path, create_if_missing: false)
 			if !Dir.exists?(path) then
 				Dir.mkdir(path)
 			end
@@ -34,25 +56,59 @@ module SDC
 
 						@configs.push(new_config)
 
-						self.load_thumbnail(new_config)
+						load_thumbnail(new_config)
 					end
 				end
 			end
 		end
 
-		def self.set_final_config(index)
-			@final_config = @configs[index]
+		def self.reset_final_config
+			@final_config = nil
+		end
+
+		def self.set_final_config(index, instance)
+			@final_config = instance.get_configs[index]
 		end
 
 		def self.get_final_config
 			return @final_config
 		end
 
-		def self.get_configs
+		def get_configs
 			return @configs
 		end
 
-		def self.load_config_file(path, filename)
+		def get_filtered_configs
+			return @filtered_configs
+		end
+
+		def apply_filters
+			@filtered_configs = []
+			@configs.each do |config|
+				next if @name_filter.length > 0 && !config.json["title"].index(@name_filter)
+				next if @description_filter.length > 0 && !config.json["subtitle"].index(@description_filter) && !config.json["description"].index(@description_filter)
+
+				genre_found = false
+				count = 0
+				0.upto(AVAILABLE_GENRES.size - 1) do |i|
+					if @genre_filters[i] then
+						genre_found = true if config.json["genres"].index(AVAILABLE_GENRES[i])
+						count += 1
+					end
+				end
+				next if count > 0 && @genre_filters.size > 0 && !genre_found
+
+				keyword_found = false
+				@keyword_filters.each do |keyword_filter|
+					keyword_found = true if config.json["keywords"].index(keyword_filter)
+				end
+				next if @keyword_filters.size > 0 && !keyword_found
+
+				@filtered_configs.push(config)
+			end
+		end
+
+		def load_config_file(path, filename)
 			full_name = path + "/" + filename
 		
 			content = ""
@@ -78,14 +134,14 @@ module SDC
 			end
 		end
 
-		def self.load_thumbnail(config)
+		def load_thumbnail(config)
 			old_path = SDC::Script.path
 			SDC::Script.path = config.path
 			SDC::Data.preload_texture(config.path.to_sym, config.json["thumbnail"]) if config.json["thumbnail"] && !config.json["thumbnail"].empty?
 			SDC::Script.path = old_path
 		end
 
-		def self.check_version(config)
+		def check_version(config)
 			project_version = config.json["shidacea_version"]&.split(".")
 			return false if !project_version
 
