@@ -48,6 +48,8 @@ For Windows you need to make sure that the paths leading to ruby.exe and bison.e
 CMake can be obtained using Visual Studio, which is the recommended option.
 Also make sure to avoid path names with spaces in them, as mruby might fail to compile otherwise.
 
+Alternatively, you can use pre-compiled Windows binaries for each Shidacea release version.
+
 # Usage
 
 There are three different ways to use Shidacea.
