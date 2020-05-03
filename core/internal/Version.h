@@ -2,4 +2,4 @@
 
 #pragma once
 
-constexpr char SHIDACEA_VERSION[] = "0.0.1d";
+constexpr char SHIDACEA_VERSION[] = "0.1.0";
