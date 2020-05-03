@@ -162,9 +162,10 @@ module SDC
 	end
 
 	# TODO: Extend and cache
-	def self.draw_text(font_index: nil, text: "", size: 10, coordinates: SDC::Coordinates.new)
+	def self.draw_text(font_index: nil, text: "", size: 10, coordinates: SDC::Coordinates.new, color: nil)
 		font = SDC::Data.fonts[font_index]
 		text = SDC::Text.new(text, font, size)
+		text.color = color if color
 		SDC.window.draw_translated(text, coordinates)
 	end
 end

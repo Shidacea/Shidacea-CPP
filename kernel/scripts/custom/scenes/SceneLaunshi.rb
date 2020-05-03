@@ -3,6 +3,9 @@
 module SDC
 	module Launshi
 
+		COLOR_TEXT_REGULAR = SDC::Color.new(255, 255, 255, 255)
+		COLOR_TEXT_DISABLED = SDC::Color.new(127, 0, 0, 255)
+
 		class SceneLaunshi < SDC::Scene
 
 			def at_init
@@ -27,6 +30,7 @@ module SDC
 
 				SDC::Data.load_font(:Standard, filename: "assets/fonts/arial.ttf")
 				@title_size = 20
+				@wrong_version_size = 15
 				@title_offset_x = 5
 				@title_offset_y = 5
 			end
@@ -65,8 +69,15 @@ module SDC
 						project_info_id = nil
 
 						0.upto(3) do |i|
-							@start_buttons[i].on_mouse_touch do
-								project_start_id = @active_config_id + i
+
+							
+							configs = SDC::Launshi.get_configs
+							config = configs[@active_config_id + i]
+
+							if config && SDC::Launshi::check_version(config) then
+								@start_buttons[i].on_mouse_touch do
+									project_start_id = @active_config_id + i
+								end
 							end
 
 							@info_buttons[i].on_mouse_touch do
@@ -123,16 +134,26 @@ module SDC
 					offset.y += @title_size + @title_offset_y
 					SDC.draw_text(font_index: :Standard, text: dev_list, size: @title_size, coordinates: offset)
 
+					version = config.json["shidacea_version"]
+
+					correct_version = SDC::Launshi::check_version(config)
+					text_color = (correct_version ? COLOR_TEXT_REGULAR : COLOR_TEXT_DISABLED)
+
 					# TODO: Use buttons to simplify this
 
 					@start_buttons[i].draw
 					@info_buttons[i].draw
 
 					SDC.draw_texture(filename: "assets/graphics/Button.png", coordinates: SDC::Coordinates.new(585, i*180 + 140))
-					SDC.draw_text(font_index: :Standard, text: "START", size: @title_size, coordinates: SDC::Coordinates.new(585 + 8, i*180 + 140 + 2))
+					SDC.draw_text(font_index: :Standard, text: "START", size: @title_size, coordinates: SDC::Coordinates.new(585 + 8, i*180 + 140 + 2), color: text_color)
 
 					SDC.draw_texture(filename: "assets/graphics/Button.png", coordinates: SDC::Coordinates.new(585 + 100, i*180 + 140))
 					SDC.draw_text(font_index: :Standard, text: "INFO", size: @title_size, coordinates: SDC::Coordinates.new(585 + 100 + 15, i*180 + 140 + 2))
+
+					if !correct_version then
+						SDC.draw_text(font_index: :Standard, text: "Project does not run on Shidacea version #{SDC::Script.version}", size: @wrong_version_size, coordinates: SDC::Coordinates.new(585 + 200 - 10, i*180 + 140 - 3), color: COLOR_TEXT_DISABLED)
+						SDC.draw_text(font_index: :Standard, text: "Required Shidacea version is at least #{config.json['shidacea_version'].split('.')[0..1].join('.')}", size: @wrong_version_size, coordinates: SDC::Coordinates.new(585 + 200 - 10, i*180 + 140 - 3 + @wrong_version_size), color: COLOR_TEXT_DISABLED)
+					end
 				end
 
 				SDC.draw_texture(filename: "assets/graphics/FrameScroll.png", coordinates: SDC::Coordinates.new(1240, 0))

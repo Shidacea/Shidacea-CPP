@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-constexpr char SHIDACEA_VERSION[] = "0.0.1d";
+#include "Version.h"
 
 //! Mandatory includes if you want anything to work at all
 

@@ -82,5 +82,16 @@ module SDC
 			SDC::Script.path = old_path
 		end
 
+		def self.check_version(config)
+			project_version = config.json["shidacea_version"]&.split(".")
+			return false if !project_version
+
+			sdc_version = SDC::Script.version.split(".")
+
+			return false if project_version[0] != sdc_version[0]
+			return false if project_version[1].to_i > sdc_version[1].to_i
+			return true
+		end
+
 	end
 end
