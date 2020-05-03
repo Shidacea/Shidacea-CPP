@@ -21,7 +21,10 @@ module SDC
 			@final_config = nil
 		end
 
-		def self.load_configs(path)
+		def self.load_configs(path, create_if_missing: false)
+			if !Dir.exists?(path) then
+				Dir.mkdir(path)
+			end
 			Dir.foreach(path) do |entry|
 				if !entry.start_with?(".") && File.directory?(path + "/" + entry) then
 					config_file_name = path + "/" + entry + "/" + PROJECT_FILE_NAME

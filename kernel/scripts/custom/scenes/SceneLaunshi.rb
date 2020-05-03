@@ -11,7 +11,7 @@ module SDC
 			def at_init
 				SDC::Launshi.reset_configs
 				SDC::Launshi.load_configs("demo_projects")
-				SDC::Launshi.load_configs("projects")
+				SDC::Launshi.load_configs("projects", create_if_missing: true)
 
 				@active_config_id = 0
 
