@@ -374,8 +374,3 @@ set(SFML_LIBRARIES sfml-system sfml-window sfml-graphics sfml-audio sfml-network
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
 target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ${IMGUI_LIBRARIES} ${SFML_LIBRARIES} ${ADDITIONAL_LIBRARIES})
-
-configure_file(
-	Changelog.txt
-	Changelog.txt
-)
