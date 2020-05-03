@@ -1,6 +1,8 @@
 # Shidacea 2D Game Engine
 
-<img src="https://img.shields.io/github/v/release/Hadeweka/Shidacea"> <img src="https://img.shields.io/github/release-date/Hadeweka/Shidacea"> ![BuildTest](https://github.com/Hadeweka/Shidacea/workflows/BuildTest/badge.svg?branch=master&event=release)
+![BuildTest](https://github.com/Hadeweka/Shidacea/workflows/BuildTest/badge.svg?branch=master)
+
+<img src="https://img.shields.io/github/v/release/Hadeweka/Shidacea"> <img src="https://img.shields.io/github/release-date/Hadeweka/Shidacea">
 
 <img src="https://img.shields.io/github/license/Hadeweka/Shidacea"> 
 
@@ -45,6 +47,8 @@ The following programs need to be installed:
 For Windows you need to make sure that the paths leading to ruby.exe and bison.exe are in the PATH variable.
 CMake can be obtained using Visual Studio, which is the recommended option.
 Also make sure to avoid path names with spaces in them, as mruby might fail to compile otherwise.
+
+Alternatively, you can use pre-compiled Windows binaries for each Shidacea release version.
 
 # Usage
 
