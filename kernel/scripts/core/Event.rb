@@ -41,7 +41,7 @@ module SDC
 		end
 
 		def text_char
-			return self.text_unicode.chr
+			return self.text_unicode.chr("UTF-8")
 		end
 
 	end

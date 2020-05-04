@@ -5,29 +5,16 @@ class SceneTest < SDC::Scene
 			SDC.next_scene = nil
 
 		elsif SDC.text_input then
-			if event.has_type?(:TextEntered) then
-				char = event.text_char
-				puts event.text_unicode
+			SDC.process_text_input(event: event, text_buffer: @text_buffer) do |char, text|
 
-				if char == "\n" then
+				# Your letter 'T' works fine, but this code does change it sometimes ;-)
+				# Filters can do various things, this is just an example
+				# You can also use the :override option to completely define your own routines!
 
-				elsif char == "\r" then
-
-				elsif char == "\t" then
-
-				elsif char == "\b" then
-					@text_buffer.chop!
-				elsif char == "\x7F" then
-					# Remove the last word and every whitespace after it
-					@text_buffer.rstrip!
-					last_space = @text_buffer.rindex(" ")
-					if last_space then
-						@text_buffer = @text_buffer[0..last_space]
-					else
-						@text_buffer = ""
-					end
+				if char == "T" && Time.now.monday? then
+					next "t"
 				else
-					@text_buffer += event.text_char
+					next nil
 				end
 			end
 

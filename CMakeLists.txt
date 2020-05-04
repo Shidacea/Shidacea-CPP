@@ -33,6 +33,7 @@ else()
 endif()
 
 add_definitions(-DMRB_USE_FLOAT)
+add_definitions(-DMRB_UTF8_STRING)
 
 if(SHIDACEA_COMPILE_CORE_SCRIPTS)
 

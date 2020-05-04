@@ -12,7 +12,7 @@ MRuby::Build.new do |conf|
   conf.gem :mgem => 'dir'
   conf.gem :mgem => 'complex'
 
-  conf.cc.flags << '-DMRB_USE_FLOAT'
+  conf.cc.flags << '-DMRB_USE_FLOAT -DMRB_UTF8_STRING'
 
   conf.build_dir = ENV["MRUBY_BUILD_DIR"] || raise("MRUBY_BUILD_DIR undefined!")
 

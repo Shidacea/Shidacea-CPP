@@ -1,5 +1,11 @@
 module SDC
 
+	C_NEWLINE = "\n"
+	C_CAR_RET = "\r"
+	C_TAB = "\t"
+	C_BACKSPACE = "\b"
+	C_CTRL_BACK = "\x7F"
+
 	# Basic attributes
 
 	@window = nil
@@ -196,4 +202,47 @@ module SDC
 
 		SDC.window.draw_translated(text_obj, coordinates)
 	end
+
+	def self.handle_backspace_input(text_buffer)
+		text_buffer.chop!
+	end
+
+	def self.handle_ctrl_backspace_input(text_buffer)
+		# Remove the last word and every whitespace after it
+		text_buffer.rstrip!
+		last_space = text_buffer.rindex(" ")
+		if last_space then
+			text_buffer[last_space+1..-1] = ""
+		else
+			text_buffer.clear
+		end
+	end
+
+	def self.process_text_input(event: nil, text_buffer: nil, override: false, &filter)
+		if event.has_type?(:TextEntered) then
+			char = event.text_char
+
+			# Want to filter certain chars? Use the filter method!
+			if filter then
+				filter_result = filter.call(char, text_buffer)
+				char = filter_result if filter_result
+				return if override
+			end
+
+			if char == C_NEWLINE then
+
+			elsif char == C_CAR_RET then
+
+			elsif char == C_TAB then
+
+			elsif char == C_BACKSPACE then
+				self.handle_backspace_input(text_buffer)
+			elsif char == C_CTRL_BACK then
+				self.handle_ctrl_backspace_input(text_buffer)
+			else
+				text_buffer.concat(char)
+			end
+		end
+	end
+
 end
