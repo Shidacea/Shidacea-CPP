@@ -24,8 +24,11 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::Text, &sf::Text::getCharacterSize>(mrb, "character_size");
 	MrbWrap::wrap_setter<sf::Text, &sf::Text::setCharacterSize, unsigned int>(mrb, "character_size=");
 
-	MrbWrap::wrap_getter<sf::Text, &sf::Text::getColor>(mrb, "color");
-	MrbWrap::wrap_setter<sf::Text, &sf::Text::setColor, sf::Color>(mrb, "color=");
+	MrbWrap::wrap_getter<sf::Text, &sf::Text::getFillColor>(mrb, "fill_color");
+	MrbWrap::wrap_setter<sf::Text, &sf::Text::setFillColor, sf::Color>(mrb, "fill_color=");
+
+	MrbWrap::wrap_getter<sf::Text, &sf::Text::getOutlineColor>(mrb, "outline_color");
+	MrbWrap::wrap_setter<sf::Text, &sf::Text::setOutlineColor, sf::Color>(mrb, "outline_color=");
 
 	//! TODO: Simplify these, if possible
 	//! The problem is that sf::String is a separate class which would count as a new Ruby object
