@@ -40,8 +40,21 @@ def main_routine(scene_class, game_class, title, width, height)
 		SDC.scene = scene_class.new
 		SDC.next_scene = true
 
+		# DEBUG BLOCK
+		#c = 0
+		#ti = Time.now
+		#while SDC.window.is_open? do
+		#	c += 1
+		#	# If it returns a false value, the game scene was set to nil
+		#	break if !SDC.limiter.tick
+		#	if c == 720 then
+		#		puts 720.0 / (Time.now - ti)
+		#		c = 0
+		#		ti = Time.now
+		#	end
+		#end
+
 		while SDC.window.is_open? do
-			# If it returns a false value, the game scene was set to nil
 			break if !SDC.limiter.tick
 		end
 

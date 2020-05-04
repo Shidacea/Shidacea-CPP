@@ -28,8 +28,6 @@ namespace MrbWrap {
 
     template <class ... TArgs> struct ArgTypeNonZero {
 
-        static_assert(sizeof...(TArgs) > 0, "BLA");
-
         using count = CountArgs<TArgs...>;
         static constexpr auto value = MRB_ARGS_ARG(count::req, count::opt);
 

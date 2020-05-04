@@ -339,6 +339,7 @@ namespace MrbWrap {
 	template <> struct CastToRuby<bool> { using type = mrb_bool; };
 	template <> struct CastToRuby<std::string> { using type = char*; };
 	template <> struct CastToRuby<FileString> { using type = char*; };
+	template <> struct CastToRuby<sf::String> { using type = char*;};
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { using type = mrb_float; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_integral_v<T>>::type> { using type = mrb_int; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { using type = mrb_value; };
@@ -369,6 +370,10 @@ namespace MrbWrap {
 
 			return const_cast<char*>(arg.content.c_str());
 
+		} else if constexpr (std::conjunction_v<std::is_same<C, sf::String>, std::is_same<Dest, char*>>) {
+
+			return const_cast<char*>(arg.toAnsiString().c_str());
+
 		} else if constexpr (std::is_same_v<Dest, std::string>) {
 
 			return std::string(arg);
@@ -376,6 +381,10 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, char*>) {
 
 			return const_cast<char*>(arg.c_str());
+
+		} else if constexpr (std::is_same_v<Dest, sf::String>) {
+
+			return sf::String(std::string(arg));
 
 		} else if constexpr (std::is_same_v<Dest, FileString>) {
 
@@ -426,6 +435,10 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, FileString>) {
 
 			return std::string(arg);
+
+		} else if constexpr (std::is_same_v<Dest, sf::String>) {
+
+			return sf::String(std::string(arg));
 
 		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
 
