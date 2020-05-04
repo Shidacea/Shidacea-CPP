@@ -156,12 +156,6 @@ class SceneTest < SDC::Scene
 	end
 
 	def draw_imgui
-		SDC::ImGui.begin "Examples" do
-
-			SDC::ImGui.button "Start shooter example" {SDC.next_scene = SceneShooterMenu}
-
-		end
-
 		SDC::ImGui.begin "Glorious Test Dialog Number 1" do
 
 			shape_collision_no = 0
