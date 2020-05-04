@@ -26,29 +26,6 @@ module SDC
 				@info_buttons = []
 				@genre_buttons = []
 
-				@text_title_filter = SDC::Text.new("Title filter", SDC::Data.fonts[:Standard], @title_size)
-				@text_desc_filter = SDC::Text.new("Description filter", SDC::Data.fonts[:Standard], @title_size)
-				@text_genre_filter = SDC::Text.new("Genre filter", SDC::Data.fonts[:Standard], @title_size)
-
-				@text_title_filter_content = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-				@text_title_filter_content.color = COLOR_TEXT_INPUT
-				@text_desc_filter_content = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-				@text_desc_filter_content.color = COLOR_TEXT_INPUT
-
-				@text_genre = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-
-				@text_title = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-				@text_subtitle = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-				@text_version = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-				@text_genres = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-				@text_devs = SDC::Text.new("", SDC::Data.fonts[:Standard], @title_size)
-
-				@text_start = SDC::Text.new("START", SDC::Data.fonts[:Standard], @title_size)
-				@text_info = SDC::Text.new("INFO", SDC::Data.fonts[:Standard], @title_size)
-
-				@text_error_top = SDC::Text.new("", SDC::Data.fonts[:Standard], @wrong_version_size)
-				@text_error_bottom = SDC::Text.new("", SDC::Data.fonts[:Standard], @wrong_version_size)
-
 				0.upto(3) do |i|
 					button_start_shape = SDC::ShapeBox.new(SDC::Coordinates.new(585 + 40, i*180 + 140 + 15), SDC::Coordinates.new(40, 15))
 					button_start = SDC::Button.new(shape: button_start_shape)
@@ -152,17 +129,13 @@ module SDC
 
 				SDC.draw_texture(filename: "assets/graphics/FrameFilters.png", coordinates: SDC::Coordinates.new(0, 0))
 
-				SDC.window.draw_translated(@text_title_filter, SDC::Coordinates.new(10, 10))
-
-				@text_title_filter_content.string = @launshi.name_filter
-				SDC.window.draw_translated(@text_title_filter_content, SDC::Coordinates.new(10, 10 + 1*(@title_offset_y + @title_size)))
+				SDC.draw_text(index: :TitleFilter, text: "Title filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10))
+				SDC.draw_text(index: :TitleFilterInput, text: @launshi.name_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 1*(@title_offset_y + @title_size)))
 				
-				SDC.window.draw_translated(@text_desc_filter, SDC::Coordinates.new(10, 10 + 2*(@title_offset_y + @title_size)))
+				SDC.draw_text(index: :DescFilter, text: "Description filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 2*(@title_offset_y + @title_size)))
+				SDC.draw_text(index: :DescFilterInput, text: @launshi.description_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 3*(@title_offset_y + @title_size)))
 
-				@text_title_filter_content.string = @launshi.description_filter
-				SDC.window.draw_translated(@text_desc_filter_content, SDC::Coordinates.new(10, 10 + 3*(@title_offset_y + @title_size)))
-
-				SDC.window.draw_translated(@text_genre_filter, SDC::Coordinates.new(10, 10 + 4*(@title_offset_y + @title_size)))
+				SDC.draw_text(index: :GenreFilter, text: "Genre filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 4*(@title_offset_y + @title_size)))
 				
 				offset_y = 10 + 5*(@title_offset_y + @title_size) + 5
 				gx = 0
@@ -175,9 +148,7 @@ module SDC
 						SDC.draw_texture(filename: "assets/graphics/Checkbox.png", coordinates: SDC::Coordinates.new(10 + 180*gx, offset_y + (30 + 10)*gy))
 					end
 
-					@text_genre.string = genre
-					SDC.window.draw_translated(@text_genre, SDC::Coordinates.new(10 + 30 + 10 + 180*gx, offset_y + 2 + (30 + 10)*gy))
-
+					SDC.draw_text(index: :GenreText, text: genre, font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10 + 30 + 10 + 180*gx, offset_y + 2 + (30 + 10)*gy))
 					@genre_buttons[gy*2 + gx].draw
 					
 					gx += 1
@@ -204,24 +175,19 @@ module SDC
 
 					offset = Coordinates.new(580 + @title_offset_x, i*180 + @title_offset_y)
 
-					@text_title.string = config.json["title"]
-					SDC.window.draw_translated(@text_title, offset)
+					SDC.draw_text(index: :TextTitle, text: config.json["title"], font_index: :Standard, size: @title_size, coordinates: offset)
 
 					offset.y += @title_size + @title_offset_y
-					@text_subtitle.string = config.json["subtitle"]
-					SDC.window.draw_translated(@text_subtitle, offset)
+					SDC.draw_text(index: :TextSubtitle, text: config.json["subtitle"], font_index: :Standard, size: @title_size, coordinates: offset)
 
 					offset.y += @title_size + @title_offset_y
-					@text_version.string = "Project version: " + config.json["project_version"]
-					SDC.window.draw_translated(@text_version, offset)
+					SDC.draw_text(index: :TextVersion, text: "Project version: " + config.json["project_version"], font_index: :Standard, size: @title_size, coordinates: offset)
 
 					offset.y += @title_size + @title_offset_y
-					@text_genres.string = genre_list
-					SDC.window.draw_translated(@text_genres, offset)
+					SDC.draw_text(index: :TextGenres, text: genre_list, font_index: :Standard, size: @title_size, coordinates: offset)
 
 					offset.y += @title_size + @title_offset_y
-					@text_devs.string = dev_list
-					SDC.window.draw_translated(@text_devs, offset)
+					SDC.draw_text(index: :TextDevs, text: dev_list, font_index: :Standard, size: @title_size, coordinates: offset)
 
 					version = config.json["shidacea_version"]
 
@@ -234,22 +200,14 @@ module SDC
 					@info_buttons[i].draw
 
 					SDC.draw_texture(filename: "assets/graphics/Button.png", coordinates: SDC::Coordinates.new(585, i*180 + 140))
-
-					@text_start.color = text_color
-					SDC.window.draw_translated(@text_start, SDC::Coordinates.new(585 + 8, i*180 + 140 + 2))
+					SDC.draw_text(index: :TextStart, text: "START", font_index: :Standard, size: @title_size, color: text_color, coordinates: SDC::Coordinates.new(585 + 8, i*180 + 140 + 2))
 
 					SDC.draw_texture(filename: "assets/graphics/Button.png", coordinates: SDC::Coordinates.new(585 + 100, i*180 + 140))
-
-					SDC.window.draw_translated(@text_info, SDC::Coordinates.new(585 + 100 + 15, i*180 + 140 + 2))
+					SDC.draw_text(index: :TextStart, text: "INFO", font_index: :Standard, size: @title_size, color: text_color, coordinates: SDC::Coordinates.new(585 + 100 + 15, i*180 + 140 + 2))
 
 					if !correct_version then
-						@text_error_top.color = COLOR_TEXT_DISABLED
-						@text_error_top.string = "Project does not run on Shidacea version #{SDC::Script.version}"
-						@text_error_bottom.color = COLOR_TEXT_DISABLED
-						@text_error_top.string = "Required Shidacea version is at least #{config.json['shidacea_version'].split('.')[0..1].join('.')}"
-
-						SDC.window.draw_translated(@text_error_top, SDC::Coordinates.new(585 + 200 - 10, i*180 + 140 - 3))
-						SDC.window.draw_translated(@text_error_bottom, SDC::Coordinates.new(585 + 200 - 10, i*180 + 140 - 3 + @wrong_version_size))
+						SDC.draw_text(index: :TextErrorTop, text: "Project does not run on Shidacea version #{SDC::Script.version}", font_index: Standard, size: @wrong_version_size, color: COLOR_TEXT_DISABLED, coordinates: SDC::Coordinates.new(585 + 200 - 10, i*180 + 140 - 3))
+						SDC.draw_text(index: :TextErrorTop, text: "Required Shidacea version is at least #{config.json['shidacea_version'].split('.')[0..1].join('.')}", font_index: Standard, size: @wrong_version_size, color: COLOR_TEXT_DISABLED, coordinates: SDC::Coordinates.new(585 + 200 - 10, i*180 + 140 - 3 + @wrong_version_size))
 					end
 				end
 

@@ -161,11 +161,39 @@ module SDC
 		SDC.window.draw_translated(sprite, coordinates)
 	end
 
-	# TODO: Extend and cache
-	def self.draw_text(font_index: nil, text: "", size: 10, coordinates: SDC::Coordinates.new, color: nil)
+	# TODO: Simplify and make universal caching functions
+	def self.draw_text(index: nil, font_index: nil, text: "", size: 10, coordinates: SDC::Coordinates.new, color: nil)
 		font = SDC::Data.fonts[font_index]
-		text = SDC::Text.new(text, font, size)
-		text.color = color if color
-		SDC.window.draw_translated(text, coordinates)
+
+		text_obj = nil
+		if text then
+			if index then
+				if SDC::Data.texts[index] then
+					text_obj = SDC::Data.texts[index]
+				else
+					SDC::Data.add_text(SDC::Text.new(text, font, size), index: index)
+					text_obj = SDC::Data.texts[index]
+				end
+			else
+				# TODO: Used object ID or magic number instead, maybe a dummy object
+				sym = (SDC::Data::SYMBOL_PREFIX + text).to_sym
+				cached_obj = SDC::Data.texts[sym]
+
+				SDC::Data.add_text(SDC::Text.new(text, font, size), index: sym) if !cached_obj
+				text_obj = SDC::Data.texts[sym]
+			end
+			text_obj.string = text
+
+		elsif index then
+			text_obj = SDC::Data.texts[index]
+
+		else
+			raise("No arguments given for text drawing")
+
+		end
+
+		text_obj.color = color if color
+
+		SDC.window.draw_translated(text_obj, coordinates)
 	end
 end
