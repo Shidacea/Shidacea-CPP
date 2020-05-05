@@ -5,6 +5,9 @@ module SDC
 		COLOR_TEXT_DISABLED = SDC::Color.new(127, 0, 0, 255)
 		COLOR_TEXT_INPUT = SDC::Color.new(0, 0, 0, 255)
 
+		FILTER_NAME = 0
+		FILTER_DESC = 1
+
 		class SceneLaunshi < SDC::Scene
 
 			def at_init
@@ -26,7 +29,17 @@ module SDC
 				@info_buttons = []
 				@genre_buttons = []
 
-				SDC.text_input = @launshi.name_filter
+				name_button_filter_shape = SDC::ShapeBox.new(SDC::Coordinates.new(5 + 150, 13 + 10 + 1*(@title_offset_y + @title_size)), SDC::Coordinates.new(150, 10))
+				@name_filter_button = SDC::Button.new(shape: name_button_filter_shape)
+
+				name_finish_shape = SDC::ShapeBox.new(SDC::Coordinates.new(5 + 300 + 15, 13 + 15 + 1*(@title_offset_y + @title_size)), SDC::Coordinates.new(15, 15))
+				@name_finish_button = SDC::Button.new(shape: name_finish_shape)
+
+				desc_button_filter_shape = SDC::ShapeBox.new(SDC::Coordinates.new(5 + 150, 13 + 10 + 3*(@title_offset_y + @title_size)), SDC::Coordinates.new(150, 10))
+				@desc_filter_button = SDC::Button.new(shape: desc_button_filter_shape)
+
+				desc_finish_shape = SDC::ShapeBox.new(SDC::Coordinates.new(5 + 300 + 15, 13 + 15 + 3*(@title_offset_y + @title_size)), SDC::Coordinates.new(15, 15))
+				@desc_finish_button = SDC::Button.new(shape: desc_finish_shape)
 
 				0.upto(3) do |i|
 					button_start_shape = SDC::ShapeBox.new(SDC::Coordinates.new(585 + 40, i*180 + 140 + 15), SDC::Coordinates.new(40, 15))
@@ -72,12 +85,22 @@ module SDC
 				if event.has_type?(:Closed) then
 					SDC.next_scene = nil
 
-				elsif SDC.text_input == @launshi.name_filter then
-					SDC.process_text_input(event: event, text_buffer: @launshi.name_filter)
+				elsif SDC.text_input == FILTER_NAME then
+					SDC.process_text_input(event: event, text_buffer: @launshi.name_filter) do |char, text|
+						if char == C_NEWLINE || char == C_CAR_RET then
+							SDC.text_input = nil
+							break
+						end
+					end
 					@launshi.apply_filters
 
-				elsif SDC.text_input == @launshi.description_filter then
-					SDC.process_text_input(event: event, text_buffer: @launshi.description_filter)
+				elsif SDC.text_input == FILTER_DESC then
+					SDC.process_text_input(event: event, text_buffer: @launshi.description_filter) do |char, text|
+						if char == C_NEWLINE || char == C_CAR_RET then
+							SDC.text_input = nil
+							break
+						end
+					end
 					@launshi.apply_filters
 
 				elsif event.has_type?(:KeyPressed) then
@@ -100,6 +123,22 @@ module SDC
 					if event.mouse_left_click? then
 						project_start_id = nil
 						project_info_id = nil
+
+						@name_filter_button.on_mouse_touch do
+							SDC.text_input = FILTER_NAME
+						end
+
+						@name_finish_button.on_mouse_touch do
+							SDC.text_input = nil
+						end
+
+						@desc_filter_button.on_mouse_touch do
+							SDC.text_input = FILTER_DESC
+						end
+
+						@desc_finish_button.on_mouse_touch do
+							SDC.text_input = nil
+						end
 
 						0.upto(3) do |i|
 
@@ -146,9 +185,25 @@ module SDC
 				SDC.draw_texture(filename: "assets/graphics/FrameFilters.png", coordinates: SDC::Coordinates.new(0, 0))
 
 				SDC.draw_text(index: :TitleFilter, text: "Title filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10))
+
+				if SDC.text_input == FILTER_NAME then
+					SDC.draw_texture(filename: "assets/graphics/InputSelected.png", coordinates: SDC::Coordinates.new(5, 13 + 1*(@title_offset_y + @title_size)))
+					SDC.draw_texture(filename: "assets/graphics/Finish.png", coordinates: SDC::Coordinates.new(5 + 300, 13 - 5 + 1*(@title_offset_y + @title_size)))
+				else
+					SDC.draw_texture(filename: "assets/graphics/Input.png", coordinates: SDC::Coordinates.new(5, 13 + 1*(@title_offset_y + @title_size)))
+				end
+
 				SDC.draw_text(index: :TitleFilterInput, text: @launshi.name_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 1*(@title_offset_y + @title_size)))
 
 				SDC.draw_text(index: :DescFilter, text: "Description filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 2*(@title_offset_y + @title_size)))
+
+				if SDC.text_input == FILTER_DESC then
+					SDC.draw_texture(filename: "assets/graphics/InputSelected.png", coordinates: SDC::Coordinates.new(5, 13 + 3*(@title_offset_y + @title_size)))
+					SDC.draw_texture(filename: "assets/graphics/Finish.png", coordinates: SDC::Coordinates.new(5 + 300, 13 - 5 + 3*(@title_offset_y + @title_size)))
+				else
+					SDC.draw_texture(filename: "assets/graphics/Input.png", coordinates: SDC::Coordinates.new(5, 13 + 3*(@title_offset_y + @title_size)))
+				end
+				
 				SDC.draw_text(index: :DescFilterInput, text: @launshi.description_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 3*(@title_offset_y + @title_size)))
 
 				SDC.draw_text(index: :GenreFilter, text: "Genre filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 4*(@title_offset_y + @title_size)))
@@ -210,10 +265,7 @@ module SDC
 					correct_version = @launshi.check_version(config)
 					text_color = (correct_version ? COLOR_TEXT_REGULAR : COLOR_TEXT_DISABLED)
 
-					# TODO: Use buttons to simplify this
-
-					@start_buttons[i].draw
-					@info_buttons[i].draw
+					# TODO: Use button drawing to simplify this
 
 					SDC.draw_texture(filename: "assets/graphics/Button.png", coordinates: SDC::Coordinates.new(585, i*180 + 140))
 					SDC.draw_text(index: :TextStart, text: "START", font_index: :Standard, size: @title_size, color: text_color, coordinates: SDC::Coordinates.new(585 + 8, i*180 + 140 + 2))

@@ -218,6 +218,8 @@ module SDC
 		end
 	end
 
+	# TODO: Allow specific input class
+
 	def self.process_text_input(event: nil, text_buffer: nil, override: false, &filter)
 		if event.has_type?(:TextEntered) then
 			char = event.text_char
@@ -230,7 +232,7 @@ module SDC
 			end
 
 			if char == C_NEWLINE then
-
+				
 			elsif char == C_CAR_RET then
 
 			elsif char == C_TAB then
