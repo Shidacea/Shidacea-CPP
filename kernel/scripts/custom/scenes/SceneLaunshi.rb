@@ -193,7 +193,8 @@ module SDC
 					SDC.draw_texture(filename: "assets/graphics/Input.png", coordinates: SDC::Coordinates.new(5, 13 + 1*(@title_offset_y + @title_size)))
 				end
 
-				SDC.draw_text(index: :TitleFilterInput, text: @launshi.name_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 1*(@title_offset_y + @title_size)))
+				# TODO: Better cap for text fields, maybe using dedicated SDC routines and sf::Font::getGlyph
+				SDC.draw_text(index: :TitleFilterInput, text: @launshi.name_filter[0..17], font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 1*(@title_offset_y + @title_size)))
 
 				SDC.draw_text(index: :DescFilter, text: "Description filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 2*(@title_offset_y + @title_size)))
 
@@ -204,7 +205,7 @@ module SDC
 					SDC.draw_texture(filename: "assets/graphics/Input.png", coordinates: SDC::Coordinates.new(5, 13 + 3*(@title_offset_y + @title_size)))
 				end
 				
-				SDC.draw_text(index: :DescFilterInput, text: @launshi.description_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 3*(@title_offset_y + @title_size)))
+				SDC.draw_text(index: :DescFilterInput, text: @launshi.description_filter[0..17], font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 3*(@title_offset_y + @title_size)))
 
 				SDC.draw_text(index: :GenreFilter, text: "Genre filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 4*(@title_offset_y + @title_size)))
 				
