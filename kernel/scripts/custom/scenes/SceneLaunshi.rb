@@ -26,6 +26,8 @@ module SDC
 				@info_buttons = []
 				@genre_buttons = []
 
+				SDC.text_input = @launshi.name_filter
+
 				0.upto(3) do |i|
 					button_start_shape = SDC::ShapeBox.new(SDC::Coordinates.new(585 + 40, i*180 + 140 + 15), SDC::Coordinates.new(40, 15))
 					button_start = SDC::Button.new(shape: button_start_shape)
@@ -62,9 +64,21 @@ module SDC
 				@active_config_id = [@active_config_id, 0].max
 			end
 
+			def at_exit
+				SDC.text_input = nil
+			end
+
 			def handle_event(event)
 				if event.has_type?(:Closed) then
 					SDC.next_scene = nil
+
+				elsif SDC.text_input == @launshi.name_filter then
+					SDC.process_text_input(event: event, text_buffer: @launshi.name_filter)
+					@launshi.apply_filters
+
+				elsif SDC.text_input == @launshi.description_filter then
+					SDC.process_text_input(event: event, text_buffer: @launshi.description_filter)
+					@launshi.apply_filters
 
 				elsif event.has_type?(:KeyPressed) then
 					if event.key_pressed?(:Down) then
@@ -73,7 +87,9 @@ module SDC
 						scroll_up
 					end
 
-				elsif event.has_type?(:MouseWheelScrolled) then
+				end
+
+				if event.has_type?(:MouseWheelScrolled) then
 					if event.mouse_scrolled_up? then
 						scroll_up
 					elsif event.mouse_scrolled_down? then
@@ -131,7 +147,7 @@ module SDC
 
 				SDC.draw_text(index: :TitleFilter, text: "Title filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10))
 				SDC.draw_text(index: :TitleFilterInput, text: @launshi.name_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 1*(@title_offset_y + @title_size)))
-				
+
 				SDC.draw_text(index: :DescFilter, text: "Description filter", font_index: :Standard, size: @title_size, coordinates: SDC::Coordinates.new(10, 10 + 2*(@title_offset_y + @title_size)))
 				SDC.draw_text(index: :DescFilterInput, text: @launshi.description_filter, font_index: :Standard, size: @title_size, color: COLOR_TEXT_INPUT, coordinates: SDC::Coordinates.new(10, 10 + 3*(@title_offset_y + @title_size)))
 
