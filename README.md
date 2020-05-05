@@ -103,11 +103,30 @@ Disadvantages:
 * Simple entity scripting
 * Wrapped ImGui methods for debugging
 
-# Planned features
+# Roadmap
 
-* More collision detection routines
+Note that any version below 1.0.0 is a development version and may contain breaking changes.
+
+## Version 0.2.0
+* Better resource management
+* Text input fields
+* Filters for Launshi
+* Shape drawing
+* UTF-8 support
+* Marshalling support
+* Collision routines for various shapes
+* Animations
+* Shooter example project
+* Debug routines
+
+## Version 0.3.0
+* Full map support
 * A special level editor written using this engine (will be called Hyashi)
-* Separate example project
+* Hyashi plugins
+
+## Future versions
+* WYSIWYG-type game editor feature for Hyashi
+* Resource packages
 
 # Caveats
 
