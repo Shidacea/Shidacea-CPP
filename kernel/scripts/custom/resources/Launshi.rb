@@ -67,7 +67,7 @@ module SDC
 		end
 
 		def self.set_final_config(index, instance)
-			@final_config = instance.get_configs[index]
+			@final_config = instance.get_filtered_configs[index]
 		end
 
 		def self.get_final_config
