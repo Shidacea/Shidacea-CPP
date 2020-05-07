@@ -220,13 +220,13 @@ module SDC
 
 	# TODO: Allow specific input class
 
-	def self.process_text_input(event: nil, text_buffer: nil, override: false, &filter)
+	def self.process_text_input(event: nil, text_buffer: nil, override: false)
 		if event.has_type?(:TextEntered) then
 			char = event.text_char
 
 			# Want to filter certain chars? Use the filter method!
-			if filter then
-				filter_result = filter.call(char, text_buffer)
+			if block_given? then
+				filter_result = yield(char, text_buffer)
 				char = filter_result if filter_result
 				return if override
 			end

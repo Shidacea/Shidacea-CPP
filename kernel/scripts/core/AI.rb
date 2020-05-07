@@ -36,21 +36,21 @@ module SDC
 			n.times {done}
 		end
 
-		def self.once(&block)
-			block.call
+		def self.once
+			yield
 			done
 		end
 
-		def self.times(n, &block)
+		def self.times(n)
 			n.times do
-				block.call
+				yield
 				done
 			end
 		end
 
-		def self.forever(&block)
+		def self.forever
 			loop do
-				block.call
+				yield
 				done
 			end
 		end
