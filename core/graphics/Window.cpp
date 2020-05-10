@@ -15,8 +15,6 @@ void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_
 	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
-		auto font = MrbWrap::convert_from_instance_variable<sf::Font>(mrb, draw_object, "@_font");
-		text->setFont(*font);
 		window->draw(*text, render_states);
 
 	} else {

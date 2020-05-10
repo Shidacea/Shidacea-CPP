@@ -18,15 +18,6 @@ std::string convert_utf8_to_byte(std::wstring str) {
 
 }
 
-//! Since the text class refers to a font pointer, another reference to it needs to be stored in an IV
-void link_font(mrb_state* mrb, mrb_value self, sf::Font* font) {
-
-	MrbWrap::convert_to_instance_variable<sf::Font>(mrb, self, "@_font");
-	auto font_cache = MrbWrap::convert_from_instance_variable<sf::Font>(mrb, self, "@_font");
-	*font_cache = *font;
-
-}
-
 void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_class_under<sf::Text>(mrb, "Text", ruby_module);
@@ -40,9 +31,11 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 		auto converted_font = MrbWrap::convert_from_object<sf::Font>(mrb, font);
 
-		link_font(mrb, self, converted_font);
+		auto new_text = MrbWrap::convert_to_object<sf::Text>(mrb, self);
 
-		MrbWrap::convert_to_object<sf::Text>(mrb, self, sf::String(convert_byte_to_utf8(text_string)), *converted_font, static_cast<unsigned int>(character_size));
+		new_text->setString(sf::String(convert_byte_to_utf8(text_string)));
+		new_text->setFont(*converted_font);
+		new_text->setCharacterSize(static_cast<unsigned int>(character_size));
 
 		return self;
 
