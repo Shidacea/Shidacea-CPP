@@ -1,14 +1,5 @@
 #include "Text.h"
 
-sf::String convert_byte_to_utf8(const char* str) {
-
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	auto wide_str = converter.from_bytes(str);
-
-	return sf::String(wide_str);
-
-}
-
 std::string convert_utf8_to_byte(std::wstring str) {
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -33,7 +24,8 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 		auto new_text = MrbWrap::convert_to_object<sf::Text>(mrb, self);
 
-		new_text->setString(sf::String(convert_byte_to_utf8(text_string)));
+		new_text->setString(sf::String::fromUtf8(text_string, text_string + strlen(text_string)));
+
 		new_text->setFont(*converted_font);
 		new_text->setCharacterSize(static_cast<unsigned int>(character_size));
 
@@ -58,10 +50,9 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::Text>(), "string", MRUBY_FUNC {
 
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, self);
+		auto str = text->getString().toUtf8();
 
-		auto str = convert_utf8_to_byte(text->getString().toWideString()).c_str();
-
-		return mrb_str_new_cstr(mrb, str);
+		return mrb_str_new_cstr(mrb, reinterpret_cast<const char*>(str.c_str()));
 
 	}, MRB_ARGS_NONE());
 
@@ -70,14 +61,8 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 		auto args = MrbWrap::get_raw_args<sf::String>(mrb);
 		auto str = std::get<0>(args);
 
-		//! NOTE: This is an unrecommended way, which converts the string to ANSI and then loads it to SFML
-		//auto sfml_str = sf::String(mrb_locale_from_utf8(str, strlen(str)));
-
-		//! The recommended way is by converting it to wide chars and then loading it
-		//! However, this way is marked as deprecated since C++17, so it might need replacement at some time
-
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, self);
-		text->setString(convert_byte_to_utf8(str));
+		text->setString(sf::String::fromUtf8(str, str + strlen(str)));
 
 		return mrb_str_new_cstr(mrb, str);
 
