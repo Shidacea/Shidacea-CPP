@@ -15,7 +15,7 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::Text>(), "initialize", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_raw_args<std::string, sf::Font, MRBW_OPT<unsigned int, 30>>(mrb);
+		auto args = MrbWrap::get_raw_args<const char*, sf::Font, MRBW_OPT<unsigned int, 30>>(mrb);
 		auto text_string = std::get<0>(args);
 		auto font = std::get<1>(args);
 		auto character_size = static_cast<int>(std::get<2>(args));
@@ -58,7 +58,7 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::Text>(), "string=", MRUBY_FUNC {
 
-		auto args = MrbWrap::get_raw_args<sf::String>(mrb);
+		auto args = MrbWrap::get_converted_args<const char*>(mrb);
 		auto str = std::get<0>(args);
 
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, self);

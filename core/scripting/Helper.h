@@ -24,8 +24,6 @@
 #include "MemberSpec.h"
 #include "FileString.h"
 
-#include <SFML/Graphics.hpp>
-
 //! Preprocessor shenanigans to switch between script file loading and pre-compiled bytecode
 //! Possible flags are SHIDACEA_COMPILE_ALL_SCRIPTS and SHIDACEA_COMPILE_CORE_SCRIPTS
 //! If the compile flag is off, the macro will directly load the script file "scripts/XXX.rb"
@@ -338,8 +336,8 @@ namespace MrbWrap {
 
 	template <> struct CastToRuby<bool> { using type = mrb_bool; };
 	template <> struct CastToRuby<std::string> { using type = char*; };
+	template <> struct CastToRuby<const char*> { using type = char*; };
 	template <> struct CastToRuby<FileString> { using type = char*; };
-	template <> struct CastToRuby<sf::String> { using type = char*;};
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_floating_point_v<T>>::type> { using type = mrb_float; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::is_integral_v<T>>::type> { using type = mrb_int; };
 	template <class T> struct CastToRuby<T, typename std::enable_if<std::conjunction_v<std::is_class<T>, std::negation<std::is_base_of<BaseDefaultWrap, T>>>>::type> { using type = mrb_value; };
@@ -370,21 +368,21 @@ namespace MrbWrap {
 
 			return const_cast<char*>(arg.content.c_str());
 
-		} else if constexpr (std::conjunction_v<std::is_same<C, sf::String>, std::is_same<Dest, char*>>) {
-
-			return const_cast<char*>(arg.toAnsiString().c_str());
-
 		} else if constexpr (std::is_same_v<Dest, std::string>) {
 
 			return std::string(arg);
 
+		} else if constexpr (std::is_same_v<Dest, const char*>) {
+
+			return const_cast<const char*>(arg);
+
+		} else if constexpr(std::conjunction_v<std::is_same<Dest, char*>, std::is_same<C, const char*>>) {
+
+			return const_cast<char*>(arg);
+
 		} else if constexpr (std::is_same_v<Dest, char*>) {
 
 			return const_cast<char*>(arg.c_str());
-
-		} else if constexpr (std::is_same_v<Dest, sf::String>) {
-
-			return sf::String(std::string(arg));
 
 		} else if constexpr (std::is_same_v<Dest, FileString>) {
 
@@ -428,6 +426,10 @@ namespace MrbWrap {
 
 			return std::string(arg);
 
+		} else if constexpr (std::is_same_v<Dest, const char*>) {
+
+			return const_cast<const char*>(arg);
+
 		} else if constexpr (std::is_same_v<Dest, char*>) {
 
 			return const_cast<char*>(arg.c_str());
@@ -435,10 +437,6 @@ namespace MrbWrap {
 		} else if constexpr (std::is_same_v<Dest, FileString>) {
 
 			return std::string(arg);
-
-		} else if constexpr (std::is_same_v<Dest, sf::String>) {
-
-			return sf::String(std::string(arg));
 
 		} else if constexpr (std::is_same_v<Dest, mrb_value>) {
 
