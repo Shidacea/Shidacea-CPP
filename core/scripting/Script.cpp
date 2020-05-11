@@ -12,7 +12,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 		auto args = MrbWrap::get_converted_args<MRBW_FILE>(mrb);
 		auto filename = std::get<0>(args);
 
-		MrbWrap::execute_script_file(mrb, filename);
+		MrbLoad::execute_script_file(mrb, filename);
 
 		return mrb_true_value();
 
@@ -23,7 +23,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 		auto args = MrbWrap::get_converted_args<MRBW_FILE>(mrb);
 		auto path = std::get<0>(args);
 
-		MrbWrap::load_all_scripts_recursively(mrb, path);
+		MrbLoad::load_all_scripts_recursively(mrb, path);
 
 		return mrb_true_value();
 

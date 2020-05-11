@@ -281,6 +281,10 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/projects)
 
 # Source files
 
+set(MRBWRAP_SOURCES
+	MrbWrap/Helper.cpp
+)
+
 set(AUDIO_SOURCES
 	core/audio/Music.cpp
 	core/audio/SoundBuffer.cpp
@@ -322,11 +326,12 @@ set(INTERNAL_SOURCES
 )
 
 set(SCRIPTING_SOURCES
-	core/scripting/Helper.cpp
+	core/scripting/MrbLoad.cpp
 	core/scripting/Script.cpp
 )
 
 include_directories(
+	MrbWrap
 	core/internal 
 	core/audio
 	core/graphics
@@ -344,6 +349,7 @@ if(NOT SHIDACEA_EXCLUDE_IMGUI)
 endif()
 
 set(SOURCE_FILES 
+	${MRBWRAP_SOURCES}
 	${AUDIO_SOURCES}
 	${GRAPHICS_SOURCES}
 	${NETWORK_SOURCES}
