@@ -286,58 +286,59 @@ set(MRBWRAP_SOURCES
 )
 
 set(AUDIO_SOURCES
-	core/audio/Music.cpp
-	core/audio/SoundBuffer.cpp
-	core/audio/Sound.cpp
+	engine/audio/Music.cpp
+	engine/audio/SoundBuffer.cpp
+	engine/audio/Sound.cpp
 )
 
 set(GRAPHICS_SOURCES
-	core/graphics/RenderStates.cpp
-	core/graphics/Color.cpp
-	core/graphics/View.cpp
-	core/graphics/Window.cpp
-	core/graphics/Texture.cpp
-	core/graphics/Sprite.cpp
-	core/graphics/Font.cpp
-	core/graphics/Text.cpp
+	engine/graphics/RenderStates.cpp
+	engine/graphics/Color.cpp
+	engine/graphics/View.cpp
+	engine/graphics/Window.cpp
+	engine/graphics/Texture.cpp
+	engine/graphics/Sprite.cpp
+	engine/graphics/Font.cpp
+	engine/graphics/Text.cpp
 )
 
 set(IMGUI_SOURCES
-	core/graphics/ImGuiWrapper.cpp
+	engine/graphics/ImGuiWrapper.cpp
 )
 
 set(NETWORK_SOURCES
-	core/network/Socket.cpp
-	core/network/Listener.cpp
+	engine/network/Socket.cpp
+	engine/network/Listener.cpp
 )
 
 set(MAP_SOURCES
-	core/map/Tile.cpp
-	core/map/Tileset.cpp
-	core/map/MapLayer.cpp
+	engine/map/Tile.cpp
+	engine/map/Tileset.cpp
+	engine/map/MapLayer.cpp
 )
 
 set(INTERNAL_SOURCES
-	core/internal/IntRect.cpp
-	core/internal/FloatRect.cpp
-	core/internal/Coordinates.cpp
-	core/internal/Events.cpp
-	core/internal/Shape.cpp
+	engine/internal/IntRect.cpp
+	engine/internal/FloatRect.cpp
+	engine/internal/Coordinates.cpp
+	engine/internal/Events.cpp
+	engine/internal/Shape.cpp
 )
 
 set(SCRIPTING_SOURCES
-	core/scripting/MrbLoad.cpp
-	core/scripting/Script.cpp
+	core/MrbLoad.cpp
+	core/Script.cpp
 )
 
 include_directories(
 	MrbWrap
-	core/internal 
-	core/audio
-	core/graphics
-	core/network
-	core/map
-	core/scripting
+	Collishi
+	engine/internal 
+	engine/audio
+	engine/graphics
+	engine/network
+	engine/map
+	core
 )
 
 # Load source files
@@ -356,7 +357,7 @@ set(SOURCE_FILES
 	${MAP_SOURCES}
 	${INTERNAL_SOURCES}
 	${SCRIPTING_SOURCES}
-	Main.cpp
+	core/Main.cpp
 )
 
 #set_source_files_properties(
