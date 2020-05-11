@@ -2,6 +2,12 @@
 
 cmake_minimum_required(VERSION 3.5)
 
+# Project name
+
+project(NewProject)
+set(EXECUTABLE_NAME "Launshi")
+set(FRONTEND_DIRECTORY "Launshi")
+
 # Compilation options
 
 option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
@@ -61,11 +67,6 @@ if(SHIDACEA_IGNORE_STATIC_ASSERTIONS)
 endif()
 
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
-
-# Project name
-
-project(NewProject)
-set(EXECUTABLE_NAME "Launshi")
 
 # C++ Standard
 
@@ -215,15 +216,15 @@ else()
 
 endif()
 
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE kernel/scripts/include include Include ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE kernel/scripts/core core Core ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES kernel/scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES kernel/scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES kernel/scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER kernel/scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE ${FRONTEND_DIRECTORY}/scripts/include include Include ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE ${FRONTEND_DIRECTORY}/scripts/core core Core ${SHIDACEA_COMPILE_CORE})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES ${FRONTEND_DIRECTORY}/scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES ${FRONTEND_DIRECTORY}/scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES ${FRONTEND_DIRECTORY}/scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER ${FRONTEND_DIRECTORY}/scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME kernel/scripts/custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN kernel/scripts/custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME ${FRONTEND_DIRECTORY}/scripts/custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN ${FRONTEND_DIRECTORY}/scripts/custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
 
 # Add external libraries from the SFML source directory
 
@@ -245,7 +246,7 @@ endif()
 
 # Copy all asset files and preserve their tree structure
 
-file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/kernel/assets/*.*")
+file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/${FRONTEND_DIRECTORY}/assets/*.*")
 
 foreach(ASSET_FILE ${ASSET_FILES})
 
@@ -326,8 +327,8 @@ set(INTERNAL_SOURCES
 )
 
 set(SCRIPTING_SOURCES
-	core/MrbLoad.cpp
-	core/Script.cpp
+	src/MrbLoad.cpp
+	src/Script.cpp
 )
 
 include_directories(
@@ -338,7 +339,7 @@ include_directories(
 	engine/graphics
 	engine/network
 	engine/map
-	core
+	src
 )
 
 # Load source files
@@ -357,7 +358,7 @@ set(SOURCE_FILES
 	${MAP_SOURCES}
 	${INTERNAL_SOURCES}
 	${SCRIPTING_SOURCES}
-	core/Main.cpp
+	src/Main.cpp
 )
 
 #set_source_files_properties(
