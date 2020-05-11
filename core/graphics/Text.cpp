@@ -1,14 +1,5 @@
 #include "Text.h"
 
-std::string convert_utf8_to_byte(std::wstring str) {
-
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	auto byte_str = converter.to_bytes(str);
-
-	return byte_str;
-
-}
-
 void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_class_under<sf::Text>(mrb, "Text", ruby_module);
