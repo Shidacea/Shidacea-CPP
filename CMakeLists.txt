@@ -14,7 +14,7 @@ option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
 option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
 option(SHIDACEA_EXCLUDE_IMGUI "Excludes ImGui from Shidacea" OFF)
 option(SHIDACEA_IGNORE_STATIC_ASSERTIONS "Ignores static assertions" OFF)
-option(SHIDACEA_EXCLUDE_SFML "Excludes SFML from Shidacea" OFF)	# For future use
+option(SHIDACEA_EXCLUDE_SFML "Excludes SFML from Shidacea" OFF)
 
 # Compile flags
 
@@ -27,8 +27,17 @@ set(CMAKE_EXE_LINKER_FLAGS
 # Define platform dependent libraries
 
 if(WIN32)
+
+	if(NOT SHIDACEA_EXCLUDE_SFML)
+
+		set(ADDITIONAL_LIBRARIES sfml-main Ws2_32)
+
+	else()
+
+		set(ADDITIONAL_LIBRARIES Ws2_32)
+
+	endif()
 	
-	set(ADDITIONAL_LIBRARIES sfml-main Ws2_32)
 	set(MRUBY_LIBRARIES "${CMAKE_BINARY_DIR}/third_party/mruby/lib/libmruby.lib" "${CMAKE_BINARY_DIR}/third_party/mruby/lib/libmruby_core.lib")
 
 else()
@@ -53,6 +62,12 @@ if(SHIDACEA_COMPILE_ALL_SCRIPTS)
 
 	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
 	add_definitions(-DSHIDACEA_COMPILE_ALL_SCRIPTS)
+
+endif()
+
+if(SHIDACEA_EXCLUDE_SFML)
+
+	add_definitions(-DSHIDACEA_EXCLUDE_SFML)
 
 endif()
 
@@ -94,19 +109,24 @@ ExternalProject_Add(mruby
   BUILD_BYPRODUCTS "${MRUBY_LIBRARIES}")
 include_directories("${CMAKE_SOURCE_DIR}/third_party/mruby/include")
 
-# Load SFML libraries
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-add_subdirectory(third_party/SFML)
+if(NOT SHIDACEA_EXCLUDE_SFML)
 
-# Load ImGui-SFML, may be a bit hacky, but works
+	# Load SFML libraries
 
-if(NOT SHIDACEA_EXCLUDE_IMGUI)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_subdirectory(third_party/SFML)
 
-	set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/third_party/imgui")
-	set(SFML_DIR "${CMAKE_BINARY_DIR}")
-	set(IMGUI_SFML_FIND_SFML OFF)
-	add_subdirectory(third_party/imgui-sfml)
+	# Load ImGui-SFML, may be a bit hacky, but works
+
+	if(NOT SHIDACEA_EXCLUDE_IMGUI)
+
+		set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/third_party/imgui")
+		set(SFML_DIR "${CMAKE_BINARY_DIR}")
+		set(IMGUI_SFML_FIND_SFML OFF)
+		add_subdirectory(third_party/imgui-sfml)
+
+	endif()
 
 endif()
 
@@ -230,20 +250,24 @@ LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN ${FRONTEND_DIRECTORY}/scripts/custom custom_ma
 
 # Add external libraries from the SFML source directory
 
-if(WIN32)
+if(NOT SHIDACEA_EXCLUDE_SFML)
 
-	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	if(WIN32)
 
-		file(COPY ${CMAKE_SOURCE_DIR}/third_party/SFML/extlibs/bin/x64/openal32.dll
-		DESTINATION ${CMAKE_BINARY_DIR})
+		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-	else()
+			file(COPY ${CMAKE_SOURCE_DIR}/third_party/SFML/extlibs/bin/x64/openal32.dll
+			DESTINATION ${CMAKE_BINARY_DIR})
 
-		file(COPY ${CMAKE_SOURCE_DIR}/third_party/SFML/extlibs/bin/x86/openal32.dll
-		DESTINATION ${CMAKE_BINARY_DIR})
+		else()
 
-	endif()
+			file(COPY ${CMAKE_SOURCE_DIR}/third_party/SFML/extlibs/bin/x86/openal32.dll
+			DESTINATION ${CMAKE_BINARY_DIR})
+
+		endif()
 	
+	endif()
+
 endif()
 
 # Copy all asset files and preserve their tree structure
@@ -329,14 +353,21 @@ set(SCRIPTING_SOURCES
 	src/Script.cpp
 )
 
+if(NOT SHIDACEA_EXCLUDE_SFML)
+
+	include_directories(
+		third_party/Collishi
+		engine/internal 
+		engine/audio
+		engine/graphics
+		engine/network
+		engine/map
+	)
+
+endif()
+
 include_directories(
 	third_party/MrbWrap
-	third_party/Collishi
-	engine/internal 
-	engine/audio
-	engine/graphics
-	engine/network
-	engine/map
 	src
 )
 
@@ -348,15 +379,26 @@ if(NOT SHIDACEA_EXCLUDE_IMGUI)
 
 endif()
 
-set(SOURCE_FILES 
-	${AUDIO_SOURCES}
-	${GRAPHICS_SOURCES}
-	${NETWORK_SOURCES}
-	${MAP_SOURCES}
-	${INTERNAL_SOURCES}
-	${SCRIPTING_SOURCES}
-	src/Main.cpp
-)
+if(SHIDACEA_EXCLUDE_SFML)
+
+	set(SOURCE_FILES
+		${SCRIPTING_SOURCES}
+		src/Main.cpp
+	)
+
+else()
+
+	set(SOURCE_FILES 
+		${AUDIO_SOURCES}
+		${GRAPHICS_SOURCES}
+		${NETWORK_SOURCES}
+		${MAP_SOURCES}
+		${INTERNAL_SOURCES}
+		${SCRIPTING_SOURCES}
+		src/Main.cpp
+	)
+
+endif()
 
 #set_source_files_properties(
 #
@@ -367,13 +409,17 @@ set(SOURCE_FILES
 
 # Set libraries
 
-if(NOT SHIDACEA_EXCLUDE_IMGUI)
+if(NOT SHIDACEA_EXCLUDE_SFML)
 
-	set(IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
+	if(NOT SHIDACEA_EXCLUDE_IMGUI)
+
+		set(IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
+
+	endif()
+
+	set(SFML_LIBRARIES sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
 
 endif()
-
-set(SFML_LIBRARIES sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
 
 # Create executable and link libraries
 

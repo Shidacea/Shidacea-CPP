@@ -27,6 +27,8 @@ int main(int argc, char** argv) {
 	
 	setup_ruby_script_module(mrb, sdc_module);
 
+#ifndef SHIDACEA_EXCLUDE_SFML
+
 	setup_ruby_class_intrect(mrb, sdc_module);
 	setup_ruby_class_floatrect(mrb, sdc_module);
 
@@ -61,6 +63,8 @@ int main(int argc, char** argv) {
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 
 	setup_ruby_imgui(mrb, sdc_module);
+
+#endif
 
 #endif
 

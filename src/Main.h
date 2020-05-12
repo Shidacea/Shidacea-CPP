@@ -16,7 +16,6 @@
 
 //#define SHIDACEA_MOD_LOADING
 
-#include "Definitions.h"
 #include "MrbWrap.h"
 #include "MrbLoad.h"
 
@@ -41,6 +40,9 @@
 //! These may also include wrapped classes and functions
 
 #include "Script.h"
+
+#ifndef SHIDACEA_EXCLUDE_SFML
+
 #include "RenderStates.h"
 #include "Color.h"
 #include "Shape.h"
@@ -64,4 +66,6 @@
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 #include "ImGuiWrapper.h"
+#endif
+
 #endif
