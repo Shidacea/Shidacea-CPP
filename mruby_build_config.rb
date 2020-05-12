@@ -10,7 +10,6 @@ MRuby::Build.new do |conf|
 
   conf.gem :mgem => 'json'
   conf.gem :mgem => 'dir'
-  conf.gem :mgem => 'complex'
 
   conf.cc.flags << '-DMRB_USE_FLOAT -DMRB_UTF8_STRING'
 
