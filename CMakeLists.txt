@@ -330,8 +330,8 @@ set(SCRIPTING_SOURCES
 )
 
 include_directories(
-	MrbWrap
-	Collishi
+	third_party/MrbWrap
+	third_party/Collishi
 	engine/internal 
 	engine/audio
 	engine/graphics
