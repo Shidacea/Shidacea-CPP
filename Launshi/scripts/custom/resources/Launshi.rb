@@ -9,7 +9,7 @@ module SDC
 			"Adventure", "Horror", "Visual novel", "RPG", "Roguelike", 
 			"Simulation", "Strategy", "Sports", "Racing", "Board game", 
 			"Card game", "Turn-based", "Puzzle", "Logic", "Party",
-			"Action", "Adult"].sort
+			"Action", "Adult", "Tool", "Utility"].sort
 
 		attr_accessor :name_filter, :description_filter, :genre_filters, :keyword_filters
 
