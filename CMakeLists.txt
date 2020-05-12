@@ -10,8 +10,8 @@ set(FRONTEND_DIRECTORY "third_party/Launshi")
 
 # Compilation options
 
-option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea core scripts" OFF)
-option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea core and custom scripts" OFF)
+option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea frontend core scripts" OFF)
+option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea frontend core and custom scripts" OFF)
 option(SHIDACEA_EXCLUDE_IMGUI "Excludes ImGui from Shidacea" OFF)
 option(SHIDACEA_IGNORE_STATIC_ASSERTIONS "Ignores static assertions" OFF)
 option(SHIDACEA_EXCLUDE_SFML "Excludes SFML from Shidacea" OFF)
