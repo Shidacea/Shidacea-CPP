@@ -41,4 +41,22 @@ namespace MrbWrap {
 
 	template <> struct GetRealType<std::string> { using type = std::string; };
 
+	//! TODO: Do not generate a value each time calling this
+	//! Get default value of wrapper class, else just return C++ default
+	template <class T> constexpr auto get_default(T arg) {
+
+		if constexpr (std::is_base_of<BaseDefaultWrap, T>::value) {
+
+			return T::value;
+
+		}
+		else {
+
+			auto ret_value = T();
+			return ret_value;
+
+		}
+
+	};
+
 }

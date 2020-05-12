@@ -21,13 +21,13 @@
 #if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
 #define MRB_LOAD_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #else
-#define MRB_LOAD_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, #path ".rb")
+#define MRB_LOAD_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path ".rb")
 #endif
 
 #if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
 #define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #else
-#define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, #path ".rb")
+#define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path ".rb")
 #endif
 
 //! If there are any scripts in the scripts folder of the release version, load them if SHIDACEA_DYNAMIC_LOADING is set
@@ -36,23 +36,23 @@
 #if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
 #ifdef SHIDACEA_DYNAMIC_LOADING
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name); \
-MrbLoad::load_all_scripts_recursively(mrb, #path)
+MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
 #else
 #define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 #else
-#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, #path)
+#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
 #endif
 
 #if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
 #ifdef SHIDACEA_DYNAMIC_LOADING
 #define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name); \
-MrbLoad::load_all_scripts_recursively(mrb, #path)
+MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
 #else
 #define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 #else
-#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, #path)
+#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
 #endif
 
 namespace MrbLoad {

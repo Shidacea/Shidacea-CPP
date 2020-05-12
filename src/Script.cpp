@@ -5,7 +5,7 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 	auto script_module = mrb_define_module_under(mrb, ruby_module, "Script");
 
 	//! TODO: Change this depending on compilation parameters
-	mrb_mod_cv_set(mrb, script_module, mrb_intern_static(mrb, "@@_path", strlen("@@_path")), mrb_str_new_cstr(mrb, "kernel"));
+	mrb_mod_cv_set(mrb, script_module, mrb_intern_static(mrb, "@@_path", strlen("@@_path")), mrb_str_new_cstr(mrb, FRONTEND_DIRECTORY));
 
 	MrbWrap::define_module_function(mrb, script_module, "load", MRUBY_FUNC {
 

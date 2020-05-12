@@ -1,5 +1,7 @@
 #include "MrbLoad.h"
 
+#include <iostream>
+
 //! TODO: Add consistent log messages
 
 void MrbLoad::execute_string(mrb_state* mrb, std::string const& code) {

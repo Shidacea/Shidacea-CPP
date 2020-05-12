@@ -41,6 +41,8 @@ endif()
 add_definitions(-DMRB_USE_FLOAT)
 add_definitions(-DMRB_UTF8_STRING)
 
+add_definitions(-DFRONTEND_DIRECTORY="${FRONTEND_DIRECTORY}")
+
 if(SHIDACEA_COMPILE_CORE_SCRIPTS)
 
 	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
