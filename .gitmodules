@@ -13,3 +13,9 @@
 [submodule "third_party/Launshi"]
 	path = third_party/Launshi
 	url = https://github.com/Hadeweka/Launshi
+[submodule "third_party/Collishi"]
+	path = third_party/Collishi
+	url = https://github.com/Hadeweka/Collishi
+[submodule "third_party/MrbWrap"]
+	path = third_party/MrbWrap
+	url = https://github.com/Hadeweka/MrbWrap
