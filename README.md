@@ -135,6 +135,15 @@ Note that any version below 1.0.0 is a development version and may contain break
 If you download this repository, make sure to download the submodules as well, since a simple download won't include them.
 The best way to use Shidacea is to fork it and use Git for maintaining it and updating the submodules (e.g. using `git clone --recursive`).
 
+Currently supported release versions:
+* mruby: 2.1.0
+* SFML: 2.5.1
+* ImGui: 1.7.5
+* ImGui-SFML: 2.1.0
+* MrbWrap: 0.2.0 (no official release yet)
+* Launshi: 0.2.0 (no official release yet)
+* Collishi: 0.2.0 (no official release yet)
+
 ## Loading other mruby script files
 
 The ruby instruction `require` is currently NOT available (adding it as a gem would be possible, but not applicable to the concept of pre-compiled bytecode).
