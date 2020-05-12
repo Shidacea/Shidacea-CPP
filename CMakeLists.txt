@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(NewProject)
 set(EXECUTABLE_NAME "Launshi")
-set(FRONTEND_DIRECTORY "Launshi")
+set(FRONTEND_DIRECTORY "third_party/Launshi")
 
 # Compilation options
 
@@ -142,7 +142,7 @@ macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module flag)
 		add_custom_target(TargetRuby${arg_module}
 			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
 			COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${COMPILED_RUBY_${arg_name}_SCRIPTS} 
-			|| ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/core/Void.rb
+			|| ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/src/Void.rb
 			DEPENDS ${COMPILED_RUBY_${arg_name}_SCRIPTS} mruby
 			VERBATIM
 		)
