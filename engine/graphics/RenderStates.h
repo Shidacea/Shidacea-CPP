@@ -2,7 +2,7 @@
 
 //! TODO: Implement more than a dummy constructor
 
-#include "Helper.h"
+#include "MrbWrap.h"
 
 #include <SFML/Graphics.hpp>
 

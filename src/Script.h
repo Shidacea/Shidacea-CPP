@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Helper.h"
+#include "MrbWrap.h"
 #include "MrbLoad.h"
 #include "Version.h"
 

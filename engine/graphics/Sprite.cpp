@@ -2,8 +2,6 @@
 
 void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
-	sprite_ruby_module = ruby_module;
-
 	MrbWrap::wrap_class_under<sf::Sprite>(mrb, "Sprite", ruby_module);
 
 	MrbWrap::wrap_constructor<sf::Sprite>(mrb);

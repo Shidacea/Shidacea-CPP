@@ -2,8 +2,6 @@
 
 void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
-	coordinates_ruby_module = ruby_module;
-
 	MrbWrap::wrap_class_under<sf::Vector2f>(mrb, "Coordinates", ruby_module);
 
 	auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();

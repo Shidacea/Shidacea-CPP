@@ -282,10 +282,6 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/projects)
 
 # Source files
 
-set(MRBWRAP_SOURCES
-	MrbWrap/Helper.cpp
-)
-
 set(AUDIO_SOURCES
 	engine/audio/Music.cpp
 	engine/audio/SoundBuffer.cpp
@@ -351,7 +347,6 @@ if(NOT SHIDACEA_EXCLUDE_IMGUI)
 endif()
 
 set(SOURCE_FILES 
-	${MRBWRAP_SOURCES}
 	${AUDIO_SOURCES}
 	${GRAPHICS_SOURCES}
 	${NETWORK_SOURCES}

@@ -23,7 +23,7 @@
 #include "MemberSpec.h"
 #include "FileString.h"
 
-//! TODO: Further separate and rename this file
+//! TODO: Further separate this file
 //! TODO: Eventually make it a submodule
 
 //! Alias for the lamdba type used for mruby functions
@@ -51,8 +51,27 @@ namespace MrbWrap {
 
 	//! Create and returns a ruby class which can be used as a C++ class wrapper
 	//! Use this when setting up a ruby class
-	RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr);
-	RClass* define_data_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr);
+	inline RClass* define_data_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr) {
+
+		if (!super_class) super_class = mrb->object_class;
+
+		auto ruby_class = mrb_define_class(mrb, name, super_class);
+		MRB_SET_INSTANCE_TT(ruby_class, MRB_TT_DATA);
+
+		return ruby_class;
+
+	}
+
+	inline RClass* define_data_class_under(mrb_state* mrb, const char* name, RClass* ruby_module, RClass* super_class = nullptr) {
+
+		if (!super_class) super_class = mrb->object_class;
+
+		auto ruby_class = mrb_define_class_under(mrb, ruby_module, name, super_class);
+		MRB_SET_INSTANCE_TT(ruby_class, MRB_TT_DATA);
+
+		return ruby_class;
+
+	}
 
 	template <class T> void wrap_class(mrb_state* mrb, const char* name, RClass* super_class = nullptr) {
 
@@ -71,9 +90,17 @@ namespace MrbWrap {
 	}
 
 	//! Define a new function for ruby
-	void define_member_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
+	inline void define_member_function(mrb_state* mrb, RClass* ruby_class, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE()) {
 
-	void define_module_function(mrb_state* mrb, RClass* ruby_module, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE());
+		mrb_define_method(mrb, ruby_class, name, func, aspec);
+
+	}
+
+	inline void define_module_function(mrb_state* mrb, RClass* ruby_module, const char* name, mrb_value(*func)(mrb_state* mrb, mrb_value self) noexcept, mrb_aspec aspec = MRB_ARGS_NONE()) {
+
+		mrb_define_module_function(mrb, ruby_module, name, func, aspec);
+
+	}
 
 	//! Define a copy method automatically for any wrapped C++ object
 	//! Use this when setting up a ruby class

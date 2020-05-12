@@ -17,7 +17,8 @@
 //#define SHIDACEA_MOD_LOADING
 
 #include "Definitions.h"
-#include "Helper.h"
+#include "MrbWrap.h"
+#include "MrbLoad.h"
 
 //! Includes for compiled Ruby scripts
 //! If you want to add any compiled Ruby script, you need to add it here

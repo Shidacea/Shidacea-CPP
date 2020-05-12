@@ -1,11 +1,8 @@
 #pragma once
 
-#include "Helper.h"
+#include "MrbWrap.h"
 
 #include <SFML/Graphics.hpp>
-
-#include <codecvt>
-#include <locale>
 
 sf::String convert_byte_to_utf8(const char* str);
 

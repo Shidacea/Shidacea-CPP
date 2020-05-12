@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "Helper.h"
+#include "MrbWrap.h"
 
 #include <SFML/Graphics.hpp>
 

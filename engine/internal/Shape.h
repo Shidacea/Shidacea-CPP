@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Collisions.h"
-#include "Helper.h"
+#include "MrbWrap.h"
 
 #define GET_POSITIONS \
 auto x1 = pos1.x; \
