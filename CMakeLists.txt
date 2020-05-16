@@ -28,6 +28,8 @@ set(CMAKE_EXE_LINKER_FLAGS
 
 if(WIN32)
 
+	add_definitions(-Dssize_t=int)
+
 	if(NOT SHIDACEA_EXCLUDE_SFML)
 
 		set(ADDITIONAL_LIBRARIES sfml-main Ws2_32)
@@ -79,7 +81,8 @@ endif()
 
 if(SHIDACEA_IGNORE_STATIC_ASSERTIONS)
 
-	add_definitions(-DSHIDACEA_IGNORE_STATIC_ASSERTIONS)
+	# Assertions for Collishi
+	add_definitions(-DIGNORE_STATIC_ASSERTIONS)
 
 endif()
 

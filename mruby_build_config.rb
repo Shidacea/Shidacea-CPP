@@ -11,7 +11,8 @@ MRuby::Build.new do |conf|
   conf.gem :mgem => 'json'
   conf.gem :mgem => 'dir'
 
-  conf.cc.flags << '-DMRB_USE_FLOAT -DMRB_UTF8_STRING'
+  # The definition for ssize_t is due to a compilation error from mruby on Windows, where ssize_t is apparently not defined
+  conf.cc.flags << '-DMRB_USE_FLOAT -DMRB_UTF8_STRING -Dssize_t=int'
 
   conf.build_dir = ENV["MRUBY_BUILD_DIR"] || raise("MRUBY_BUILD_DIR undefined!")
 
