@@ -68,20 +68,26 @@ int main(int argc, char** argv) {
 
 #endif
 
-	//! Load Ruby core scripts
+#ifndef SHIDACEA_EXCLUDE_SDCLIB
 
-	MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, include, scripts/include);
-	MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, core, scripts/core);
+	//! Load SDCLib core scripts
+
+	MRB_LOAD_SDCLIB_SCRIPT_FOLDER(mrb, sdclib_include, include);
+	MRB_LOAD_SDCLIB_SCRIPT_FOLDER(mrb, sdclib_core, core);
+
+#endif
 
 	//! Load main scripts
 	//! If you want to add something, put it here
 	//! These are ordered, so don't just put it anywhere if it depends on other scripts
 	//! If you want to add compiled Ruby scripts, you also need to include them in the header file
 
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_resources, scripts/custom/resources);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_scenes, scripts/custom/scenes);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_entities, scripts/custom/entities);
-	MRB_LOAD_SCRIPT_FOLDER(mrb, custom_other, scripts/custom/other);
+	MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, include, scripts/include);
+	MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, core, scripts/core);
+	MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, custom_resources, scripts/custom/resources);
+	MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, custom_scenes, scripts/custom/scenes);
+	MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, custom_entities, scripts/custom/entities);
+	MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, custom_other, scripts/custom/other);
 
 #ifdef SHIDACEA_MOD_LOADING
 
@@ -93,11 +99,11 @@ int main(int argc, char** argv) {
 
 	//! Load game class
 
-	MRB_LOAD_SCRIPT(mrb, custom_game, scripts/custom/Game);
+	MRB_LOAD_FRONTEND_SCRIPT(mrb, custom_game, scripts/custom/Game);
 
 	//! Start main script with the game loop
 
-	MRB_LOAD_SCRIPT(mrb, custom_main, scripts/custom/Main);
+	MRB_LOAD_FRONTEND_SCRIPT(mrb, custom_main, scripts/custom/Main);
 
 	//! Clean up the Ruby interpreter
 

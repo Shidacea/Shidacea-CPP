@@ -7,11 +7,13 @@ cmake_minimum_required(VERSION 3.5)
 project(NewProject)
 set(EXECUTABLE_NAME "Launshi")
 set(FRONTEND_DIRECTORY "third_party/Launshi")
+set(SDCLIB_DIRECTORY "lib")
 
 # Compilation options
 
-option(SHIDACEA_COMPILE_CORE_SCRIPTS "Compiles the Shidacea frontend core scripts" OFF)
-option(SHIDACEA_COMPILE_ALL_SCRIPTS "Compiles the Shidacea frontend core and custom scripts" OFF)
+option(SHIDACEA_EXCLUDE_SDCLIB "Excludes extended SDC module under lib from Shidacea" OFF)
+option(SHIDACEA_COMPILE_SDCLIB "Compiles the SDC module scripts under lib" OFF)
+option(SHIDACEA_COMPILE_FRONTEND "Compiles the Shidacea frontend core and custom scripts" OFF)
 option(SHIDACEA_EXCLUDE_IMGUI "Excludes ImGui from Shidacea" OFF)
 option(SHIDACEA_IGNORE_STATIC_ASSERTIONS "Ignores static assertions" OFF)
 option(SHIDACEA_EXCLUDE_SFML "Excludes SFML from Shidacea" OFF)
@@ -53,17 +55,23 @@ add_definitions(-DMRB_USE_FLOAT)
 add_definitions(-DMRB_UTF8_STRING)
 
 add_definitions(-DFRONTEND_DIRECTORY="${FRONTEND_DIRECTORY}")
+add_definitions(-DSDCLIB_DIRECTORY="${SDCLIB_DIRECTORY}")
 
-if(SHIDACEA_COMPILE_CORE_SCRIPTS)
+if(SHIDACEA_COMPILE_SDCLIB)
 
-	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
+	add_definitions(-DSHIDACEA_COMPILE_SDCLIB)
 
 endif()
 
-if(SHIDACEA_COMPILE_ALL_SCRIPTS)
+if(SHIDACEA_COMPILE_FRONTEND)
 
-	add_definitions(-DSHIDACEA_COMPILE_CORE_SCRIPTS)
-	add_definitions(-DSHIDACEA_COMPILE_ALL_SCRIPTS)
+	add_definitions(-DSHIDACEA_COMPILE_FRONTEND)
+
+endif()
+
+if(SHIDACEA_EXCLUDE_SDCLIB)
+
+	add_definitions(-DSHIDACEA_EXCLUDE_SDCLIB)
 
 endif()
 
@@ -112,7 +120,6 @@ ExternalProject_Add(mruby
   BUILD_BYPRODUCTS "${MRUBY_LIBRARIES}")
 include_directories("${CMAKE_SOURCE_DIR}/third_party/mruby/include")
 
-
 if(NOT SHIDACEA_EXCLUDE_SFML)
 
 	# Load SFML libraries
@@ -137,18 +144,17 @@ endif()
 
 include_directories(${CMAKE_BINARY_DIR})
 
-if(NOT SHIDACEA_COMPILE_ALL_SCRIPTS)
+if(NOT SHIDACEA_COMPILE_FRONTEND)
 
-	if(SHIDACEA_COMPILE_CORE_SCRIPTS)
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_include)
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_core)
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_custom)
 
-		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_include)
-		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_core)
+endif()
 
-	else()
+if(NOT SHIDACEA_COMPILE_SDCLIB)
 
-		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_custom)
-
-	endif()
+	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/sdclib)
 
 endif()
 
@@ -231,25 +237,18 @@ endmacro()
 
 # Load and compile all ruby script folders and single scripts
 
-if(SHIDACEA_COMPILE_CORE_SCRIPTS OR SHIDACEA_COMPILE_ALL_SCRIPTS)
+LOAD_AND_COMPILE_RUBY_FOLDER(SDCLIB_INCLUDE ${SDCLIB_DIRECTORY}/include sdclib_include SDCLibInclude ${SHIDACEA_COMPILE_SDCLIB})
+LOAD_AND_COMPILE_RUBY_FOLDER(SDCLIB_CORE ${SDCLIB_DIRECTORY}/core sdclib_core SDCLibCore ${SHIDACEA_COMPILE_SDCLIB})
 
-	set(SHIDACEA_COMPILE_CORE ON)
+LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE ${FRONTEND_DIRECTORY}/scripts/include include Include ${SHIDACEA_COMPILE_FRONTEND})
+LOAD_AND_COMPILE_RUBY_FOLDER(CORE ${FRONTEND_DIRECTORY}/scripts/core core Core ${SHIDACEA_COMPILE_FRONTEND})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES ${FRONTEND_DIRECTORY}/scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_FRONTEND})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES ${FRONTEND_DIRECTORY}/scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_FRONTEND})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES ${FRONTEND_DIRECTORY}/scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_FRONTEND})
+LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER ${FRONTEND_DIRECTORY}/scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_FRONTEND})
 
-else()
-
-	set(SHIDACEA_COMPILE_CORE OFF)
-
-endif()
-
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE ${FRONTEND_DIRECTORY}/scripts/include include Include ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE ${FRONTEND_DIRECTORY}/scripts/core core Core ${SHIDACEA_COMPILE_CORE})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES ${FRONTEND_DIRECTORY}/scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES ${FRONTEND_DIRECTORY}/scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES ${FRONTEND_DIRECTORY}/scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER ${FRONTEND_DIRECTORY}/scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME ${FRONTEND_DIRECTORY}/scripts/custom custom_game Game ${SHIDACEA_COMPILE_ALL_SCRIPTS})
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN ${FRONTEND_DIRECTORY}/scripts/custom custom_main Main ${SHIDACEA_COMPILE_ALL_SCRIPTS})
+LOAD_AND_COMPILE_RUBY_SCRIPT(GAME ${FRONTEND_DIRECTORY}/scripts/custom custom_game Game ${SHIDACEA_COMPILE_FRONTEND})
+LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN ${FRONTEND_DIRECTORY}/scripts/custom custom_main Main ${SHIDACEA_COMPILE_FRONTEND})
 
 # Add external libraries from the SFML source directory
 

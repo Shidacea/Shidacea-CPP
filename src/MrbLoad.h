@@ -18,41 +18,41 @@
 //! If the compile flag is on, the macro will execute the bytecode in the respective array compiled_ruby_XXX
 //! In the latter case, don't forget to include "compiled_scripts/XXX.h" (but ONLY then), or else the array will not be defined
 //! Sadly, there is no easy way to circumwent the conditioned include directive
-#if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
-#define MRB_LOAD_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
+#if defined(SHIDACEA_COMPILE_FRONTEND)
+#define MRB_LOAD_FRONTEND_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #else
-#define MRB_LOAD_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path ".rb")
+#define MRB_LOAD_FRONTEND_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path ".rb")
 #endif
 
-#if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
-#define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
+#if defined(SHIDACEA_COMPILE_SDCLIB)
+#define MRB_LOAD_SDCLIB_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #else
-#define MRB_LOAD_CORE_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path ".rb")
+#define MRB_LOAD_SDCLIB_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, SDCLIB_DIRECTORY "/" #path ".rb")
 #endif
 
 //! If there are any scripts in the scripts folder of the release version, load them if SHIDACEA_DYNAMIC_LOADING is set
 //! This way scripts can be loaded at runtime, e.g. for a precompiled engine
 
-#if defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
+#if defined(SHIDACEA_COMPILE_FRONTEND)
 #ifdef SHIDACEA_DYNAMIC_LOADING
-#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name); \
+#define MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name); \
 MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
 #else
-#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
+#define MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 #else
-#define MRB_LOAD_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
+#define MRB_LOAD_FRONTEND_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
 #endif
 
-#if defined(SHIDACEA_COMPILE_CORE_SCRIPTS) || defined(SHIDACEA_COMPILE_ALL_SCRIPTS)
+#if defined(SHIDACEA_COMPILE_SDCLIB)
 #ifdef SHIDACEA_DYNAMIC_LOADING
-#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name); \
-MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
+#define MRB_LOAD_SDCLIB_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name); \
+MrbLoad::load_all_scripts_recursively(mrb, SDCLIB_DIRECTORY "/" #path)
 #else
-#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
+#define MRB_LOAD_SDCLIB_SCRIPT_FOLDER(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #endif
 #else
-#define MRB_LOAD_CORE_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, FRONTEND_DIRECTORY "/" #path)
+#define MRB_LOAD_SDCLIB_SCRIPT_FOLDER(mrb, name, path) MrbLoad::load_all_scripts_recursively(mrb, SDCLIB_DIRECTORY "/" #path)
 #endif
 
 namespace MrbLoad {
