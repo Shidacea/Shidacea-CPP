@@ -13,6 +13,9 @@ auto y2 = pos2.y
 
 #define DEFINE_COLLISION(type1, type2) template <> bool check_collision(type1 shape1, type2 shape2, sf::Vector2f pos1, sf::Vector2f pos2)
 
+//! TODO: The collision routines are probably not adjusted to scaling yet.
+//! TODO: Find a general approach to do this.
+
 #define TEST_COLLISION_CASE(type1, type2) \
 if (type_1 == ShapeType::type1 && type_2 == ShapeType::type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
