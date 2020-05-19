@@ -1,6 +1,6 @@
 #include "Window.h"
 
-void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_state* mrb, mrb_value& draw_object) {
+void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object) {
 
 	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
 
@@ -16,6 +16,11 @@ void draw_object(sf::RenderWindow* window, sf::RenderStates& render_states, mrb_
 
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
 		window->draw(*text, render_states);
+
+	} else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
+
+		auto shape = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
+		window->draw(*shape, render_states);
 
 	} else {
 

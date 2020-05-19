@@ -35,16 +35,18 @@ module SDC
 
 		# Class methods for adding different objects to any entity
 	
-		def self.add_box(index: nil, offset: Coordinates.new, size: nil)
+		def self.add_box(index: nil, offset: Coordinates.new, origin: Coordinates.new, size: nil)
 			if !size then
 				raise("No size given for box with index #{index}")
 			end
 
 			@boxes = SDC::SpecialContainer.new if !@boxes
-			@boxes.add(SDC::ShapeBox.new(offset, size), index)
+			new_box = SDC::ShapeBox.new(offset, size)
+			new_box.origin = origin
+			@boxes.add(new_box, index)
 		end
 
-		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil)
+		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil)
 			@shapes = SDC::SpecialContainer.new if !@shapes
 			shape = nil
 
@@ -72,12 +74,14 @@ module SDC
 				raise("Unknown shape type #{type} for shape index #{index}")
 			end
 
+			shape.origin = origin
+
 			@shapes.add(shape, index)
 		end
 
-		def self.add_sprite(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new, rect: nil)
+		def self.add_sprite(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, rect: nil)
 			@sprites = SDC::SpecialContainer.new if !@sprites
-			@sprites.add([texture_index, offset, active, rect], index)
+			@sprites.add([texture_index, offset, origin, active, rect], index)
 		end
 
 		def self.set_hitshape(index: nil, active: true, shape_index: nil, damage: 0, attributes: {})
@@ -163,13 +167,14 @@ module SDC
 					texture_index = element[0]
 					@sprites[i] = SDC::Sprite.new
 					@sprites[i].position = element[1]
-					@active_sprites[i] = element[2]
+					@sprites[i].origin = element[2]
+					@active_sprites[i] = element[3]
 
 					if texture_index then
 						@sprites[i].link_texture(SDC::Data.textures[texture_index])
 					end
 
-					@sprites[i].texture_rect = element[3] if element[3]
+					@sprites[i].texture_rect = element[4] if element[4]
 				end
 			end
 

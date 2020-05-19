@@ -325,6 +325,7 @@ set(GRAPHICS_SOURCES
 	engine/graphics/Sprite.cpp
 	engine/graphics/Font.cpp
 	engine/graphics/Text.cpp
+	engine/graphics/DrawShape.cpp
 )
 
 set(IMGUI_SOURCES

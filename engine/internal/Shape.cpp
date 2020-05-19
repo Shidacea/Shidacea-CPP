@@ -51,8 +51,11 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_constructor<Shape>(mrb);
 
-	MrbWrap::wrap_getter<Shape, &Shape::offset>(mrb, "offset");
-	MrbWrap::wrap_setter<Shape, &Shape::offset, sf::Vector2f>(mrb, "offset=");
+	MrbWrap::wrap_getter<Shape, &Shape::getPosition>(mrb, "offset");
+	MrbWrap::wrap_setter<Shape, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&Shape::setPosition), sf::Vector2f>(mrb, "offset=");
+
+	MrbWrap::wrap_getter<Shape, &Shape::getOrigin>(mrb, "origin");
+	MrbWrap::wrap_setter<Shape, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&Shape::setOrigin), sf::Vector2f>(mrb, "origin=");
 
 	//! TODO: Write standard constructors accepting the respective arguments
 
@@ -62,7 +65,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 		auto offset = std::get<0>(args);
 
 		auto shape = MrbWrap::convert_to_object<ShapePoint>(mrb, self);
-		shape->offset = offset;
+		shape->setPosition(offset);
 
 		return self;
 
@@ -78,7 +81,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		auto shape = MrbWrap::convert_to_object<ShapeLine>(mrb, self);
 		shape->line = coordinates;
-		shape->offset = offset;
+		shape->setPosition(offset);
 
 		return self;
 
@@ -97,7 +100,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		auto shape = MrbWrap::convert_to_object<ShapeCircle>(mrb, self);
 		shape->radius = radius;
-		shape->offset = offset;
+		shape->setPosition(offset);
 
 		return self;
 
@@ -108,8 +111,8 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::radius>(mrb, "radius");
 	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::radius, float>(mrb, "radius=");
 
-	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::scale>(mrb, "scale");
-	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::scale, float>(mrb, "scale=");
+	MrbWrap::wrap_getter<ShapeCircle, &ShapeCircle::getSingleArgScale>(mrb, "scale");
+	MrbWrap::wrap_setter<ShapeCircle, &ShapeCircle::setSingleArgScale, float>(mrb, "scale=");
 
 	MrbWrap::define_member_function(mrb, ruby_shape_box_class, "initialize", MRUBY_FUNC {
 
@@ -119,7 +122,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		auto shape = MrbWrap::convert_to_object<ShapeBox>(mrb, self);
 		shape->size = coordinates;
-		shape->offset = offset;
+		shape->setPosition(offset);
 
 		return self;
 
@@ -130,8 +133,8 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<ShapeBox, &ShapeBox::size>(mrb, "size");
 	MrbWrap::wrap_setter<ShapeBox, &ShapeBox::size, sf::Vector2f>(mrb, "size=");
 
-	MrbWrap::wrap_getter<ShapeBox, &ShapeBox::scale>(mrb, "scale");
-	MrbWrap::wrap_setter<ShapeBox, &ShapeBox::scale, sf::Vector2f>(mrb, "scale=");
+	MrbWrap::wrap_getter<ShapeBox, &ShapeBox::getScale>(mrb, "scale");
+	MrbWrap::wrap_setter<ShapeBox, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&ShapeBox::setScale), sf::Vector2f>(mrb, "scale=");
 
 	MrbWrap::define_member_function(mrb, ruby_shape_triangle_class, "initialize", MRUBY_FUNC {
 
@@ -143,7 +146,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 		auto shape = MrbWrap::convert_to_object<ShapeTriangle>(mrb, self);
 		shape->side_1 = side_1;
 		shape->side_2 = side_2;
-		shape->offset = offset;
+		shape->setPosition(offset);
 
 		return self;
 
@@ -180,7 +183,7 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 		auto shape = MrbWrap::convert_from_object<ShapeEllipse>(mrb, self);
 		shape->semiaxes = coordinates;
-		shape->offset = offset;
+		shape->setPosition(offset);
 
 		return self;
 

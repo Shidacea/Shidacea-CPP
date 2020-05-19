@@ -46,6 +46,7 @@ int main(int argc, char** argv) {
 	setup_ruby_class_sound(mrb, sdc_module);
 
 	setup_ruby_class_color(mrb, sdc_module);
+	setup_ruby_class_draw_shape(mrb, sdc_module);
 	setup_ruby_class_texture(mrb, sdc_module);
 	setup_ruby_class_sprite(mrb, sdc_module);
 	setup_ruby_class_map_layer(mrb, sdc_module);

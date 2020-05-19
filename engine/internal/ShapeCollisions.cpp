@@ -26,7 +26,7 @@ DEFINE_COLLISION(ShapePoint, ShapeCircle) {
 
 	GET_POSITIONS;
 
-	auto r2 = shape2.radius * shape2.scale;
+	auto r2 = shape2.radius * shape2.getScale().x;
 
 	return collision_point_circle(x1, y1, x2, y2, r2);
 
@@ -36,8 +36,8 @@ DEFINE_COLLISION(ShapePoint, ShapeBox) {
 
 	GET_POSITIONS;
 
-	auto w2 = shape2.size.x * shape2.scale.x;
-	auto h2 = shape2.size.y * shape2.scale.y;
+	auto w2 = shape2.size.x * shape2.getScale().x;
+	auto h2 = shape2.size.y * shape2.getScale().y;
 
 	return collision_point_box(x1, y1, x2, y2, w2, h2);
 
@@ -91,7 +91,7 @@ DEFINE_COLLISION(ShapeLine, ShapeCircle) {
 
 	auto dx1 = shape1.line.x;
 	auto dy1 = shape1.line.y;
-	auto r2 = shape2.radius * shape2.scale;
+	auto r2 = shape2.radius * shape2.getScale().x;
 
 	return collision_line_circle(x1, y1, dx1, dy1, x2, y2, r2);
 
@@ -103,8 +103,8 @@ DEFINE_COLLISION(ShapeLine, ShapeBox) {
 
 	auto dx1 = shape1.line.x;
 	auto dy1 = shape1.line.y;
-	auto w2 = shape2.size.x * shape2.scale.x;
-	auto h2 = shape2.size.y * shape2.scale.y;
+	auto w2 = shape2.size.x * shape2.getScale().x;
+	auto h2 = shape2.size.y * shape2.getScale().y;
 
 	return collision_line_box(x1, y1, dx1, dy1, x2, y2, w2, h2);
 
@@ -146,8 +146,8 @@ DEFINE_COLLISION(ShapeCircle, ShapeCircle) {
 
 	GET_POSITIONS;
 
-	auto r1 = shape1.radius * shape1.scale;
-	auto r2 = shape2.radius * shape2.scale;
+	auto r1 = shape1.radius * shape1.getScale().x;
+	auto r2 = shape2.radius * shape2.getScale().y;
 
 	return collision_circle_circle(x1, y1, r1, x2, y2, r2);
 
@@ -157,10 +157,10 @@ DEFINE_COLLISION(ShapeCircle, ShapeBox) {
 
 	GET_POSITIONS;
 
-	auto r1 = shape1.radius * shape1.scale;
+	auto r1 = shape1.radius * shape1.getScale().x;
 
-	auto w2 = shape2.size.x * shape2.scale.x;
-	auto h2 = shape2.size.y * shape2.scale.y;
+	auto w2 = shape2.size.x * shape2.getScale().x;
+	auto h2 = shape2.size.y * shape2.getScale().y;
 
 	return collision_circle_box(x1, y1, r1, x2, y2, w2, h2);
 
@@ -170,7 +170,7 @@ DEFINE_COLLISION(ShapeCircle, ShapeTriangle) {
 
 	GET_POSITIONS;
 
-	auto r1 = shape1.radius * shape1.scale;
+	auto r1 = shape1.radius * shape1.getScale().x;
 
 	auto sxa2 = shape2.side_1.x;
 	auto sya2 = shape2.side_1.y;
@@ -201,11 +201,11 @@ DEFINE_COLLISION(ShapeBox, ShapeBox) {
 
 	GET_POSITIONS;
 
-	auto w1 = shape1.size.x * shape1.scale.x;
-	auto h1 = shape1.size.y * shape1.scale.y;
+	auto w1 = shape1.size.x * shape1.getScale().x;
+	auto h1 = shape1.size.y * shape1.getScale().y;
 
-	auto w2 = shape2.size.x * shape2.scale.x;
-	auto h2 = shape2.size.y * shape2.scale.y;
+	auto w2 = shape2.size.x * shape2.getScale().x;
+	auto h2 = shape2.size.y * shape2.getScale().y;
 
 	return collision_box_box(x1, y1, w1, h1, x2, y2, w2, h2);
 

@@ -17,8 +17,8 @@ auto y2 = pos2.y
 if (type_1 == ShapeType::type1 && type_2 == ShapeType::type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_2); \
-auto offset_1 = shape_1->offset; \
-auto offset_2 = shape_2->offset; \
+auto offset_1 = shape_1->getPosition() - shape_1->getOrigin(); \
+auto offset_2 = shape_2->getPosition() - shape_2->getOrigin(); \
 result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_2); \
 }
 
@@ -29,27 +29,25 @@ result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_
 if (type_1 == ShapeType::type1 && type_2 == ShapeType::type2) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_2); \
-auto offset_1 = shape_1->offset; \
-auto offset_2 = shape_2->offset; \
+auto offset_1 = shape_1->getPosition() - shape_1->getOrigin(); \
+auto offset_2 = shape_2->getPosition() - shape_2->getOrigin(); \
 result = check_collision(*shape_1, *shape_2, *pos_1 + offset_1, *pos_2 + offset_2); \
 } \
 else if (type_1 == ShapeType::type2 && type_2 == ShapeType::type1) { \
 auto shape_1 = MrbWrap::convert_from_object<Shape##type2>(mrb, ruby_shape_1); \
 auto shape_2 = MrbWrap::convert_from_object<Shape##type1>(mrb, ruby_shape_2); \
-auto offset_1 = shape_1->offset; \
-auto offset_2 = shape_2->offset; \
+auto offset_1 = shape_1->getPosition() - shape_1->getOrigin(); \
+auto offset_2 = shape_2->getPosition() - shape_2->getOrigin(); \
 result = check_collision(*shape_2, *shape_1, *pos_2 + offset_2, *pos_1 + offset_1); \
 }
 
-class Shape {
-
-public:
-
-	sf::Vector2f offset = {0.0, 0.0};
+class Shape : public sf::Transformable {
 
 };
 
 class ShapePoint : public Shape {
+
+public:
 
 };
 
@@ -65,8 +63,19 @@ class ShapeCircle : public Shape {
 
 public:
 
+	void setSingleArgScale(float arg) {
+
+		setScale(arg, arg);
+
+	}
+
+	float getSingleArgScale() {
+
+		return getScale().x;
+
+	}
+
 	float radius = 0.0;
-	float scale = 1.0;
 
 };
 
@@ -75,7 +84,6 @@ class ShapeBox : public Shape {
 public:
 
 	sf::Vector2f size = {0.0, 0.0};
-	sf::Vector2f scale = {1.0, 1.0};
 
 };
 

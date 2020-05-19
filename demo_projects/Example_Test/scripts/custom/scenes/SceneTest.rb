@@ -33,7 +33,10 @@ class SceneTest < SDC::Scene
 			SDC.window.set_imgui_scale(2.0)
 
 		elsif SDC::key_pressed?(:R) then
-			@entities[0].sprites[0].rotation += 0.5
+			@entities[0].sprites[0].position = SDC::Coordinates.new(0, 0)
+			@entities[0].sprites[0].origin = SDC::Coordinates.new(25, 25)
+			@entities[0].sprites[0].rotation += 30.0
+			@entities[0].sprites[0].scale *= 1.01
 		
 		elsif SDC::key_pressed?(:F1, override_text_input: true) then
 			# Should trigger an error with backtrace
@@ -114,7 +117,7 @@ class SceneTest < SDC::Scene
 		@entities[1].position.y = 300
 
 		@entities[0].set_child(@entities[2])
-		@entities[2].position = SDC::Coordinates.new(12.5, -25)	# TODO: Scaling and translating is still a bit weird
+		@entities[2].position = SDC::Coordinates.new(0.0, -50.0)
 		@entities[2].boxes[0].scale = SDC::Coordinates.new(0.5, 0.5)
 		@entities[2].sprites[0].scale = SDC::Coordinates.new(0.5, 0.5)
 		@entities[2].shapes[0].scale = 0.5
@@ -142,6 +145,10 @@ class SceneTest < SDC::Scene
 		@test_map.reload(@entities[0].position)
 		@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
 		@entities.each {|entity| entity.draw(SDC.window)}
+
+		sh = SDC::DrawShapeRectangle.new
+		sh.mimick(@entities[0].boxes[0])
+		SDC.window.draw_translated(sh, @entities[0].position)
 		
 		view_minimap = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
 		view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))
@@ -218,13 +225,11 @@ class SceneTest < SDC::Scene
 				@entities[0].shapes[0].scale *= 1.1
 				@entities[0].boxes[0].scale *= 1.1
 				@entities[0].sprites[0].scale *= 1.1
-				@entities[0].sprites[0].position *= 1.1
 			end
 			SDC::ImGui.button "Reset entity" do
 				@entities[0].shapes[0].scale = 1.0
 				@entities[0].boxes[0].scale = SDC::Coordinates.new(1.0, 1.0)
 				@entities[0].sprites[0].scale = SDC::Coordinates.new(1.0, 1.0)
-				@entities[0].sprites[0].position = SDC::Coordinates.new(-25.0, -25.0)
 			end
 
 			SDC::ImGui.button (SDC.get_switch("test") ? "Stop jumping with Q" : "Start jumping with Q") do

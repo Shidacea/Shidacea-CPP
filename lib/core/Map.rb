@@ -53,10 +53,10 @@ module SDC
 			any_result = false
 
 			boxes.each do |box|
-				ix_low = ((ex + box.offset.x) / @tile_width).floor
-				iy_low = ((ey + box.offset.y) / @tile_height).floor
-				ix_high = ((ex + box.size.x * box.scale.x + box.offset.x) / @tile_width).floor
-				iy_high = ((ey + box.size.y * box.scale.y + box.offset.y) / @tile_height).floor
+				ix_low = ((ex + box.offset.x - box.origin.x * box.scale.x) / @tile_width).floor
+				iy_low = ((ey + box.offset.y - box.origin.y * box.scale.y) / @tile_height).floor
+				ix_high = ((ex + box.size.x * box.scale.x + box.offset.x - box.origin.x * box.scale.x) / @tile_width).floor
+				iy_high = ((ey + box.size.y * box.scale.y + box.offset.y - box.origin.y * box.scale.y) / @tile_height).floor
 
 				# TODO: Implement default value for map layers, so this loop can be extended over undefined areas
 
