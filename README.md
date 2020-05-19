@@ -105,26 +105,32 @@ Disadvantages:
 
 # Roadmap
 
-Note that any version below 1.0.0 is a development version and may contain breaking changes.
+Note that any version below 1.0.0 is a development version and will likely contain breaking changes.
 
-## Version 0.2.0
-* Better resource management
+## Version 0.2.0 (June 2020)
+* Entirely new engine structure [Done]
+* Better resource management [Partially implemented]
 * Text input fields [Mostly done, might need some safety checks]
 * Filters for Launshi [Filters for genres and names are done]
+* Launshi info window with description and screenshots
 * Shape drawing [Worked on]
 * UTF-8 support [Done]
 * Marshalling support [Proof of concept available]
 * Collision routines for various shapes [Mostly done]
-* Animations
 * Shooter example project
 * Debug routines [First steps]
 
-## Version 0.3.0
+## Version 0.3.0 (Late summer 2020)
+* Animations
+* GUI methods
+* Ellipse shape support
+
+## Version 0.4.0 (Late 2020)
 * Full map support
 * A special level editor written using this engine (will be called Hyashi)
 * Hyashi plugins
 
-## Future versions
+## Possible features in future versions
 * WYSIWYG-type game editor feature for Hyashi
 * Resource packages
 
