@@ -109,15 +109,15 @@ Note that any version below 1.0.0 is a development version and may contain break
 
 ## Version 0.2.0
 * Better resource management
-* Text input fields
-* Filters for Launshi
-* Shape drawing
-* UTF-8 support
-* Marshalling support
-* Collision routines for various shapes
+* Text input fields [Mostly done, might need some safety checks]
+* Filters for Launshi [Filters for genres and names are done]
+* Shape drawing [Worked on]
+* UTF-8 support [Done]
+* Marshalling support [Proof of concept available]
+* Collision routines for various shapes [Mostly done]
 * Animations
 * Shooter example project
-* Debug routines
+* Debug routines [First steps]
 
 ## Version 0.3.0
 * Full map support
