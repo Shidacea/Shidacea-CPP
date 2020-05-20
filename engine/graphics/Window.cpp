@@ -1,45 +1,78 @@
 #include "Window.h"
+
+//! TODO: Deglobalize this
+
 #include <array>
+#include <algorithm>
 
 struct RenderCall {
 
 	sf::Drawable* obj;
 	sf::RenderStates states;
 	sf::View view;
+	float z;
 
 };
 
-std::array<std::array<RenderCall, 10000>, 100> queue;
-std::array<size_t, 100> idx;
+constexpr size_t max_z_group = 64;
+constexpr size_t max_items_per_group = 16384;
+
+std::array<std::array<RenderCall, max_items_per_group>, max_z_group> queue;
+std::array<size_t, max_z_group> idx;
 size_t max_z_used = 0;
+
+bool operator<(const RenderCall& first, const RenderCall& second) {
+
+	return first.z < second.z;
+
+}
+
+size_t group_z(float z) {
+
+	//! Group 0
+	if (z < 0.0) return 0;
+	
+	//! Group max_z_group - 1
+	auto int_z = static_cast<size_t>(z);
+	if (int_z >= max_z_group - 1) return max_z_group - 1;
+
+	//! Group 1 to max_z_group - 2
+	return int_z + 1;
+
+}
 
 void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object) {
 
 	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
 
-		auto z = 0u;
+		auto float_z = 0.0f;
+		auto z = group_z(float_z);
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
-		queue[z][idx[z]++] = { sprite, render_states, window->getView() };
+		queue[z][idx[z]++] = { sprite, render_states, window->getView(), float_z };
 		if (z > max_z_used) max_z_used = z;
 
 	} else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
-		auto z = 0u;
+
+		auto float_z = 0.0f;
+		auto z = group_z(float_z);
 		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
-		queue[z][idx[z]++] = { map_layer, render_states, window->getView() };
+		queue[z][idx[z]++] = { map_layer, render_states, window->getView(), float_z };
 		if (z > max_z_used) max_z_used = z;
 
 	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
-		auto z = 0u;
+		auto float_z = 0.0f;
+		auto z = group_z(float_z);
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
-		queue[z][idx[z]++] = { text, render_states, window->getView() };
+		queue[z][idx[z]++] = { text, render_states, window->getView(), float_z };
 		if (z > max_z_used) max_z_used = z;
 
 	} else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
 
-		auto z = 0u;
+		auto float_z = 0.0f;
+		auto z = group_z(float_z);
 		auto shape = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
-		queue[z][idx[z]++] = { shape, render_states, window->getView() };
+		queue[z][idx[z]++] = { shape, render_states, window->getView(), float_z };
 		if (z > max_z_used) max_z_used = z;
 
 	} else {
@@ -104,6 +137,9 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
 
 		for (size_t z = 0; z <= max_z_used; z++) {
+
+			//! Do exact z-ordering in each z group
+			if(idx[z] > 1) std::stable_sort(queue[z].begin(), queue[z].begin() + idx[z]);
 
 			for (size_t i = 0; i < idx[z]; i++) {
 
