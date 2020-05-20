@@ -1,26 +1,46 @@
 #include "Window.h"
+#include <array>
+
+struct RenderCall {
+
+	sf::Drawable* obj;
+	sf::RenderStates states;
+	sf::View view;
+
+};
+
+std::array<std::array<RenderCall, 10000>, 100> queue;
+std::array<size_t, 100> idx;
+size_t max_z_used = 0;
 
 void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object) {
 
 	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
 
+		auto z = 0u;
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
-		window->draw(*sprite, render_states);
+		queue[z][idx[z]++] = { sprite, render_states, window->getView() };
+		if (z > max_z_used) max_z_used = z;
 
 	} else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
-
+		auto z = 0u;
 		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
-		window->draw(*map_layer, render_states);
+		queue[z][idx[z]++] = { map_layer, render_states, window->getView() };
+		if (z > max_z_used) max_z_used = z;
 
 	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
+		auto z = 0u;
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
-		window->draw(*text, render_states);
+		queue[z][idx[z]++] = { text, render_states, window->getView() };
+		if (z > max_z_used) max_z_used = z;
 
 	} else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
 
+		auto z = 0u;
 		auto shape = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
-		window->draw(*shape, render_states);
+		queue[z][idx[z]++] = { shape, render_states, window->getView() };
+		if (z > max_z_used) max_z_used = z;
 
 	} else {
 
@@ -82,6 +102,21 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::define_member_function(mrb, ruby_window_class, "display", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+
+		for (size_t z = 0; z <= max_z_used; z++) {
+
+			for (size_t i = 0; i < idx[z]; i++) {
+
+				auto& render_call = queue[z][i];
+
+				window->setView(render_call.view);
+
+				window->draw(*(render_call.obj), render_call.states);
+
+			}
+
+			idx[z] = 0;
+		}
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 
