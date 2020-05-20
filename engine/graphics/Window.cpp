@@ -15,10 +15,10 @@ struct RenderCall {
 };
 
 constexpr size_t max_z_group = 64;
-constexpr size_t max_items_per_group = 16384;
+constexpr size_t max_elements_per_group = 16384;
 
-std::array<std::array<RenderCall, max_items_per_group>, max_z_group> queue;
-std::array<size_t, max_z_group> idx;
+std::array<std::array<RenderCall, max_elements_per_group>, max_z_group> queue;
+std::array<size_t, max_z_group> element_count;
 size_t max_z_used = 0;
 
 bool operator<(const RenderCall& first, const RenderCall& second) {
@@ -27,7 +27,7 @@ bool operator<(const RenderCall& first, const RenderCall& second) {
 
 }
 
-size_t group_z(float z) {
+size_t get_z_group(float z) {
 
 	//! Group 0
 	if (z < 0.0) return 0;
@@ -41,39 +41,35 @@ size_t group_z(float z) {
 
 }
 
-void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object) {
+void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object, float z) {
 
 	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
 
-		auto float_z = 0.0f;
-		auto z = group_z(float_z);
+		auto z_group = get_z_group(z);
 		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
-		queue[z][idx[z]++] = { sprite, render_states, window->getView(), float_z };
-		if (z > max_z_used) max_z_used = z;
+		queue[z_group][element_count[z_group]++] = { sprite, render_states, window->getView(), z };
+		if (z_group > max_z_used) max_z_used = z_group;
 
 	} else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
 
-		auto float_z = 0.0f;
-		auto z = group_z(float_z);
+		auto z_group = get_z_group(z);
 		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
-		queue[z][idx[z]++] = { map_layer, render_states, window->getView(), float_z };
-		if (z > max_z_used) max_z_used = z;
+		queue[z_group][element_count[z_group]++] = { map_layer, render_states, window->getView(), z };
+		if (z_group > max_z_used) max_z_used = z_group;
 
 	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
-		auto float_z = 0.0f;
-		auto z = group_z(float_z);
+		auto z_group = get_z_group(z);
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
-		queue[z][idx[z]++] = { text, render_states, window->getView(), float_z };
-		if (z > max_z_used) max_z_used = z;
+		queue[z_group][element_count[z_group]++] = { text, render_states, window->getView(), z };
+		if (z_group > max_z_used) max_z_used = z_group;
 
 	} else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
 
-		auto float_z = 0.0f;
-		auto z = group_z(float_z);
+		auto z_group = get_z_group(z);
 		auto shape = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
-		queue[z][idx[z]++] = { shape, render_states, window->getView(), float_z };
-		if (z > max_z_used) max_z_used = z;
+		queue[z_group][element_count[z_group]++] = { shape, render_states, window->getView(), z };
+		if (z_group > max_z_used) max_z_used = z_group;
 
 	} else {
 
@@ -139,9 +135,9 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		for (size_t z = 0; z <= max_z_used; z++) {
 
 			//! Do exact z-ordering in each z group
-			if(idx[z] > 1) std::stable_sort(queue[z].begin(), queue[z].begin() + idx[z]);
+			if(element_count[z] > 1) std::stable_sort(queue[z].begin(), queue[z].begin() + element_count[z]);
 
-			for (size_t i = 0; i < idx[z]; i++) {
+			for (size_t i = 0; i < element_count[z]; i++) {
 
 				auto& render_call = queue[z][i];
 
@@ -151,7 +147,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 			}
 
-			idx[z] = 0;
+			element_count[z] = 0;
 		}
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
@@ -276,7 +272,10 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		sf::RenderStates render_states = sf::RenderStates::Default;
 		if (!mrb_nil_p(ruby_render_states)) render_states = *MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
 
-		draw_object(window, render_states, mrb, ruby_draw_object);
+		//! TODO
+		auto z = 0.0f;
+
+		draw_object(window, render_states, mrb, ruby_draw_object, z);
 
 		return mrb_true_value();
 
@@ -300,7 +299,10 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		transform.translate(*coordinates);
 		render_states.transform *= transform;
 
-		draw_object(window, render_states, mrb, ruby_draw_object);
+		//! TODO
+		auto z = 0.0f;
+
+		draw_object(window, render_states, mrb, ruby_draw_object, z);
 
 		return mrb_true_value();
 
