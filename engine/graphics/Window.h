@@ -11,11 +11,7 @@
 
 #endif
 
-#include "Sprite.h"
-#include "MapLayer.h"
-#include "DrawShape.h"
-
-void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object);
+#include "RenderQueueWindow.h"
 
 void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module);
 

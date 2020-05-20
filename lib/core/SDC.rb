@@ -143,7 +143,7 @@ module SDC
 
 	# Other utility methods for rapid development
 
-	def self.draw_texture(index: nil, filename: nil, coordinates: SDC::Coordinates.new)
+	def self.draw_texture(index: nil, filename: nil, z: 0, coordinates: SDC::Coordinates.new)
 		texture = nil
 		if filename then
 			if index then
@@ -164,11 +164,11 @@ module SDC
 
 		sprite = SDC::Sprite.new
 		sprite.link_texture(texture)
-		SDC.window.draw_translated(sprite, coordinates)
+		SDC.window.draw_translated(sprite, z, coordinates)
 	end
 
 	# TODO: Simplify and make universal caching functions
-	def self.draw_text(index: nil, font_index: nil, text: "", size: 10, coordinates: SDC::Coordinates.new, color: nil)
+	def self.draw_text(index: nil, font_index: nil, text: "", size: 10, z: 0, coordinates: SDC::Coordinates.new, color: nil)
 		font = SDC::Data.fonts[font_index]
 
 		text_obj = nil
@@ -200,7 +200,7 @@ module SDC
 
 		text_obj.color = color if color
 
-		SDC.window.draw_translated(text_obj, coordinates)
+		SDC.window.draw_translated(text_obj, z, coordinates)
 	end
 
 	def self.handle_backspace_input(text_buffer)

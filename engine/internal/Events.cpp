@@ -169,9 +169,9 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 		} else {
 
-			auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
+			auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, ruby_window);
 
-			mouse_position = sf::Mouse::getPosition(*window);
+			mouse_position = sf::Mouse::getPosition(window->get_window_reference());
 
 		}
 
@@ -187,9 +187,9 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 		mrb_get_args(mrb, "o", &ruby_window);
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, ruby_window);
 
-		auto coords = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+		auto coords = window->get_window_reference().mapPixelToCoords(sf::Mouse::getPosition(window->get_window_reference()));
 
 		auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
 
@@ -229,9 +229,9 @@ void setup_ruby_events(mrb_state* mrb, RClass* ruby_module) {
 
 		} else {
 
-			auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, ruby_window);
+			auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, ruby_window);
 
-			sf::Mouse::setPosition(new_position, *window);
+			sf::Mouse::setPosition(new_position, window->get_window_reference());
 
 		}
 

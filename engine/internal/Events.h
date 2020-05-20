@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "RenderQueueWindow.h"
+
 #define REGISTER_TYPE(mrb, module_key, name) mrb_define_const(mrb, module_key, "" #name "", mrb_fixnum_value(static_cast<int>(sf::Event::EventType::name )))
 #define REGISTER_KEY(mrb, module_key, name) mrb_define_const(mrb, module_key, "" #name "", mrb_fixnum_value(static_cast<int>(sf::Keyboard::Key::name )))
 #define REGISTER_BUTTON(mrb, module_key, name) mrb_define_const(mrb, module_key, "" #name "", mrb_fixnum_value(static_cast<int>(sf::Mouse::Button::name )))

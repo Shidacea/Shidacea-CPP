@@ -1,4 +1,8 @@
 module SDC
+	class MapLayer
+		attr_accessor :z
+	end
+
 	class Map
 
 		include SDCMeta::AIBackend
@@ -87,7 +91,7 @@ module SDC
 
 		def draw(window, offset)
 			@map_layers.each do |layer|
-				window.draw_translated(layer, offset)
+				window.draw_translated(layer, (layer.z ? layer.z : 0), offset)
 			end
 		end
 

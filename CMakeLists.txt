@@ -317,6 +317,8 @@ set(AUDIO_SOURCES
 )
 
 set(GRAPHICS_SOURCES
+	engine/graphics/RenderQueue.cpp
+	engine/graphics/RenderQueueWindow.cpp
 	engine/graphics/RenderStates.cpp
 	engine/graphics/Color.cpp
 	engine/graphics/View.cpp

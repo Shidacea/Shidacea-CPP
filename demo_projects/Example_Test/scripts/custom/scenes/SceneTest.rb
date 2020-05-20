@@ -149,7 +149,7 @@ class SceneTest < SDC::Scene
 
 			sh = SDC::DrawShapeRectangle.new
 			sh.mimick(@entities[0].boxes[0])
-			SDC.window.draw_translated(sh, @entities[0].position)
+			SDC.window.draw_translated(sh, 0, @entities[0].position)
 		
 			view_minimap = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
 			view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))
@@ -159,7 +159,7 @@ class SceneTest < SDC::Scene
 
 			view_ui = SDC::View.new(SDC::FloatRect.new(0, 0, 1280, 720))
 			SDC.window.use_view(view_ui) do
-				SDC.window.draw(@test_text)
+				SDC.window.draw(@test_text, 0)
 			end
 		end
 	end

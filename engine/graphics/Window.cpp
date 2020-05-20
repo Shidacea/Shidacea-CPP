@@ -1,89 +1,10 @@
 #include "Window.h"
 
-//! TODO: Deglobalize this
-
-#include <array>
-#include <algorithm>
-
-struct RenderCall {
-
-	sf::Drawable* obj;
-	sf::RenderStates states;
-	sf::View view;
-	float z;
-
-};
-
-constexpr size_t max_z_group = 64;
-constexpr size_t max_elements_per_group = 16384;
-
-std::array<std::array<RenderCall, max_elements_per_group>, max_z_group> queue;
-std::array<size_t, max_z_group> element_count;
-size_t max_z_used = 0;
-
-bool operator<(const RenderCall& first, const RenderCall& second) {
-
-	return first.z < second.z;
-
-}
-
-size_t get_z_group(float z) {
-
-	//! Group 0
-	if (z < 0.0) return 0;
-	
-	//! Group max_z_group - 1
-	auto int_z = static_cast<size_t>(z);
-	if (int_z >= max_z_group - 1) return max_z_group - 1;
-
-	//! Group 1 to max_z_group - 2
-	return int_z + 1;
-
-}
-
-void draw_object(sf::RenderWindow* window, sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object, float z) {
-
-	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
-
-		auto z_group = get_z_group(z);
-		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
-		queue[z_group][element_count[z_group]++] = { sprite, render_states, window->getView(), z };
-		if (z_group > max_z_used) max_z_used = z_group;
-
-	} else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
-
-		auto z_group = get_z_group(z);
-		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
-		queue[z_group][element_count[z_group]++] = { map_layer, render_states, window->getView(), z };
-		if (z_group > max_z_used) max_z_used = z_group;
-
-	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
-
-		auto z_group = get_z_group(z);
-		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
-		queue[z_group][element_count[z_group]++] = { text, render_states, window->getView(), z };
-		if (z_group > max_z_used) max_z_used = z_group;
-
-	} else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
-
-		auto z_group = get_z_group(z);
-		auto shape = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
-		queue[z_group][element_count[z_group]++] = { shape, render_states, window->getView(), z };
-		if (z_group > max_z_used) max_z_used = z_group;
-
-	} else {
-
-		//! TODO: Error message
-
-	}
-
-}
-
 void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	window_ruby_module = ruby_module;
 
-	MrbWrap::wrap_class_under<sf::RenderWindow>(mrb, "Window", ruby_module);
+	MrbWrap::wrap_class_under<RenderQueueWindow>(mrb, "Window", ruby_module);
 
 	auto ruby_window_class = MrbWrap::define_data_class_under(mrb, "Window", ruby_module);
 
@@ -95,25 +16,21 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		auto height = std::get<2>(args);
 		auto fullscreen = std::get<3>(args);
 
-		sf::RenderWindow* window;
+		auto window = MrbWrap::convert_to_object<RenderQueueWindow>(mrb, self);
 
 		if (fullscreen) {
 
-			window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(width, height), title, sf::Style::Fullscreen);
+			window->init(sf::VideoMode(width, height), title, sf::Style::Fullscreen);
 
 		} else {
 
-			window = MrbWrap::convert_to_object<sf::RenderWindow>(mrb, self, sf::VideoMode(width, height), title);
+			window->init(sf::VideoMode(width, height), title);
 
 		}
 
 		MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
-#ifndef SHIDACEA_EXCLUDE_IMGUI
-
-		ImGui::SFML::Init(*window);
-
-#endif
+		window->init_imgui_if_available();
 
 		return self;
 
@@ -121,7 +38,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "clear", MRUBY_FUNC {
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 		window->clear();
 
 		return mrb_nil_value();
@@ -130,31 +47,11 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "display", MRUBY_FUNC {
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 
-		for (size_t z = 0; z <= max_z_used; z++) {
-
-			//! Do exact z-ordering in each z group
-			if(element_count[z] > 1) std::stable_sort(queue[z].begin(), queue[z].begin() + element_count[z]);
-
-			for (size_t i = 0; i < element_count[z]; i++) {
-
-				auto& render_call = queue[z][i];
-
-				window->setView(render_call.view);
-
-				window->draw(*(render_call.obj), render_call.states);
-
-			}
-
-			element_count[z] = 0;
-		}
-
-#ifndef SHIDACEA_EXCLUDE_IMGUI
-
-		ImGui::SFML::Render(*window);
-
-#endif
+		window->render();
+		
+		window->render_imgui_if_available();
 
 		window->display();
 
@@ -164,14 +61,10 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "imgui_update", MRUBY_FUNC {
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 		auto clock = MrbWrap::convert_from_instance_variable<sf::Clock>(mrb, self, "@_clock");
 
-#ifndef SHIDACEA_EXCLUDE_IMGUI
-
-		ImGui::SFML::Update(*window, clock->restart());
-
-#endif
+		window->update_imgui_if_available(clock);
 
 		return mrb_nil_value();
 
@@ -192,26 +85,22 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVerticalSyncEnabled, bool>(mrb, "vertical_sync_enabled=");
+	MrbWrap::wrap_setter<RenderQueueWindow, &RenderQueueWindow::set_vsync, bool>(mrb, "vertical_sync_enabled=");
 
-	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::isOpen>(mrb, "is_open?");
+	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::is_open>(mrb, "is_open?");
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "close", MRUBY_FUNC {
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 		window->close();
 
-#ifndef SHIDACEA_EXCLUDE_IMGUI
-
-		ImGui::SFML::Shutdown();
-
-#endif
+		window->shutdown_imgui_if_available();
 
 		return mrb_nil_value();
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::wrap_member_function<sf::RenderWindow, &sf::RenderWindow::setView, sf::View>(mrb, "set_view");
+	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::set_view, sf::View>(mrb, "set_view");
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "use_view", MRUBY_FUNC {
 
@@ -220,13 +109,13 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		mrb_get_args(mrb, "o&", &ruby_view, &block);
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 		auto view = MrbWrap::convert_from_object<sf::View>(mrb, ruby_view);
 
-		auto old_view = window->getView();
-		window->setView(*view);
+		auto old_view = window->get_view();
+		window->set_view(*view);
 		mrb_yield(mrb, block, mrb_nil_value());
-		window->setView(old_view);
+		window->set_view(old_view);
 
 		return mrb_nil_value();
 
@@ -234,14 +123,14 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "poll_event", MRUBY_FUNC {
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 
 		static auto event_class = mrb_class_get_under(mrb, window_ruby_module, "Event");
 		auto new_event = mrb_obj_new(mrb, event_class, 0, NULL);
 
 		auto event = MrbWrap::convert_from_object<sf::Event>(mrb, new_event);
 
-		auto success = window->pollEvent(*event);
+		auto success = window->poll_event(*event);
 
 		if (success) {
 
@@ -263,19 +152,17 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::define_member_function(mrb, ruby_window_class, "draw", MRUBY_FUNC {
 
 		mrb_value ruby_draw_object;
+		mrb_float z_value;
 		mrb_value ruby_render_states = mrb_nil_value();
 
-		mrb_get_args(mrb, "o|o", &ruby_draw_object, &ruby_render_states);
+		mrb_get_args(mrb, "of|o", &ruby_draw_object, &z_value, &ruby_render_states);
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 
 		sf::RenderStates render_states = sf::RenderStates::Default;
 		if (!mrb_nil_p(ruby_render_states)) render_states = *MrbWrap::convert_from_object<sf::RenderStates>(mrb, ruby_render_states);
 
-		//! TODO
-		auto z = 0.0f;
-
-		draw_object(window, render_states, mrb, ruby_draw_object, z);
+		window->draw_object(render_states, mrb, ruby_draw_object, z_value);
 
 		return mrb_true_value();
 
@@ -284,12 +171,13 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::define_member_function(mrb, ruby_window_class, "draw_translated", MRUBY_FUNC {
 
 		mrb_value ruby_draw_object;
+		mrb_float z_value;
 		mrb_value ruby_coordinates;
 		mrb_value ruby_render_states = mrb_nil_value();
 
-		mrb_get_args(mrb, "oo|o", &ruby_draw_object, &ruby_coordinates, &ruby_render_states);
+		mrb_get_args(mrb, "ofo|o", &ruby_draw_object, &z_value, &ruby_coordinates, &ruby_render_states);
 
-		auto window = MrbWrap::convert_from_object<sf::RenderWindow>(mrb, self);
+		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 		auto coordinates = MrbWrap::convert_from_object<sf::Vector2f>(mrb, ruby_coordinates);
 
 		sf::RenderStates render_states = sf::RenderStates::Default;
@@ -299,18 +187,15 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		transform.translate(*coordinates);
 		render_states.transform *= transform;
 
-		//! TODO
-		auto z = 0.0f;
-
-		draw_object(window, render_states, mrb, ruby_draw_object, z);
+		window->draw_object(render_states, mrb, ruby_draw_object, z_value);
 
 		return mrb_true_value();
 
 	}, MRB_ARGS_ARG(2, 1));
 
-	MrbWrap::wrap_getter<sf::RenderWindow, &sf::RenderWindow::hasFocus>(mrb, "has_focus?");
+	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::has_focus>(mrb, "has_focus?");
 
-	MrbWrap::wrap_setter<sf::RenderWindow, &sf::RenderWindow::setVisible, bool>(mrb, "visible=");
+	MrbWrap::wrap_setter<RenderQueueWindow, &RenderQueueWindow::set_visible, bool>(mrb, "visible=");
 
 	MrbWrap::define_member_function(mrb, ruby_window_class, "imgui_defined?", MRUBY_FUNC {
 

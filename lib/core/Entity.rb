@@ -16,6 +16,7 @@ module SDC
 		self.define_class_property(:gravity_multiplier, default: 1.0)
 		self.define_class_property(:ai_active, default: false)
 		self.define_class_property(:max_hp, default: 0)
+		self.define_class_property(:z, default: 0)
 
 		# Accessor methods for content arrays (except for textures)
 
@@ -361,7 +362,7 @@ module SDC
 			0.upto(@sprites.size - 1) do |i|
 				sprite = @sprites[i]
 				next if !sprite || !@active_sprites[i]
-				window.draw_translated(sprite, absolute_position)
+				window.draw_translated(sprite, self.z, absolute_position)
 			end
 		end
 
