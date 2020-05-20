@@ -114,6 +114,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Filters for Launshi [Filters for genres and names are done]
 * Launshi info window with description and screenshots
 * Shape drawing [Worked on]
+* Z-Ordering [Done]
 * UTF-8 support [Done]
 * Marshalling support [Proof of concept available]
 * Collision routines for various shapes [Mostly done]
