@@ -6,9 +6,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_class_under<RenderQueueWindow>(mrb, "Window", ruby_module);
 
-	auto ruby_window_class = MrbWrap::define_data_class_under(mrb, "Window", ruby_module);
-
-	MrbWrap::define_member_function(mrb, ruby_window_class, "initialize", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<std::string, unsigned int, unsigned int, MRBW_OPT<bool, false>>(mrb);
 		auto title = std::get<0>(args);
@@ -28,81 +26,30 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		}
 
-		MrbWrap::convert_to_instance_variable<sf::Clock>(mrb, self, "@_clock");
-
-		window->init_imgui_if_available();
+		window->init_imgui();
 
 		return self;
 
 	}, MRB_ARGS_ARG(3, 1));
 
-	MrbWrap::define_member_function(mrb, ruby_window_class, "clear", MRUBY_FUNC {
+	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::clear>(mrb, "clear");
+	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::render_and_display>(mrb, "render_and_display");
 
-		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
-		window->clear();
-
-		return mrb_nil_value();
-
-	}, MRB_ARGS_NONE());
-
-	MrbWrap::define_member_function(mrb, ruby_window_class, "display", MRUBY_FUNC {
-
-		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
-
-		window->render();
-		
-		window->render_imgui_if_available();
-
-		window->display();
-
-		return mrb_nil_value();
-
-	}, MRB_ARGS_NONE());
-
-	MrbWrap::define_member_function(mrb, ruby_window_class, "imgui_update", MRUBY_FUNC {
-
-		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
-		auto clock = MrbWrap::convert_from_instance_variable<sf::Clock>(mrb, self, "@_clock");
-
-		window->update_imgui_if_available(clock);
-
-		return mrb_nil_value();
-
-	}, MRB_ARGS_NONE());
-
-	MrbWrap::define_member_function(mrb, ruby_window_class, "set_imgui_scale", MRUBY_FUNC {
-
-		auto args = MrbWrap::get_converted_args<float>(mrb);
-		auto scale = std::get<0>(args);
-
-#ifndef SHIDACEA_EXCLUDE_IMGUI
-
-		ImGui::GetIO().FontGlobalScale = scale;
-
-#endif
-
-		return mrb_nil_value();
-
-	}, MRB_ARGS_REQ(1));
+	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::is_imgui_defined>(mrb, "imgui_defined?");
+	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::update_imgui>(mrb, "imgui_update");
+	MrbWrap::wrap_setter<RenderQueueWindow, &RenderQueueWindow::set_imgui_scale, float>(mrb, "set_imgui_scale");
 
 	MrbWrap::wrap_setter<RenderQueueWindow, &RenderQueueWindow::set_vsync, bool>(mrb, "vertical_sync_enabled=");
 
 	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::is_open>(mrb, "is_open?");
-
-	MrbWrap::define_member_function(mrb, ruby_window_class, "close", MRUBY_FUNC {
-
-		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
-		window->close();
-
-		window->shutdown_imgui_if_available();
-
-		return mrb_nil_value();
-
-	}, MRB_ARGS_NONE());
+	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::close>(mrb, "close");
 
 	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::set_view, sf::View>(mrb, "set_view");
 
-	MrbWrap::define_member_function(mrb, ruby_window_class, "use_view", MRUBY_FUNC {
+	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::has_focus>(mrb, "has_focus?");
+	MrbWrap::wrap_setter<RenderQueueWindow, &RenderQueueWindow::set_visible, bool>(mrb, "visible=");
+
+	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "use_view", MRUBY_FUNC {
 
 		mrb_value ruby_view;
 		mrb_value block = mrb_nil_value();
@@ -121,7 +68,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(2));
 
-	MrbWrap::define_member_function(mrb, ruby_window_class, "poll_event", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "poll_event", MRUBY_FUNC {
 
 		auto window = MrbWrap::convert_from_object<RenderQueueWindow>(mrb, self);
 
@@ -134,10 +81,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 		if (success) {
 
-#ifndef SHIDACEA_EXCLUDE_IMGUI
-
-			ImGui::SFML::ProcessEvent(*event);
-#endif
+			window->process_imgui_event(event);
 
 			return new_event;
 
@@ -149,7 +93,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	MrbWrap::define_member_function(mrb, ruby_window_class, "draw", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "draw", MRUBY_FUNC {
 
 		mrb_value ruby_draw_object;
 		mrb_float z_value;
@@ -168,7 +112,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(1, 1));
 
-	MrbWrap::define_member_function(mrb, ruby_window_class, "draw_translated", MRUBY_FUNC {
+	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "draw_translated", MRUBY_FUNC {
 
 		mrb_value ruby_draw_object;
 		mrb_float z_value;
@@ -192,23 +136,5 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 		return mrb_true_value();
 
 	}, MRB_ARGS_ARG(2, 1));
-
-	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::has_focus>(mrb, "has_focus?");
-
-	MrbWrap::wrap_setter<RenderQueueWindow, &RenderQueueWindow::set_visible, bool>(mrb, "visible=");
-
-	MrbWrap::define_member_function(mrb, ruby_window_class, "imgui_defined?", MRUBY_FUNC {
-
-#ifdef SHIDACEA_EXCLUDE_IMGUI
-
-		return mrb_false_value();
-
-#else
-
-		return mrb_true_value();
-
-#endif
-
-	}, MRB_ARGS_NONE());
 
 }

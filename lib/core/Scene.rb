@@ -21,7 +21,7 @@ module SDC
 				draw_imgui
 			end
 
-			SDC.window.display
+			SDC.window.render_and_display
 		end
 
 		def process_events

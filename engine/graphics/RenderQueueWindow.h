@@ -28,10 +28,13 @@ public:
 	void init(sf::VideoMode mode, const sf::String& title, sf::Uint32 style = sf::Style::Default, const sf::ContextSettings& settings = sf::ContextSettings());
 	void draw_object(sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object, float z);
 
-	void init_imgui_if_available();
-	void render_imgui_if_available();
-	void update_imgui_if_available(sf::Clock* clock);
-	void shutdown_imgui_if_available();
+	bool is_imgui_defined();
+	void init_imgui();
+	void set_imgui_scale(float scale);
+	void render_imgui();
+	void update_imgui();
+	void process_imgui_event(sf::Event* event);
+	void shutdown_imgui();
 
 	void clear();
 	void display();
@@ -54,9 +57,12 @@ public:
 
 	sf::RenderWindow& get_window_reference();
 
+	void render_and_display();
+
 private:
 
 	std::unique_ptr<sf::RenderWindow> window = nullptr;
 	RenderQueue render_queue;
+	sf::Clock clock;
 
 };

@@ -40,7 +40,21 @@ void RenderQueueWindow::init(sf::VideoMode mode, const sf::String& title, sf::Ui
 
 }
 
-void RenderQueueWindow::init_imgui_if_available() {
+bool RenderQueueWindow::is_imgui_defined() {
+
+#ifdef SHIDACEA_EXCLUDE_IMGUI
+
+	return false;
+
+#else
+
+	return true;
+
+#endif
+
+}
+
+void RenderQueueWindow::init_imgui() {
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 
@@ -50,7 +64,17 @@ void RenderQueueWindow::init_imgui_if_available() {
 
 }
 
-void RenderQueueWindow::render_imgui_if_available() {
+void RenderQueueWindow::set_imgui_scale(float scale) {
+
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
+	ImGui::GetIO().FontGlobalScale = scale;
+
+#endif
+
+}
+
+void RenderQueueWindow::render_imgui() {
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 
@@ -60,17 +84,27 @@ void RenderQueueWindow::render_imgui_if_available() {
 
 }
 
-void RenderQueueWindow::update_imgui_if_available(sf::Clock* clock) {
+void RenderQueueWindow::update_imgui() {
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 
-	ImGui::SFML::Update(*window, clock->restart());
+	ImGui::SFML::Update(*window, clock.restart());
 
 #endif
 
 }
 
-void RenderQueueWindow::shutdown_imgui_if_available() {
+void RenderQueueWindow::process_imgui_event(sf::Event* event) {
+
+#ifndef SHIDACEA_EXCLUDE_IMGUI
+
+	ImGui::SFML::ProcessEvent(*event);
+
+#endif
+
+}
+
+void RenderQueueWindow::shutdown_imgui() {
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 
@@ -137,6 +171,7 @@ bool RenderQueueWindow::poll_event(sf::Event& event) {
 void RenderQueueWindow::close() {
 
 	window->close();
+	shutdown_imgui();
 
 }
 
@@ -149,5 +184,13 @@ void RenderQueueWindow::render() {
 sf::RenderWindow& RenderQueueWindow::get_window_reference() {
 
 	return *(window.get());
+
+}
+
+void RenderQueueWindow::render_and_display() {
+
+	render();
+	render_imgui();
+	display();
 
 }
