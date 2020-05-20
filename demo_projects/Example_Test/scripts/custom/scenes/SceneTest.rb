@@ -140,27 +140,25 @@ class SceneTest < SDC::Scene
 	end
 
 	def draw
-		SDC::Debug.log_time("Time = ") do
-			view_player = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
-			SDC.window.set_view(view_player)
-			@test_map.reload(@entities[0].position)
-			@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
-			@entities.each {|entity| entity.draw(SDC.window)}
+		view_player = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
+		SDC.window.set_view(view_player)
+		@test_map.reload(@entities[0].position)
+		@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
+		@entities.each {|entity| entity.draw(SDC.window)}
 
-			sh = SDC::DrawShapeRectangle.new
-			sh.mimick(@entities[0].boxes[0])
-			SDC.window.draw_translated(sh, 0, @entities[0].position)
+		sh = SDC::DrawShapeRectangle.new
+		sh.mimick(@entities[0].boxes[0])
+		SDC.window.draw_translated(sh, 0, @entities[0].position)
 		
-			view_minimap = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
-			view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))
-			SDC.window.use_view(view_minimap) do
-				@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
-			end
+		view_minimap = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
+		view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))
+		SDC.window.use_view(view_minimap) do
+			@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
+		end
 
-			view_ui = SDC::View.new(SDC::FloatRect.new(0, 0, 1280, 720))
-			SDC.window.use_view(view_ui) do
-				SDC.window.draw(@test_text, 0)
-			end
+		view_ui = SDC::View.new(SDC::FloatRect.new(0, 0, 1280, 720))
+		SDC.window.use_view(view_ui) do
+			SDC.window.draw(@test_text, 0)
 		end
 	end
 
