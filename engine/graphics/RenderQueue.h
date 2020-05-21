@@ -35,4 +35,6 @@ public:
 	std::array<size_t, max_z_group> element_count;
 	size_t max_z_used = 0;
 
+	bool invalid = false;
+
 };

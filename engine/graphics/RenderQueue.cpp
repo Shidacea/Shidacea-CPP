@@ -32,6 +32,13 @@ void RenderQueue::push(sf::Drawable* obj, sf::RenderStates states, sf::View view
 
 	auto z_group = get_z_group(z);
 
+	if (element_count[z_group] >= max_elements_per_group) {
+
+		invalid = true;
+		return;
+
+	}
+
 	queue[z_group][element_count[z_group]++] = { obj, states, view, z };
 
 }
