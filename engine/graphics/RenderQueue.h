@@ -5,8 +5,8 @@
 
 #include <SFML/Graphics.hpp>
 
-constexpr size_t max_z_group = 64;
-constexpr size_t max_elements_per_group = 16384;
+constexpr size_t max_z_group = 16;
+constexpr size_t max_elements_per_group = 4096;
 
 struct RenderCall {
 
