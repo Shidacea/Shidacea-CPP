@@ -28,9 +28,11 @@ size_t RenderQueue::get_z_group(float z) {
 
 }
 
-void RenderQueue::push(sf::Drawable* obj, sf::RenderStates states, sf::View view, float z) {
+void RenderQueue::push(sf::Drawable* obj, sf::RenderStates&& states, sf::View view, 
+	sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, float rotation, 
+	float z) {
 
-	auto z_group = get_z_group(z);
+	auto z_group = get_z_group(z); 
 
 	if (element_count[z_group] >= max_elements_per_group) {
 
@@ -39,7 +41,7 @@ void RenderQueue::push(sf::Drawable* obj, sf::RenderStates states, sf::View view
 
 	}
 
-	queue[z_group][element_count[z_group]++] = { obj, states, view, z };
+	queue[z_group][element_count[z_group]++] = { obj, std::move(states), view, origin, position, scale, rotation, z };
 
 }
 
@@ -71,6 +73,13 @@ void RenderQueue::draw_to(sf::RenderWindow* window) {
 		for (size_t i = 0; i < element_count[z]; i++) {
 
 			auto& render_call = get_render_call(z, i);
+
+			auto t_obj = dynamic_cast<sf::Transformable*>(render_call.obj);
+
+			t_obj->setOrigin(render_call.origin);
+			t_obj->setPosition(render_call.position);
+			t_obj->setScale(render_call.scale);
+			t_obj->setRotation(render_call.rotation);
 
 			window->setView(render_call.view);
 

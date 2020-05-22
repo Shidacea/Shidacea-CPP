@@ -13,6 +13,12 @@ struct RenderCall {
 	sf::Drawable* obj;
 	sf::RenderStates states;
 	sf::View view;
+	
+	sf::Vector2f origin;
+	sf::Vector2f position;
+	sf::Vector2f scale;
+	float rotation;
+
 	float z;
 
 };
@@ -24,7 +30,11 @@ class RenderQueue {
 public:
 
 	size_t get_z_group(float z);
-	void push(sf::Drawable* obj, sf::RenderStates states, sf::View view, float z);
+
+	void push(sf::Drawable* obj, sf::RenderStates&& states, sf::View view, 
+		sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, float rotation,
+		float z);
+
 	void sort(size_t z_group);
 	void reset(size_t z_group);
 	RenderCall& get_render_call(size_t z_group, size_t element);

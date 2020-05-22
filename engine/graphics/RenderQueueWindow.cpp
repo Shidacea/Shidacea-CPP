@@ -2,28 +2,26 @@
 
 void RenderQueueWindow::draw_object(sf::RenderStates render_states, mrb_state* mrb, mrb_value& draw_object, float z) {
 
+	sf::Drawable* d_obj = nullptr;
+
 	if (MrbWrap::check_for_type<sf::Sprite>(mrb, draw_object)) {
 
-		auto sprite = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
-		render_queue.push(sprite, render_states, window->getView(), z);
+		d_obj = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
 
 	}
 	else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
 
-		auto map_layer = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
-		render_queue.push(map_layer, render_states, window->getView(), z);
+		d_obj = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
 
 	}
 	else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
-		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
-		render_queue.push(text, render_states, window->getView(), z);
+		d_obj = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
 
 	}
 	else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
 
-		auto shape = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
-		render_queue.push(shape, render_states, window->getView(), z);
+		d_obj = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
 
 	}
 	else {
@@ -31,6 +29,15 @@ void RenderQueueWindow::draw_object(sf::RenderStates render_states, mrb_state* m
 		//! TODO: Error message
 
 	}
+
+	auto t_obj = dynamic_cast<sf::Transformable*>(d_obj);
+
+	auto origin = t_obj->getOrigin();
+	auto position = t_obj->getPosition();
+	auto scale = t_obj->getScale();
+	auto rotation = t_obj->getRotation();
+
+	render_queue.push(d_obj, std::move(render_states), window->getView(), origin, position, scale, rotation, z);
 
 	if (render_queue.invalid) {
 
