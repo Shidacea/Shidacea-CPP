@@ -22,21 +22,8 @@
 //! Includes for compiled Ruby scripts
 //! If you want to add any compiled Ruby script, you need to add it here
 
-#ifdef SHIDACEA_COMPILE_SDCLIB
-#include "compiled_scripts/CompiledRubySDCLibInclude.h"
-#include "compiled_scripts/CompiledRubySDCLibCore.h"
-#endif
-
-#ifdef SHIDACEA_COMPILE_FRONTEND
-#include "compiled_scripts/CompiledRubyInclude.h"
-#include "compiled_scripts/CompiledRubyCore.h"
-#include "compiled_scripts/CompiledRubyCustomResources.h"
-#include "compiled_scripts/CompiledRubyCustomScenes.h"
-#include "compiled_scripts/CompiledRubyCustomEntities.h"
-#include "compiled_scripts/CompiledRubyCustomOther.h"
-#include "compiled_scripts/CompiledRubyGame.h"
-#include "compiled_scripts/CompiledRubyMain.h"
-#endif
+#include "compiled_scripts/scripts_include_sdclib.h"
+#include "compiled_scripts/scripts_include_frontend.h"
 
 //! Other included classes and functions
 //! These may also include wrapped classes and functions

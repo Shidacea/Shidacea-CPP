@@ -21,13 +21,13 @@
 #if defined(SHIDACEA_COMPILE_FRONTEND)
 #define MRB_LOAD_FRONTEND_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #else
-#define MRB_LOAD_FRONTEND_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path ".rb")
+#define MRB_LOAD_FRONTEND_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, FRONTEND_DIRECTORY "/" #path)
 #endif
 
 #if defined(SHIDACEA_COMPILE_SDCLIB)
 #define MRB_LOAD_SDCLIB_SCRIPT(mrb, name, path) MrbLoad::execute_bytecode(mrb, compiled_ruby_##name)
 #else
-#define MRB_LOAD_SDCLIB_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, SDCLIB_DIRECTORY "/" #path ".rb")
+#define MRB_LOAD_SDCLIB_SCRIPT(mrb, name, path) MrbLoad::execute_script_file(mrb, SDCLIB_DIRECTORY "/" #path)
 #endif
 
 //! If there are any scripts in the scripts folder of the release version, load them if SHIDACEA_DYNAMIC_LOADING is set

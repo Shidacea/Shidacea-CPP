@@ -235,20 +235,57 @@ macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module flag)
 
 endmacro()
 
-# Load and compile all ruby script folders and single scripts
+add_custom_target(FrontendInclude
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
+	COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mruby ${CMAKE_SOURCE_DIR}/utility/script_collector.rb 
+		${FRONTEND_DIRECTORY}
+		${CMAKE_BINARY_DIR}/compiled_scripts/ 
+		scripts_include_frontend.h 
+		scripts_frontend.txt
+		${CMAKE_SOURCE_DIR}/${FRONTEND_DIRECTORY}/project.json
+		frontend
+		SHIDACEA_COMPILE_FRONTEND
+	DEPENDS mruby
+	VERBATIM
+)
 
-LOAD_AND_COMPILE_RUBY_FOLDER(SDCLIB_INCLUDE ${SDCLIB_DIRECTORY}/include sdclib_include SDCLibInclude ${SHIDACEA_COMPILE_SDCLIB})
-LOAD_AND_COMPILE_RUBY_FOLDER(SDCLIB_CORE ${SDCLIB_DIRECTORY}/core sdclib_core SDCLibCore ${SHIDACEA_COMPILE_SDCLIB})
+add_custom_target(SDCLibInclude
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
+	COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mruby ${CMAKE_SOURCE_DIR}/utility/script_collector.rb 
+		${FRONTEND_DIRECTORY}
+		${CMAKE_BINARY_DIR}/compiled_scripts/ 
+		scripts_include_sdclib.h 
+		scripts_sdclib.txt
+		${CMAKE_SOURCE_DIR}/${SDCLIB_DIRECTORY}/project.json
+		sdclib
+		SHIDACEA_COMPILE_SDCLIB
+	DEPENDS mruby
+	VERBATIM
+)
 
-LOAD_AND_COMPILE_RUBY_FOLDER(INCLUDE ${FRONTEND_DIRECTORY}/scripts/include include Include ${SHIDACEA_COMPILE_FRONTEND})
-LOAD_AND_COMPILE_RUBY_FOLDER(CORE ${FRONTEND_DIRECTORY}/scripts/core core Core ${SHIDACEA_COMPILE_FRONTEND})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_RESOURCES ${FRONTEND_DIRECTORY}/scripts/custom/resources custom_resources CustomResources ${SHIDACEA_COMPILE_FRONTEND})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_SCENES ${FRONTEND_DIRECTORY}/scripts/custom/scenes custom_scenes CustomScenes ${SHIDACEA_COMPILE_FRONTEND})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_ENTITIES ${FRONTEND_DIRECTORY}/scripts/custom/entities custom_entities CustomEntities ${SHIDACEA_COMPILE_FRONTEND})
-LOAD_AND_COMPILE_RUBY_FOLDER(CUSTOM_OTHER ${FRONTEND_DIRECTORY}/scripts/custom/other custom_other CustomOther ${SHIDACEA_COMPILE_FRONTEND})
+add_custom_target(Frontend
+    COMMAND cmake -D LOAD_DIR=${FRONTEND_DIRECTORY} 
+		-D SCRIPT_FILE=${CMAKE_BINARY_DIR}/compiled_scripts/scripts_frontend.txt 
+		-D COMPILE_THIS=${SHIDACEA_COMPILE_FRONTEND}
+		-D REGULAR_SOURCE_DIR=${CMAKE_SOURCE_DIR}
+		-D REGULAR_BINARY_DIR=${CMAKE_BINARY_DIR}
+		-D COMPILATION_NAME=frontend
+		-P ${CMAKE_SOURCE_DIR}/utility/GenerateScripts.cmake
+	DEPENDS mruby FrontendInclude
+	VERBATIM
+)
 
-LOAD_AND_COMPILE_RUBY_SCRIPT(GAME ${FRONTEND_DIRECTORY}/scripts/custom custom_game Game ${SHIDACEA_COMPILE_FRONTEND})
-LOAD_AND_COMPILE_RUBY_SCRIPT(MAIN ${FRONTEND_DIRECTORY}/scripts/custom custom_main Main ${SHIDACEA_COMPILE_FRONTEND})
+add_custom_target(SDCLib
+    COMMAND cmake -D LOAD_DIR=${SDCLIB_DIRECTORY} 
+		-D SCRIPT_FILE=${CMAKE_BINARY_DIR}/compiled_scripts/scripts_sdclib.txt 
+		-D COMPILE_THIS=${SHIDACEA_COMPILE_SDCLIB}
+		-D REGULAR_SOURCE_DIR=${CMAKE_SOURCE_DIR}
+		-D REGULAR_BINARY_DIR=${CMAKE_BINARY_DIR}
+		-D COMPILATION_NAME=sdclib
+		-P ${CMAKE_SOURCE_DIR}/utility/GenerateScripts.cmake
+	DEPENDS mruby SDCLibInclude
+	VERBATIM
+)
 
 # Add external libraries from the SFML source directory
 
@@ -429,5 +466,5 @@ endif()
 # Create executable and link libraries
 
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
-add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS})
+add_dependencies(${EXECUTABLE_NAME} mruby ${RUBY_COMPILED_TARGETS} SDCLib Frontend)
 target_link_libraries(${EXECUTABLE_NAME} ${MRUBY_LIBRARIES} ${IMGUI_LIBRARIES} ${SFML_LIBRARIES} ${ADDITIONAL_LIBRARIES})
