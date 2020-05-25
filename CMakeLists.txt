@@ -181,7 +181,7 @@ add_custom_target(SDCLibInclude
 		${CMAKE_BINARY_DIR}/compiled_scripts/ 
 		scripts_include_sdclib.h 
 		scripts_sdclib.txt
-		${CMAKE_SOURCE_DIR}/${SDCLIB_DIRECTORY}/project.json
+		${CMAKE_SOURCE_DIR}/${SDCLIB_DIRECTORY}/scripts.json
 		sdclib
 		SHIDACEA_COMPILE_SDCLIB
 	DEPENDS mruby
