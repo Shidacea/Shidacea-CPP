@@ -13,6 +13,7 @@ Depending on your level of knowledge and desire to mess around with my code, you
 
 * Download projects from other people and launch them using an executable of Shidacea
 * Write your own project using mruby scripts and test them directly
+* Compile your project into an executable using Shidacea
 * Change the core mruby scripts of Shidacea and add new ones
 * Wrap your own methods in C++ using the MrbWrap modules
 * Dive into mruby or one of the submodules and modify them
@@ -52,29 +53,35 @@ Alternatively, you can use pre-compiled Windows binaries for each Shidacea relea
 
 # Usage
 
-There are three different ways to use Shidacea.
+There are two main ways to use Shidacea.
 
 First, you can compile Shidacea without any scripts to a launcher.
 If you want to execute a project from someone else, just download its script files and put them into the custom folder.
 
-The second two options are to compile your script files together with the Shidacea engine.
+The second option is to compile your script files together with the Shidacea engine.
 This allows for more optimized code at the expense of portability.
-To use this, use `-DSHIDACEA_COMPILE_ALL_SCRIPTS` or `-DSHIDACEA_COMPILE_CORE_SCRIPTS` as options for CMake.
-In the first case, all scripts will be compiled into the executable, while in the second case only the core scripts will be compiled.
+To use this, use `-DSHIDACEA_COMPILE_FRONTEND=ON` as option for CMake,
+which will compile the frontend project as bytecode directly into the executable.
+
+It is also possible to use `-DSHIDACEA_COMPILE_SDCLIB=ON` to compile the Shidacea library into the executable.
+This is done by default in the release versions and recommended unless you want to change the library functions.
+
+Furthermore, the engine core with the SFML bindings can be disabled with `-DSHIDACEA_EXCLUDE_SFML=OFF`.
+This is only necessary if you want to use your own framework for Shidacea.
 
 ## Load scripts at runtime
 
 Advantages:
 * Platform independent projects
-* Precompiled Shidacea engine can be used for common platforms
+* Precompiled executables can be used for common platforms
 * After installing Shidacea, you don't need to touch it anymore
 
 Disadvantages:
 * Everyone can see and modify your code without effort
 * Evaluating the script files takes longer than using bytecode
-* You cannot change the Shidacea core
+* You cannot change the Shidacea core engine directly
 
-## Precompile scripts
+## Precompiled scripts
 
 Advantages:
 * Faster evaluation of script files
@@ -88,19 +95,21 @@ Disadvantages:
 
 # Properties
 
-* Platform independency (technically, but not tested yet)
+* Support for many different platforms (including Windows and Linux)
 * Scripting support using mruby
-* Wrapped SFML classes for use with mruby
-* Can be extended easily with mrbgems
+* Fast SFML based game engine with mruby bindings
+* High flexibility allowing for custom builds
 * Modding support
 
 # Features
 
-* Simple event handling with pseudo-parallel routines
 * Simple state machine for scenes
 * Basic game classes and physics
+* Resource management system
+* Simple event handling with pseudo-parallel routines
 * Intuitive and simple system for entity properties
 * Simple entity scripting
+* Fast collision detection routines
 * Wrapped ImGui methods for debugging
 
 # Roadmap
@@ -126,15 +135,22 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Animations
 * GUI methods
 * Ellipse shape support
+* Installation script
+* Dedicated file specifying asset folders
 
 ## Version 0.4.0 (Late 2020)
 * Full map support
 * A special level editor written using this engine (will be called Hyashi)
 * Hyashi plugins
 
+## Version 1.0.0 (2021)
+* Full release
+* More example projects
+
 ## Possible features in future versions
 * WYSIWYG-type game editor feature for Hyashi
 * Resource packages
+* Shader support
 
 # Caveats
 
@@ -143,23 +159,22 @@ Note that any version below 1.0.0 is a development version and will likely conta
 If you download this repository, make sure to download the submodules as well, since a simple download won't include them.
 The best way to use Shidacea is to fork it and use Git for maintaining it and updating the submodules (e.g. using `git clone --recursive`).
 
-Currently supported release versions:
-* mruby: 2.1.0
-* SFML: 2.5.1
-* ImGui: 1.7.5
-* ImGui-SFML: 2.1.0
-* MrbWrap: 0.2.0 (no official release yet)
-* Launshi: 0.2.0 (no official release yet)
-* Collishi: 0.2.0 (no official release yet)
+List of current submodules:
+* mruby
+* SFML
+* ImGui
+* ImGui-SFML
+* MrbWrap
+* Launshi
+* Collishi
 
 ## Loading other mruby script files
 
-The ruby instruction `require` is currently NOT available (adding it as a gem would be possible, but not applicable to the concept of pre-compiled bytecode).
-This means that you need to write files with no direct dependencies, as they could be loaded in an arbitrary order.
-Functions may reference other classes, but you should put inherited classes inside the file of their superclass.
-
-The order of loading the script folders is: 
-scripts_include -> scripts_core -> scripts_custom/resources -> scripts_custom/scenes -> scripts_custom/entities -> scripts_custom/other -> scripts_custom/Game.rb -> scripts_custom/Main.rb
+The ruby instruction `require` is currently NOT available (adding it as a gem would be possible, but not trivially applicable to the concept of pre-compiled bytecode).
+This problem is circumvented by specification of a JSON file in which the scripts are listed in execution order.
+For example, the SDCLib and the frontend (e.g. Launshi) require the use of a script order, as well as Launshi projects.
+It is possible to name single files and complete directories (ending with a '/').
+Note that the order of scripts loaded in a directory needs to be regarded as random, so avoid dependencies between files in a directory if loaded in a batch.
 
 ## Linux troubleshooting
 
@@ -171,6 +186,7 @@ Some problems are discussed below.
 
 Make sure that g++, Ruby, Bison and CMake are installed properly. 
 Also visit the SFML documentation to check for requirements.
+
 If the filesystem library is missing, g++ needs to be updated to version 8 or higher.
 If the problem persists after installing the missing libraries and programs, you may want to reboot and try again.
 
