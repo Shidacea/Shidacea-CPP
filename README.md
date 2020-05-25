@@ -109,17 +109,18 @@ Note that any version below 1.0.0 is a development version and will likely conta
 
 ## Version 0.2.0 (June 2020)
 * Entirely new engine structure [Done]
-* Better resource management [Partially implemented]
+* Z-Ordering [Done]
+* Unicode support [Done]
+* Arbitrary project structures for compilation [Mostly done]
+* Collision routines for various shapes [Mostly done]
 * Text input fields [Mostly done, might need some safety checks]
 * Filters for Launshi [Filters for genres and names are done]
-* Launshi info window with description and screenshots
+* Better resource management [Partially implemented]
 * Shape drawing [Worked on]
-* Z-Ordering [Done]
-* UTF-8 support [Done]
-* Marshalling support [Proof of concept available]
-* Collision routines for various shapes [Mostly done]
-* Shooter example project
 * Debug routines [First steps]
+* Marshalling support [Proof of concept available]
+* Launshi info window with description and screenshots
+* Shooter example project
 
 ## Version 0.3.0 (Late summer 2020)
 * Animations
