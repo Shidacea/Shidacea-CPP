@@ -146,20 +146,6 @@ endif()
 
 include_directories(${CMAKE_BINARY_DIR})
 
-if(NOT SHIDACEA_COMPILE_FRONTEND)
-
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_include)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_core)
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/scripts_custom)
-
-endif()
-
-if(NOT SHIDACEA_COMPILE_SDCLIB)
-
-	install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/sdclib)
-
-endif()
-
 add_custom_target(FrontendInclude
 	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
 	COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mruby ${CMAKE_SOURCE_DIR}/utility/script_collector.rb 
