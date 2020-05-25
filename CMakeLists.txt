@@ -2,12 +2,14 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-# Project name
+# Project details
 
 project(NewProject)
 set(EXECUTABLE_NAME "Launshi")
 set(FRONTEND_DIRECTORY "third_party/Launshi")
+set(FRONTEND_ASSETS "assets")
 set(SDCLIB_DIRECTORY "lib")
+set(IGNORE_ASSET_EXTENSIONS ".rb" ".rbw" ".mrb")
 
 # Compilation options
 
@@ -158,83 +160,6 @@ if(NOT SHIDACEA_COMPILE_SDCLIB)
 
 endif()
 
-# Macros for configuring the script files
-# If this is a debug build, copy the ruby files to the build directory
-# Otherwise compile them to bytecode
-
-macro(COMPILE_RUBY_SCRIPTS arg_name arg_file arg_module flag)
-
-	if(${flag})
-
-		message("Preparing header file: ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h")
-
-		add_custom_target(TargetRuby${arg_module}
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
-			COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${COMPILED_RUBY_${arg_name}_SCRIPTS} 
-			|| ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mrbc -g -Bcompiled_ruby_${arg_file} -o ${CMAKE_BINARY_DIR}/compiled_scripts/CompiledRuby${arg_module}.h ${CMAKE_SOURCE_DIR}/src/Void.rb
-			DEPENDS ${COMPILED_RUBY_${arg_name}_SCRIPTS} mruby
-			VERBATIM
-		)
-
-		set(RUBY_COMPILED_TARGETS TargetRuby${arg_module} ${RUBY_COMPILED_TARGETS})
-
-	endif()
-
-endmacro()
-
-macro(LOAD_AND_COMPILE_RUBY_FOLDER arg_name arg_path arg_file arg_module flag)
-
-	file(GLOB_RECURSE RUBYSCRIPTS_${arg_name} "${CMAKE_SOURCE_DIR}/${arg_path}/*.rb")
-
-	if(NOT ${flag})
-
-		install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/${arg_path})
-
-	endif()
-	
-	foreach(RUBYSCRIPT_${arg_name} ${RUBYSCRIPTS_${arg_name}})
-
-		get_filename_component(${arg_name}_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}} NAME_WE)
-		string(REPLACE "${CMAKE_SOURCE_DIR}/${arg_path}/" "" TRUNCATED_SCRIPT_NAME ${RUBYSCRIPT_${arg_name}})
-
-		if(NOT ${flag})
-
-			configure_file(
-				${RUBYSCRIPT_${arg_name}}
-				${CMAKE_BINARY_DIR}/${arg_path}/${TRUNCATED_SCRIPT_NAME}
-			)
-
-		else()
-
-			set(COMPILED_RUBY_${arg_name}_SCRIPTS ${RUBYSCRIPT_${arg_name}} ${COMPILED_RUBY_${arg_name}_SCRIPTS})
-
-		endif()
-
-	endforeach(RUBYSCRIPT_${arg_name})
-
-	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module} ${flag})
-
-endmacro()
-
-macro(LOAD_AND_COMPILE_RUBY_SCRIPT arg_name arg_path arg_file arg_module flag)
-
-	if(NOT ${flag})
-
-		configure_file(
-			${CMAKE_SOURCE_DIR}/${arg_path}/${arg_module}.rb
-			${CMAKE_BINARY_DIR}/${arg_path}/${arg_module}.rb
-		)
-
-	else()
-
-		set(COMPILED_RUBY_${arg_name}_SCRIPTS ${CMAKE_SOURCE_DIR}/${arg_path}/${arg_module}.rb)
-
-	endif()
-		
-	COMPILE_RUBY_SCRIPTS(${arg_name} ${arg_file} ${arg_module} ${flag})
-
-endmacro()
-
 add_custom_target(FrontendInclude
 	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/compiled_scripts
 	COMMAND ${CMAKE_BINARY_DIR}/third_party/mruby/bin/mruby ${CMAKE_SOURCE_DIR}/utility/script_collector.rb 
@@ -311,18 +236,28 @@ endif()
 
 # Copy all asset files and preserve their tree structure
 
-file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/${FRONTEND_DIRECTORY}/assets/*.*")
+file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/${FRONTEND_DIRECTORY}/${FRONTEND_ASSETS}/*.*")
 
 foreach(ASSET_FILE ${ASSET_FILES})
 
 	string(REPLACE "${CMAKE_SOURCE_DIR}/" "" TRUNCATED_ASSET_FILE ${ASSET_FILE})
 
-	configure_file(
-	
-		${TRUNCATED_ASSET_FILE}
-		${TRUNCATED_ASSET_FILE}
+	get_filename_component(FILE_EXTENSION ${TRUNCATED_ASSET_FILE} LAST_EXT)
 
-	COPYONLY)
+	message(${TRUNCATED_ASSET_FILE})
+
+	if(${FILE_EXTENSION} IN_LIST IGNORE_ASSET_EXTENSIONS)
+
+	else()
+
+		configure_file(
+	
+			${TRUNCATED_ASSET_FILE}
+			${TRUNCATED_ASSET_FILE}
+
+		COPYONLY)
+
+	endif()
 
 endforeach(ASSET_FILE)
 
