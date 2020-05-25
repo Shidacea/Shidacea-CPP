@@ -238,6 +238,8 @@ endif()
 
 file(GLOB_RECURSE ASSET_FILES "${CMAKE_SOURCE_DIR}/${FRONTEND_DIRECTORY}/${FRONTEND_ASSETS}/*.*")
 
+# TODO: Maybe do this using a specific assets.txt file in the project folder?
+
 foreach(ASSET_FILE ${ASSET_FILES})
 
 	string(REPLACE "${CMAKE_SOURCE_DIR}/" "" TRUNCATED_ASSET_FILE ${ASSET_FILE})
