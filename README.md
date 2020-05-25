@@ -111,7 +111,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Entirely new engine structure [Done]
 * Z-Ordering [Done]
 * Unicode support [Done]
-* Arbitrary project structures for compilation [Mostly done]
+* Arbitrary project structures for compilation [Done]
 * Collision routines for various shapes [Mostly done]
 * Text input fields [Mostly done, might need some safety checks]
 * Filters for Launshi [Filters for genres and names are done]
