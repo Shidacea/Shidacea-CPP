@@ -117,7 +117,7 @@ ExternalProject_Add(mruby
   BUILD_IN_SOURCE 1
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/third_party/mruby" 
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${RUBY_EXECUTABLE} minirake MRUBY_BUILD_DIR=${CMAKE_BINARY_DIR}/third_party/mruby MRUBY_CONFIG=${CMAKE_SOURCE_DIR}/mruby_build_config.rb
+  BUILD_COMMAND ${RUBY_EXECUTABLE} minirake MRUBY_BUILD_DIR=${CMAKE_BINARY_DIR}/third_party/mruby MRUBY_CONFIG=${CMAKE_SOURCE_DIR}/utility/mruby_build_config.rb
   INSTALL_COMMAND ""
   BUILD_BYPRODUCTS "${MRUBY_LIBRARIES}")
 include_directories("${CMAKE_SOURCE_DIR}/third_party/mruby/include")
