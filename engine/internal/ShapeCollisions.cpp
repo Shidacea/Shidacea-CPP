@@ -7,7 +7,7 @@ DEFINE_COLLISION(ShapePoint, ShapePoint) {
 
 	GET_POSITIONS;
 
-	return collision_point_point(x1, y1, x2, y2);
+	return Collishi::collision_point_point(x1, y1, x2, y2);
 
 }
 
@@ -18,7 +18,7 @@ DEFINE_COLLISION(ShapePoint, ShapeLine) {
 	auto dx2 = shape2.line.x;
 	auto dy2 = shape2.line.y;
 
-	return collision_point_line(x1, y1, x2, y2, dx2, dy2);
+	return Collishi::collision_point_line(x1, y1, x2, y2, dx2, dy2);
 
 }
 
@@ -28,7 +28,7 @@ DEFINE_COLLISION(ShapePoint, ShapeCircle) {
 
 	auto r2 = shape2.radius * shape2.getScale().x;
 
-	return collision_point_circle(x1, y1, x2, y2, r2);
+	return Collishi::collision_point_circle(x1, y1, x2, y2, r2);
 
 }
 
@@ -39,7 +39,7 @@ DEFINE_COLLISION(ShapePoint, ShapeBox) {
 	auto w2 = shape2.size.x * shape2.getScale().x;
 	auto h2 = shape2.size.y * shape2.getScale().y;
 
-	return collision_point_box(x1, y1, x2, y2, w2, h2);
+	return Collishi::collision_point_box(x1, y1, x2, y2, w2, h2);
 
 }
 
@@ -52,7 +52,7 @@ DEFINE_COLLISION(ShapePoint, ShapeTriangle) {
 	auto sxb2 = shape2.side_2.x;
 	auto syb2 = shape2.side_2.y;
 
-	return collision_point_triangle(x1, y1, x2, y2, sxa2, sya2, sxb2, syb2);
+	return Collishi::collision_point_triangle(x1, y1, x2, y2, sxa2, sya2, sxb2, syb2);
 
 }
 
@@ -81,7 +81,7 @@ DEFINE_COLLISION(ShapeLine, ShapeLine) {
 	auto dx2 = shape2.line.x;
 	auto dy2 = shape2.line.y;
 
-	return collision_line_line(x1, y1, dx1, dy1, x2, y2, dx2, dy2);
+	return Collishi::collision_line_line(x1, y1, dx1, dy1, x2, y2, dx2, dy2);
 
 }
 
@@ -93,7 +93,7 @@ DEFINE_COLLISION(ShapeLine, ShapeCircle) {
 	auto dy1 = shape1.line.y;
 	auto r2 = shape2.radius * shape2.getScale().x;
 
-	return collision_line_circle(x1, y1, dx1, dy1, x2, y2, r2);
+	return Collishi::collision_line_circle(x1, y1, dx1, dy1, x2, y2, r2);
 
 }
 
@@ -106,7 +106,7 @@ DEFINE_COLLISION(ShapeLine, ShapeBox) {
 	auto w2 = shape2.size.x * shape2.getScale().x;
 	auto h2 = shape2.size.y * shape2.getScale().y;
 
-	return collision_line_box(x1, y1, dx1, dy1, x2, y2, w2, h2);
+	return Collishi::collision_line_box(x1, y1, dx1, dy1, x2, y2, w2, h2);
 
 }
 
@@ -122,7 +122,7 @@ DEFINE_COLLISION(ShapeLine, ShapeTriangle) {
 	auto sxb2 = shape2.side_2.x;
 	auto syb2 = shape2.side_2.y;
 
-	return collision_point_triangle(x1, y1, x2, y2, sxa2, sya2, sxb2, syb2);
+	return Collishi::collision_point_triangle(x1, y1, x2, y2, sxa2, sya2, sxb2, syb2);
 
 }
 
@@ -149,7 +149,7 @@ DEFINE_COLLISION(ShapeCircle, ShapeCircle) {
 	auto r1 = shape1.radius * shape1.getScale().x;
 	auto r2 = shape2.radius * shape2.getScale().y;
 
-	return collision_circle_circle(x1, y1, r1, x2, y2, r2);
+	return Collishi::collision_circle_circle(x1, y1, r1, x2, y2, r2);
 
 }
 
@@ -162,7 +162,7 @@ DEFINE_COLLISION(ShapeCircle, ShapeBox) {
 	auto w2 = shape2.size.x * shape2.getScale().x;
 	auto h2 = shape2.size.y * shape2.getScale().y;
 
-	return collision_circle_box(x1, y1, r1, x2, y2, w2, h2);
+	return Collishi::collision_circle_box(x1, y1, r1, x2, y2, w2, h2);
 
 }
 
@@ -177,7 +177,7 @@ DEFINE_COLLISION(ShapeCircle, ShapeTriangle) {
 	auto sxb2 = shape2.side_2.x;
 	auto syb2 = shape2.side_2.y;
 
-	return collision_circle_triangle(x1, y1, r1, x2, y2, sxa2, sya2, sxb2, syb2);
+	return Collishi::collision_circle_triangle(x1, y1, r1, x2, y2, sxa2, sya2, sxb2, syb2);
 
 }
 
@@ -207,7 +207,7 @@ DEFINE_COLLISION(ShapeBox, ShapeBox) {
 	auto w2 = shape2.size.x * shape2.getScale().x;
 	auto h2 = shape2.size.y * shape2.getScale().y;
 
-	return collision_box_box(x1, y1, w1, h1, x2, y2, w2, h2);
+	return Collishi::collision_box_box(x1, y1, w1, h1, x2, y2, w2, h2);
 
 }
 
@@ -215,7 +215,15 @@ DEFINE_COLLISION(ShapeBox, ShapeTriangle) {
 
 	GET_POSITIONS;
 
-	return false;	// TODO
+	auto w1 = shape1.size.x * shape1.getScale().x;
+	auto h1 = shape1.size.y * shape1.getScale().y;
+
+	auto sxa2 = shape2.side_1.x;
+	auto sya2 = shape2.side_1.y;
+	auto sxb2 = shape2.side_2.x;
+	auto syb2 = shape2.side_2.y;
+
+	return Collishi::collision_box_triangle(x1, y1, w1, h1, x2, y2, sxa2, sya2, sxb2, syb2);
 
 }
 
