@@ -1,9 +1,17 @@
 module SDC
 
-	C_NEWLINE = "\n"
-	C_CAR_RET = "\r"
-	C_TAB = "\t"
+	# Common control sequences
+
+	C_NULL = "\0"
+	C_BELL = "\a"
 	C_BACKSPACE = "\b"
+	C_TAB = "\t"
+	C_NEWLINE = "\n"
+	C_VERT_TAB = "\v"
+	C_FORM_FEED = "\f"
+	C_CAR_RET = "\r"
+	C_CTRL_Z = "\z"
+	C_ESCAPE = "\e"
 	C_CTRL_BACK = "\x7F"
 
 	# Basic attributes
@@ -218,6 +226,10 @@ module SDC
 		end
 	end
 
+	def self.is_ctrl_char(char)
+		return (char.ord < 32 || char == C_CTRL_BACK)
+	end
+
 	# TODO: Allow specific input class
 
 	def self.process_text_input(event: nil, text_buffer: nil, override: false)
@@ -231,16 +243,12 @@ module SDC
 				return if override
 			end
 
-			if char == C_NEWLINE then
-				
-			elsif char == C_CAR_RET then
-
-			elsif char == C_TAB then
-
-			elsif char == C_BACKSPACE then
+			if char == C_BACKSPACE then
 				self.handle_backspace_input(text_buffer)
 			elsif char == C_CTRL_BACK then
 				self.handle_ctrl_backspace_input(text_buffer)
+			elsif self.is_ctrl_char(char) then
+
 			else
 				text_buffer.concat(char)
 			end

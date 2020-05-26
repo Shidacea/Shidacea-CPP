@@ -123,7 +123,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Arbitrary project structures for compilation [Done]
 * Collision routines for points, lines, circles, AABBs and triangles [Done]
 * Marshalling support for basic objects [Done]
-* Text input fields [Mostly done, might need some safety checks]
+* Basic text input fields [Done]
 * Filters for Launshi [Filters for genres and names are done]
 * Better resource management [Partially implemented]
 * Shape drawing [Worked on]
