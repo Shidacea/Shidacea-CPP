@@ -44,7 +44,7 @@ def main_routine(scene_class, game_class, title, width, height)
 		SDC.scene = scene_class.new
 		SDC.next_scene = true
 
-		if(true) then
+		SDC::Debug.on_debug do
 
 			c = 0
 			ti = Time.now
@@ -52,14 +52,16 @@ def main_routine(scene_class, game_class, title, width, height)
 				c += 1
 				# If it returns a false value, the game scene was set to nil
 				break if !SDC.limiter.tick
-				if c == 720 then
-					puts 720.0 / (Time.now - ti)
+				if c == SDC::limiter.max then
+					puts "FPS: #{SDC.limiter.renders_per_second / (Time.now - ti)}"
 					c = 0
 					ti = Time.now
 				end
 			end
 
-		else
+		end
+
+		SDC::Debug.on_release do
 
 			while SDC.window.is_open? do
 				break if !SDC.limiter.tick

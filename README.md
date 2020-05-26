@@ -124,10 +124,10 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Collision routines for points, lines, circles, AABBs and triangles [Done]
 * Marshalling support for basic objects [Done]
 * Basic text input fields [Done]
-* Filters for Launshi [Filters for genres and names are done]
+* Filters for Launshi [Done]
+* Debug routines [Done]
 * Better resource management [Partially implemented]
 * Shape drawing [Worked on]
-* Debug routines [First steps]
 * Launshi info window with description and screenshots
 * Shooter example project
 
@@ -137,6 +137,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Ellipse shape support
 * Installation script
 * Dedicated file specifying asset folders
+* Keyword filters for Launshi
 
 ## Version 0.4.0 (Late 2020)
 * Full map support

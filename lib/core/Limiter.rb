@@ -4,15 +4,21 @@ module SDC
 
 	class Limiter
 
+		attr_reader :max, :renders_per_second, :ticks_per_second, :gc_per_second
+
 		def initialize(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)
 			@counter = 0
 			@temp_counter = 0
 			@max = max
 
+			@renders_per_second = renders_per_second
+			@ticks_per_second = ticks_per_second
+			@gc_per_second = gc_per_second
+
 			# Intervals are rounded down, for now
-			@render_interval = (@max / renders_per_second).to_i
-			@tick_interval = (@max / ticks_per_second).to_i
-			@gc_interval = (@max / gc_per_second).to_i
+			@render_interval = (@max / @renders_per_second).to_i
+			@tick_interval = (@max / @ticks_per_second).to_i
+			@gc_interval = (@max / @gc_per_second).to_i
 
 			@update_block = nil
 			@draw_block = nil
@@ -33,7 +39,8 @@ module SDC
 
 		# Allow for changes via options, if necessary
 		def change_renders_per_second(new_value)
-			@render_interval = (@max / new_value).to_i
+			@renders_per_second = new_value
+			@render_interval = (@max / @renders_per_second).to_i
 		end
 
 		def tick

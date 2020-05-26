@@ -54,12 +54,22 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	MrbWrap::define_module_function(mrb, script_module, "debug?", MRUBY_FUNC {
+
+#ifdef NDEBUG
+		return mrb_false_value();
+#else
+		return mrb_true_value();
+#endif
+
+	}, MRB_ARGS_NONE());
+
 	MrbWrap::define_module_function(mrb, script_module, "version", MRUBY_FUNC{
 
 		auto converted_string = mrb_str_new_cstr(mrb, SHIDACEA_VERSION);
 
 		return converted_string;
 
-	});
+	}, MRB_ARGS_NONE());
 
 }
