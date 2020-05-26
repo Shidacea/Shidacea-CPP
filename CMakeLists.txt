@@ -92,7 +92,7 @@ endif()
 if(SHIDACEA_IGNORE_STATIC_ASSERTIONS)
 
 	# Assertions for Collishi
-	add_definitions(-DIGNORE_STATIC_ASSERTIONS)
+	add_definitions(-DCOLLISHI_IGNORE_STATIC_ASSERTIONS)
 
 endif()
 

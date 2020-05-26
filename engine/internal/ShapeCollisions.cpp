@@ -247,7 +247,17 @@ DEFINE_COLLISION(ShapeTriangle, ShapeTriangle) {
 
 	GET_POSITIONS;
 
-	return false;	// TODO
+	auto sxa1 = shape1.side_1.x;
+	auto sya1 = shape1.side_1.y;
+	auto sxb1 = shape1.side_2.x;
+	auto syb1 = shape1.side_2.y;
+
+	auto sxa2 = shape2.side_1.x;
+	auto sya2 = shape2.side_1.y;
+	auto sxb2 = shape2.side_2.x;
+	auto syb2 = shape2.side_2.y;
+
+	return Collishi::collision_triangle_triangle(x1, y1, sxa1, sya1, sxb1, syb1, x2, y2, sxa2, sya2, sxb2, syb2);
 
 }
 
