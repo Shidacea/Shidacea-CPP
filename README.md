@@ -122,12 +122,12 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Unicode support [Done]
 * Arbitrary project structures for compilation [Done]
 * Collision routines for points, lines, circles, AABBs and triangles [Done]
+* Marshalling support for basic objects [Done]
 * Text input fields [Mostly done, might need some safety checks]
 * Filters for Launshi [Filters for genres and names are done]
 * Better resource management [Partially implemented]
 * Shape drawing [Worked on]
 * Debug routines [First steps]
-* Marshalling support [Proof of concept available]
 * Launshi info window with description and screenshots
 * Shooter example project
 
