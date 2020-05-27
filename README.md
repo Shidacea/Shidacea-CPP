@@ -127,7 +127,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Filters for Launshi [Done]
 * Debug routines [Done]
 * Better resource management [Done]
-* Shape drawing [Worked on]
+* Shape drawing [Done]
 * Launshi info window with description and screenshots
 * Shooter example project
 

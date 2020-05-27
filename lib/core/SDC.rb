@@ -23,6 +23,10 @@ module SDC
 	@limiter = nil
 	@text_input = nil
 
+	def self.xy(x = 0.0, y = 0.0)
+		return Coordinates.new(x, y)
+	end
+
 	def self.window
 		return @window
 	end

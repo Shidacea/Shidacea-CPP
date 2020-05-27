@@ -33,8 +33,8 @@ class SceneTest < SDC::Scene
 			SDC.window.set_imgui_scale(2.0)
 
 		elsif SDC::key_pressed?(:R) then
-			@entities[0].sprites[0].position = SDC::Coordinates.new(0, 0)
-			@entities[0].sprites[0].origin = SDC::Coordinates.new(25, 25)
+			@entities[0].sprites[0].position = SDC.xy(0, 0)
+			@entities[0].sprites[0].origin = SDC.xy(25, 25)
 			@entities[0].sprites[0].rotation += 30.0
 			@entities[0].sprites[0].scale *= 1.01
 		
@@ -58,7 +58,7 @@ class SceneTest < SDC::Scene
 		dx = (SDC.key_pressed?(:A) ? -v : 0.0) + (SDC.key_pressed?(:D) ? v : 0.0)
 		dy = (SDC.key_pressed?(:S) ? v : 0.0)
 
-		@entities[0].accelerate(SDC::Coordinates.new(dx, dy))
+		@entities[0].accelerate(SDC.xy(dx, dy))
 
 		@entities.each do |entity|
 			@entities.each do |other_entity|
@@ -112,15 +112,15 @@ class SceneTest < SDC::Scene
 		@entities.push(create(TestEntity))
 		@entities.push(create(TestEntity))
 
-		@entities[0].position = SDC::Coordinates.new(400, 400)
+		@entities[0].position = SDC.xy(400, 400)
 
 		@entities[1].position.x = 200
 		@entities[1].position.y = 300
 
 		@entities[0].set_child(@entities[2])
-		@entities[2].position = SDC::Coordinates.new(0.0, -50.0)
-		@entities[2].boxes[0].scale = SDC::Coordinates.new(0.5, 0.5)
-		@entities[2].sprites[0].scale = SDC::Coordinates.new(0.5, 0.5)
+		@entities[2].position = SDC.xy(0.0, -50.0)
+		@entities[2].boxes[0].scale = SDC.xy(0.5, 0.5)
+		@entities[2].sprites[0].scale = SDC.xy(0.5, 0.5)
 		@entities[2].shapes[0].scale = 0.5
 
 		@test_toggle = false
@@ -145,17 +145,20 @@ class SceneTest < SDC::Scene
 		view_player = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
 		SDC.window.set_view(view_player)
 		@test_map.reload(@entities[0].position)
-		@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
+		@test_map.draw(SDC.window, SDC.xy(0, 0))
 		@entities.each {|entity| entity.draw(SDC.window)}
 
-		sh = SDC::DrawShapeRectangle.new
-		sh.mimick(@entities[0].boxes[0])
-		SDC.window.draw_translated(sh, 0, @entities[0].position)
+		box_shape = SDC::DrawShapeRectangle.new
+		box_shape.get_from(@entities[0].boxes[0])
+		box_shape.fill_color = SDC::Color.new(255, 0, 0, 128)
+		box_shape.outline_color = SDC::Color.new(0, 0, 255, 128)
+		box_shape.outline_thickness = 2.0
+		SDC.window.draw_translated(box_shape, 1, @entities[0].position)
 		
 		view_minimap = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
 		view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))
 		SDC.window.use_view(view_minimap) do
-			@test_map.draw(SDC.window, SDC::Coordinates.new(0, 0))
+			@test_map.draw(SDC.window, SDC.xy(0, 0))
 		end
 
 		view_ui = SDC::View.new(SDC::FloatRect.new(0, 0, 1280, 720))
@@ -231,8 +234,8 @@ class SceneTest < SDC::Scene
 			end
 			SDC::ImGui.button "Reset entity" do
 				@entities[0].shapes[0].scale = 1.0
-				@entities[0].boxes[0].scale = SDC::Coordinates.new(1.0, 1.0)
-				@entities[0].sprites[0].scale = SDC::Coordinates.new(1.0, 1.0)
+				@entities[0].boxes[0].scale = SDC.xy(1.0, 1.0)
+				@entities[0].sprites[0].scale = SDC.xy(1.0, 1.0)
 			end
 
 			SDC::ImGui.button (SDC.get_switch("test") ? "Stop jumping with Q" : "Start jumping with Q") do

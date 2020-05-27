@@ -8,23 +8,35 @@ void RenderQueueWindow::draw_object(sf::RenderStates render_states, mrb_state* m
 
 		d_obj = MrbWrap::convert_from_object<sf::Sprite>(mrb, draw_object);
 
-	}
-	else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
+	} else if (MrbWrap::check_for_type<MapLayer>(mrb, draw_object)) {
 
 		d_obj = MrbWrap::convert_from_object<MapLayer>(mrb, draw_object);
 
-	}
-	else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
+	} else if (MrbWrap::check_for_type<sf::Text>(mrb, draw_object)) {
 
 		d_obj = MrbWrap::convert_from_object<sf::Text>(mrb, draw_object);
 
-	}
-	else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
+	} else if (MrbWrap::check_for_type<PointShape>(mrb, draw_object)) {
+
+		d_obj = MrbWrap::convert_from_object<PointShape>(mrb, draw_object);
+
+	} else if (MrbWrap::check_for_type<LineShape>(mrb, draw_object)) {
+
+		d_obj = MrbWrap::convert_from_object<LineShape>(mrb, draw_object);
+
+	} else if (MrbWrap::check_for_type<sf::CircleShape>(mrb, draw_object)) {
+
+		d_obj = MrbWrap::convert_from_object<sf::CircleShape>(mrb, draw_object);
+
+	} else if (MrbWrap::check_for_type<sf::RectangleShape>(mrb, draw_object)) {
 
 		d_obj = MrbWrap::convert_from_object<sf::RectangleShape>(mrb, draw_object);
 
-	}
-	else {
+	} else if (MrbWrap::check_for_type<TriangleShape>(mrb, draw_object)) {
+
+		d_obj = MrbWrap::convert_from_object<TriangleShape>(mrb, draw_object);
+
+	} else {
 
 		//! TODO: Error message
 
