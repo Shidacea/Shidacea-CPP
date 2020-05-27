@@ -151,64 +151,45 @@ module SDC
 
 	# Other utility methods for rapid development
 
-	def self.draw_texture(index: nil, filename: nil, z: 0, draw_window: SDC.window, coordinates: SDC::Coordinates.new)
-		texture = nil
-		if filename then
-			if index then
-				texture = SDC::Data.load_texture(index, filename: filename)
-			else
-				# TODO: Maybe transfer this ability into the Data class itself for the case of index = 0
-				texture = SDC::Data.load_texture((SDC::Data::SYMBOL_PREFIX + filename).to_sym, filename: filename)
-			end
-
-		elsif index then
-			texture = SDC::Data.textures[index]
-			puts "Warning: Texture index #{index} not loaded." if !texture
-
-		else
-			raise("No arguments given for texture drawing")
-
-		end
+	def self.draw_texture(index: nil, file_index: nil, filename: nil, z: 0, draw_window: SDC.window, coordinates: SDC::Coordinates.new)
+		texture = SDC::Data.load_texture(index, file_index: file_index, filename: filename)
+		puts "Warning: Texture index #{index} not loaded." if !texture
 
 		sprite = SDC::Sprite.new
 		sprite.link_texture(texture)
 		draw_window.draw_translated(sprite, z, coordinates)
 	end
 
-	# TODO: Simplify and make universal caching functions
-	def self.draw_text(index: nil, font_index: nil, text: "", size: 10, z: 0, draw_window: SDC.window, coordinates: SDC::Coordinates.new, color: nil)
-		font = SDC::Data.fonts[font_index]
-
-		text_obj = nil
-		if text then
-			if index then
-				if SDC::Data.texts[index] then
-					text_obj = SDC::Data.texts[index]
-				else
-					SDC::Data.add_text(SDC::Text.new(text, font, size), index: index)
-					text_obj = SDC::Data.texts[index]
-				end
-			else
-				# TODO: Used object ID or magic number instead, maybe a dummy object
-				sym = (SDC::Data::SYMBOL_PREFIX + text).to_sym
-				cached_obj = SDC::Data.texts[sym]
-
-				SDC::Data.add_text(SDC::Text.new(text, font, size), index: sym) if !cached_obj
-				text_obj = SDC::Data.texts[sym]
-			end
-			text_obj.string = text
-
-		elsif index then
-			text_obj = SDC::Data.texts[index]
-
-		else
-			raise("No arguments given for text drawing")
-
-		end
+	def self.draw_text(index: nil, font_index: nil, font: nil, text: "", size: 10, z: 0, draw_window: SDC.window, coordinates: SDC::Coordinates.new, color: nil)
+		text_obj = SDC::Data.load_text(index = index, content: text, size: size, font_index: font_index, font: font)
+		puts "Warning: Text index #{index} not loaded." if !text_obj
 
 		text_obj.color = color if color
-
 		draw_window.draw_translated(text_obj, z, coordinates)
+	end
+
+	def self.play_sound(index: nil, file_index: nil, filename: nil, volume: 100.0, pitch: 1.0)
+		sound_buffer = SDC::Data.load_sound_buffer(index, file_index: file_index, filename: filename)
+
+		sound = SDC::Sound.new
+		sound.link_sound_buffer(sound_buffer)
+		sound.volume = volume
+		sound.pitch = pitch
+		sound.play
+	end
+
+	def self.play_music(index: nil, file_index: nil, filename: nil, volume: 100.0, pitch: 1.0)
+		music = SDC::Data.load_music_track(index, file_index: file_index, filename: filename)
+
+		music.volume = volume
+		music.pitch = pitch
+		music.play
+	end
+
+	def self.stop_music(index, file_index: nil, filename: nil)
+		music = SDC::Data.load_music_track(index, file_index: file_index, filename: filename)
+		
+		music.stop
 	end
 
 	def self.handle_backspace_input(text_buffer)

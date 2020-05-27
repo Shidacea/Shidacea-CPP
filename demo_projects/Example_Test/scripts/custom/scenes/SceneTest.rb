@@ -79,15 +79,6 @@ class SceneTest < SDC::Scene
 
 		@counter = 0
 
-		@text_buffer = ""
-
-		@music = SDC::Data.load_music(:TestMusic, filename: "assets/music/Example.wav")
-		@music.looping = true
-
-		@test_font = SDC::Font.new
-		@test_font.load_from_file("assets/fonts/arial.ttf")
-		@test_text = SDC::Text.new("Hello,\nWorld", @test_font, 100)
-
 		SDC::Data.load_sound_buffer(:Yeow, filename: "assets/sounds/Yeow.ogg")
 
 		@example_sound = SDC::Sound.new
@@ -100,6 +91,16 @@ class SceneTest < SDC::Scene
 		@example_sound_1.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
 		@example_sound_2.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
 		@example_sound_3.link_sound_buffer(SDC::Data.sound_buffers[:Yeow])
+
+		# Object loading is also possible with only the filename
+		@music = SDC::Data.load_music_track(filename: "assets/music/Example.wav")
+		@music.looping = true
+
+		@text_buffer = ""
+
+		@test_font = SDC::Data.load_font(filename: "assets/fonts/arial.ttf")
+		SDC::Data.add_text("Hello,\nWorld", index: :helloworld_text)
+		@test_text = SDC::Text.new(SDC::Data.texts[:helloworld_text], @test_font, 100)
 
 		load_map
 
