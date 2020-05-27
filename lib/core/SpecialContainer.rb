@@ -1,6 +1,9 @@
 # Utility class for the entity design in this project
 # Nothing more than an extended container
 
+# TODO: Replace this at some point with a hash-structure
+# TODO: Generalize this for other applications
+
 module SDC
 	class SpecialContainer
 

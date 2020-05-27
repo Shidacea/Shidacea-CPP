@@ -47,7 +47,7 @@ module SDC
 			@boxes.add(new_box, index)
 		end
 
-		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil)
+		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil, side_a: nil, side_b: nil)
 			@shapes = SDC::SpecialContainer.new if !@shapes
 			shape = nil
 
@@ -57,19 +57,20 @@ module SDC
 				raise("Direction not defined for line shape with index #{index}") if !direction
 				shape = type.new(offset, direction)
 			elsif type == SDC::ShapeCircle then
-				raise("Radius not defined for line shape with index #{index}") if !radius
+				raise("Radius not defined for circle shape with index #{index}") if !radius
 				shape = type.new(offset, radius)
 			elsif type == SDC::ShapeBox then
-				raise("Size not defined for line shape with index #{index}") if !size
+				raise("Size not defined for box shape with index #{index}") if !size
 				shape = type.new(offset, size)
 			elsif type == SDC::ShapeTriangle then
-				# TODO
-				shape = type.new
+				raise("Undefined sides for triangle shape with index #{index}") if !side_a || !side_b
+				shape = type.new(offset, side_a, side_b)
 			elsif type == SDC::ShapeQuadrangle then
-				# TODO
+				raise("Quadrangle shape not supported yet")	# TODO
 				shape = type.new
 			elsif type == SDC::ShapeEllipse then
-				raise("Semiaxes not defined for line shape with index #{index}") if !semiaxes
+				raise("Ellipse shape not supported yet")	# TODO
+				raise("Semiaxes not defined for ellipse shape with index #{index}") if !semiaxes
 				shape = type.new(offset, axes)
 			else
 				raise("Unknown shape type #{type} for shape index #{index}")
