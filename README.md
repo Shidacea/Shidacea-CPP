@@ -129,12 +129,14 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Better resource management [Done]
 * Shape drawing [Done]
 * Launshi info window with description and screenshots
+* Collision test example
 * Shooter example project
 
 ## Version 0.3.0 (Late summer 2020)
 * Animations
 * GUI methods
 * Ellipse shape support
+* Point and line drawing
 * Installation script
 * Dedicated file specifying asset folders
 * Keyword filters for Launshi
