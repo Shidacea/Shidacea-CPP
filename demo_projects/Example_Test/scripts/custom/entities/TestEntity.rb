@@ -1,7 +1,7 @@
 class TestEntity < SDC::Entity
 	register_id(:TestEntity)
 
-	add_shape(index: 0, type: SDC::ShapeCircle, radius: 25.0)
+	add_shape(index: 0, type: SDC::CollisionShapeCircle, radius: 25.0)
 	add_box(index: 0, size: SDC::Coordinates.new(50.0, 50.0), offset: SDC::Coordinates.new(0.0, 0.0), origin: SDC::Coordinates.new(25.0, 25.0))
 
 	SDC::Data.load_texture(:EntityChishi, filename: "assets/graphics/test/Chishi.png")

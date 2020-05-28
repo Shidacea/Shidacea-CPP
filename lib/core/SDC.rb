@@ -106,7 +106,7 @@ module SDC
 	end
 
 	def self.get_mouse_point
-		return SDC::ShapePoint.new(self.get_mouse_coords)
+		return SDC::CollisionShapePoint.new(self.get_mouse_coords)
 	end
 
 	def self.right_klick?

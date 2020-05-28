@@ -29,17 +29,17 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	auto module_collider = mrb_define_module_under(mrb, ruby_module, "Collider");
 
-	MrbWrap::wrap_class_under<Shape>(mrb, "Shape", ruby_module);
+	MrbWrap::wrap_class_under<Shape>(mrb, "CollisionShape", ruby_module);
 
 	auto ruby_shape_class = MrbWrap::get_class_info_ptr<Shape>();
 
-	MrbWrap::wrap_class_under<ShapePoint>(mrb, "ShapePoint", ruby_module, ruby_shape_class);
-	MrbWrap::wrap_class_under<ShapeLine>(mrb, "ShapeLine", ruby_module, ruby_shape_class);
-	MrbWrap::wrap_class_under<ShapeCircle>(mrb, "ShapeCircle", ruby_module, ruby_shape_class);
-	MrbWrap::wrap_class_under<ShapeBox>(mrb, "ShapeBox", ruby_module, ruby_shape_class);
-	MrbWrap::wrap_class_under<ShapeTriangle>(mrb, "ShapeTriangle", ruby_module, ruby_shape_class);
-	MrbWrap::wrap_class_under<ShapeQuadrangle>(mrb, "ShapeQuadrangle", ruby_module, ruby_shape_class);
-	MrbWrap::wrap_class_under<ShapeEllipse>(mrb, "ShapeEllipse", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapePoint>(mrb, "CollisionShapePoint", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeLine>(mrb, "CollisionShapeLine", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeCircle>(mrb, "CollisionShapeCircle", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeBox>(mrb, "CollisionShapeBox", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeTriangle>(mrb, "CollisionShapeTriangle", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeQuadrangle>(mrb, "CollisionShapeQuadrangle", ruby_module, ruby_shape_class);
+	MrbWrap::wrap_class_under<ShapeEllipse>(mrb, "CollisionShapeEllipse", ruby_module, ruby_shape_class);
 
 	auto ruby_shape_point_class = MrbWrap::get_class_info_ptr<ShapePoint>();
 	auto ruby_shape_line_class = MrbWrap::get_class_info_ptr<ShapeLine>();

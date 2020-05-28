@@ -36,39 +36,39 @@ module SDC
 
 		# Class methods for adding different objects to any entity
 	
-		def self.add_box(index: nil, offset: Coordinates.new, origin: Coordinates.new, size: nil)
+		def self.add_box(index: nil, offset: SDC::Coordinates.new, origin: SDC::Coordinates.new, size: nil)
 			if !size then
 				raise("No size given for box with index #{index}")
 			end
 
 			@boxes = SDC::SpecialContainer.new if !@boxes
-			new_box = SDC::ShapeBox.new(offset, size)
+			new_box = SDC::CollisionShapeBox.new(offset, size)
 			new_box.origin = origin
 			@boxes.add(new_box, index)
 		end
 
-		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil, side_a: nil, side_b: nil)
+		def self.add_shape(index: nil, type: nil, offset: SDC::Coordinates.new, origin: SDC::Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil, side_a: nil, side_b: nil)
 			@shapes = SDC::SpecialContainer.new if !@shapes
 			shape = nil
 
-			if type == SDC::ShapePoint then
+			if type == SDC::CollisionShapePoint then
 				shape = type.new(offset)
-			elsif type == SDC::ShapeLine then
+			elsif type == SDC::CollisionShapeLine then
 				raise("Direction not defined for line shape with index #{index}") if !direction
 				shape = type.new(offset, direction)
-			elsif type == SDC::ShapeCircle then
+			elsif type == SDC::CollisionShapeCircle then
 				raise("Radius not defined for circle shape with index #{index}") if !radius
 				shape = type.new(offset, radius)
-			elsif type == SDC::ShapeBox then
+			elsif type == SDC::CollisionShapeBox then
 				raise("Size not defined for box shape with index #{index}") if !size
 				shape = type.new(offset, size)
-			elsif type == SDC::ShapeTriangle then
+			elsif type == SDC::CollisionShapeTriangle then
 				raise("Undefined sides for triangle shape with index #{index}") if !side_a || !side_b
 				shape = type.new(offset, side_a, side_b)
-			elsif type == SDC::ShapeQuadrangle then
+			elsif type == SDC::CollisionShapeQuadrangle then
 				raise("Quadrangle shape not supported yet")	# TODO
 				shape = type.new
-			elsif type == SDC::ShapeEllipse then
+			elsif type == SDC::CollisionShapeEllipse then
 				raise("Ellipse shape not supported yet")	# TODO
 				raise("Semiaxes not defined for ellipse shape with index #{index}") if !semiaxes
 				shape = type.new(offset, axes)
