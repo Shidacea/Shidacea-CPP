@@ -154,6 +154,10 @@ class SceneTest < SDC::Scene
 		box_shape.outline_color = SDC::Color.new(0, 0, 255, 128)
 		box_shape.outline_thickness = 2.0
 		SDC.window.draw_translated(box_shape, 1, @entities[0].position)
+
+		line_shape = SDC::DrawShapeLine.new
+		line_shape.get_from(SDC::ShapeLine.new(SDC.xy(0.0, 0.0), SDC.xy(200.0, 100.0)))
+		SDC.window.draw(line_shape, 0)
 		
 		view_minimap = SDC::View.new(SDC::FloatRect.new(@entities[0].position.x - 1280 * 0.5, @entities[0].position.y - 720 * 0.5, 1280, 720))
 		view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))

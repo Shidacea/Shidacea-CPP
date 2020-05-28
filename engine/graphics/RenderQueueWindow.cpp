@@ -19,12 +19,10 @@ void RenderQueueWindow::draw_object(sf::RenderStates render_states, mrb_state* m
 	} else if (MrbWrap::check_for_type<PointShape>(mrb, draw_object)) {
 
 		d_obj = MrbWrap::convert_from_object<PointShape>(mrb, draw_object);
-		printf("Warning: DrawShapePoint and DrawShapeLine will not draw anything yet.");
 
 	} else if (MrbWrap::check_for_type<LineShape>(mrb, draw_object)) {
 
 		d_obj = MrbWrap::convert_from_object<LineShape>(mrb, draw_object);
-		printf("Warning: DrawShapePoint and DrawShapeLine will not draw anything yet.");
 
 	} else if (MrbWrap::check_for_type<sf::CircleShape>(mrb, draw_object)) {
 

@@ -7,7 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
-//! Point and Line do not work yet for drawing
+//! NOTE: Point is not working yet and might never work at all.
+//! NOTE: Just use a circle.
 
 class PointShape : public sf::Shape {
 
@@ -47,6 +48,9 @@ private:
 
 };
 
+//! The LineShape essentially behaves like a rectangle with overlapping points
+//! This way, an actual line can be drawn at all
+
 class LineShape : public sf::Shape {
 
 public:
@@ -57,6 +61,9 @@ public:
 		m_points[0] = start_point;
 		m_points[1] = end_point;
 
+		//! This allows for always visible lines
+		setOutlineThickness(0.5);
+
 		update();
 
 	}
@@ -64,7 +71,7 @@ public:
 	void setStartPoint(const sf::Vector2f& value) {
 
 		m_points[0] = value;
-		
+
 		update();
 
 	}
@@ -79,13 +86,13 @@ public:
 
 	virtual std::size_t getPointCount() const {
 
-		return 2;
+		return 4;
 
 	}
 
 	virtual sf::Vector2f getPoint(std::size_t index) const {
 
-		return m_points[index];
+		return m_points[(index > 1 ? 3 - index : index)];
 
 	}
 
