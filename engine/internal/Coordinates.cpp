@@ -12,6 +12,8 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<sf::Vector2f, &sf::Vector2f::x>(mrb, "x");
 	MrbWrap::wrap_getter<sf::Vector2f, &sf::Vector2f::y>(mrb, "y");
 
+	//! TODO: This does not work reliably, find out, why
+
 	MrbWrap::wrap_setter<sf::Vector2f, &sf::Vector2f::x, float>(mrb, "x=");
 	MrbWrap::wrap_setter<sf::Vector2f, &sf::Vector2f::y, float>(mrb, "y=");
 

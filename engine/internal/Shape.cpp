@@ -160,6 +160,9 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_getter<ShapeTriangle, &ShapeTriangle::side_2>(mrb, "side_2");
 	MrbWrap::wrap_setter<ShapeTriangle, &ShapeTriangle::side_2, sf::Vector2f>(mrb, "side_2=");
 
+	MrbWrap::wrap_getter<ShapeTriangle, &ShapeTriangle::getScale>(mrb, "scale");
+	MrbWrap::wrap_setter<ShapeTriangle, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&ShapeTriangle::setScale), sf::Vector2f>(mrb, "scale=");
+
 	MrbWrap::define_member_function(mrb, ruby_shape_quadrangle_class, "initialize", MRUBY_FUNC {
 
 		//! TODO

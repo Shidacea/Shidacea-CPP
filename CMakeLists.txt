@@ -55,6 +55,7 @@ endif()
 
 add_definitions(-DMRB_USE_FLOAT)
 add_definitions(-DMRB_UTF8_STRING)
+add_definitions(-DMRB_INT64)
 
 add_definitions(-DFRONTEND_DIRECTORY="${FRONTEND_DIRECTORY}")
 add_definitions(-DSDCLIB_DIRECTORY="${SDCLIB_DIRECTORY}")

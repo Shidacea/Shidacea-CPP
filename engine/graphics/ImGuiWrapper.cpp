@@ -88,10 +88,26 @@ mrb_value ruby_imgui_input_instance_variable_int(mrb_state* mrb, mrb_value self)
 	mrb_get_args(mrb, "zon", &label, &object, &symbol);
 
 	auto ruby_int_value = mrb_iv_get(mrb, object, symbol);
-	auto return_value = ImGui::InputInt(label, reinterpret_cast<int*>(&mrb_fixnum(ruby_int_value)));
+	auto mrb_int_ptr = &ruby_int_value.value.i;
+
+	auto return_value = ImGui::InputInt(label,  reinterpret_cast<int*>(mrb_int_ptr));
+
+	//! Special treatment for 64 bit mrb_int values, if they become negative
+	//! TODO: Find another solution from within ImGui or mruby
+
+	if (sizeof(mrb_int) == 8) {
+
+		auto int_32_value = *reinterpret_cast<int32_t*>(mrb_int_ptr);
+
+		if (int_32_value < 0) {
+
+			*mrb_int_ptr = static_cast<mrb_int>(int_32_value);
+
+		}
+
+	}
 
 	mrb_iv_set(mrb, object, symbol, ruby_int_value);
-
 	return mrb_bool_value(return_value);
 
 }

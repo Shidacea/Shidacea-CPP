@@ -15,7 +15,7 @@ MRuby::Build.new do |conf|
   conf.gem :mgem => 'json'
   conf.gem :mgem => 'dir'
 
-  conf.cc.flags << '-DMRB_USE_FLOAT -DMRB_UTF8_STRING'
+  conf.cc.flags << '-DMRB_USE_FLOAT -DMRB_UTF8_STRING -DMRB_INT64'
 
   conf.build_dir = ENV["MRUBY_BUILD_DIR"] || raise("MRUBY_BUILD_DIR undefined!")
 

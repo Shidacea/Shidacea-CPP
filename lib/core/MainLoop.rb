@@ -1,12 +1,11 @@
 # This file is a template for a basic game loop
 # It can be used in its current form or it can be modified
 
-def main_routine(scene_class, game_class, title, width, height)
+def main_routine(scene_class, game_class: nil, title: "", width: 800, height: 600, limiter: nil)
 
 	begin
 		SDC.window = SDC::Window.new(title, width, height)
-
-		SDC.limiter = SDC::Limiter.new(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)
+		SDC.limiter = limiter ? limiter : SDC::Limiter.new(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)
 
 		GC.disable
 

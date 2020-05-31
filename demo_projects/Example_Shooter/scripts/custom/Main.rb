@@ -1,4 +1,4 @@
 # The absolute main file
 # Everything starts here
 
-main_routine(SceneShooterMenu, SDC::Game, 'Shidacea Shooter', 1280, 720)
+main_routine(SceneShooterMenu, game_class: SDC::Game, title: 'Shidacea Shooter', width: 1280, height: 720)
