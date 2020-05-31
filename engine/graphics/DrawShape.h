@@ -84,6 +84,12 @@ public:
 
 	}
 
+	sf::Vector2f getEndPoint() {
+
+		return m_points[1];
+
+	}
+
 	virtual std::size_t getPointCount() const {
 
 		return 4;
@@ -123,6 +129,30 @@ public:
 		m_edge_points[index] = value;
 
 		update();
+
+	}
+
+	void setSide1(const sf::Vector2f& value) {
+
+		setPoint(1, value);
+
+	}
+
+	void setSide2(const sf::Vector2f& value) {
+
+		setPoint(2, value);
+
+	}
+
+	sf::Vector2f getSide1(){
+
+		return m_edge_points[1];
+
+	}
+
+	sf::Vector2f getSide2() {
+
+		return m_edge_points[2];
 
 	}
 

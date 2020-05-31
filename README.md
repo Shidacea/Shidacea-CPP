@@ -128,7 +128,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Debug routines [Done]
 * Better resource management [Done]
 * Shape drawing [Done]
-* Launshi info window with description and screenshots
+* Launshi info window with description and (one) screenshot [Done]
 * Collision test example
 * Shooter example project
 

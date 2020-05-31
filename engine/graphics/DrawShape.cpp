@@ -77,6 +77,9 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_class_under<LineShape>(mrb, "DrawShapeLine", ruby_module, ruby_draw_shape_class);
 	MrbWrap::wrap_constructor<LineShape>(mrb);
 
+	MrbWrap::wrap_getter<LineShape, &LineShape::getEndPoint>(mrb, "line");
+	MrbWrap::wrap_setter<LineShape, &LineShape::setEndPoint, sf::Vector2f>(mrb, "line=");
+
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<LineShape>(), "get_from", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<ShapeLine>(mrb);
@@ -101,6 +104,9 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_class_under<sf::RectangleShape>(mrb, "DrawShapeRectangle", ruby_module, ruby_draw_shape_class);
 	MrbWrap::wrap_constructor<sf::RectangleShape>(mrb);
 
+	MrbWrap::wrap_getter<sf::RectangleShape, &sf::RectangleShape::getSize>(mrb, "size");
+	MrbWrap::wrap_setter<sf::RectangleShape, &sf::RectangleShape::setSize, sf::Vector2f>(mrb, "size=");
+
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::RectangleShape>(), "get_from", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<ShapeBox>(mrb);
@@ -123,6 +129,9 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_class_under<sf::CircleShape>(mrb, "DrawShapeCircle", ruby_module, ruby_draw_shape_class);
 	MrbWrap::wrap_constructor<sf::CircleShape>(mrb);
 
+	MrbWrap::wrap_getter<sf::CircleShape, &sf::CircleShape::getRadius>(mrb, "radius");
+	MrbWrap::wrap_setter<sf::CircleShape, &sf::CircleShape::setRadius, float>(mrb, "radius=");
+
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::CircleShape>(), "get_from", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<ShapeCircle>(mrb);
@@ -144,6 +153,11 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_class_under<TriangleShape>(mrb, "DrawShapeTriangle", ruby_module, ruby_draw_shape_class);
 	MrbWrap::wrap_constructor<TriangleShape>(mrb);
+
+	MrbWrap::wrap_getter<TriangleShape, &TriangleShape::getSide1>(mrb, "side_1");
+	MrbWrap::wrap_getter<TriangleShape, &TriangleShape::getSide2>(mrb, "side_2");
+	MrbWrap::wrap_setter<TriangleShape, &TriangleShape::setSide1, sf::Vector2f>(mrb, "side_1=");
+	MrbWrap::wrap_setter<TriangleShape, &TriangleShape::setSide2, sf::Vector2f>(mrb, "side_2=");
 
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<TriangleShape>(), "get_from", MRUBY_FUNC {
 
