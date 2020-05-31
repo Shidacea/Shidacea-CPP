@@ -109,6 +109,10 @@ module SDC
 		return SDC::CollisionShapePoint.new(self.get_mouse_coords)
 	end
 
+	def self.mouse_touching?(shape, offset: SDC.xy)
+		return SDC::Collider.test(self.get_mouse_point, SDC.xy, shape, offset)
+	end
+
 	def self.right_klick?
 		return self.mouse_button_pressed?(:Right)
 	end

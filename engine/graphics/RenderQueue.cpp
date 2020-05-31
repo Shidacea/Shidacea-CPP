@@ -81,9 +81,13 @@ void RenderQueue::draw_to(sf::RenderWindow* window) {
 			t_obj->setScale(render_call.scale);
 			t_obj->setRotation(render_call.rotation);
 
-			window->setView(render_call.view);
+			//! NOTE: The view resetting seems to be necessary for some reason
+			//! TODO: Maybe this is a bug?
 
+			auto old_view = window->getView();
+			window->setView(render_call.view);
 			window->draw(*(render_call.obj), render_call.states);
+			window->setView(old_view);
 
 		}
 

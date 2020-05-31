@@ -25,9 +25,7 @@ module SDC
 		# TODO: Clicking is wonky, maybe this can be handled better
 		def touched_by_mouse?
 			return false if !@shape
-
-			point_mouse = SDC.get_mouse_point
-			return SDC::Collider.test(point_mouse, SDC::Coordinates.new, @shape, SDC::Coordinates.new)
+			return SDC.mouse_touching?(@shape)
 		end
 
 		def draw

@@ -5,6 +5,7 @@ def main_routine(scene_class, game_class, title, width, height)
 
 	begin
 		SDC.window = SDC::Window.new(title, width, height)
+
 		SDC.limiter = SDC::Limiter.new(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)
 
 		GC.disable
