@@ -134,6 +134,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 
 ## Version 0.3.0 (Late summer 2020)
 * Animations
+* Rotation methods for triangles
 * GUI methods
 * Ellipse shape support
 * Point and line drawing
