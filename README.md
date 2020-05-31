@@ -129,7 +129,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 * Better resource management [Done]
 * Shape drawing [Done]
 * Launshi info window with description and (one) screenshot [Done]
-* Collision test example
+* Collision test example [Done]
 * Shooter example project
 
 ## Version 0.3.0 (Late summer 2020)

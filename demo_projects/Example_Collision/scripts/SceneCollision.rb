@@ -52,6 +52,28 @@ class SceneCollision < SDC::Scene
 				end
 			end
 
+			if @dragged_object then
+				if event.key_pressed?(:A) then
+					@dragged_object[0].collision_shape.offset += SDC.xy(-10.0, 0.0)
+					@dragged_object[0].update
+				elsif event.key_pressed?(:D) then
+					@dragged_object[0].collision_shape.offset += SDC.xy(10.0, 0.0)
+					@dragged_object[0].update
+				elsif event.key_pressed?(:W) then
+					@dragged_object[0].collision_shape.offset += SDC.xy(0.0, -10.0)
+					@dragged_object[0].update
+				elsif event.key_pressed?(:S) then
+					@dragged_object[0].collision_shape.offset += SDC.xy(0.0, 10.0)
+					@dragged_object[0].update
+				elsif event.key_pressed?(:E) then
+					@dragged_object[0].collision_shape.scale *= 1.1
+					@dragged_object[0].update
+				elsif event.key_pressed?(:Q) then
+					@dragged_object[0].collision_shape.scale *= (1.0 / 1.1)
+					@dragged_object[0].update
+				end
+			end
+
 		end
 	end
 
@@ -99,7 +121,6 @@ class SceneCollision < SDC::Scene
 				second_shape = @shapes[j]
 
 				if SDC::Collider.test(first_shape.collision_shape, first_shape.pos, second_shape.collision_shape, second_shape.pos) then
-					puts "#{i}|#{j}" 
 					@draw_indicator = true
 				end
 			end
