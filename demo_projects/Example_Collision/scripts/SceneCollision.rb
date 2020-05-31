@@ -60,6 +60,14 @@ class SceneCollision < SDC::Scene
 		@z = 0
 		@counter = 0
 		
+		@indicator = SDC::DrawShapeCircle.new
+		@indicator.radius = 10
+		@indicator.outline_thickness = 2.0
+		@indicator.outline_color = SDC::Color.new(255, 0, 0, 255)
+		@indicator.fill_color = SDC::Color.new(0, 0, 0, 0)
+
+		@draw_indicator = false
+
 		@new_obj_x = 400
 		@new_obj_y = 400
 
@@ -79,6 +87,8 @@ class SceneCollision < SDC::Scene
 	end
 
 	def update
+		@draw_indicator = false
+
 		if @dragged_object then
 			@dragged_object[0].pos = SDC.get_mouse_coords - @dragged_object[1]
 		end
@@ -88,7 +98,10 @@ class SceneCollision < SDC::Scene
 				first_shape = @shapes[i]
 				second_shape = @shapes[j]
 
-				puts "#{i}|#{j}" if SDC::Collider.test(first_shape.collision_shape, first_shape.pos, second_shape.collision_shape, second_shape.pos)
+				if SDC::Collider.test(first_shape.collision_shape, first_shape.pos, second_shape.collision_shape, second_shape.pos) then
+					puts "#{i}|#{j}" 
+					@draw_indicator = true
+				end
 			end
 		end
 	end
@@ -97,6 +110,7 @@ class SceneCollision < SDC::Scene
 		@shapes.each do |shape|
 			shape.draw
 		end
+		SDC.window.draw_translated(@indicator, 1000000, SDC.xy(15, 15)) if @draw_indicator
 	end
 
 	def draw_imgui
