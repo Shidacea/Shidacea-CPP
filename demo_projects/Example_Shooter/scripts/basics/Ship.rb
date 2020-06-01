@@ -28,20 +28,20 @@ module ShooterTest
 		end
 
 		def custom_update
-			while @position.x > SDC.window.width do
-				@position -= SDC.xy(SDC.window.width, 0)
+			while @position.x > SDC.draw_width do
+				@position -= SDC.xy(SDC.draw_width, 0)
 			end
 
 			while @position.x < 0 do
-				@position += SDC.xy(SDC.window.width, 0)
+				@position += SDC.xy(SDC.draw_width, 0)
 			end
 
-			while @position.y > SDC.window.height do
-				@position -= SDC.xy(0, SDC.window.height)
+			while @position.y > SDC.draw_height do
+				@position -= SDC.xy(0, SDC.draw_height)
 			end
 
 			while @position.y < 0 do
-				@position += SDC.xy(0, SDC.window.height)
+				@position += SDC.xy(0, SDC.draw_height)
 			end
 
 			speed = @velocity.squared_norm
@@ -59,14 +59,14 @@ module ShooterTest
 		end
 
 		def custom_sprite_draw(window, sprite)
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(0, window.height))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(0, -window.height))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(window.width, 0))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-window.width, 0))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(window.width, window.height))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(window.width, -window.height))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-window.width, window.height))
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-window.width, -window.height))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(0, SDC.draw_height))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(0, -SDC.draw_height))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(SDC.draw_width, 0))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-SDC.draw_width, 0))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(SDC.draw_width, SDC.draw_height))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(SDC.draw_width, -SDC.draw_height))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-SDC.draw_width, SDC.draw_height))
+			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-SDC.draw_width, -SDC.draw_height))
 		end
 
 	end

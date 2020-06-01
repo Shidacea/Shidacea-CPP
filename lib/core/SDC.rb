@@ -23,6 +23,9 @@ module SDC
 	@limiter = nil
 	@text_input = nil
 
+	@draw_width = nil
+	@draw_height = nil
+
 	def self.xy(x = 0.0, y = 0.0)
 		return Coordinates.new(x, y)
 	end
@@ -73,6 +76,19 @@ module SDC
 
 	def self.text_input=(value)
 		@text_input = value
+	end
+
+	def self.set_draw_size(width, height)
+		@draw_width = width
+		@draw_height = height
+	end
+
+	def self.draw_width
+		@draw_width
+	end
+
+	def self.draw_height
+		return @draw_height
 	end
 
 	# Script routines for easier readability, directly referencing other methods

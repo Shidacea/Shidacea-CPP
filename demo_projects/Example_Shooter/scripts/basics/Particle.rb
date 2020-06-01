@@ -20,20 +20,20 @@ module ShooterTest
 			@gone = true if @lifetime <= 0
 			@position += @velocity * SDC.game.dt
 
-			while @position.x > SDC.window.width do
-				@position -= SDC.xy(SDC.window.width, 0)
+			while @position.x > SDC.draw_width do
+				@position -= SDC.xy(SDC.draw_width, 0)
 			end
 
 			while @position.x < 0 do
-				@position += SDC.xy(SDC.window.width, 0)
+				@position += SDC.xy(SDC.draw_width, 0)
 			end
 
-			while @position.y > SDC.window.height do
-				@position -= SDC.xy(0, SDC.window.height)
+			while @position.y > SDC.draw_height do
+				@position -= SDC.xy(0, SDC.draw_height)
 			end
 
 			while @position.y < 0 do
-				@position += SDC.xy(0, SDC.window.height)
+				@position += SDC.xy(0, SDC.draw_height)
 			end
 
 			@update_block&.call
