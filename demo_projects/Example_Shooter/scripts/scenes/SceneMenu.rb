@@ -45,7 +45,7 @@ module ShooterTest
 			end
 
 			if SDC.key_pressed?(:W) then
-				@player_ship.accelerate(@player_ship.direction * 0.1)
+				@player_ship.accelerate(@player_ship.direction * 0.2)
 				unless @player_ship.has_max_speed then
 					rand(3).times do 
 						spawn_particle
