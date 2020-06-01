@@ -1,7 +1,7 @@
 # Structure for temporary game data
 # Feel free to customize and extend this class
 
-module SDC
+module ShooterTest
 	class Game < SDC::BaseGame
 
 		def initialize

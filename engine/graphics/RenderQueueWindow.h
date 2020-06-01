@@ -36,6 +36,9 @@ public:
 	void process_imgui_event(sf::Event* event);
 	void shutdown_imgui();
 
+	unsigned int width();
+	unsigned int height();
+
 	void clear();
 	void display();
 

@@ -32,6 +32,9 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(3, 1));
 
+	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::width>(mrb, "width");
+	MrbWrap::wrap_getter<RenderQueueWindow, &RenderQueueWindow::height>(mrb, "height");
+
 	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::clear>(mrb, "clear");
 	MrbWrap::wrap_member_function<RenderQueueWindow, &RenderQueueWindow::render_and_display>(mrb, "render_and_display");
 

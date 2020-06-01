@@ -39,10 +39,10 @@
 	"jingle": "",
 
 	"scripts": [
-		"scripts/custom/resources/",
-		"scripts/custom/scenes/",
-		"scripts/custom/entities/",
-		"scripts/custom/Game.rb",
-		"scripts/custom/Main.rb"
+		"scripts/basics/",
+		"scripts/scenes/",
+		"scripts/entities/",
+		"scripts/Game.rb",
+		"scripts/Main.rb"
 	]
 }

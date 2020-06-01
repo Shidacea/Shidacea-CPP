@@ -13,7 +13,7 @@ module SDC
 		extend SDCMeta::ClassProperty
 
 		self.define_class_property(:living, default: false)
-		self.define_class_property(:gravity_multiplier, default: 1.0)
+		self.define_class_property(:gravity_multiplier, default: 0.0)
 		self.define_class_property(:ai_active, default: false)
 		self.define_class_property(:max_hp, default: 0)
 		self.define_class_property(:z, default: 0)
@@ -247,14 +247,14 @@ module SDC
 			@velocity += @acceleration * SDC.game.dt
 			@position += @velocity * SDC.game.dt
 
-			# Debug floor
-			if @position.y > 500.0 then
-				@position.y = 500.0
-				@velocity.y = 0.0
-			end
+			custom_physics
 
 			@acceleration.x = 0.0
 			@acceleration.y = 0.0
+		end
+
+		def custom_physics
+
 		end
 
 		def basic_hit(hurtshape, hitshape)
@@ -364,11 +364,18 @@ module SDC
 				sprite = @sprites[i]
 				next if !sprite || !@active_sprites[i]
 				window.draw_translated(sprite, self.z, absolute_position)
+				custom_sprite_draw(window, sprite)
 			end
+
+			custom_draw(window)
+		end
+
+		def custom_sprite_draw(window, sprite)
+			
 		end
 
 		def update
-			living_procedure
+			living_procedure if self.living
 
 			custom_update
 
@@ -413,7 +420,7 @@ module SDC
 
 		end
 
-		def custom_draw
+		def custom_draw(window)
 
 		end
 

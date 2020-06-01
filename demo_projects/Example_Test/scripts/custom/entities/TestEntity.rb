@@ -32,6 +32,14 @@ class TestEntity < SDC::Entity
 		
 	end
 
+	def custom_physics
+		# Debug floor
+		if @position.y > 500.0 then
+			@position.y = 500.0
+			@velocity.y = 0.0
+		end
+	end
+
 	def master_ai_script
 		SDC::AI.forever do
 

@@ -141,6 +141,18 @@ void RenderQueueWindow::shutdown_imgui() {
 
 }
 
+unsigned int RenderQueueWindow::width() {
+
+	return window->getSize().x;
+
+}
+
+unsigned int RenderQueueWindow::height() {
+
+	return window->getSize().y;
+
+}
+
 void RenderQueueWindow::clear() {
 
 	window->clear();
