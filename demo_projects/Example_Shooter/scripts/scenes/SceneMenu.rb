@@ -45,7 +45,9 @@ module ShooterTest
 			end
 
 			if SDC.key_pressed?(:W) then
-				@player_ship.accelerate(@player_ship.direction * 0.2)
+				# TODO: Integrate acceleration into drive
+				# TODO: Use high values with low limit for hyperdrive
+				@player_ship.accelerate(@player_ship.direction * 0.5)
 				unless @player_ship.has_max_speed then
 					rand(3).times do 
 						spawn_particle
@@ -54,7 +56,7 @@ module ShooterTest
 			end
 
 			if SDC.key_pressed?(:S) then
-				@player_ship.accelerate(@player_ship.direction * (-0.05))
+				@player_ship.accelerate(@player_ship.velocity * (-0.05))
 			end
 
 			@player_ship.update
