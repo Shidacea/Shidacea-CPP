@@ -7,6 +7,8 @@ module ShooterTest
 		self.define_class_property :weapon, default: nil
 		self.define_class_property :drive, default: :CombustionDrive
 		self.define_class_property :z, default: Z_SHIP
+		self.define_class_property :physics_split, default: 10
+		self.define_class_property :physics_split_step, default: 0.1
 
 		attr_reader :angle
 
@@ -86,16 +88,15 @@ module ShooterTest
 				@position += SDC.xy(0, SDC.draw_height)
 			end
 
-			speed = @velocity.squared_norm
-			if speed > selected_drive.max_speed then
-				#@velocity *= (1.0 - selected_drive.friction)
-			end
-
 			@velocity *= (1.0 - selected_drive.friction)
 			
 			@drives.each do |drive|
 				drive.update
 			end
+		end
+
+		def custom_physics
+			# TODO: Include collision physics here
 		end
 
 		def has_max_speed

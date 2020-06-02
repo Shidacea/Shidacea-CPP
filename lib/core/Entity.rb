@@ -17,6 +17,8 @@ module SDC
 		self.define_class_property(:ai_active, default: false)
 		self.define_class_property(:max_hp, default: 0)
 		self.define_class_property(:z, default: 0)
+		self.define_class_property(:physics_split, default: 1)
+		self.define_class_property(:physics_split_step, default: 1.0)
 
 		# Accessor methods for content arrays (except for textures)
 
@@ -244,10 +246,12 @@ module SDC
 		def physics
 			accelerate(SDC.game.gravity * self.gravity_multiplier)
 
-			@velocity += @acceleration * SDC.game.dt
-			@position += @velocity * SDC.game.dt
+			self.physics_split.times do 
+				@velocity += @acceleration * SDC.game.dt * self.physics_split_step
+				@position += @velocity * SDC.game.dt * self.physics_split_step
 
-			custom_physics
+				custom_physics
+			end
 
 			@acceleration.x = 0.0
 			@acceleration.y = 0.0
