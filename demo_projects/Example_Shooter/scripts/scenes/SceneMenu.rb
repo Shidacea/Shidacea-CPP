@@ -10,7 +10,7 @@ module ShooterTest
 		end
 
 		def at_init
-			@player_ship = ShooterTest::PlayerShip.new
+			@player_ship = PlayerShip.new
 			@player_ship.position = SDC.xy(300, 200)
 			@particles = []
 		end
@@ -28,7 +28,7 @@ module ShooterTest
 			new_position = @player_ship.position + @player_ship.direction * (-30.0) + @player_ship.direction_normal * ((rand(3) - 1) * 15.0)
 			new_velocity = @player_ship.velocity + @player_ship.direction * (-2.0)
 
-			particle = ShooterTest::Particle.new(shape: particle_shape, lifetime: rand(256), position: new_position, velocity: new_velocity, z: Z_PARTICLE) do
+			particle = Particle.new(shape: particle_shape, lifetime: rand(256), position: new_position, velocity: new_velocity, z: Z_PARTICLE) do
 				particle.color = SDC::Color.new(255, particle.lifetime * 0.5, 0, particle.lifetime)
 			end
 
@@ -45,9 +45,8 @@ module ShooterTest
 			end
 
 			if SDC.key_pressed?(:W) then
-				# TODO: Integrate acceleration into drive
-				# TODO: Use high values with low limit for hyperdrive
-				@player_ship.accelerate(@player_ship.direction * 0.5)
+				@player_ship.boost
+
 				unless @player_ship.has_max_speed then
 					rand(3).times do 
 						spawn_particle
@@ -56,7 +55,7 @@ module ShooterTest
 			end
 
 			if SDC.key_pressed?(:S) then
-				@player_ship.accelerate(@player_ship.velocity * (-0.05))
+				@player_ship.brake
 			end
 
 			@player_ship.update

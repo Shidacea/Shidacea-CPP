@@ -5,18 +5,29 @@ module ShooterTest
 		self.define_class_property :health, default: 0
 		self.define_class_property :shield, default: 0
 		self.define_class_property :weapon, default: nil
-		self.define_class_property :drive, default: nil
-		self.define_class_property :max_speed, default: 50 # TODO: Put this into drive
+		self.define_class_property :drive, default: :CombustionDrive
 
 		attr_reader :angle
 
 		def at_init
 			@angle = 0.0
+			@drive = ShooterTest.const_get(self.drive).new
 		end
 
 		def rotate(angle_difference)
 			@angle += angle_difference
 			@sprites[0].rotation += angle_difference
+		end
+
+		def boost
+			unless @drive.overheated then
+				accelerate(direction * @drive.boost)
+				@drive.run
+			end
+		end
+
+		def brake
+			accelerate(velocity * (-@drive.brake))
 		end
 
 		def direction
@@ -45,13 +56,15 @@ module ShooterTest
 			end
 
 			speed = @velocity.squared_norm
-			if speed > self.max_speed then
-				@velocity *= (self.max_speed / speed)
+			if speed > @drive.max_speed then
+				@velocity *= (@drive.max_speed / speed)
 			end
+
+			@drive.update
 		end
 
 		def has_max_speed
-			return @velocity.squared_norm >= self.max_speed
+			return @velocity.squared_norm >= @drive.max_speed
 		end
 
 		def update_shapes
