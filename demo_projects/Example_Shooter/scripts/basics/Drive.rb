@@ -1,13 +1,14 @@
 module ShooterTest
 	class Drive
 
-		attr_reader :max_speed, :boost, :brake, :overheated
+		attr_reader :max_speed, :boost, :brake, :overheated, :friction
 
 		extend SDCMeta::ClassProperty
 		
 		self.define_class_property(:boost, default: 0.5)
 		self.define_class_property(:max_speed, default: 100.0)
 		self.define_class_property(:brake, default: 0.05)
+		self.define_class_property(:friction, default: 0.0)
 		self.define_class_property(:heating_rate, default: 0.0)
 		self.define_class_property(:heat_threshold, default: 1.0)
 		self.define_class_property(:cooldown_heat, default: 0.0)
@@ -40,7 +41,9 @@ module ShooterTest
 			@running = false
 		end
 
-		# TODO: Stamina
+		def generate_particles(ship)
+
+		end
 		
 	end
 end

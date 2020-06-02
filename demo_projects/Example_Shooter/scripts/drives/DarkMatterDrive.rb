@@ -1,13 +1,13 @@
 module ShooterTest
-	class CombustionDrive < Drive
+	class DarkMatterDrive < Drive
 
-		self.boost = 0.2
-		self.max_speed = 100.0
-		self.brake = 0.01
-		self.friction = 0.01
+		self.boost = 0.5
+		self.max_speed = 250.0
+		self.brake = 0.5
+		self.friction = 0.0
 
-		self.heating_rate = 0.001
-		self.cooldown_rate = 0.0005
+		self.heating_rate = 0.025
+		self.cooldown_rate = 0.05
 
 		def generate_particles(ship)
 			rand(3).times do
@@ -16,10 +16,10 @@ module ShooterTest
 				particle_shape.origin = SDC.xy(3, 3)
 
 				new_position = ship.position + ship.direction * (-30.0) + ship.direction_normal * ((rand(3) - 1) * 15.0)
-				new_velocity = ship.velocity + ship.direction * (-2.0)
+				new_velocity = ship.velocity + ship.direction * (-5.0)
 
 				particle = Particle.new(shape: particle_shape, lifetime: rand(256), position: new_position, velocity: new_velocity, z: Z_PARTICLE) do
-					particle.color = SDC::Color.new(255, particle.lifetime * 0.5, 0, particle.lifetime)
+					particle.color = SDC::Color.new(128, particle.lifetime * 0.5, 128, particle.lifetime)
 				end
 
 				SDC.scene.add_particle particle

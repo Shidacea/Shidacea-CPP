@@ -6,12 +6,39 @@ module ShooterTest
 		self.define_class_property :shield, default: 0
 		self.define_class_property :weapon, default: nil
 		self.define_class_property :drive, default: :CombustionDrive
+		self.define_class_property :z, default: Z_SHIP
 
 		attr_reader :angle
 
 		def at_init
 			@angle = 0.0
-			@drive = ShooterTest.const_get(self.drive).new
+			@drives = []
+			add_drive(self.drive)
+
+			@drive_index = 0
+		end
+
+		def selected_drive
+			return @drives[@drive_index]
+		end
+
+		def add_drive(drive_symbol)
+			@drives.push(ShooterTest.const_get(drive_symbol).new)
+		end
+
+		def rotate_drive(diff)
+			@drive_index += diff
+			correct_drive_index
+		end
+
+		def select_drive(index)
+			@drive_index = index
+			correct_drive_index
+		end
+
+		def correct_drive_index
+			@drive_index = @drives.size - 1 if @drive_index >= @drives.size
+			@drive_index = 0 if @drive_index < 0
 		end
 
 		def rotate(angle_difference)
@@ -20,14 +47,18 @@ module ShooterTest
 		end
 
 		def boost
-			unless @drive.overheated then
-				accelerate(direction * @drive.boost)
-				@drive.run
+			unless selected_drive.overheated then
+				accelerate(direction * selected_drive.boost)
+				selected_drive.run
+
+				unless has_max_speed then
+					selected_drive.generate_particles(self)
+				end
 			end
 		end
 
 		def brake
-			accelerate(velocity * (-@drive.brake))
+			accelerate(velocity * (-selected_drive.brake))
 		end
 
 		def direction
@@ -56,15 +87,19 @@ module ShooterTest
 			end
 
 			speed = @velocity.squared_norm
-			if speed > @drive.max_speed then
-				@velocity *= (@drive.max_speed / speed)
+			if speed > selected_drive.max_speed then
+				#@velocity *= (1.0 - selected_drive.friction)
 			end
 
-			@drive.update
+			@velocity *= (1.0 - selected_drive.friction)
+			
+			@drives.each do |drive|
+				drive.update
+			end
 		end
 
 		def has_max_speed
-			return @velocity.squared_norm >= @drive.max_speed
+			return @velocity.squared_norm >= selected_drive.max_speed
 		end
 
 		def update_shapes

@@ -39,6 +39,7 @@
 	"jingle": "",
 
 	"scripts": [
+		"scripts/ShooterTest.rb",
 		"scripts/basics/",
 		"scripts/drives/",
 		"scripts/scenes/",
