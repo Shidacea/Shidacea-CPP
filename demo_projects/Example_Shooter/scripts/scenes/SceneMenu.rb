@@ -24,6 +24,9 @@ module ShooterTest
 			@player_ship.add_drive(:HyperDrive)
 			@player_ship.add_drive(:DarkMatterDrive)
 			@player_ship.add_drive(:QuantumDrive)
+			@player_ship.add_drive(:IonDrive)
+			@player_ship.add_drive(:DisplacementDrive)
+			@player_ship.add_drive(:WarpDrive)
 		end
 
 		def draw
