@@ -72,22 +72,6 @@ module ShooterTest
 		end
 
 		def custom_update
-			while @position.x > SDC.draw_width do
-				@position -= SDC.xy(SDC.draw_width, 0)
-			end
-
-			while @position.x < 0 do
-				@position += SDC.xy(SDC.draw_width, 0)
-			end
-
-			while @position.y > SDC.draw_height do
-				@position -= SDC.xy(0, SDC.draw_height)
-			end
-
-			while @position.y < 0 do
-				@position += SDC.xy(0, SDC.draw_height)
-			end
-
 			@velocity *= (1.0 - selected_drive.friction)
 			
 			@drives.each do |drive|
@@ -105,23 +89,6 @@ module ShooterTest
 
 		def update_shapes
 			
-		end
-
-		def custom_sprite_draw(window, sprite)
-			overlap_x_pos = (absolute_position.x > SDC.draw_width * 0.5)
-			overlap_x_neg = (absolute_position.x < SDC.draw_width * 0.5)
-			overlap_y_pos = (absolute_position.y > SDC.draw_height * 0.5)
-			overlap_y_neg = (absolute_position.y < SDC.draw_height * 0.5)
-
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(0, SDC.draw_height)) if overlap_y_neg
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(0, -SDC.draw_height)) if overlap_y_pos
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(SDC.draw_width, 0)) if overlap_x_neg
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-SDC.draw_width, 0)) if overlap_x_pos
-
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(SDC.draw_width, SDC.draw_height)) if overlap_x_neg && overlap_y_neg
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(SDC.draw_width, -SDC.draw_height)) if overlap_x_neg && overlap_y_pos
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-SDC.draw_width, SDC.draw_height)) if overlap_x_pos && overlap_y_neg
-			window.draw_translated(sprite, self.z, absolute_position + SDC.xy(-SDC.draw_width, -SDC.draw_height)) if overlap_x_pos && overlap_y_pos
 		end
 
 	end

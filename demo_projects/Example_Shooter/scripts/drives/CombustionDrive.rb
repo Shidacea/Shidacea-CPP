@@ -7,7 +7,7 @@ module ShooterTest
 		self.friction = 0.01
 
 		self.heating_rate = 0.001
-		self.cooldown_rate = 0.0005
+		self.cooldown_rate = 0.001
 
 		def generate_particles(ship)
 			rand(3).times do

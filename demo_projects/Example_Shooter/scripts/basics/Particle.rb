@@ -20,33 +20,19 @@ module ShooterTest
 			@gone = true if @lifetime <= 0
 			@position += @velocity * SDC.game.dt
 
-			while @position.x > SDC.draw_width do
-				@position -= SDC.xy(SDC.draw_width, 0)
-			end
-
-			while @position.x < 0 do
-				@position += SDC.xy(SDC.draw_width, 0)
-			end
-
-			while @position.y > SDC.draw_height do
-				@position -= SDC.xy(0, SDC.draw_height)
-			end
-
-			while @position.y < 0 do
-				@position += SDC.xy(0, SDC.draw_height)
-			end
-
 			@update_block&.call
 		end
 
 		def draw(window)
-			if @shape then
-				@shape.fill_color = @color
-				window.draw_translated(@shape, @z, @position)
+			if SDC.scene.in_cam(@position, tolerance: 100) then
+				if @shape then
+					@shape.fill_color = @color
+					window.draw_translated(@shape, @z, @position)
 
-			elsif @texture_index then
-				# TODO
-				SDC.draw_texture(index: @texture_index, z: @z, coordinates: @position, window: window)
+				elsif @texture_index then
+					# TODO
+					SDC.draw_texture(index: @texture_index, z: @z, coordinates: @position, window: window)
+				end
 			end
 		end
 
