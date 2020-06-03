@@ -1,6 +1,9 @@
-name: BuildTest
+name: BuildUbuntu
 
 on:
+  push:
+    branches:
+      - actions-test
   release:
     types: [published, created, edited, prereleased]
   pull_request:
@@ -36,7 +39,7 @@ jobs:
         echo "Dependencies installed."
         g++ --version
     
-    - name: Run
+    - name: Build
       run: |
         git submodule init
         git submodule update --recursive
@@ -47,6 +50,7 @@ jobs:
         cmake ..
         make
         
-        echo "Build completed."
-        ./Launshi --version
+    - name: Run
+      run: |
+        build/Launshi --version
         

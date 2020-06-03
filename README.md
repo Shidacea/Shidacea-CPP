@@ -1,6 +1,7 @@
 # Shidacea 2D Game Engine
 
-![BuildTest](https://github.com/Hadeweka/Shidacea/workflows/BuildTest/badge.svg?branch=master)
+![BuildUbuntu](https://github.com/Hadeweka/Shidacea/workflows/BuildUbuntu/badge.svg)
+![BuildWindows](https://github.com/Hadeweka/Shidacea/workflows/BuildWindows/badge.svg)
 
 <img src="https://img.shields.io/github/v/release/Hadeweka/Shidacea"> <img src="https://img.shields.io/github/release-date/Hadeweka/Shidacea">
 

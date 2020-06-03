@@ -1,0 +1,44 @@
+name: BuildWindows
+
+on:
+  push:
+    branches:
+      - actions-test
+  release:
+    types: [published, created, edited, prereleased]
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: microsoft/setup-msbuild@v1.0.0
+    - uses: actions/setup-ruby@v1
+    - uses: seanmiddleditch/gha-setup-ninja@master
+    - uses: seanmiddleditch/gha-setup-vsdevenv@master
+
+    - name: Deps
+      run: |
+        git submodule init
+        git submodule update --recursive
+        choco install -y winflexbison
+    
+    - name: Build
+      env:
+        YACC: win_bison
+      run: |
+        mkdir build
+        cd build
+        
+        cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_COMPILER="cl" -DCMAKE_C_COMPILER="cl" ..
+        
+        ninja -v
+        
+    - name: Run
+      run: |
+        build/Launshi.exe --version
