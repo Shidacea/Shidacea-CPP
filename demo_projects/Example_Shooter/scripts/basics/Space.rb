@@ -11,6 +11,7 @@ module ShooterTest
 				@stars.push(Star.new(position: SDC.xy(rand(width), rand(height))))
 			end
 			# TODO: Partition these
+			# TODO: Make this a map
 		end
 
 		def draw(window)
