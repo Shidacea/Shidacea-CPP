@@ -19,6 +19,7 @@ module ShooterTest
 			@player_ship = PlayerShip.new
 			@player_ship.position = SDC.xy(300, 200)
 			@particles = []
+			@asteroids = []
 
 			@space = Space.new(width: 100000, height: 100000, star_count: 1000)
 
@@ -29,6 +30,13 @@ module ShooterTest
 			@player_ship.add_drive(:IonDrive)
 			@player_ship.add_drive(:DisplacementDrive)
 			@player_ship.add_drive(:WarpDrive)
+
+			@asteroids.push(Asteroid.new)
+			@asteroids[0].position = SDC.xy(0, 0)
+			@asteroids[0].velocity = SDC.xy(2 * SDC.game.dt, 2 * SDC.game.dt)
+			@asteroids.push(Asteroid.new)
+			@asteroids[1].position = SDC.xy(500, 500)
+			@asteroids[1].velocity = SDC.xy(-1 * SDC.game.dt, -1 * SDC.game.dt)
 		end
 
 		def draw
@@ -37,22 +45,30 @@ module ShooterTest
 			SDC.window.use_view(view_player) do
 				@space.draw SDC.window
 				@player_ship.draw SDC.window
+				@asteroids.each {|asteroid| asteroid.draw(SDC.window)}
 				@particles.each {|particle| particle.draw(SDC.window)}
 			end
 
 			minimap_shape = SDC::DrawShapeRectangle.new
 			minimap_shape.size = SDC.xy(SDC.draw_width * 0.2, SDC.draw_height * 0.2)
 			minimap_shape.fill_color = SDC::Color.new(128, 128, 128, 128)
-			SDC.window.draw_translated(minimap_shape, Z_MINIMAP, SDC.xy(SDC.draw_width * 0.8, 0.0))
+			SDC.window.draw_translated(minimap_shape, Z_MINIMAP, SDC.xy(SDC.draw_width * 0.775, SDC.draw_height * 0.05))
 
 			view_minimap = SDC::View.new(SDC::FloatRect.new(0, 0, @space.width, @space.height))
-			view_minimap.set_viewport(SDC::FloatRect.new(0.8, 0.0, 0.2, 0.2))
+			view_minimap.set_viewport(SDC::FloatRect.new(0.775, 0.05, 0.2, 0.2))
 
 			SDC.window.use_view(view_minimap) do
 				player_indicator = SDC::DrawShapeRectangle.new
 				player_indicator.size = SDC.xy(@space.width * 0.01, @space.height * 0.02)
 				player_indicator.fill_color = SDC::Color.new(255, 0, 0, 255)
 				SDC.window.draw_translated(player_indicator, Z_MINIMAP, @player_ship.position)
+
+				asteroid_indicator = SDC::DrawShapeRectangle.new
+				asteroid_indicator.size = SDC.xy(@space.width * 0.01, @space.height * 0.02)
+				asteroid_indicator.fill_color = SDC::Color.new(255, 0, 0, 255)
+				@asteroids.each do |asteroid|
+					SDC.window.draw_translated(asteroid_indicator, Z_MINIMAP, asteroid.position)
+				end
 			end
 		end
 
@@ -64,6 +80,15 @@ module ShooterTest
 
 		def add_particle(particle)
 			@particles.push(particle)
+		end
+
+		def check_collisions(obj)
+			0.upto(@asteroids.size - 1) do |i|
+				next if !obj.test_box_collision_with(@asteroids[i])
+				obj.each_colliding_action_shape(@asteroids[i]) do |hurtshape, hitshape|
+					obj.collision_with_entity(@asteroids[i], hurtshape, hitshape)
+				end
+			end
 		end
 
 		def update
@@ -88,6 +113,8 @@ module ShooterTest
 				particle.update
 				particle.gone
 			end
+
+			@asteroids.each {|asteroid| asteroid.update}
 		end
 
 	end

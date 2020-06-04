@@ -7,6 +7,7 @@ module ShooterTest
 		def initialize
 			# Initialize base game values
 			super
+			@dt = 0.5
 		end
 
 	end

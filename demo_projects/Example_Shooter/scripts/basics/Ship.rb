@@ -7,8 +7,7 @@ module ShooterTest
 		self.define_class_property :weapon, default: nil
 		self.define_class_property :drive, default: :CombustionDrive
 		self.define_class_property :z, default: Z_SHIP
-		self.define_class_property :physics_split, default: 10
-		self.define_class_property :physics_split_step, default: 0.1
+		self.define_class_property :mass, default: 1.0
 
 		attr_reader :angle
 
@@ -33,6 +32,10 @@ module ShooterTest
 			correct_drive_index
 		end
 
+		def correct_shapes
+
+		end
+
 		def select_drive(index)
 			@drive_index = index
 			correct_drive_index
@@ -44,8 +47,9 @@ module ShooterTest
 		end
 
 		def rotate(angle_difference)
-			@angle += angle_difference
-			@sprites[0].rotation += angle_difference
+			@angle += angle_difference * SDC.game.dt
+			@sprites[0].rotation += angle_difference * SDC.game.dt
+			correct_shapes
 		end
 
 		def boost
@@ -80,7 +84,7 @@ module ShooterTest
 		end
 
 		def custom_physics
-			# TODO: Include collision physics here
+			SDC.scene.check_collisions(self)
 		end
 
 		def has_max_speed
@@ -89,6 +93,17 @@ module ShooterTest
 
 		def update_shapes
 			
+		end
+
+		def at_entity_collision(other_entity, hurtshape, hitshape)
+			dv = @velocity - other_entity.velocity
+			dx = @position - other_entity.position
+			
+			reduced_mass = 2.0 * other_entity.mass / (other_entity.mass + self.mass)
+			@velocity = @velocity - dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
+
+			reduced_mass = 2.0 * self.mass / (other_entity.mass + self.mass)
+			other_entity.velocity = other_entity.velocity + dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
 		end
 
 	end
