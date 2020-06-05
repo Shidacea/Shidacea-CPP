@@ -2,7 +2,7 @@ module ShooterTest
 	class IonDrive < Drive
 
 		self.boost = 0.05
-		self.max_speed = 100.0
+		self.max_speed = 250.0
 		self.brake = 0.05
 		self.friction = 0.005
 

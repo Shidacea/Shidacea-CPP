@@ -21,7 +21,7 @@ module ShooterTest
 		end
 
 		def heat_percentage
-			return @heat_level / self.heat_threshold
+			return (@heat_level / self.heat_threshold).clamp(0, 1)
 		end
 
 		def run
