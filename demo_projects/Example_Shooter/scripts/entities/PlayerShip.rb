@@ -8,9 +8,6 @@ module ShooterTest
 		add_shape(index: 0, type: SDC::CollisionShapeTriangle, offset: SDC.xy(20, 0), origin: SDC.xy(20, 30), side_a: SDC.xy(20, 60), side_b: SDC.xy(-20, 60))
 		add_box(index: 0, size: SDC.xy(60.0, 60.0), offset: SDC.xy(0.0, 0.0), origin: SDC.xy(20, 30))
 
-		set_hitshape(index: 0, shape_index: 0, damage: 3)
-		set_hurtshape(index: 0, shape_index: 0)
-
 		self.drive = :CombustionDrive
 
 		def correct_shapes

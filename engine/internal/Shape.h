@@ -11,7 +11,7 @@ auto y1 = pos1.y; \
 auto x2 = pos2.x; \
 auto y2 = pos2.y
 
-#define DEFINE_COLLISION(type1, type2) template <> bool check_collision(type1 shape1, type2 shape2, sf::Vector2f pos1, sf::Vector2f pos2)
+#define DEFINE_COLLISION(type1, type2) template <> bool check_collision(const type1& shape1, const type2& shape2, const sf::Vector2f& pos1, const sf::Vector2f& pos2)
 
 //! TODO: The collision routines are probably not adjusted to scaling yet.
 //! TODO: Find a general approach to do this.
@@ -128,7 +128,7 @@ enum class ShapeType {
 
 };
 
-template <class T1, class T2> bool check_collision(T1 shape1, T2 shape2, sf::Vector2f pos1, sf::Vector2f pos2);
+template <class T1, class T2> bool check_collision(const T1& shape1, const T2& shape2, const sf::Vector2f& pos1, const sf::Vector2f& pos2);
 
 ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape);
 

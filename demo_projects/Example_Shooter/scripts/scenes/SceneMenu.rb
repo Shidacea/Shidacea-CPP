@@ -82,11 +82,20 @@ module ShooterTest
 			@particles.push(particle)
 		end
 
-		def check_collisions(obj)
+		def check_collisions
 			0.upto(@asteroids.size - 1) do |i|
-				next if !obj.test_box_collision_with(@asteroids[i])
-				obj.each_colliding_action_shape(@asteroids[i]) do |hurtshape, hitshape|
-					obj.collision_with_entity(@asteroids[i], hurtshape, hitshape)
+				(i + 1).upto(@asteroids.size - 1) do |j|
+					next if !@asteroids[i].test_box_collision_with(@asteroids[j])
+					if @asteroids[i].test_shape_collision_with(@asteroids[j]) then
+						@asteroids[i].collision_with_entity(@asteroids[j], nil, nil)
+						@asteroids[j].collision_with_entity(@asteroids[i], nil, nil)
+					end
+				end
+				if @player_ship.test_box_collision_with(@asteroids[i]) then
+					if @player_ship.test_shape_collision_with(@asteroids[i]) then
+						@asteroids[i].collision_with_entity(@player_ship, nil, nil)
+						@player_ship.collision_with_entity(@asteroids[i], nil, nil)
+					end
 				end
 			end
 		end
@@ -115,6 +124,7 @@ module ShooterTest
 			end
 
 			@asteroids.each {|asteroid| asteroid.update}
+			SDC.scene.check_collisions
 		end
 
 	end

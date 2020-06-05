@@ -30,6 +30,21 @@ module SDC
 		return Coordinates.new(x, y)
 	end
 
+	XY0 = self.xy(0.0, 0.0).freeze
+
+	COLOR_RED = SDC::Color.new(255, 0, 0, 255).freeze
+	COLOR_GREEN = SDC::Color.new(0, 255, 0, 255).freeze
+	COLOR_BLUE = SDC::Color.new(0, 0, 255, 255).freeze
+
+	COLOR_BLACK = SDC::Color.new(0, 0, 0, 255).freeze
+	COLOR_WHITE = SDC::Color.new(255, 255, 255, 255).freeze
+
+	COLOR_TRANSPARENT = SDC::Color.new(0, 0, 0, 0).freeze
+
+	COLOR_YELLOW = SDC::Color.new(255, 255, 0, 255).freeze
+	COLOR_CYAN = SDC::Color.new(0, 255, 255, 255).freeze
+	COLOR_MAGENTA = SDC::Color.new(255, 0, 255, 255).freeze
+
 	def self.window
 		return @window
 	end

@@ -4,21 +4,13 @@
 
 ShapeType get_type_of_ruby_shape(mrb_state* mrb, mrb_value ruby_shape) {
 
-	static auto ruby_class_shape_point = MrbWrap::get_class_info_ptr<ShapePoint>();
-	static auto ruby_class_shape_line = MrbWrap::get_class_info_ptr<ShapeLine>();
-	static auto ruby_class_shape_circle = MrbWrap::get_class_info_ptr<ShapeCircle>();
-	static auto ruby_class_shape_box = MrbWrap::get_class_info_ptr<ShapeBox>();
-	static auto ruby_class_shape_triangle = MrbWrap::get_class_info_ptr<ShapeTriangle>();
-	static auto ruby_class_shape_quadrangle = MrbWrap::get_class_info_ptr<ShapeQuadrangle>();
-	static auto ruby_class_shape_ellipse = MrbWrap::get_class_info_ptr<ShapeEllipse>();
-
-	if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_point)) return ShapeType::Point;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_line)) return ShapeType::Line;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_circle)) return ShapeType::Circle;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_box)) return ShapeType::Box;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_triangle)) return ShapeType::Triangle;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_quadrangle)) return ShapeType::Quadrangle;
-	else if (mrb_obj_is_instance_of(mrb, ruby_shape, ruby_class_shape_ellipse)) return ShapeType::Ellipse;
+	if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapePoint>())) return ShapeType::Point;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapeLine>())) return ShapeType::Line;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapeCircle>())) return ShapeType::Circle;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapeBox>())) return ShapeType::Box;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapeTriangle>())) return ShapeType::Triangle;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapeQuadrangle>())) return ShapeType::Quadrangle;
+	else if (mrb_obj_is_instance_of(mrb, ruby_shape, MrbWrap::get_class_info_ptr<ShapeEllipse>())) return ShapeType::Ellipse;
 	else return ShapeType::Unknown;
 
 }

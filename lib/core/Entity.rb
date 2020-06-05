@@ -246,7 +246,9 @@ module SDC
 		def physics
 			accelerate(SDC.game.gravity * self.gravity_multiplier)
 
-			self.physics_split.times do 
+			self.physics_split.times do
+				custom_pre_physics
+
 				@velocity += @acceleration * SDC.game.dt * self.physics_split_step
 				@position += @velocity * SDC.game.dt * self.physics_split_step
 
@@ -255,6 +257,10 @@ module SDC
 
 			@acceleration.x = 0.0
 			@acceleration.y = 0.0
+		end
+
+		def custom_pre_physics
+			
 		end
 
 		def custom_physics

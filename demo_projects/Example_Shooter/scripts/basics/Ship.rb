@@ -8,6 +8,7 @@ module ShooterTest
 		self.define_class_property :drive, default: :CombustionDrive
 		self.define_class_property :z, default: Z_SHIP
 		self.define_class_property :mass, default: 1.0
+		self.define_class_property :invincibility_time, default: 90.0
 
 		attr_reader :angle
 
@@ -17,6 +18,8 @@ module ShooterTest
 			add_drive(self.drive)
 
 			@drive_index = 0
+
+			@invicibility = false
 		end
 
 		def selected_drive
@@ -81,11 +84,19 @@ module ShooterTest
 			@drives.each do |drive|
 				drive.update
 			end
+
+			if @invincibility then
+				@sprites[0].color = SDC::COLOR_TRANSPARENT if @invincibility % 4 < 2
+				@sprites[0].color = SDC::COLOR_WHITE if @invincibility % 4 >= 2
+				@invincibility -= SDC.game.dt
+				if @invincibility <= 0 then
+					@invincibility = false
+				end
+			else	
+				@sprites[0].color = SDC::COLOR_WHITE
+			end
 		end
 
-		def custom_physics
-			SDC.scene.check_collisions(self)
-		end
 
 		def has_max_speed
 			return @velocity.squared_norm >= selected_drive.max_speed
@@ -96,14 +107,18 @@ module ShooterTest
 		end
 
 		def at_entity_collision(other_entity, hurtshape, hitshape)
+			return if @invincibility
 			dv = @velocity - other_entity.velocity
 			dx = @position - other_entity.position
 			
 			reduced_mass = 2.0 * other_entity.mass / (other_entity.mass + self.mass)
-			@velocity = @velocity - dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
+			@new_velocity = @velocity - dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
+			@invincibility = self.invincibility_time
+		end
 
-			reduced_mass = 2.0 * self.mass / (other_entity.mass + self.mass)
-			other_entity.velocity = other_entity.velocity + dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
+		def custom_pre_physics
+			@velocity = @new_velocity if @new_velocity
+			@new_velocity = nil
 		end
 
 	end
