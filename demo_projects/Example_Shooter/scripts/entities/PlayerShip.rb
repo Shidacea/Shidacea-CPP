@@ -9,6 +9,7 @@ module ShooterTest
 		add_box(index: 0, size: SDC.xy(60.0, 60.0), offset: SDC.xy(0.0, 0.0), origin: SDC.xy(20, 30))
 
 		self.drive = :CombustionDrive
+		self.shield = :PhaseShield
 
 		def correct_shapes
 			cos = Math::cos(@angle / 180.0 * Math::PI)

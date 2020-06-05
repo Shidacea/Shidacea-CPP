@@ -42,6 +42,7 @@
 		"scripts/ShooterTest.rb",
 		"scripts/basics/",
 		"scripts/drives/",
+		"scripts/shields/",
 		"scripts/scenes/",
 		"scripts/entities/",
 		"scripts/Game.rb",

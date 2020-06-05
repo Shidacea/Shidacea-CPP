@@ -21,7 +21,7 @@ module ShooterTest
 		end
 
 		def run
-			@heat_level += self.heating_rate
+			@heat_level += self.heating_rate * SDC.game.dt
 			if @heat_level >= self.heat_threshold then
 				@overheated = true
 			end
@@ -29,8 +29,8 @@ module ShooterTest
 		end
 
 		def idle
-			@heat_level -= self.cooldown_rate
-			if @heat_level < self.cooldown_rate then
+			@heat_level -= self.cooldown_rate * SDC.game.dt
+			if @heat_level < self.cooldown_heat then
 				@overheated = false
 			end
 			@heat_level = 0 if @heat_level < 0

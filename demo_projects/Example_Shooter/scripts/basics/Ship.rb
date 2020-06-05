@@ -6,6 +6,7 @@ module ShooterTest
 		self.define_class_property :shield, default: 0
 		self.define_class_property :weapon, default: nil
 		self.define_class_property :drive, default: :CombustionDrive
+		self.define_class_property :shields, default: :PhaseShield
 		self.define_class_property :z, default: Z_SHIP
 		self.define_class_property :mass, default: 1.0
 		self.define_class_property :invincibility_time, default: 90.0
@@ -14,20 +15,31 @@ module ShooterTest
 
 		def at_init
 			@angle = 0.0
+			
 			@drives = []
+			@shields = []
+
 			add_drive(self.drive)
+			add_shield(self.shield)
 
 			@drive_index = 0
-
-			@invicibility = false
+			@shield_index = 0
 		end
 
 		def selected_drive
 			return @drives[@drive_index]
 		end
 
+		def selected_shield
+			return @shields[@shield_index]
+		end
+
 		def add_drive(drive_symbol)
 			@drives.push(ShooterTest.const_get(drive_symbol).new)
+		end
+
+		def add_shield(shield_symbol)
+			@shields.push(ShooterTest.const_get(shield_symbol).new)
 		end
 
 		def rotate_drive(diff)
@@ -85,14 +97,14 @@ module ShooterTest
 				drive.update
 			end
 
-			if @invincibility then
-				@sprites[0].color = SDC::COLOR_TRANSPARENT if @invincibility % 4 < 2
-				@sprites[0].color = SDC::COLOR_WHITE if @invincibility % 4 >= 2
-				@invincibility -= SDC.game.dt
-				if @invincibility <= 0 then
-					@invincibility = false
-				end
-			else	
+			@shields.each do |shield|
+				shield.update
+			end
+
+			if selected_shield.invincibility then
+				@sprites[0].color = SDC::COLOR_TRANSPARENT if selected_shield.invincibility % 4 < 2
+				@sprites[0].color = SDC::COLOR_WHITE if selected_shield.invincibility % 4 >= 2
+			else
 				@sprites[0].color = SDC::COLOR_WHITE
 			end
 		end
@@ -107,13 +119,15 @@ module ShooterTest
 		end
 
 		def at_entity_collision(other_entity, hurtshape, hitshape)
-			return if @invincibility
+			return if selected_shield.invincibility
+
 			dv = @velocity - other_entity.velocity
 			dx = @position - other_entity.position
 			
 			reduced_mass = 2.0 * other_entity.mass / (other_entity.mass + self.mass)
 			@new_velocity = @velocity - dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
-			@invincibility = self.invincibility_time
+
+			selected_shield.hit
 		end
 
 		def custom_pre_physics
