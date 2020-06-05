@@ -5,5 +5,6 @@ module ShooterTest
 	Z_SHIP = 2
 	Z_PARTICLE = 3
 	Z_MINIMAP = 4
+	Z_BAR = 5
 
 end

@@ -37,6 +37,10 @@ module ShooterTest
 			@asteroids.push(Asteroid.new)
 			@asteroids[1].position = SDC.xy(500, 500)
 			@asteroids[1].velocity = SDC.xy(-1 * SDC.game.dt, -1 * SDC.game.dt)
+
+			@bar_heat = SDC::DrawShapeRectangle.new
+			@bar_heat.origin = SDC.xy(0, 200)
+			@bar_heat.size = SDC.xy(25, 200)
 		end
 
 		def draw
@@ -48,6 +52,15 @@ module ShooterTest
 				@asteroids.each {|asteroid| asteroid.draw(SDC.window)}
 				@particles.each {|particle| particle.draw(SDC.window)}
 			end
+
+			heat_percent = @player_ship.selected_drive.heat_percentage
+			@bar_heat.scale = SDC.xy(1.0, heat_percent)
+			if @player_ship.selected_drive.overheated then
+				@bar_heat.fill_color = SDC::Color.new(255 * heat_percent, 255 - 255 * heat_percent, 0, 255)
+			else
+				@bar_heat.fill_color = SDC::Color.new(255 * heat_percent, 0, 255 - 255 * heat_percent, 255)
+			end
+			SDC.window.draw_translated(@bar_heat, Z_BAR, SDC.xy(25, 225))
 
 			minimap_shape = SDC::DrawShapeRectangle.new
 			minimap_shape.size = SDC.xy(SDC.draw_width * 0.2, SDC.draw_height * 0.2)

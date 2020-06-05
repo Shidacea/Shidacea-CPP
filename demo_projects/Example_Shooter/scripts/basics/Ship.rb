@@ -1,6 +1,6 @@
 module ShooterTest
 	class Ship < SDC::Entity
-	
+
 		# Define new properties
 		self.define_class_property :health, default: 0
 		self.define_class_property :shield, default: 0
@@ -71,10 +71,7 @@ module ShooterTest
 			unless selected_drive.overheated then
 				accelerate(direction * selected_drive.boost)
 				selected_drive.run
-
-				unless has_max_speed then
-					selected_drive.generate_particles(self)
-				end
+				selected_drive.generate_particles(self)
 			end
 		end
 

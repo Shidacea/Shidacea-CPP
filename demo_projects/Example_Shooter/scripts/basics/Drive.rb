@@ -20,6 +20,10 @@ module ShooterTest
 			@running = false
 		end
 
+		def heat_percentage
+			return @heat_level / self.heat_threshold
+		end
+
 		def run
 			@heat_level += self.heating_rate * SDC.game.dt
 			if @heat_level >= self.heat_threshold then
