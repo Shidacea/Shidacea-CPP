@@ -1,5 +1,6 @@
 module ShooterTest
 	class IonDrive < Drive
+		self.identification = 1
 
 		self.boost = 0.05
 		self.max_speed = 250.0

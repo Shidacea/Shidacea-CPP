@@ -1,5 +1,6 @@
 module ShooterTest
 	class SubspaceDrive < Drive
+		self.identification = 7
 
 		self.boost = 0.5
 		self.max_speed = 10000.0

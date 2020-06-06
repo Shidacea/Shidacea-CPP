@@ -1,5 +1,6 @@
 module ShooterTest
 	class WarpDrive < Drive
+		self.identification = 5
 
 		self.boost = 0.75
 		self.max_speed = 500.0

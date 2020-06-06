@@ -1,5 +1,6 @@
 module ShooterTest
 	class ImpulseDrive < Drive
+		self.identification = 2
 
 		self.boost = 0.5
 		self.max_speed = 300.0

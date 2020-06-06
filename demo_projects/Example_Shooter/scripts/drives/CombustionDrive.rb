@@ -1,5 +1,6 @@
 module ShooterTest
 	class CombustionDrive < Drive
+		self.identification = 0
 
 		self.boost = 0.2
 		self.max_speed = 100.0

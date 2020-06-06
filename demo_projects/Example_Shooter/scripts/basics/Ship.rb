@@ -11,7 +11,7 @@ module ShooterTest
 		self.define_class_property :mass, default: 1.0
 		self.define_class_property :invincibility_time, default: 90.0
 
-		attr_reader :angle
+		attr_reader :angle, :drives, :shields
 
 		def at_init
 			@angle = 0.0

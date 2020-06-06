@@ -1,5 +1,6 @@
 module ShooterTest
 	class DisplacementDrive < Drive
+		self.identification = 4
 
 		self.boost = 1.0
 		self.max_speed = 200.0

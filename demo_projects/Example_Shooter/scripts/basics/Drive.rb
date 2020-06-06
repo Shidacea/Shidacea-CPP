@@ -14,6 +14,8 @@ module ShooterTest
 		self.define_class_property(:cooldown_heat, default: 0.0)
 		self.define_class_property(:cooldown_rate, default: 0.0)
 
+		self.define_class_property(:identification, default: 0)
+
 		def initialize
 			@heat_level = 0
 			@overheated = false

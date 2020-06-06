@@ -1,5 +1,6 @@
 module ShooterTest
 	class HyperDrive < Drive
+		self.identification = 6
 
 		self.boost = 20.0
 		self.max_speed = 5000.0

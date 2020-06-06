@@ -1,5 +1,6 @@
 module ShooterTest
 	class QuantumDrive < Drive
+		self.identification = 8
 
 		self.boost = 5000.0
 		self.max_speed = 10.0

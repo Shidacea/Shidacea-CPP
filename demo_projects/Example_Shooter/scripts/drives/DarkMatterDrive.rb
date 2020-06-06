@@ -1,5 +1,6 @@
 module ShooterTest
 	class DarkMatterDrive < Drive
+		self.identification = 3
 
 		self.boost = 0.5
 		self.max_speed = 250.0
