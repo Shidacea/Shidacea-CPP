@@ -135,9 +135,13 @@ The elements in this roadmap are only for orientation and are likely to change i
 * Collision test example [Done]
 * Shooter example project [Worked on]
 
+### Version 0.2.1
+* Automated release builds
+* Documentation page
+
 ## Version 0.3.0 - Dynamics update (Late summer 2020)
 * Animations
-* Rotation methods for triangles
+* More transformations (like rotation methods for triangles)
 * Basic GUI methods
 * Sound looping
 * Ellipse shape support
