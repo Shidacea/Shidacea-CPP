@@ -24,6 +24,8 @@ module ShooterTest
 
 			@drive_index = 0
 			@shield_index = 0
+
+			@new_velocity_diff = SDC.xy
 		end
 
 		def selected_drive
@@ -122,14 +124,14 @@ module ShooterTest
 			dx = @position - other_entity.position
 			
 			reduced_mass = 2.0 * other_entity.mass / (other_entity.mass + self.mass)
-			@new_velocity = @velocity - dx * reduced_mass * (dv.dot(dx) / dx.squared_norm)
+			@new_velocity_diff += dx * reduced_mass * (-dv.dot(dx) / dx.squared_norm)
 
 			selected_shield.hit
 		end
 
 		def custom_pre_physics
-			@velocity = @new_velocity if @new_velocity
-			@new_velocity = nil
+			@velocity += @new_velocity_diff
+			@new_velocity_diff = SDC.xy
 		end
 
 	end
