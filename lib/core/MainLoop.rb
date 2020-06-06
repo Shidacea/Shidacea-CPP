@@ -2,6 +2,13 @@
 # It can be used in its current form or it can be modified
 
 module SDC
+
+	# Main routine as an entry point for the Shidacea engine
+	# @param game_class [Class] The class for the game data
+	# @param title [String] Title of the window
+	# @param width [Fixnum] Width of the window
+	# @param height [Fixnum] Height of the window
+	# @param limiter [SDC::Limiter] Can be set to an instance of {SDC::Limiter}
 	def self.main_routine(scene_class, game_class: nil, title: "", width: 800, height: 600, limiter: nil)
 
 		begin
