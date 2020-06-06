@@ -1,7 +1,6 @@
 # Framerate limiter
 
 module SDC
-
 	class Limiter
 
 		attr_reader :max, :renders_per_second, :ticks_per_second, :gc_per_second

@@ -10,7 +10,6 @@ module SDCMeta
 
 			instance_variable_set("@#{plural}", (as_hash ? {} : []))
 			data = instance_variable_get("@#{plural}")
-
 			define_singleton_method("add_#{name}") do |obj, index: nil|
 				if !index then
 					if as_hash then

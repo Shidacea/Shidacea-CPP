@@ -14,8 +14,8 @@ module SDC
 	C_ESCAPE = "\e"
 	C_CTRL_BACK = "\x7F"
 
-	# Empty coordinate vector
-
+	# Empty {SDC::Coordinates} object as a constant
+	# Using this might save time on functions needing a constant vector
 	XY0 = SDC::Coordinates.new(0.0, 0.0).freeze
 
 	# Colors
