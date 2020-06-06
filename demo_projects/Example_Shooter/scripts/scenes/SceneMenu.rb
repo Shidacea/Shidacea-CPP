@@ -30,6 +30,7 @@ module ShooterTest
 			@player_ship.add_drive(:IonDrive)
 			@player_ship.add_drive(:DisplacementDrive)
 			@player_ship.add_drive(:WarpDrive)
+			@player_ship.add_drive(:SubspaceDrive)
 
 			@asteroids.push(Asteroid.new)
 			@asteroids[0].position = SDC.xy(0, 0)

@@ -71,7 +71,9 @@ module ShooterTest
 
 		def boost
 			unless selected_drive.overheated then
-				accelerate(direction * selected_drive.boost)
+				unless has_max_speed then
+					accelerate(direction * selected_drive.boost)
+				end
 				selected_drive.run
 				selected_drive.generate_particles(self)
 			end
