@@ -7,7 +7,7 @@
 
 <img src="https://img.shields.io/github/license/Hadeweka/Shidacea"> 
 
-What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasion 2.
+What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasion 2. It can be used for rapid development and full applications.
 
 This repository is an engine, a template for game projects and also a launcher for custom projects.
 Depending on your level of knowledge and desire to mess around with my code, you can do several things:
@@ -120,55 +120,56 @@ Note that any version below 1.0.0 is a development version and will likely conta
 The elements in this roadmap are only for orientation and are likely to change in the future.
 
 ## Version 0.2.0 - Drawing update (June 2020)
-* Entirely new engine structure [Done]
-* Z-Ordering [Done]
-* Unicode support [Done]
-* Arbitrary project structures for compilation [Done]
-* Collision routines for points, lines, circles, AABBs and triangles [Done]
-* Marshalling support for basic objects [Done]
-* Basic text input fields [Done]
-* Filters for Launshi [Done]
-* Debug routines [Done]
-* Better resource management [Done]
-* Shape drawing [Done]
-* Launshi info window with description and (one) screenshot [Done]
-* Collision test example [Done]
-* Shooter example project [Worked on]
+* [x] Entirely new engine structure
+* [x] Z-Ordering
+* [x] Unicode support
+* [x] Arbitrary project structures for compilation
+* [x] Collision routines for points, lines, circles, AABBs and triangles
+* [x] Marshalling support for basic objects
+* [x] Basic text input fields
+* [x] Filters for Launshi
+* [x] Debug routines
+* [x] Better resource management
+* [x] Shape drawing
+* [x] Launshi info window with description and (one) screenshot
+* [x] Collision test example
+* [ ] Shooter example project
 
 ### Version 0.2.1
-* Automated release builds
-* Documentation page
+* [ ] Automated release builds
+* [ ] Documentation page
 
 ## Version 0.3.0 - Dynamics update (Late summer 2020)
-* Animations
-* More transformations (like rotation methods for triangles)
-* Basic GUI methods
-* Sound looping
-* Ellipse shape support
-* Point drawing
-* Particle system
-* Installation script
-* Dedicated file specifying asset folders
-* Keyword filters for Launshi
-* Better mod support
+* [ ] Animations
+* [ ] More transformations (like rotation methods for triangles)
+* [ ] Basic GUI methods
+* [ ] Sound looping
+* [ ] Ellipse shape support
+* [ ] Point drawing
+* [ ] Particle system
+* [ ] Installation script
+* [ ] Dedicated file specifying asset folders
+* [ ] Keyword filters for Launshi
+* [ ] Better mod support
 
 ## Version 0.4.0 - Map update (Late 2020)
-* Full map support
-* A special level editor written using this engine (will be called Hyashi)
-* Hyashi plugin support
+* [ ] Full map support
+* [ ] A special level editor written using this engine (will be called Hyashi)
+* [ ] Hyashi plugin support
 
 ## Version 0.5.0 - Network update (Early 2021)
-* Actually useful network support
+* [ ] Actually useful network support
 
 ## Version 1.0.0 - Full release
-* Full release
-* More example projects
+* [ ] Full release
+* [ ] More example projects
 
 ## Possible features in future versions
-* WYSIWYG-type game editor feature for Hyashi
-* Resource packages
-* Shader support
-* Support for arbitrary shape transformations for collisions
+* [ ] WYSIWYG-type game editor feature for Hyashi
+* [ ] Alternative implementation in Crystal, compatible with Hyashi 
+* [ ] Resource packages
+* [ ] Shader support
+* [ ] Support for arbitrary shape transformations for collisions
 
 # Caveats
 
