@@ -10,6 +10,7 @@ module ShooterTest
 
 		self.drive = :CombustionDrive
 		self.shield = :PhaseShield
+		self.max_health = 100
 
 		def correct_shapes
 			cos = Math::cos(@angle / 180.0 * Math::PI)

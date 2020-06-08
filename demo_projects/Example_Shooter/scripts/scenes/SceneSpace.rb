@@ -44,6 +44,9 @@ module ShooterTest
 			@bar_heat = SDC::DrawShapeRectangle.new
 			@bar_heat.origin = SDC.xy(0, 200)
 			@bar_heat.size = SDC.xy(25, 200)
+
+			@bar_health = SDC::DrawShapeRectangle.new
+			@bar_health.size = SDC.xy(310, 25)
 		end
 
 		def load_assets
@@ -67,9 +70,9 @@ module ShooterTest
 			heat_percent = @player_ship.selected_drive.heat_percentage
 			@bar_heat.scale = SDC.xy(1.0, heat_percent)
 			if @player_ship.selected_drive.overheated then
-				@bar_heat.fill_color = SDC::Color.new(255 * heat_percent, 255 - 255 * heat_percent, 0, 255)
+				@bar_heat.fill_color = SDC::Color.new(255 * heat_percent, 255 - 255 * heat_percent, 0)
 			else
-				@bar_heat.fill_color = SDC::Color.new(255 * heat_percent, 0, 255 - 255 * heat_percent, 255)
+				@bar_heat.fill_color = SDC::Color.new(255 * heat_percent, 0, 255 - 255 * heat_percent)
 			end
 			SDC.window.draw_translated(@bar_heat, Z_BAR, SDC.xy(25, 225))
 
@@ -80,6 +83,11 @@ module ShooterTest
 					SDC.draw_texture(index: "driveicon#{drive.identification}".to_sym, z: Z_DRIVE_ICON, scale: SDC.xy(1.5, 1.5), coordinates: SDC.xy(75 + drive.identification * 35, 5), color: SDC::Color.new(128, 128, 128, 128))
 				end
 			end
+
+			health_percent = @player_ship.health_percentage
+			@bar_health.scale = SDC.xy(health_percent, 1.0)
+			@bar_health.fill_color = SDC::Color.new(255 - 255 * health_percent, 255 * health_percent, 63 * health_percent)
+			SDC.window.draw_translated(@bar_health, Z_BAR, SDC.xy(75, 60))
 
 			minimap_shape = SDC::DrawShapeRectangle.new
 			minimap_shape.size = SDC.xy(SDC.draw_width * 0.2, SDC.draw_height * 0.2)

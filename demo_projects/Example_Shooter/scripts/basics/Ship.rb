@@ -2,7 +2,7 @@ module ShooterTest
 	class Ship < SDC::Entity
 
 		# Define new properties
-		self.define_class_property :health, default: 0
+		self.define_class_property :max_health, default: 10
 		self.define_class_property :shield, default: 0
 		self.define_class_property :weapon, default: nil
 		self.define_class_property :drive, default: :CombustionDrive
@@ -11,13 +11,15 @@ module ShooterTest
 		self.define_class_property :mass, default: 1.0
 		self.define_class_property :invincibility_time, default: 90.0
 
-		attr_reader :angle, :drives, :shields
+		attr_reader :angle, :drives, :shields, :health
 
 		def at_init
 			@angle = 0.0
 			
 			@drives = []
 			@shields = []
+
+			@health = self.max_health
 
 			add_drive(self.drive)
 			add_shield(self.shield)
@@ -128,12 +130,28 @@ module ShooterTest
 			reduced_mass = 2.0 * other_entity.mass / (other_entity.mass + self.mass)
 			@new_velocity_diff += dx * reduced_mass * (-dv.dot(dx) / dx.squared_norm)
 
+			damage(rand(10))
+
 			selected_shield.hit
 		end
 
 		def custom_pre_physics
 			@velocity += @new_velocity_diff
 			@new_velocity_diff = SDC.xy
+		end
+
+		def heal(value)
+			@health += value
+			@health = @health.clamp(0, self.max_health)
+		end
+
+		def damage(value)
+			@health -= value
+			@health = @health.clamp(0, self.max_health)
+		end
+
+		def health_percentage
+			return @health / self.max_health
 		end
 
 	end
