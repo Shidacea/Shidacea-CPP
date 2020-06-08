@@ -166,7 +166,7 @@ The elements in this roadmap are only for orientation and are likely to change i
 
 ## Possible features in future versions
 * [ ] WYSIWYG-type game editor feature for Hyashi
-* [ ] Alternative implementation in Crystal, compatible with Hyashi 
+* [ ] Crystal implementation named Shipectral, compatible with Hyashi
 * [ ] Resource packages
 * [ ] Shader support
 * [ ] Support for arbitrary shape transformations for collisions
