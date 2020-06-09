@@ -3,7 +3,7 @@
 
 	"subtitle": "A shooter as a test project",
 
-	"description": "TODO",
+	"description": "A simple structure for a shooter game.\nIt is still incomplete, so feel free to complete it.\nThis might help in learning the basics of Shidacea.\nPress WASD to control the ship and QE to rotate between drives.",
 
 	"genres": [
 		"Demo",
@@ -27,7 +27,7 @@
 		"shooter"
 	],
 
-	"thumbnail": "",
+	"thumbnail": "assets/graphics/Thumbnail.png",
 
 	"screenshots": [
 		{
