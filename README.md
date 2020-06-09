@@ -119,23 +119,7 @@ Note that any version below 1.0.0 is a development version and will likely conta
 
 The elements in this roadmap are only for orientation and are likely to change in the future.
 
-## Version 0.2.0 - Drawing update (June 2020)
-* [x] Entirely new engine structure
-* [x] Z-Ordering
-* [x] Unicode support
-* [x] Arbitrary project structures for compilation
-* [x] Collision routines for points, lines, circles, AABBs and triangles
-* [x] Marshalling support for basic objects
-* [x] Basic text input fields
-* [x] Filters for Launshi
-* [x] Debug routines
-* [x] Better resource management
-* [x] Shape drawing
-* [x] Launshi info window with description and (one) screenshot
-* [x] Collision test example
-* [ ] Shooter example project
-
-### Version 0.2.1
+## Version 0.2.1 (Summer 2020)
 * [ ] Automated release builds
 * [ ] Documentation page
 
@@ -170,6 +154,24 @@ The elements in this roadmap are only for orientation and are likely to change i
 * [ ] Resource packages
 * [ ] Shader support
 * [ ] Support for arbitrary shape transformations for collisions
+
+# History
+
+## Version 0.2.0
+* Entirely new engine structure
+* Z-Ordering
+* Unicode support
+* Arbitrary project structures for compilation
+* Collision routines for points, lines, circles, AABBs and triangles
+* Marshalling support for basic objects
+* Basic text input fields
+* Filters for Launshi
+* Debug routines
+* Better resource management
+* Shape drawing
+* Launshi info window with description and (one) screenshot
+* Collision test example
+* Shooter example project
 
 # Caveats
 
