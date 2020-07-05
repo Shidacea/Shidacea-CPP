@@ -13,10 +13,10 @@
 	url = https://github.com/eliasdaler/imgui-sfml
 [submodule "third_party/Launshi"]
 	path = third_party/Launshi
-	url = https://github.com/Hadeweka/Launshi
+	url = https://github.com/Shidacea/Launshi
 [submodule "third_party/Collishi"]
 	path = third_party/Collishi
-	url = https://github.com/Hadeweka/Collishi
+	url = https://github.com/Shidacea/Collishi
 [submodule "third_party/MrbWrap"]
 	path = third_party/MrbWrap
-	url = https://github.com/Hadeweka/MrbWrap
+	url = https://github.com/Shidacea/MrbWrap
