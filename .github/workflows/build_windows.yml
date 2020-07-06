@@ -42,3 +42,13 @@ jobs:
     - name: Run
       run: |
         build/Launshi.exe --version
+      
+    - name: Install7z
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+      
+    - name: Zip
+      run: |
+        7z a Launshi_win_x64 Launshi.exe *.dll third_party/assets/**.*
+        echo %GITHUB_REF%
+        
