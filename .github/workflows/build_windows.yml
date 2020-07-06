@@ -53,7 +53,6 @@ jobs:
         dir
         7z a Launshi_win_x64.zip Launshi.exe *.dll -r third_party/Launshi/assets/* demo_projects/*
         echo a ${GITHUB_REF}
-        echo b ${{ GITHUB_REF }}
         
     - name: Upload
       uses: actions/upload-artifact@v2
