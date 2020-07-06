@@ -51,6 +51,6 @@ jobs:
       run: |
         cd build
         dir
-        7z a Launshi_win_x64 Launshi.exe *.dll third_party/assets/**.*
+        7z a Launshi_win_x64 Launshi.exe *.dll third_party/Launshi/assets/**.*
         echo %GITHUB_REF%
         
