@@ -58,5 +58,5 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: Launshi_win_x64
-        path: build/Launshi_win_x64.zip
+        path: Launshi_win_x64.zip
         
