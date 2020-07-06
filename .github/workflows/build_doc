@@ -1,0 +1,50 @@
+name: BuildDoc
+
+on:
+  push:
+    branches:
+      - actions-test
+  release:
+    types: [published, created, edited, prereleased]
+
+jobs:
+
+  prerequisites:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deps
+      run: |
+        sudo apt update
+        sudo apt install -y ruby
+    
+    - name: Build
+      run: |
+        git submodule init
+        git submodule update --recursive
+        
+    - name: Run
+      run: |
+        build/Launshi --version
+        
+  doc:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate
+        run: |
+          sudo gem install yard
+          yard -o docs
+          cd docs
+          ls
+          
+      - name: Deployment
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          
