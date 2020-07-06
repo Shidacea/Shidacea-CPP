@@ -35,7 +35,7 @@ jobs:
         mkdir build
         cd build
         
-        cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_COMPILER="cl" -DCMAKE_C_COMPILER="cl" ..
+        cmake -G Ninja -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_COMPILER="cl" -DCMAKE_C_COMPILER="cl" -DSHIDACEA_COMPILE_SDCLIB=ON -DSHIDACEA_COMPILE_FRONTEND=ON ..
         
         ninja -v
         
