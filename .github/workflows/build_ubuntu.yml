@@ -53,23 +53,3 @@ jobs:
     - name: Run
       run: |
         build/Launshi --version
-        
-  doc:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Generate
-        run: |
-          sudo gem install yard
-          yard -o docs
-          cd docs
-          ls
-          
-      - name: Deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          
