@@ -62,7 +62,7 @@ jobs:
 
       - name: Generate
         run: |
-          gem install yard
+          sudo gem install yard
           yard -o docs
           cd docs
           ls
