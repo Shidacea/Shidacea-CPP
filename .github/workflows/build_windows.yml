@@ -42,3 +42,20 @@ jobs:
     - name: Run
       run: |
         build/Launshi.exe --version
+      
+    - name: Install7z
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+      
+    - name: Zip
+      run: |
+        cd build
+        dir
+        7z a Launshi_win_x64.zip Launshi.exe *.dll -r third_party/Launshi/assets/* demo_projects/*
+        
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Launshi
+        path: build/Launshi_win_x64.zip
+        
