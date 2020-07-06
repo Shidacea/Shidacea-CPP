@@ -51,6 +51,12 @@ jobs:
       run: |
         cd build
         dir
-        7z a Launshi_win_x64 Launshi.exe *.dll third_party/Launshi/assets/**.*
-        echo %GITHUB_REF%
+        7z a Launshi_win_x64 Launshi.exe *.dll third_party/Launshi/assets/**.* demo_projects/**.*
+        echo %%GITHUB_REF%%
+        
+    - name: Upload
+      uses: actions/upload-artifact@v1
+      with:
+        name: Launshi_win_x64
+        path: build/Launshi_win_x64.zip
         
