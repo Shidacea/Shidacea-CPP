@@ -120,8 +120,9 @@ Note that any version below 1.0.0 is a development version and will likely conta
 The elements in this roadmap are only for orientation and are likely to change in the future.
 
 ## Version 0.2.1 (Summer 2020)
-* [ ] Automated release builds
-* [ ] Documentation page
+* [X] Automated release builds
+* [X] Documentation page
+* [ ] More elaborate documentation
 
 ## Version 0.3.0 - Dynamics update (Late summer 2020)
 * [ ] Animations
