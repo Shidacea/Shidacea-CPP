@@ -5,6 +5,7 @@
 
 ![Release](https://img.shields.io/github/v/release/Shidacea/Shidacea)
 ![ReleaseDate](https://img.shields.io/github/release-date/Shidacea/Shidacea)
+
 ![License](https://img.shields.io/github/license/Shidacea/Shidacea)
 
 What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasion 2. It can be used for rapid development and full applications.
