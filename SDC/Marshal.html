@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: SDC::Marshal
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SDC::Marshal";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (M)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span>
+     &raquo; 
+    <span class="title">Marshal</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: SDC::Marshal
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/core/Marshal.rb</dd>
+  </dl>
+  
+</div>
+
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="INDICATOR_NIL-constant" class="">INDICATOR_NIL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_TRUE-constant" class="">INDICATOR_TRUE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>T</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_FALSE-constant" class="">INDICATOR_FALSE =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>F</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_INT-constant" class="">INDICATOR_INT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_FLOAT-constant" class="">INDICATOR_FLOAT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_ARRAY-constant" class="">INDICATOR_ARRAY =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_STRING-constant" class="">INDICATOR_STRING =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_SYMBOL-constant" class="">INDICATOR_SYMBOL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_SYMBOL_LINK-constant" class="">INDICATOR_SYMBOL_LINK =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>;</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_INSTANCE_VAR-constant" class="">INDICATOR_INSTANCE_VAR =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>I</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_HASH-constant" class="">INDICATOR_HASH =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="INDICATOR_USER_MARSHAL-constant" class="">INDICATOR_USER_MARSHAL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>U</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_symbol-class_method" title="add_symbol (class method)">.<strong>add_symbol</strong>(sym)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#convert_to_file-class_method" title="convert_to_file (class method)">.<strong>convert_to_file</strong>(value, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dump-class_method" title="dump (class method)">.<strong>dump</strong>(value, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_symbol_index-class_method" title="get_symbol_index (class method)">.<strong>get_symbol_index</strong>(sym)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init-class_method" title="init (class method)">.<strong>init</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#interpret-class_method" title="interpret (class method)">.<strong>interpret</strong>(file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load-class_method" title="load (class method)">.<strong>load</strong>(file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_byte-class_method" title="read_byte (class method)">.<strong>read_byte</strong>(file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_bytes-class_method" title="read_bytes (class method)">.<strong>read_bytes</strong>(file, n)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_integer-class_method" title="read_integer (class method)">.<strong>read_integer</strong>(file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ref_symbol-class_method" title="ref_symbol (class method)">.<strong>ref_symbol</strong>(index)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_byte-class_method" title="write_byte (class method)">.<strong>write_byte</strong>(value, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_bytes-class_method" title="write_bytes (class method)">.<strong>write_bytes</strong>(values, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_int-class_method" title="write_int (class method)">.<strong>write_int</strong>(value, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_raw_string-class_method" title="write_raw_string (class method)">.<strong>write_raw_string</strong>(value, file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_symbol-class_method">
+  
+    .<strong>add_symbol</strong>(sym)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_symbol'>add_symbol</span><span class='lparen'>(</span><span class='id identifier rubyid_sym'>sym</span><span class='rparen'>)</span>
+	<span class='ivar'>@symbols</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_sym'>sym</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="convert_to_file-class_method">
+  
+    .<strong>convert_to_file</strong>(value, file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>NilClass</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_NIL-constant" title="SDC::Marshal::INDICATOR_NIL (constant)">INDICATOR_NIL</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>TrueClass</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_TRUE-constant" title="SDC::Marshal::INDICATOR_TRUE (constant)">INDICATOR_TRUE</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>FalseClass</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_FALSE-constant" title="SDC::Marshal::INDICATOR_FALSE (constant)">INDICATOR_FALSE</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>Fixnum</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_INT-constant" title="SDC::Marshal::INDICATOR_INT (constant)">INDICATOR_INT</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>Float</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_FLOAT-constant" title="SDC::Marshal::INDICATOR_FLOAT (constant)">INDICATOR_FLOAT</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_float_string'>float_string</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_float_string'>float_string</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_raw_string'>write_raw_string</span><span class='lparen'>(</span><span class='id identifier rubyid_float_string'>float_string</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>Array</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_ARRAY-constant" title="SDC::Marshal::INDICATOR_ARRAY (constant)">INDICATOR_ARRAY</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_element'>element</span><span class='op'>|</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_element'>element</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>String</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_INSTANCE_VAR-constant" title="SDC::Marshal::INDICATOR_INSTANCE_VAR (constant)">INDICATOR_INSTANCE_VAR</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_STRING-constant" title="SDC::Marshal::INDICATOR_STRING (constant)">INDICATOR_STRING</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_raw_string'>write_raw_string</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='symbol'>:E</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>Hash</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_HASH-constant" title="SDC::Marshal::INDICATOR_HASH (constant)">INDICATOR_HASH</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_content'>content</span><span class='op'>|</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_content'>content</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'>Symbol</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_sym_index'>sym_index</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_symbol_index'>get_symbol_index</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+		<span class='kw'>if</span> <span class='id identifier rubyid_sym_index'>sym_index</span> <span class='kw'>then</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_SYMBOL_LINK-constant" title="SDC::Marshal::INDICATOR_SYMBOL_LINK (constant)">INDICATOR_SYMBOL_LINK</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_sym_index'>sym_index</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>else</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_SYMBOL-constant" title="SDC::Marshal::INDICATOR_SYMBOL (constant)">INDICATOR_SYMBOL</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_symbol'>add_symbol</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_raw_string'>write_raw_string</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_method_defined?'>method_defined?</span><span class='lparen'>(</span><span class='id identifier rubyid_marshal_dump'>marshal_dump</span><span class='rparen'>)</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="#INDICATOR_USER_MARSHAL-constant" title="SDC::Marshal::INDICATOR_USER_MARSHAL (constant)">INDICATOR_USER_MARSHAL</a></span></span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_marshal_dump'>marshal_dump</span><span class='rparen'>)</span>
+
+	<span class='kw'>else</span>
+		<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Writing of </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'> class object </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='embexpr_end'>}</span><span class='tstring_content'> not yet supported.</span><span class='tstring_end'>&quot;</span></span>
+		<span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Writing of </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'> class object </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='embexpr_end'>}</span><span class='tstring_content'> not yet supported.</span><span class='tstring_end'>&quot;</span></span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dump-class_method">
+  
+    .<strong>dump</strong>(value, file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_init'>init</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_bytes'>write_bytes</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='int'>4</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_convert_to_file'>convert_to_file</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_symbol_index-class_method">
+  
+    .<strong>get_symbol_index</strong>(sym)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_symbol_index'>get_symbol_index</span><span class='lparen'>(</span><span class='id identifier rubyid_sym'>sym</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='ivar'>@symbols</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_sym'>sym</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="init-class_method">
+  
+    .<strong>init</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_init'>init</span>
+	<span class='ivar'>@symbols</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="interpret-class_method">
+  
+    .<strong>interpret</strong>(file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_byte'>read_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_NIL-constant" title="SDC::Marshal::INDICATOR_NIL (constant)">INDICATOR_NIL</a></span></span> <span class='kw'>then</span>
+		<span class='kw'>return</span> <span class='kw'>nil</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_TRUE-constant" title="SDC::Marshal::INDICATOR_TRUE (constant)">INDICATOR_TRUE</a></span></span> <span class='kw'>then</span>
+		<span class='kw'>return</span> <span class='kw'>true</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_FALSE-constant" title="SDC::Marshal::INDICATOR_FALSE (constant)">INDICATOR_FALSE</a></span></span> <span class='kw'>then</span>
+		<span class='kw'>return</span> <span class='kw'>false</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_INT-constant" title="SDC::Marshal::INDICATOR_INT (constant)">INDICATOR_INT</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_value'>value</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_FLOAT-constant" title="SDC::Marshal::INDICATOR_FLOAT (constant)">INDICATOR_FLOAT</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_INSTANCE_VAR-constant" title="SDC::Marshal::INDICATOR_INSTANCE_VAR (constant)">INDICATOR_INSTANCE_VAR</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_has_encoding'>has_encoding</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span>
+
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+			<span class='kw'>if</span> <span class='id identifier rubyid_has_encoding'>has_encoding</span> <span class='kw'>then</span>
+				<span class='comment'># TODO: Maybe an encoding check
+</span>			<span class='kw'>else</span>
+				<span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+			<span class='kw'>end</span>
+		<span class='kw'>end</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_obj'>obj</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_STRING-constant" title="SDC::Marshal::INDICATOR_STRING (constant)">INDICATOR_STRING</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='comment'># NOTE: May not work properly with weird characters
+</span>		<span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>U*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_SYMBOL-constant" title="SDC::Marshal::INDICATOR_SYMBOL (constant)">INDICATOR_SYMBOL</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>U*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_symbol'>add_symbol</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='rparen'>)</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_SYMBOL_LINK-constant" title="SDC::Marshal::INDICATOR_SYMBOL_LINK (constant)">INDICATOR_SYMBOL_LINK</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ref_symbol'>ref_symbol</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_ARRAY-constant" title="SDC::Marshal::INDICATOR_ARRAY (constant)">INDICATOR_ARRAY</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_final_array'>final_array</span> <span class='op'>=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span>
+
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='id identifier rubyid_final_array'>final_array</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_final_array'>final_array</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_HASH-constant" title="SDC::Marshal::INDICATOR_HASH (constant)">INDICATOR_HASH</a></span></span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_final_hash'>final_hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_length'>length</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+			<span class='id identifier rubyid_final_hash'>final_hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+		<span class='kw'>end</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_final_hash'>final_hash</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_indicator'>indicator</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INDICATOR_USER_MARSHAL-constant" title="SDC::Marshal::INDICATOR_USER_MARSHAL (constant)">INDICATOR_USER_MARSHAL</a></span></span> <span class='kw'>then</span>
+		<span class='comment'># User-defined marshal_dump and marshal_load
+</span>		<span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+
+		<span class='comment'># Allocate new object of given class and initialize it using marshal_load
+</span>		<span class='id identifier rubyid_marshalled_object'>marshalled_object</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_klass'>klass</span> <span class='op'>=</span> <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_new_object'>new_object</span> <span class='op'>=</span> <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_allocate'>allocate</span>
+		<span class='id identifier rubyid_new_object'>new_object</span><span class='period'>.</span><span class='id identifier rubyid_marshal_load'>marshal_load</span><span class='lparen'>(</span><span class='id identifier rubyid_marshalled_object'>marshalled_object</span><span class='rparen'>)</span>
+
+		<span class='kw'>return</span> <span class='id identifier rubyid_new_object'>new_object</span>
+
+	<span class='kw'>else</span>
+		<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Not implemented yet: Indicator </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_indicator'>indicator</span><span class='period'>.</span><span class='id identifier rubyid_chr'>chr</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_indicator'>indicator</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+		<span class='id identifier rubyid_other_bytes'>other_bytes</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='int'>100</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Next 100 bytes: </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_other_bytes'>other_bytes</span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span>
+		<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Next 100 chars: </span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_other_bytes'>other_bytes</span><span class='period'>.</span><span class='id identifier rubyid_chars'>chars</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span>
+		<span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Terminating execution...</span><span class='tstring_end'>&quot;</span></span>
+		<span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Terminated Marshal loading due to unknown indicator </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_indicator'>indicator</span><span class='period'>.</span><span class='id identifier rubyid_chr'>chr</span><span class='embexpr_end'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_indicator'>indicator</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load-class_method">
+  
+    .<strong>load</strong>(file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_init'>init</span>
+	<span class='id identifier rubyid_version'>version</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='int'>2</span><span class='rparen'>)</span>
+
+	<span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interpret'>interpret</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='id identifier rubyid_obj'>obj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read_byte-class_method">
+  
+    .<strong>read_byte</strong>(file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_byte'>read_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='int'>1</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read_bytes-class_method">
+  
+    .<strong>read_bytes</strong>(file, n)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 27</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_read_array'>read_array</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='id identifier rubyid_read_array'>read_array</span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read_integer-class_method">
+  
+    .<strong>read_integer</strong>(file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_integer'>read_integer</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_length_marker'>length_marker</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_byte'>read_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='int'>0</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_length_marker'>length_marker</span> <span class='op'>==</span> <span class='int'>0</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='int'>0</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_length_marker'>length_marker</span><span class='period'>.</span><span class='id identifier rubyid_between?'>between?</span><span class='lparen'>(</span><span class='int'>5</span><span class='comma'>,</span> <span class='int'>127</span><span class='rparen'>)</span>
+		<span class='comment'># Value is a small positive int
+</span>		<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_length_marker'>length_marker</span> <span class='op'>-</span> <span class='int'>5</span>
+
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_length_marker'>length_marker</span><span class='period'>.</span><span class='id identifier rubyid_between?'>between?</span><span class='lparen'>(</span><span class='int'>128</span><span class='comma'>,</span> <span class='int'>251</span><span class='rparen'>)</span>
+		<span class='comment'># Value is a small negative int
+</span>		<span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_length_marker'>length_marker</span> <span class='op'>-</span> <span class='int'>256</span> <span class='op'>+</span> <span class='int'>5</span>
+
+	<span class='kw'>else</span>
+		<span class='comment'># Value is made out of more than one byte
+</span>		<span class='id identifier rubyid_negative_value'>negative_value</span> <span class='op'>=</span> <span class='id identifier rubyid_length_marker'>length_marker</span> <span class='op'>&gt;</span> <span class='int'>128</span>
+		<span class='id identifier rubyid_actual_byte_length'>actual_byte_length</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_negative_value'>negative_value</span> <span class='op'>?</span> <span class='int'>256</span> <span class='op'>-</span> <span class='id identifier rubyid_length_marker'>length_marker</span> <span class='op'>:</span> <span class='id identifier rubyid_length_marker'>length_marker</span><span class='rparen'>)</span>
+
+		<span class='id identifier rubyid_length_bytes'>length_bytes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_read_bytes'>read_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_actual_byte_length'>actual_byte_length</span><span class='rparen'>)</span>
+
+		<span class='comment'># Reconstruct the value from the bytes
+</span>		<span class='id identifier rubyid_power_of_256'>power_of_256</span> <span class='op'>=</span> <span class='int'>1</span>
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_actual_byte_length'>actual_byte_length</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='kw'>if</span> <span class='id identifier rubyid_negative_value'>negative_value</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>==</span> <span class='id identifier rubyid_actual_byte_length'>actual_byte_length</span> <span class='op'>-</span> <span class='int'>1</span> <span class='kw'>then</span>
+				<span class='id identifier rubyid_value'>value</span> <span class='op'>-=</span> <span class='lparen'>(</span><span class='int'>256</span> <span class='op'>-</span> <span class='id identifier rubyid_length_bytes'>length_bytes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_power_of_256'>power_of_256</span>
+			<span class='kw'>else</span>
+				<span class='id identifier rubyid_value'>value</span> <span class='op'>+=</span> <span class='id identifier rubyid_length_bytes'>length_bytes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>*</span> <span class='id identifier rubyid_power_of_256'>power_of_256</span>
+				<span class='id identifier rubyid_power_of_256'>power_of_256</span> <span class='op'>*=</span> <span class='int'>256</span>
+			<span class='kw'>end</span>
+		<span class='kw'>end</span>
+	
+	<span class='kw'>end</span>
+
+	<span class='kw'>return</span> <span class='id identifier rubyid_value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ref_symbol-class_method">
+  
+    .<strong>ref_symbol</strong>(index)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ref_symbol'>ref_symbol</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='ivar'>@symbols</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_byte-class_method">
+  
+    .<strong>write_byte</strong>(value, file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_bytes'>write_bytes</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_bytes-class_method">
+  
+    .<strong>write_bytes</strong>(values, file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_bytes'>write_bytes</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_int-class_method">
+  
+    .<strong>write_int</strong>(value, file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 108</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span> <span class='op'>==</span> <span class='int'>0</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_between?'>between?</span><span class='lparen'>(</span><span class='int'>1</span><span class='comma'>,</span> <span class='int'>123</span><span class='rparen'>)</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span> <span class='op'>+</span> <span class='int'>5</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_between?'>between?</span><span class='lparen'>(</span><span class='op'>-</span><span class='int'>123</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>then</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='int'>256</span> <span class='op'>-</span> <span class='int'>5</span> <span class='op'>+</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>else</span>
+		<span class='id identifier rubyid_byte_count'>byte_count</span> <span class='op'>=</span> <span class='kw'>nil</span>
+		<span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+		<span class='comment'># Determine byte number and create bit string
+</span>		<span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='kw'>then</span>
+			<span class='id identifier rubyid_byte_count'>byte_count</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'>Math</span><span class='op'>::</span><span class='id identifier rubyid_log2'>log2</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='int'>8</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_ceil'>ceil</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_byte_count'>byte_count</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+		<span class='kw'>else</span>
+			<span class='id identifier rubyid_byte_count'>byte_count</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'>Math</span><span class='op'>::</span><span class='id identifier rubyid_log2'>log2</span><span class='lparen'>(</span><span class='op'>-</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='int'>8</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_ceil'>ceil</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='int'>256</span> <span class='op'>-</span> <span class='id identifier rubyid_byte_count'>byte_count</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+			<span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>256</span><span class='op'>**</span><span class='id identifier rubyid_byte_count'>byte_count</span> <span class='op'>+</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+
+		<span class='comment'># Fill up missing zeroes
+</span>		<span class='id identifier rubyid_bytes'>bytes</span> <span class='op'>=</span> <span class='id identifier rubyid_bytes'>bytes</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>8</span><span class='op'>*</span><span class='id identifier rubyid_byte_count'>byte_count</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+		<span class='comment'># Split string into 8-bit portions
+</span>		<span class='id identifier rubyid_byte_array'>byte_array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_byte_count'>byte_count</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='id identifier rubyid_byte_array'>byte_array</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_bytes'>bytes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='op'>*</span><span class='int'>8</span> <span class='op'>..</span> <span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>*</span><span class='int'>8</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+
+		<span class='comment'># Put bytes in correct Marshalling order
+</span>		<span class='id identifier rubyid_byte_array'>byte_array</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_byte'>byte</span><span class='op'>|</span>
+			<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_byte'>byte</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_raw_string-class_method">
+  
+    .<strong>write_raw_string</strong>(value, file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Marshal.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_raw_string'>write_raw_string</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_int'>write_int</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_byte'>byte</span><span class='op'>|</span>
+		<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_write_byte'>write_byte</span><span class='lparen'>(</span><span class='id identifier rubyid_byte'>byte</span><span class='comma'>,</span> <span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jun  6 18:37:51 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.4.4).
+</div>
+
+    </div>
+  </body>
+</html>

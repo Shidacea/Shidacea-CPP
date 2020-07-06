@@ -1,0 +1,3828 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: SDC::Entity
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SDC::Entity";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span>
+     &raquo; 
+    <span class="title">Entity</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: SDC::Entity
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">SDC::Entity</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="../SDCMeta/ClassProperty.html" title="SDCMeta::ClassProperty (module)">SDCMeta::ClassProperty</a></span></dd>
+  </dl>
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="../SDCMeta/AIBackend.html" title="SDCMeta::AIBackend (module)">SDCMeta::AIBackend</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/core/Entity.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active_sprites-instance_method" title="#active_sprites (instance method)">#<strong>active_sprites</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for content arrays (except for textures).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#boxes-instance_method" title="#boxes (instance method)">#<strong>boxes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for content arrays (except for textures).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hitshapes-instance_method" title="#hitshapes (instance method)">#<strong>hitshapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for content arrays (except for textures).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hp-instance_method" title="#hp (instance method)">#<strong>hp</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for living entities.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hurtshapes-instance_method" title="#hurtshapes (instance method)">#<strong>hurtshapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for content arrays (except for textures).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#magic_number-instance_method" title="#magic_number (instance method)">#<strong>magic_number</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Other accessor methods.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#position-instance_method" title="#position (instance method)">#<strong>position</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Physics-based accessor methods.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shapes-instance_method" title="#shapes (instance method)">#<strong>shapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for content arrays (except for textures).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sprites-instance_method" title="#sprites (instance method)">#<strong>sprites</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accessor methods for content arrays (except for textures).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#velocity-instance_method" title="#velocity (instance method)">#<strong>velocity</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Physics-based accessor methods.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_box-class_method" title="add_box (class method)">.<strong>add_box</strong>(index: nil, offset: SDC::Coordinates.new, origin: SDC::Coordinates.new, size: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Class methods for adding different objects to any entity.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_shape-class_method" title="add_shape (class method)">.<strong>add_shape</strong>(index: nil, type: nil, offset: SDC::Coordinates.new, origin: SDC::Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil, side_a: nil, side_b: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_sprite-class_method" title="add_sprite (class method)">.<strong>add_sprite</strong>(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, rect: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_boxes-class_method" title="all_boxes (class method)">.<strong>all_boxes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Class getter methods for utility and code readability.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_hitshapes-class_method" title="all_hitshapes (class method)">.<strong>all_hitshapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_hurtshapes-class_method" title="all_hurtshapes (class method)">.<strong>all_hurtshapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_shapes-class_method" title="all_shapes (class method)">.<strong>all_shapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_sprites-class_method" title="all_sprites (class method)">.<strong>all_sprites</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#entity_id-class_method" title="entity_id (class method)">.<strong>entity_id</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#register_id-class_method" title="register_id (class method)">.<strong>register_id</strong>(index)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_hitshape-class_method" title="set_hitshape (class method)">.<strong>set_hitshape</strong>(index: nil, active: true, shape_index: nil, damage: 0, attributes: {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_hurtshape-class_method" title="set_hurtshape (class method)">.<strong>set_hurtshape</strong>(index: nil, active: true, shape_index: nil, attributes: {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#absolute_position-instance_method" title="#absolute_position (instance method)">#<strong>absolute_position</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#accelerate-instance_method" title="#accelerate (instance method)">#<strong>accelerate</strong>(vector)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#at_entity_collision-instance_method" title="#at_entity_collision (instance method)">#<strong>at_entity_collision</strong>(other_entity, hurtshape, hitshape)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#at_init-instance_method" title="#at_init (instance method)">#<strong>at_init</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Custom routines which can be redefined for inherited objects.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#at_tile_collision-instance_method" title="#at_tile_collision (instance method)">#<strong>at_tile_collision</strong>(tile)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#basic_hit-instance_method" title="#basic_hit (instance method)">#<strong>basic_hit</strong>(hurtshape, hitshape)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#broadcast_magic_number-instance_method" title="#broadcast_magic_number (instance method)">#<strong>broadcast_magic_number</strong>(number)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#collided_with-instance_method" title="#collided_with (instance method)">#<strong>collided_with</strong>(&amp;condition)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#collided_with_class-instance_method" title="#collided_with_class (instance method)">#<strong>collided_with_class</strong>(klass)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#collided_with_property-instance_method" title="#collided_with_property (instance method)">#<strong>collided_with_property</strong>(property_symbol, value: true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#collision_with_entity-instance_method" title="#collision_with_entity (instance method)">#<strong>collision_with_entity</strong>(other_entity, hurtshape, hitshape)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_draw-instance_method" title="#custom_draw (instance method)">#<strong>custom_draw</strong>(window)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_physics-instance_method" title="#custom_physics (instance method)">#<strong>custom_physics</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_pre_physics-instance_method" title="#custom_pre_physics (instance method)">#<strong>custom_pre_physics</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_sprite_draw-instance_method" title="#custom_sprite_draw (instance method)">#<strong>custom_sprite_draw</strong>(window, sprite)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_update-instance_method" title="#custom_update (instance method)">#<strong>custom_update</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#draw-instance_method" title="#draw (instance method)">#<strong>draw</strong>(window)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_colliding_action_shape-instance_method" title="#each_colliding_action_shape (instance method)">#<strong>each_colliding_action_shape</strong>(other_entity)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#full_heal-instance_method" title="#full_heal (instance method)">#<strong>full_heal</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inflict_damage-instance_method" title="#inflict_damage (instance method)">#<strong>inflict_damage</strong>(value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialization_procedure-instance_method" title="#initialization_procedure (instance method)">#<strong>initialization_procedure</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(param: nil)  &#x21d2; Entity </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Actual instance methods which should not be changed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#living_procedure-instance_method" title="#living_procedure (instance method)">#<strong>living_procedure</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_boxes-instance_method" title="#load_boxes (instance method)">#<strong>load_boxes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create local copies of all boxes/shapes/…</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_hitshapes-instance_method" title="#load_hitshapes (instance method)">#<strong>load_hitshapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_hurtshapes-instance_method" title="#load_hurtshapes (instance method)">#<strong>load_hurtshapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_shapes-instance_method" title="#load_shapes (instance method)">#<strong>load_shapes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_sprites-instance_method" title="#load_sprites (instance method)">#<strong>load_sprites</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#physics-instance_method" title="#physics (instance method)">#<strong>physics</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_child-instance_method" title="#set_child (instance method)">#<strong>set_child</strong>(entity)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_parent-instance_method" title="#set_parent (instance method)">#<strong>set_parent</strong>(entity)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#test_box_collision_with-instance_method" title="#test_box_collision_with (instance method)">#<strong>test_box_collision_with</strong>(other_entity)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#test_shape_collision_with-instance_method" title="#test_shape_collision_with (instance method)">#<strong>test_shape_collision_with</strong>(other_entity)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../SDCMeta/ClassProperty.html" title="SDCMeta::ClassProperty (module)">SDCMeta::ClassProperty</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../SDCMeta/ClassProperty.html#define_class_property-instance_method" title="SDCMeta::ClassProperty#define_class_property (method)">define_class_property</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../SDCMeta/AIBackend.html" title="SDCMeta::AIBackend (module)">SDCMeta::AIBackend</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../SDCMeta/AIBackend.html#add_ai_page-instance_method" title="SDCMeta::AIBackend#add_ai_page (method)">#add_ai_page</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#ai_running%3F-instance_method" title="SDCMeta::AIBackend#ai_running? (method)">#ai_running?</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#ai_script-instance_method" title="SDCMeta::AIBackend#ai_script (method)">#ai_script</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#current_ai-instance_method" title="SDCMeta::AIBackend#current_ai (method)">#current_ai</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#master_ai_running%3F-instance_method" title="SDCMeta::AIBackend#master_ai_running? (method)">#master_ai_running?</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#master_ai_script-instance_method" title="SDCMeta::AIBackend#master_ai_script (method)">#master_ai_script</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#setup_ai-instance_method" title="SDCMeta::AIBackend#setup_ai (method)">#setup_ai</a></span>, <span class='object_link'><a href="../SDCMeta/AIBackend.html#tick_ai-instance_method" title="SDCMeta::AIBackend#tick_ai (method)">#tick_ai</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(param: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="SDC::Entity (class)">Entity</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Actual instance methods which should not be changed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 211</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>param:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+	<span class='ivar'>@param</span> <span class='op'>=</span> <span class='id identifier rubyid_param'>param</span>
+
+	<span class='id identifier rubyid_initialization_procedure'>initialization_procedure</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="active_sprites=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="active_sprites-instance_method">
+  
+    #<strong>active_sprites</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for content arrays (except for textures)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_active_sprites'>active_sprites</span>
+  <span class='ivar'>@active_sprites</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="boxes=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="boxes-instance_method">
+  
+    #<strong>boxes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for content arrays (except for textures)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_boxes'>boxes</span>
+  <span class='ivar'>@boxes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="hitshapes=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="hitshapes-instance_method">
+  
+    #<strong>hitshapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for content arrays (except for textures)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hitshapes'>hitshapes</span>
+  <span class='ivar'>@hitshapes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="hp=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="hp-instance_method">
+  
+    #<strong>hp</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for living entities</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hp'>hp</span>
+  <span class='ivar'>@hp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="hurtshapes=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="hurtshapes-instance_method">
+  
+    #<strong>hurtshapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for content arrays (except for textures)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_hurtshapes'>hurtshapes</span>
+  <span class='ivar'>@hurtshapes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="magic_number-instance_method">
+  
+    #<strong>magic_number</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Other accessor methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_magic_number'>magic_number</span>
+  <span class='ivar'>@magic_number</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="position=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="position-instance_method">
+  
+    #<strong>position</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Physics-based accessor methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_position'>position</span>
+  <span class='ivar'>@position</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="shapes=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="shapes-instance_method">
+  
+    #<strong>shapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for content arrays (except for textures)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_shapes'>shapes</span>
+  <span class='ivar'>@shapes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="sprites=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="sprites-instance_method">
+  
+    #<strong>sprites</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accessor methods for content arrays (except for textures)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sprites'>sprites</span>
+  <span class='ivar'>@sprites</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="velocity=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="velocity-instance_method">
+  
+    #<strong>velocity</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Physics-based accessor methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 29</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_velocity'>velocity</span>
+  <span class='ivar'>@velocity</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_box-class_method">
+  
+    .<strong>add_box</strong>(index: nil, offset: SDC::Coordinates.new, origin: SDC::Coordinates.new, size: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Class methods for adding different objects to any entity</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_box'>add_box</span><span class='lparen'>(</span><span class='label'>index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>offset:</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>origin:</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>size:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+	<span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_size'>size</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No size given for box with index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+	<span class='kw'>end</span>
+
+	<span class='ivar'>@boxes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@boxes</span>
+	<span class='id identifier rubyid_new_box'>new_box</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeBox</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_new_box'>new_box</span><span class='period'>.</span><span class='id identifier rubyid_origin'>origin</span> <span class='op'>=</span> <span class='id identifier rubyid_origin'>origin</span>
+	<span class='ivar'>@boxes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_new_box'>new_box</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_shape-class_method">
+  
+    .<strong>add_shape</strong>(index: nil, type: nil, offset: SDC::Coordinates.new, origin: SDC::Coordinates.new, radius: nil, size: nil, semiaxes: nil, direction: nil, side_a: nil, side_b: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_shape'>add_shape</span><span class='lparen'>(</span><span class='label'>index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>offset:</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>origin:</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>radius:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>size:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>semiaxes:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>direction:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>side_a:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>side_b:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+	<span class='ivar'>@shapes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@shapes</span>
+	<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='kw'>nil</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapePoint</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeLine</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Direction not defined for line shape with index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_direction'>direction</span>
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_direction'>direction</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeCircle</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Radius not defined for circle shape with index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_radius'>radius</span>
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_radius'>radius</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeBox</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Size not defined for box shape with index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_size'>size</span>
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeTriangle</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Undefined sides for triangle shape with index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_side_a'>side_a</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_side_b'>side_b</span>
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_side_a'>side_a</span><span class='comma'>,</span> <span class='id identifier rubyid_side_b'>side_b</span><span class='rparen'>)</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeQuadrangle</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Quadrangle shape not supported yet</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>	<span class='comment'># TODO
+</span>		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+	<span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>CollisionShapeEllipse</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ellipse shape not supported yet</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>	<span class='comment'># TODO
+</span>		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Semiaxes not defined for ellipse shape with index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_semiaxes'>semiaxes</span>
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_axes'>axes</span><span class='rparen'>)</span>
+	<span class='kw'>else</span>
+		<span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown shape type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'> for shape index </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+	<span class='kw'>end</span>
+
+	<span class='id identifier rubyid_shape'>shape</span><span class='period'>.</span><span class='id identifier rubyid_origin'>origin</span> <span class='op'>=</span> <span class='id identifier rubyid_origin'>origin</span>
+
+	<span class='ivar'>@shapes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_shape'>shape</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_sprite-class_method">
+  
+    .<strong>add_sprite</strong>(index: nil, active: true, texture_index: nil, offset: SDC::Coordinates.new, origin: Coordinates.new, rect: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_add_sprite'>add_sprite</span><span class='lparen'>(</span><span class='label'>index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>active:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>texture_index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>offset:</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>origin:</span> <span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>rect:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+	<span class='ivar'>@sprites</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@sprites</span>
+	<span class='ivar'>@sprites</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_texture_index'>texture_index</span><span class='comma'>,</span> <span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_origin'>origin</span><span class='comma'>,</span> <span class='id identifier rubyid_active'>active</span><span class='comma'>,</span> <span class='id identifier rubyid_rect'>rect</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_boxes-class_method">
+  
+    .<strong>all_boxes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Class getter methods for utility and code readability</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_boxes'>all_boxes</span>
+	<span class='ivar'>@boxes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@boxes</span>
+	<span class='kw'>return</span> <span class='ivar'>@boxes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_hitshapes-class_method">
+  
+    .<strong>all_hitshapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span>
+	<span class='ivar'>@hitshapes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@hitshapes</span>
+	<span class='kw'>return</span> <span class='ivar'>@hitshapes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_hurtshapes-class_method">
+  
+    .<strong>all_hurtshapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span>
+	<span class='ivar'>@hurtshapes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@hurtshapes</span>
+	<span class='kw'>return</span> <span class='ivar'>@hurtshapes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_shapes-class_method">
+  
+    .<strong>all_shapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_shapes'>all_shapes</span>
+	<span class='ivar'>@shapes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@shapes</span>
+	<span class='kw'>return</span> <span class='ivar'>@shapes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_sprites-class_method">
+  
+    .<strong>all_sprites</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+121
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 121</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_sprites'>all_sprites</span>
+	<span class='ivar'>@sprites</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@sprites</span>
+	<span class='kw'>return</span> <span class='ivar'>@sprites</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="entity_id-class_method">
+  
+    .<strong>entity_id</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 105</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_entity_id'>entity_id</span>
+	<span class='kw'>return</span> <span class='ivar'>@entity_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="register_id-class_method">
+  
+    .<strong>register_id</strong>(index)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 101</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_register_id'>register_id</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+	<span class='ivar'>@entity_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Data.html" title="SDC::Data (module)">Data</a></span></span><span class='period'>.</span><span class='id identifier rubyid_add_entity'>add_entity</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>index:</span> <span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_hitshape-class_method">
+  
+    .<strong>set_hitshape</strong>(index: nil, active: true, shape_index: nil, damage: 0, attributes: {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 91</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_hitshape'>set_hitshape</span><span class='lparen'>(</span><span class='label'>index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>active:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>shape_index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>damage:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>attributes:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+	<span class='ivar'>@hitshapes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@hitshapes</span>
+	<span class='ivar'>@hitshapes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Hitshape.html" title="SDC::Hitshape (class)">Hitshape</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Hitshape.html#initialize-instance_method" title="SDC::Hitshape#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>damage:</span> <span class='id identifier rubyid_damage'>damage</span><span class='comma'>,</span> <span class='label'>shape_index:</span> <span class='id identifier rubyid_shape_index'>shape_index</span><span class='comma'>,</span> <span class='label'>active:</span> <span class='id identifier rubyid_active'>active</span><span class='comma'>,</span> <span class='label'>attributes:</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_hurtshape-class_method">
+  
+    .<strong>set_hurtshape</strong>(index: nil, active: true, shape_index: nil, attributes: {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_set_hurtshape'>set_hurtshape</span><span class='lparen'>(</span><span class='label'>index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>active:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>shape_index:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>attributes:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+	<span class='ivar'>@hurtshapes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SpecialContainer.html" title="SDC::SpecialContainer (class)">SpecialContainer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SpecialContainer.html#initialize-instance_method" title="SDC::SpecialContainer#initialize (method)">new</a></span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@hurtshapes</span>
+	<span class='ivar'>@hurtshapes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Hurtshape.html" title="SDC::Hurtshape (class)">Hurtshape</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Hurtshape.html#initialize-instance_method" title="SDC::Hurtshape#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>active:</span> <span class='id identifier rubyid_active'>active</span><span class='comma'>,</span> <span class='label'>shape_index:</span> <span class='id identifier rubyid_shape_index'>shape_index</span><span class='comma'>,</span> <span class='label'>attributes:</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="absolute_position-instance_method">
+  
+    #<strong>absolute_position</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+299
+300
+301</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 299</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_absolute_position'>absolute_position</span>
+	<span class='kw'>return</span> <span class='lparen'>(</span><span class='ivar'>@parent</span> <span class='op'>?</span> <span class='ivar'>@position</span> <span class='op'>+</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_absolute_position'>absolute_position</span> <span class='op'>:</span> <span class='ivar'>@position</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="accelerate-instance_method">
+  
+    #<strong>accelerate</strong>(vector)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+295
+296
+297</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 295</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_accelerate'>accelerate</span><span class='lparen'>(</span><span class='id identifier rubyid_vector'>vector</span><span class='rparen'>)</span>
+	<span class='ivar'>@acceleration</span> <span class='op'>+=</span> <span class='id identifier rubyid_vector'>vector</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="at_entity_collision-instance_method">
+  
+    #<strong>at_entity_collision</strong>(other_entity, hurtshape, hitshape)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+437
+438
+439</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 437</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_at_entity_collision'>at_entity_collision</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='comma'>,</span> <span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='comma'>,</span> <span class='id identifier rubyid_hitshape'>hitshape</span><span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="at_init-instance_method">
+  
+    #<strong>at_init</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Custom routines which can be redefined for inherited objects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+425
+426
+427</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 425</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_at_init'>at_init</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="at_tile_collision-instance_method">
+  
+    #<strong>at_tile_collision</strong>(tile)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+441
+442
+443</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 441</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_at_tile_collision'>at_tile_collision</span><span class='lparen'>(</span><span class='id identifier rubyid_tile'>tile</span><span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="basic_hit-instance_method">
+  
+    #<strong>basic_hit</strong>(hurtshape, hitshape)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+270
+271
+272
+273
+274
+275</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 270</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_basic_hit'>basic_hit</span><span class='lparen'>(</span><span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='comma'>,</span> <span class='id identifier rubyid_hitshape'>hitshape</span><span class='rparen'>)</span>
+	<span class='kw'>if</span> <span class='ivar'>@invincibility_frame_counter</span> <span class='op'>==</span> <span class='int'>0</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_total_damage'>total_damage</span> <span class='op'>=</span> <span class='id identifier rubyid_hitshape'>hitshape</span><span class='period'>.</span><span class='id identifier rubyid_damage'>damage</span>
+		<span class='id identifier rubyid_inflict_damage'>inflict_damage</span><span class='lparen'>(</span><span class='id identifier rubyid_total_damage'>total_damage</span><span class='rparen'>)</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="broadcast_magic_number-instance_method">
+  
+    #<strong>broadcast_magic_number</strong>(number)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+313
+314
+315
+316</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 313</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_broadcast_magic_number'>broadcast_magic_number</span><span class='lparen'>(</span><span class='id identifier rubyid_number'>number</span><span class='rparen'>)</span>
+	<span class='ivar'>@magic_number</span> <span class='op'>=</span> <span class='id identifier rubyid_number'>number</span>
+	<span class='ivar'>@children</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_cascade_magic_number'>cascade_magic_number</span><span class='lparen'>(</span><span class='id identifier rubyid_number'>number</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="collided_with-instance_method">
+  
+    #<strong>collided_with</strong>(&amp;condition)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+411
+412
+413</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 411</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_collided_with'>collided_with</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_condition'>condition</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='ivar'>@last_collisions</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_condition'>condition</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="collided_with_class-instance_method">
+  
+    #<strong>collided_with_class</strong>(klass)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+415
+416
+417</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 415</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_collided_with_class'>collided_with_class</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='ivar'>@last_collisions</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="collided_with_property-instance_method">
+  
+    #<strong>collided_with_property</strong>(property_symbol, value: true)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+419
+420
+421</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 419</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_collided_with_property'>collided_with_property</span><span class='lparen'>(</span><span class='id identifier rubyid_property_symbol'>property_symbol</span><span class='comma'>,</span> <span class='label'>value:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='ivar'>@last_collisions</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_property_symbol'>property_symbol</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='id identifier rubyid_value'>value</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="collision_with_entity-instance_method">
+  
+    #<strong>collision_with_entity</strong>(other_entity, hurtshape, hitshape)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+401
+402
+403
+404
+405
+406
+407
+408
+409</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 401</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_collision_with_entity'>collision_with_entity</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='comma'>,</span> <span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='comma'>,</span> <span class='id identifier rubyid_hitshape'>hitshape</span><span class='rparen'>)</span>
+	<span class='ivar'>@last_collisions</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='rparen'>)</span>
+
+	<span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_living'>living</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_basic_hit'>basic_hit</span><span class='lparen'>(</span><span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='comma'>,</span> <span class='id identifier rubyid_hitshape'>hitshape</span><span class='rparen'>)</span>
+	<span class='kw'>end</span>
+
+	<span class='id identifier rubyid_at_entity_collision'>at_entity_collision</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='comma'>,</span> <span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='comma'>,</span> <span class='id identifier rubyid_hitshape'>hitshape</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_draw-instance_method">
+  
+    #<strong>custom_draw</strong>(window)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+433
+434
+435</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 433</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_custom_draw'>custom_draw</span><span class='lparen'>(</span><span class='id identifier rubyid_window'>window</span><span class='rparen'>)</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_physics-instance_method">
+  
+    #<strong>custom_physics</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+266
+267
+268</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 266</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_custom_physics'>custom_physics</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_pre_physics-instance_method">
+  
+    #<strong>custom_pre_physics</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+262
+263
+264</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 262</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_custom_pre_physics'>custom_pre_physics</span>
+	
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_sprite_draw-instance_method">
+  
+    #<strong>custom_sprite_draw</strong>(window, sprite)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+383
+384
+385</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 383</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_custom_sprite_draw'>custom_sprite_draw</span><span class='lparen'>(</span><span class='id identifier rubyid_window'>window</span><span class='comma'>,</span> <span class='id identifier rubyid_sprite'>sprite</span><span class='rparen'>)</span>
+	
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="custom_update-instance_method">
+  
+    #<strong>custom_update</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+429
+430
+431</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 429</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_custom_update'>custom_update</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="draw-instance_method">
+  
+    #<strong>draw</strong>(window)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 369</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_draw'>draw</span><span class='lparen'>(</span><span class='id identifier rubyid_window'>window</span><span class='rparen'>)</span>
+	<span class='comment'># This function draws each sprite at its designated position
+</span>	<span class='comment'># The offset of the sprite position relative to the entity position is included
+</span>
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='ivar'>@sprites</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+		<span class='id identifier rubyid_sprite'>sprite</span> <span class='op'>=</span> <span class='ivar'>@sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span>
+		<span class='kw'>next</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_sprite'>sprite</span> <span class='op'>||</span> <span class='op'>!</span><span class='ivar'>@active_sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span>
+		<span class='id identifier rubyid_window'>window</span><span class='period'>.</span><span class='id identifier rubyid_draw_translated'>draw_translated</span><span class='lparen'>(</span><span class='id identifier rubyid_sprite'>sprite</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_z'>z</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_position'>absolute_position</span><span class='rparen'>)</span>
+		<span class='id identifier rubyid_custom_sprite_draw'>custom_sprite_draw</span><span class='lparen'>(</span><span class='id identifier rubyid_window'>window</span><span class='comma'>,</span> <span class='id identifier rubyid_sprite'>sprite</span><span class='rparen'>)</span>
+	<span class='kw'>end</span>
+
+	<span class='id identifier rubyid_custom_draw'>custom_draw</span><span class='lparen'>(</span><span class='id identifier rubyid_window'>window</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each_colliding_action_shape-instance_method">
+  
+    #<strong>each_colliding_action_shape</strong>(other_entity)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 345</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_each_colliding_action_shape'>each_colliding_action_shape</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_magic_number'>magic_number</span> <span class='op'>==</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_magic_number'>magic_number</span>
+
+	<span class='id identifier rubyid_other_position'>other_position</span> <span class='op'>=</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_absolute_position'>absolute_position</span>
+
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='ivar'>@hurtshapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_hurtshape_index'>hurtshape_index</span><span class='op'>|</span>
+		<span class='id identifier rubyid_hurtshape'>hurtshape</span> <span class='op'>=</span> <span class='ivar'>@hurtshapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_hurtshape_index'>hurtshape_index</span><span class='rbracket'>]</span>
+		<span class='kw'>next</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_hurtshape'>hurtshape</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='period'>.</span><span class='id identifier rubyid_active'>active</span>
+
+		<span class='id identifier rubyid_shape'>shape</span> <span class='op'>=</span> <span class='ivar'>@shapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='period'>.</span><span class='id identifier rubyid_shape_index'>shape_index</span><span class='rbracket'>]</span>
+
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_hitshapes'>hitshapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_hitshape_index'>hitshape_index</span><span class='op'>|</span>
+			<span class='id identifier rubyid_hitshape'>hitshape</span> <span class='op'>=</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_hitshapes'>hitshapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_hitshape_index'>hitshape_index</span><span class='rbracket'>]</span>
+			<span class='kw'>next</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_hitshape'>hitshape</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_hitshape'>hitshape</span><span class='period'>.</span><span class='id identifier rubyid_active'>active</span>
+
+			<span class='id identifier rubyid_other_shape'>other_shape</span> <span class='op'>=</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_shapes'>shapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_hitshape'>hitshape</span><span class='period'>.</span><span class='id identifier rubyid_shape_index'>shape_index</span><span class='rbracket'>]</span>
+
+			<span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Collider</span><span class='period'>.</span><span class='id identifier rubyid_test'>test</span><span class='lparen'>(</span><span class='id identifier rubyid_shape'>shape</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_position'>absolute_position</span><span class='comma'>,</span> <span class='id identifier rubyid_other_shape'>other_shape</span><span class='comma'>,</span> <span class='id identifier rubyid_other_position'>other_position</span><span class='rparen'>)</span> <span class='kw'>then</span>
+				<span class='kw'>yield</span> <span class='id identifier rubyid_hurtshape'>hurtshape</span><span class='comma'>,</span> <span class='id identifier rubyid_hitshape'>hitshape</span>
+			<span class='kw'>end</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="full_heal-instance_method">
+  
+    #<strong>full_heal</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+283
+284
+285</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 283</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_full_heal'>full_heal</span>
+	<span class='ivar'>@hp</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_max_hp'>max_hp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inflict_damage-instance_method">
+  
+    #<strong>inflict_damage</strong>(value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279
+280
+281</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 277</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_inflict_damage'>inflict_damage</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+	<span class='ivar'>@hp</span> <span class='op'>-=</span> <span class='id identifier rubyid_value'>value</span>
+	<span class='ivar'>@hp</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='ivar'>@hp</span> <span class='op'>&lt;=</span> <span class='int'>0</span>
+	<span class='ivar'>@invincibility_next_frame</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="initialization_procedure-instance_method">
+  
+    #<strong>initialization_procedure</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 217</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialization_procedure'>initialization_procedure</span>
+	<span class='ivar'>@parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+	<span class='ivar'>@children</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='ivar'>@position</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+	<span class='ivar'>@velocity</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+	<span class='ivar'>@acceleration</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+
+	<span class='id identifier rubyid_setup_ai'>setup_ai</span>
+	
+	<span class='ivar'>@last_collisions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+	<span class='comment'># Set a magic number to identify parent-child-structures
+</span>	<span class='ivar'>@magic_number</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_object_id'>object_id</span>
+
+	<span class='id identifier rubyid_load_boxes'>load_boxes</span>
+	<span class='id identifier rubyid_load_shapes'>load_shapes</span>
+	<span class='id identifier rubyid_load_sprites'>load_sprites</span>
+	<span class='id identifier rubyid_load_hitshapes'>load_hitshapes</span>
+	<span class='id identifier rubyid_load_hurtshapes'>load_hurtshapes</span>
+
+	<span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_living'>living</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_full_heal'>full_heal</span>
+		<span class='ivar'>@invincibility_frame_counter</span> <span class='op'>=</span> <span class='int'>0</span>
+		<span class='ivar'>@invincibility_next_frame</span> <span class='op'>=</span> <span class='kw'>false</span>
+	<span class='kw'>end</span>
+
+	<span class='id identifier rubyid_at_init'>at_init</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="living_procedure-instance_method">
+  
+    #<strong>living_procedure</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290
+291
+292
+293</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 287</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_living_procedure'>living_procedure</span>
+	<span class='ivar'>@invincibility_frame_counter</span> <span class='op'>-=</span> <span class='int'>1</span> <span class='kw'>if</span> <span class='ivar'>@invincibility_frame_counter</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+	<span class='kw'>if</span> <span class='ivar'>@invincibility_next_frame</span> <span class='kw'>then</span>
+		<span class='ivar'>@invincibility_next_frame</span> <span class='op'>=</span> <span class='kw'>false</span>
+		<span class='ivar'>@invincibility_frame_counter</span> <span class='op'>=</span> <span class='int'>60</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_boxes-instance_method">
+  
+    #<strong>load_boxes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create local copies of all boxes/shapes/…</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 138</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_boxes'>load_boxes</span>
+	<span class='ivar'>@boxes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='id identifier rubyid_all_boxes'>all_boxes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_boxes'>all_boxes</span>
+
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_boxes'>all_boxes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+		<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_boxes'>all_boxes</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+		<span class='ivar'>@boxes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_hitshapes-instance_method">
+  
+    #<strong>load_hitshapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 185</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_hitshapes'>load_hitshapes</span>
+	<span class='ivar'>@hitshapes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span>
+
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+		<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+		<span class='ivar'>@hitshapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_hurtshapes-instance_method">
+  
+    #<strong>load_hurtshapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 196</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_hurtshapes'>load_hurtshapes</span>
+	<span class='ivar'>@hurtshapes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span>
+
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+		<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+		<span class='ivar'>@hurtshapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_shapes-instance_method">
+  
+    #<strong>load_shapes</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_shapes'>load_shapes</span>
+	<span class='ivar'>@shapes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='id identifier rubyid_all_shapes'>all_shapes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_shapes'>all_shapes</span>
+
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_shapes'>all_shapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+		<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_shapes'>all_shapes</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+		<span class='ivar'>@shapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span>
+	<span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_sprites-instance_method">
+  
+    #<strong>load_sprites</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_sprites'>load_sprites</span>
+	<span class='ivar'>@sprites</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='ivar'>@active_sprites</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+	<span class='id identifier rubyid_all_sprites'>all_sprites</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_sprites'>all_sprites</span>
+
+	<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_sprites'>all_sprites</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+		<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_sprites'>all_sprites</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+		<span class='comment'># Again this time, the objects should not be copied to avoid useless memory consumption
+</span>
+		<span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span> <span class='kw'>then</span>
+			<span class='id identifier rubyid_texture_index'>texture_index</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+			<span class='ivar'>@sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Sprite</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+			<span class='ivar'>@sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_position'>position</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+			<span class='ivar'>@sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_origin'>origin</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
+			<span class='ivar'>@active_sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
+
+			<span class='kw'>if</span> <span class='id identifier rubyid_texture_index'>texture_index</span> <span class='kw'>then</span>
+				<span class='ivar'>@sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_link_texture'>link_texture</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Data.html" title="SDC::Data (module)">Data</a></span></span><span class='period'>.</span><span class='id identifier rubyid_textures'>textures</span><span class='lbracket'>[</span><span class='id identifier rubyid_texture_index'>texture_index</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+			<span class='kw'>end</span>
+
+			<span class='ivar'>@sprites</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_texture_rect'>texture_rect</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>def</span> <span class='id identifier rubyid_load_hitshapes'>load_hitshapes</span>
+		<span class='ivar'>@hitshapes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+		<span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span>
+
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_hitshapes'>all_hitshapes</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+			<span class='ivar'>@hitshapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>def</span> <span class='id identifier rubyid_load_hurtshapes'>load_hurtshapes</span>
+		<span class='ivar'>@hurtshapes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+		<span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span>
+
+		<span class='int'>0</span><span class='period'>.</span><span class='id identifier rubyid_upto'>upto</span><span class='lparen'>(</span><span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+			<span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='id identifier rubyid_all_hurtshapes'>all_hurtshapes</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span><span class='rparen'>)</span>
+
+			<span class='ivar'>@hurtshapes</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='kw'>if</span> <span class='id identifier rubyid_element'>element</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="physics-instance_method">
+  
+    #<strong>physics</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 246</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_physics'>physics</span>
+	<span class='id identifier rubyid_accelerate'>accelerate</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='period'>.</span><span class='id identifier rubyid_game'><span class='object_link'><a href="../SDC.html#game-class_method" title="SDC.game (method)">game</a></span></span><span class='period'>.</span><span class='id identifier rubyid_gravity'>gravity</span> <span class='op'>*</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_gravity_multiplier'>gravity_multiplier</span><span class='rparen'>)</span>
+
+	<span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_physics_split'>physics_split</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
+		<span class='id identifier rubyid_custom_pre_physics'>custom_pre_physics</span>
+
+		<span class='ivar'>@velocity</span> <span class='op'>+=</span> <span class='ivar'>@acceleration</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='period'>.</span><span class='id identifier rubyid_game'><span class='object_link'><a href="../SDC.html#game-class_method" title="SDC.game (method)">game</a></span></span><span class='period'>.</span><span class='id identifier rubyid_dt'>dt</span> <span class='op'>*</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_physics_split_step'>physics_split_step</span>
+		<span class='ivar'>@position</span> <span class='op'>+=</span> <span class='ivar'>@velocity</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='period'>.</span><span class='id identifier rubyid_game'><span class='object_link'><a href="../SDC.html#game-class_method" title="SDC.game (method)">game</a></span></span><span class='period'>.</span><span class='id identifier rubyid_dt'>dt</span> <span class='op'>*</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_physics_split_step'>physics_split_step</span>
+
+		<span class='id identifier rubyid_custom_physics'>custom_physics</span>
+	<span class='kw'>end</span>
+
+	<span class='ivar'>@acceleration</span><span class='period'>.</span><span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='float'>0.0</span>
+	<span class='ivar'>@acceleration</span><span class='period'>.</span><span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='float'>0.0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_child-instance_method">
+  
+    #<strong>set_child</strong>(entity)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+308
+309
+310
+311</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 308</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_child'>set_child</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
+	<span class='ivar'>@children</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_set_parent'>set_parent</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_parent-instance_method">
+  
+    #<strong>set_parent</strong>(entity)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+303
+304
+305
+306</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 303</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_parent'>set_parent</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='rparen'>)</span>
+	<span class='ivar'>@parent</span> <span class='op'>=</span> <span class='id identifier rubyid_entity'>entity</span>
+	<span class='id identifier rubyid_broadcast_magic_number'>broadcast_magic_number</span><span class='lparen'>(</span><span class='id identifier rubyid_entity'>entity</span><span class='period'>.</span><span class='id identifier rubyid_magic_number'>magic_number</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="test_box_collision_with-instance_method">
+  
+    #<strong>test_box_collision_with</strong>(other_entity)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 318</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_test_box_collision_with'>test_box_collision_with</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='rparen'>)</span>
+	<span class='comment'># Avoid collisions between identical entities and its children
+</span>	<span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_magic_number'>magic_number</span> <span class='op'>==</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_magic_number'>magic_number</span>
+
+	<span class='ivar'>@boxes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_box'>box</span><span class='op'>|</span>
+		<span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_boxes'>boxes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_other_box'>other_box</span><span class='op'>|</span>
+			<span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Collider</span><span class='period'>.</span><span class='id identifier rubyid_test'>test</span><span class='lparen'>(</span><span class='id identifier rubyid_box'>box</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_position'>absolute_position</span><span class='comma'>,</span> <span class='id identifier rubyid_other_box'>other_box</span><span class='comma'>,</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_absolute_position'>absolute_position</span><span class='rparen'>)</span>
+			<span class='kw'>return</span> <span class='id identifier rubyid_other_box'>other_box</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>return</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="test_shape_collision_with-instance_method">
+  
+    #<strong>test_shape_collision_with</strong>(other_entity)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 332</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_test_shape_collision_with'>test_shape_collision_with</span><span class='lparen'>(</span><span class='id identifier rubyid_other_entity'>other_entity</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_magic_number'>magic_number</span> <span class='op'>==</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_magic_number'>magic_number</span>
+
+	<span class='ivar'>@shapes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_shape'>shape</span><span class='op'>|</span>
+		<span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_shapes'>shapes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_other_shape'>other_shape</span><span class='op'>|</span>
+			<span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Collider</span><span class='period'>.</span><span class='id identifier rubyid_test'>test</span><span class='lparen'>(</span><span class='id identifier rubyid_shape'>shape</span><span class='comma'>,</span> <span class='id identifier rubyid_absolute_position'>absolute_position</span><span class='comma'>,</span> <span class='id identifier rubyid_other_shape'>other_shape</span><span class='comma'>,</span> <span class='id identifier rubyid_other_entity'>other_entity</span><span class='period'>.</span><span class='id identifier rubyid_absolute_position'>absolute_position</span><span class='rparen'>)</span>
+			<span class='kw'>return</span> <span class='id identifier rubyid_other_shape'>other_shape</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span>
+		<span class='kw'>end</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>return</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Entity.rb', line 387</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
+	<span class='id identifier rubyid_living_procedure'>living_procedure</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_living'>living</span>
+
+	<span class='id identifier rubyid_custom_update'>custom_update</span>
+
+	<span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ai_active'>ai_active</span> <span class='kw'>then</span>
+		<span class='id identifier rubyid_tick_ai'>tick_ai</span>
+	<span class='kw'>end</span>
+
+	<span class='id identifier rubyid_physics'>physics</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@parent</span>
+
+	<span class='ivar'>@last_collisions</span><span class='period'>.</span><span class='id identifier rubyid_clear'>clear</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jun  6 18:37:52 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.4.4).
+</div>
+
+    </div>
+  </body>
+</html>

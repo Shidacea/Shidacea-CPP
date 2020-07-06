@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: SDC::Limiter
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SDC::Limiter";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (L)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span>
+     &raquo; 
+    <span class="title">Limiter</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: SDC::Limiter
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">SDC::Limiter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/core/Limiter.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gc_per_second-instance_method" title="#gc_per_second (instance method)">#<strong>gc_per_second</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute gc_per_second.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#max-instance_method" title="#max (instance method)">#<strong>max</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute max.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#renders_per_second-instance_method" title="#renders_per_second (instance method)">#<strong>renders_per_second</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute renders_per_second.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ticks_per_second-instance_method" title="#ticks_per_second (instance method)">#<strong>ticks_per_second</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute ticks_per_second.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change_renders_per_second-instance_method" title="#change_renders_per_second (instance method)">#<strong>change_renders_per_second</strong>(new_value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allow for changes via options, if necessary.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)  &#x21d2; Limiter </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Limiter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_draw_routine-instance_method" title="#set_draw_routine (instance method)">#<strong>set_draw_routine</strong>(&amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_gc_routine-instance_method" title="#set_gc_routine (instance method)">#<strong>set_gc_routine</strong>(&amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_update_routine-instance_method" title="#set_update_routine (instance method)">#<strong>set_update_routine</strong>(&amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tick-instance_method" title="#tick (instance method)">#<strong>tick</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(max: 720, renders_per_second: 60, ticks_per_second: 60, gc_per_second: 60)  &#x21d2; <tt><span class='object_link'><a href="" title="SDC::Limiter (class)">Limiter</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Limiter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>max:</span> <span class='int'>720</span><span class='comma'>,</span> <span class='label'>renders_per_second:</span> <span class='int'>60</span><span class='comma'>,</span> <span class='label'>ticks_per_second:</span> <span class='int'>60</span><span class='comma'>,</span> <span class='label'>gc_per_second:</span> <span class='int'>60</span><span class='rparen'>)</span>
+	<span class='ivar'>@counter</span> <span class='op'>=</span> <span class='int'>0</span>
+	<span class='ivar'>@temp_counter</span> <span class='op'>=</span> <span class='int'>0</span>
+	<span class='ivar'>@max</span> <span class='op'>=</span> <span class='id identifier rubyid_max'>max</span>
+
+	<span class='ivar'>@renders_per_second</span> <span class='op'>=</span> <span class='id identifier rubyid_renders_per_second'>renders_per_second</span>
+	<span class='ivar'>@ticks_per_second</span> <span class='op'>=</span> <span class='id identifier rubyid_ticks_per_second'>ticks_per_second</span>
+	<span class='ivar'>@gc_per_second</span> <span class='op'>=</span> <span class='id identifier rubyid_gc_per_second'>gc_per_second</span>
+
+	<span class='comment'># Intervals are rounded down, for now
+</span>	<span class='ivar'>@render_interval</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@max</span> <span class='op'>/</span> <span class='ivar'>@renders_per_second</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+	<span class='ivar'>@tick_interval</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@max</span> <span class='op'>/</span> <span class='ivar'>@ticks_per_second</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+	<span class='ivar'>@gc_interval</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@max</span> <span class='op'>/</span> <span class='ivar'>@gc_per_second</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+
+	<span class='ivar'>@update_block</span> <span class='op'>=</span> <span class='kw'>nil</span>
+	<span class='ivar'>@draw_block</span> <span class='op'>=</span> <span class='kw'>nil</span>
+	<span class='ivar'>@gc_block</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="gc_per_second-instance_method">
+  
+    #<strong>gc_per_second</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute gc_per_second.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_gc_per_second'>gc_per_second</span>
+  <span class='ivar'>@gc_per_second</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="max-instance_method">
+  
+    #<strong>max</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute max.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_max'>max</span>
+  <span class='ivar'>@max</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="renders_per_second-instance_method">
+  
+    #<strong>renders_per_second</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute renders_per_second.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_renders_per_second'>renders_per_second</span>
+  <span class='ivar'>@renders_per_second</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="ticks_per_second-instance_method">
+  
+    #<strong>ticks_per_second</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute ticks_per_second.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ticks_per_second'>ticks_per_second</span>
+  <span class='ivar'>@ticks_per_second</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="change_renders_per_second-instance_method">
+  
+    #<strong>change_renders_per_second</strong>(new_value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Allow for changes via options, if necessary</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_change_renders_per_second'>change_renders_per_second</span><span class='lparen'>(</span><span class='id identifier rubyid_new_value'>new_value</span><span class='rparen'>)</span>
+	<span class='ivar'>@renders_per_second</span> <span class='op'>=</span> <span class='id identifier rubyid_new_value'>new_value</span>
+	<span class='ivar'>@render_interval</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@max</span> <span class='op'>/</span> <span class='ivar'>@renders_per_second</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_draw_routine-instance_method">
+  
+    #<strong>set_draw_routine</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_draw_routine'>set_draw_routine</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+	<span class='ivar'>@draw_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_gc_routine-instance_method">
+  
+    #<strong>set_gc_routine</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_gc_routine'>set_gc_routine</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+	<span class='ivar'>@gc_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_update_routine-instance_method">
+  
+    #<strong>set_update_routine</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 27</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_update_routine'>set_update_routine</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+	<span class='ivar'>@update_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tick-instance_method">
+  
+    #<strong>tick</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/core/Limiter.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_tick'>tick</span>
+	<span class='ivar'>@timer</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@timer</span>
+
+	<span class='id identifier rubyid_is_update_frame'>is_update_frame</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@counter</span> <span class='op'>%</span> <span class='ivar'>@tick_interval</span> <span class='op'>==</span> <span class='int'>0</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_is_draw_frame'>is_draw_frame</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@counter</span> <span class='op'>%</span> <span class='ivar'>@render_interval</span> <span class='op'>==</span> <span class='int'>0</span><span class='rparen'>)</span>
+	<span class='id identifier rubyid_is_gc_frame'>is_gc_frame</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@counter</span> <span class='op'>%</span> <span class='ivar'>@gc_interval</span> <span class='op'>==</span> <span class='int'>0</span><span class='rparen'>)</span>
+
+	<span class='id identifier rubyid_scheduled_frame'>scheduled_frame</span> <span class='op'>=</span> <span class='id identifier rubyid_is_update_frame'>is_update_frame</span> <span class='op'>||</span> <span class='id identifier rubyid_is_draw_frame'>is_draw_frame</span> <span class='op'>||</span> <span class='id identifier rubyid_is_gc_frame'>is_gc_frame</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_is_update_frame'>is_update_frame</span> <span class='kw'>then</span>
+		<span class='ivar'>@update_block</span><span class='op'>&amp;.</span><span class='id identifier rubyid_call'>call</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_is_draw_frame'>is_draw_frame</span> <span class='kw'>then</span>
+		<span class='ivar'>@draw_block</span><span class='op'>&amp;.</span><span class='id identifier rubyid_call'>call</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>if</span> <span class='id identifier rubyid_is_gc_frame'>is_gc_frame</span> <span class='kw'>then</span>
+		<span class='ivar'>@gc_block</span><span class='op'>&amp;.</span><span class='id identifier rubyid_call'>call</span>
+	<span class='kw'>end</span>
+
+	<span class='ivar'>@counter</span> <span class='op'>+=</span> <span class='int'>1</span>
+
+	<span class='kw'>if</span> <span class='ivar'>@counter</span> <span class='op'>==</span> <span class='ivar'>@max</span> <span class='kw'>then</span>
+		<span class='ivar'>@counter</span> <span class='op'>=</span> <span class='int'>0</span>
+	<span class='kw'>end</span>
+
+	<span class='comment'># Check how advanced the timer is, if this is an scheduled frame
+</span>	<span class='comment'># If the frame got executed too fast, some time can be stalled
+</span>	<span class='comment'># The non-scheduled frames then stabilize the framerate to a fixed pace
+</span>	<span class='comment'># A frame lasting longer than scheduled will therefore not be catched up
+</span>	<span class='comment'># This prevents the framerate boosting beyond the schedule
+</span>
+	<span class='kw'>if</span> <span class='id identifier rubyid_scheduled_frame'>scheduled_frame</span> <span class='kw'>then</span>
+		<span class='kw'>while</span> <span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>-</span> <span class='ivar'>@timer</span><span class='rparen'>)</span> <span class='op'>&lt;</span> <span class='lparen'>(</span><span class='ivar'>@temp_counter</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>/</span> <span class='ivar'>@max</span> <span class='kw'>do</span>
+		<span class='kw'>end</span>
+		<span class='ivar'>@temp_counter</span> <span class='op'>=</span> <span class='int'>0</span>
+		<span class='ivar'>@timer</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+	<span class='kw'>else</span>
+		<span class='ivar'>@temp_counter</span> <span class='op'>+=</span> <span class='int'>1</span>
+	<span class='kw'>end</span>
+
+	<span class='kw'>return</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jun  6 18:37:52 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.4.4).
+</div>
+
+    </div>
+  </body>
+</html>

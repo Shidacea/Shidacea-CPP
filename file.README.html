@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Shidacea+2D+Game+Engine">Shidacea 2D Game Engine</h1>
+
+<p><img
+src="https://github.com/Hadeweka/Shidacea/workflows/BuildUbuntu/badge.svg">
+<img
+src="https://github.com/Hadeweka/Shidacea/workflows/BuildWindows/badge.svg"></p>
+
+<p>&lt;img src=“<a
+href="https://img.shields.io/github/v/release/Hadeweka/Shidacea">img.shields.io/github/v/release/Hadeweka/Shidacea</a>”&gt;
+&lt;img src=“<a
+href="https://img.shields.io/github/release-date/Hadeweka/Shidacea">img.shields.io/github/release-date/Hadeweka/Shidacea</a>”&gt;</p>
+
+<p>&lt;img src=“<a
+href="https://img.shields.io/github/license/Hadeweka/Shidacea">img.shields.io/github/license/Hadeweka/Shidacea</a>”&gt;</p>
+
+<p>What you see is the game engine Shidacea, decoupled from my game Inuhh
+Shinvasion 2.</p>
+
+<p>This repository is an engine, a template for game projects and also a
+launcher for custom projects. Depending on your level of knowledge and
+desire to mess around with my code, you can do several things:</p>
+<ul><li>
+<p>Download projects from other people and launch them using an executable of
+Shidacea</p>
+</li><li>
+<p>Write your own project using mruby scripts and test them directly</p>
+</li><li>
+<p>Compile your project into an executable using Shidacea</p>
+</li><li>
+<p>Change the core mruby scripts of Shidacea and add new ones</p>
+</li><li>
+<p>Wrap your own methods in C++ using the MrbWrap modules</p>
+</li><li>
+<p>Dive into mruby or one of the submodules and modify them</p>
+</li><li>
+<p>Disassemble the whole thing, write some assembly code and segfault yourself
+into oblivion (not recommended)</p>
+</li></ul>
+
+<p>Overall, this engine was designed to appeal to many people instead of just
+a single group. However, a certain degree of knowledge about Ruby is
+needed.</p>
+
+<h1 id="label-Idea+and+history">Idea and history</h1>
+
+<p>This project was inspired by the RPG Maker series from Enterbrain and
+complications with previous games written in Ruby. It aims to combine the
+beauty of Ruby for scripting with the speed of C++ for critical procedures
+while maintaining platform independency.</p>
+
+<p>The original purpose of this engine was to serve as a backbone to Inuhh
+Shinvasion 2, but it quickly became its own thing. Even if the original
+idea was to create a Jump&#39;n&#39;run game, it can technically be used
+for any 2D project.</p>
+
+<p>The final version will include the following components:</p>
+<ul><li>
+<p>Shidacea - The main engine</p>
+</li><li>
+<p>Launshi - A launcher for custom projects</p>
+</li><li>
+<p>Hyashi - A level editor</p>
+</li></ul>
+
+<h1 id="label-Requirements">Requirements</h1>
+
+<p>The following programs need to be installed:</p>
+<ul><li>
+<p>Compiler with C++17 support</p>
+</li><li>
+<p>CMake</p>
+</li><li>
+<p>Ruby</p>
+</li><li>
+<p>Bison</p>
+</li></ul>
+
+<p>For Windows you need to make sure that the paths leading to ruby.exe and
+bison.exe are in the PATH variable. CMake can be obtained using Visual
+Studio, which is the recommended option. Also make sure to avoid path names
+with spaces in them, as mruby might fail to compile otherwise.</p>
+
+<p>Alternatively, you can use pre-compiled Windows binaries for each Shidacea
+release version.</p>
+
+<h1 id="label-Usage">Usage</h1>
+
+<p>There are two main ways to use Shidacea.</p>
+
+<p>First, you can compile Shidacea without any scripts to a launcher. If you
+want to execute a project from someone else, just download its script files
+and put them into the custom folder.</p>
+
+<p>The second option is to compile your script files together with the
+Shidacea engine. This allows for more optimized code at the expense of
+portability. To use this, use <code>-DSHIDACEA_COMPILE_FRONTEND=ON</code>
+as option for CMake, which will compile the frontend project as bytecode
+directly into the executable.</p>
+
+<p>It is also possible to use <code>-DSHIDACEA_COMPILE_SDCLIB=ON</code> to
+compile the Shidacea library into the executable. This is done by default
+in the release versions and recommended unless you want to change the
+library functions.</p>
+
+<p>Furthermore, the engine core with the SFML bindings can be disabled with
+<code>-DSHIDACEA_EXCLUDE_SFML=OFF</code>. This is only necessary if you
+want to use your own framework for Shidacea.</p>
+
+<h2 id="label-Load+scripts+at+runtime">Load scripts at runtime</h2>
+
+<p>Advantages: * Platform independent projects * Precompiled executables can
+be used for common platforms * After installing Shidacea, you don&#39;t
+need to touch it anymore</p>
+
+<p>Disadvantages: * Everyone can see and modify your code without effort *
+Evaluating the script files takes longer than using bytecode * You cannot
+change the Shidacea core engine directly</p>
+
+<h2 id="label-Precompiled+scripts">Precompiled scripts</h2>
+
+<p>Advantages: * Faster evaluation of script files * Obfuscated scripts * You
+have full control over the engine and can change core aspects</p>
+
+<p>Disadvantages: * Your projects need to be recompiled every time you change
+a script * You need to have at least basic knowledge about C++ compiling
+and CMake * Your project needs to be recompiled for each platform</p>
+
+<h1 id="label-Properties">Properties</h1>
+<ul><li>
+<p>Support for many different platforms (including Windows and Linux)</p>
+</li><li>
+<p>Scripting support using mruby</p>
+</li><li>
+<p>Fast SFML based game engine with mruby bindings</p>
+</li><li>
+<p>High flexibility allowing for custom builds</p>
+</li><li>
+<p>Modding support</p>
+</li></ul>
+
+<h1 id="label-Features">Features</h1>
+<ul><li>
+<p>Simple state machine for scenes</p>
+</li><li>
+<p>Basic game classes and physics</p>
+</li><li>
+<p>Resource management system</p>
+</li><li>
+<p>Simple event handling with pseudo-parallel routines</p>
+</li><li>
+<p>Intuitive and simple system for entity properties</p>
+</li><li>
+<p>Simple entity scripting</p>
+</li><li>
+<p>Fast collision detection routines</p>
+</li><li>
+<p>Wrapped ImGui methods for debugging</p>
+</li></ul>
+
+<h1 id="label-Roadmap">Roadmap</h1>
+
+<p>Note that any version below 1.0.0 is a development version and will likely
+contain breaking changes.</p>
+
+<p>The elements in this roadmap are only for orientation and are likely to
+change in the future.</p>
+
+<h2 id="label-Version+0.2.0+-+Drawing+update+-28June+2020-29">Version 0.2.0 - Drawing update (June 2020)</h2>
+<ul><li>
+<p>Entirely new engine structure [Done]</p>
+</li><li>
+<p>Z-Ordering [Done]</p>
+</li><li>
+<p>Unicode support [Done]</p>
+</li><li>
+<p>Arbitrary project structures for compilation [Done]</p>
+</li><li>
+<p>Collision routines for points, lines, circles, AABBs and triangles [Done]</p>
+</li><li>
+<p>Marshalling support for basic objects [Done]</p>
+</li><li>
+<p>Basic text input fields [Done]</p>
+</li><li>
+<p>Filters for Launshi [Done]</p>
+</li><li>
+<p>Debug routines [Done]</p>
+</li><li>
+<p>Better resource management [Done]</p>
+</li><li>
+<p>Shape drawing [Done]</p>
+</li><li>
+<p>Launshi info window with description and (one) screenshot [Done]</p>
+</li><li>
+<p>Collision test example [Done]</p>
+</li><li>
+<p>Shooter example project [Worked on]</p>
+</li></ul>
+
+<h2 id="label-Version+0.3.0+-+Dynamics+update+-28Late+summer+2020-29">Version 0.3.0 - Dynamics update (Late summer 2020)</h2>
+<ul><li>
+<p>Animations</p>
+</li><li>
+<p>Rotation methods for triangles</p>
+</li><li>
+<p>Basic GUI methods</p>
+</li><li>
+<p>Sound looping</p>
+</li><li>
+<p>Ellipse shape support</p>
+</li><li>
+<p>Point drawing</p>
+</li><li>
+<p>Particle system</p>
+</li><li>
+<p>Installation script</p>
+</li><li>
+<p>Dedicated file specifying asset folders</p>
+</li><li>
+<p>Keyword filters for Launshi</p>
+</li><li>
+<p>Better mod support</p>
+</li></ul>
+
+<h2 id="label-Version+0.4.0+-+Map+update+-28Late+2020-29">Version 0.4.0 - Map update (Late 2020)</h2>
+<ul><li>
+<p>Full map support</p>
+</li><li>
+<p>A special level editor written using this engine (will be called Hyashi)</p>
+</li><li>
+<p>Hyashi plugin support</p>
+</li></ul>
+
+<h2 id="label-Version+0.5.0+-+Network+update+-28Early+2021-29">Version 0.5.0 - Network update (Early 2021)</h2>
+<ul><li>
+<p>Actually useful network support</p>
+</li></ul>
+
+<h2 id="label-Version+1.0.0+-+Full+release">Version 1.0.0 - Full release</h2>
+<ul><li>
+<p>Full release</p>
+</li><li>
+<p>More example projects</p>
+</li></ul>
+
+<h2 id="label-Possible+features+in+future+versions">Possible features in future versions</h2>
+<ul><li>
+<p>WYSIWYG-type game editor feature for Hyashi</p>
+</li><li>
+<p>Resource packages</p>
+</li><li>
+<p>Shader support</p>
+</li><li>
+<p>Support for arbitrary shape transformations for collisions</p>
+</li></ul>
+
+<h1 id="label-Caveats">Caveats</h1>
+
+<h2 id="label-Submodules">Submodules</h2>
+
+<p>If you download this repository, make sure to download the submodules as
+well, since a simple download won&#39;t include them. The best way to use
+Shidacea is to fork it and use Git for maintaining it and updating the
+submodules (e.g. using <code>git clone --recursive</code>).</p>
+
+<p>List of current submodules: * mruby * SFML * ImGui * ImGui-SFML * MrbWrap *
+Launshi * Collishi</p>
+
+<h2 id="label-Loading+other+mruby+script+files">Loading other mruby script files</h2>
+
+<p>The ruby instruction <code>require</code> is currently NOT available
+(adding it as a gem would be possible, but not trivially applicable to the
+concept of pre-compiled bytecode). This problem is circumvented by
+specification of a JSON file in which the scripts are listed in execution
+order. For example, the SDCLib and the frontend (e.g. Launshi) require the
+use of a script order, as well as Launshi projects. It is possible to name
+single files and complete directories (ending with a &#39;/&#39;). Note
+that the order of scripts loaded in a directory needs to be regarded as
+random, so avoid dependencies between files in a directory if loaded in a
+batch.</p>
+
+<h2 id="label-Linux+troubleshooting">Linux troubleshooting</h2>
+
+<p>This project should (read: SHOULD) run on Linux systems. However, several
+libraries are required to do so (see documentation for SFML). Some problems
+are discussed below.</p>
+
+<h3 id="label-Dependencies+are+missing+when+generating+or+compiling">Dependencies are missing when generating or compiling</h3>
+
+<p>Make sure that g++, Ruby, Bison and CMake are installed properly. Also
+visit the SFML documentation to check for requirements.</p>
+
+<p>If the filesystem library is missing, g++ needs to be updated to version 8
+or higher. If the problem persists after installing the missing libraries
+and programs, you may want to reboot and try again.</p>
+
+<h3 id="label-Executables+trigger+a+segmentation+fault+on+WSL">Executables trigger a segmentation fault on WSL</h3>
+
+<p>Shidacea may not work correctly on WSL despite a successful compilation. If
+a segmentation fault occurs on WSL, change the XServer application to
+another one. The segmentation fault issue is known to occur on XMing, for
+example. The Windows store application X410 works fine, but is not free.
+Reverting SFML to an earlier version can also work.</p>
+
+<h3 id="label-Shidacea+yields+other+error+messages+on+WSL">Shidacea yields other error messages on WSL</h3>
+
+<p>Try the solution above first. If that does not help, the command
+<code>export LIBGL_ALWAYS_INDIRECT=</code> might help, too. Also make sure
+to properly connect your WSL with the correct XServer and a PulseAudio
+server. If Shidacea runs otherwise flawlessly, some errors are completely
+normal.</p>
+
+<h3 id="label-Other+problems">Other problems</h3>
+
+<p>Please report your problem as an issue if your problem is none of the above
+or none of the solutions worked. Shidacea aims to be compatible to as many
+platforms as possible, so please help reaching this goal.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Sat Jun  6 18:37:51 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.4.4).
+</div>
+
+    </div>
+  </body>
+</html>
