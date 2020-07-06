@@ -120,41 +120,50 @@ Note that any version below 1.0.0 is a development version and will likely conta
 
 The elements in this roadmap are only for orientation and are likely to change in the future.
 
-## Version 0.2.1 (Summer 2020)
+## Version 0.2.1 (July 2020)
 * [X] Automated release builds
 * [X] Documentation page
-* [ ] More elaborate documentation
+* [ ] Documentation of wrapped methods
+* [ ] Multiple project files in a single folder
 
-## Version 0.3.0 - Dynamics update (Late summer 2020)
+## Version 0.3.0 - Dynamics update (Autumn 2020)
 * [ ] Animations
 * [ ] More transformations (like rotation methods for triangles)
-* [ ] Basic GUI methods
 * [ ] Sound looping
 * [ ] Ellipse shape support
 * [ ] Point drawing
 * [ ] Particle system
-* [ ] Installation script
-* [ ] Dedicated file specifying asset folders
+* [ ] Basic GUI methods
+
+## Version 0.3.1 (Late 2020)
+* [ ] Easy CMake configuration system
 * [ ] Keyword filters for Launshi
 * [ ] Better mod support
 
-## Version 0.4.0 - Map update (Late 2020)
+## Version 0.4.0 - Hyashi update (Early 2021)
+* [ ] A special game and level editor written using this engine (will be called Hyashi)
 * [ ] Full map support
-* [ ] A special level editor written using this engine (will be called Hyashi)
-* [ ] Hyashi plugin support
+* [ ] Plugin support
+* [ ] Script objects
+* [ ] Event objects
+* [ ] Game templates
+* [ ] Compatibility with Shidacea and Shipectral
 
-## Version 0.5.0 - Network update (Early 2021)
+## Version 0.5.0 - Feature update (Summer 2021)
 * [ ] Actually useful network support
+* [ ] Missing SFML features
+* [ ] Missing imgui features
 
 ## Version 1.0.0 - Full release
 * [ ] Full release
 * [ ] More example projects
+* [ ] Full documentation
+* [ ] Website
 
 ## Possible features in future versions
-* [ ] WYSIWYG-type game editor feature for Hyashi
-* [ ] Crystal implementation named Shipectral, compatible with Hyashi
 * [ ] Resource packages
 * [ ] Shader support
+* [ ] Direct vertex array wrappers
 * [ ] Support for arbitrary shape transformations for collisions
 
 # History
