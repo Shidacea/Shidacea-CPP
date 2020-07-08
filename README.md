@@ -124,7 +124,7 @@ The elements in this roadmap are only for orientation and are likely to change i
 * [X] Automated release builds
 * [X] Documentation page
 * [ ] Documentation of wrapped methods
-* [ ] Multiple project files in a single folder
+* [X] Multiple project files in a single folder
 
 ## Version 0.3.0 - Dynamics update (Autumn 2020)
 * [ ] Animations
