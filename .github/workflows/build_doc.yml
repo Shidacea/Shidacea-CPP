@@ -34,8 +34,7 @@ jobs:
       - name: Generate
         run: |
           sudo gem install yard
-          ruby utility/document_engine.rb
-          yard -o docs lib engine_docs
+          yard -o docs
           cd docs
           ls
           
