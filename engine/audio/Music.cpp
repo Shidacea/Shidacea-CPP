@@ -6,6 +6,9 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::wrap_class_under<sf::Music>(mrb, "Music", ruby_module);
 
+	// @@@ MRBWRAPDOC_IM Music initialize
+	// @return [Music]
+	// Creates a music track (without content)
 	MrbWrap::wrap_constructor<sf::Music>(mrb);
 
 	// @@@ MRBWRAPDOC_IM Music play
@@ -36,7 +39,7 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 	MrbWrap::wrap_setter<sf::Music, &sf::Music::setPitch, float>(mrb, "pitch=");
 
 	// @@@ MRBWRAPDOC_ATTR Music volume Float rw
-	// Volume of the music track, rangin from 0 to 100 (default)
+	// Volume of the music track, ranging from 0 to 100 (default)
 	MrbWrap::wrap_getter<sf::Music, &sf::Music::getVolume>(mrb, "volume");
 	MrbWrap::wrap_setter<sf::Music, &sf::Music::setVolume, float>(mrb, "volume=");
 

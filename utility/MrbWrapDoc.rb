@@ -19,9 +19,10 @@ class MrbWrapDoc
 	TAG_METHOD = 0
 	TAG_ATTRIBUTE = 1
 
-	def initialize
+	def initialize(top_module: nil)
 		@classes = {}
 		@modules = {}
+		@top_module = top_module
 	end
 
 	def parse_file(filename)
@@ -96,6 +97,7 @@ class MrbWrapDoc
 		@classes.each_key do |class_name|
 			filename = destination + FILE_TEMPLATE + class_name + FILE_ENDING
 			File.open(filename, "w") do |f|
+				f.puts "module #{@top_module}" if @top_module
 				f.puts "class #{class_name}"
 				f.puts
 				
@@ -132,13 +134,9 @@ class MrbWrapDoc
 				end
 
 				f.puts "end"
+				f.puts "end" if @top_module
 			end
 		end
 	end
 
 end
-
-m = MrbWrapDoc.new
-m.parse_file("engine/audio/Music.cpp")
-m.parse_file("engine/audio/Sound.cpp")
-m.generate_doc("engine_docs/")
