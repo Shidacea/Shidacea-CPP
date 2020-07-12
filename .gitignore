@@ -6,3 +6,5 @@ out
 mruby_build_config.rb.lock
 .yardoc
 doc
+docs
+engine_docs

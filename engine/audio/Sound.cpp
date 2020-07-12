@@ -20,6 +20,9 @@ void setup_ruby_class_sound(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ MRBWRAPDOC_IM Sound play
+	// @return [nil]
+	// Plays the sound from the beginning or resumes it if paused
 	MrbWrap::wrap_member_function<sf::Sound, &sf::Sound::play>(mrb, "play");
 	MrbWrap::wrap_member_function<sf::Sound, &sf::Sound::pause>(mrb, "pause");
 	MrbWrap::wrap_member_function<sf::Sound, &sf::Sound::stop>(mrb, "stop");
