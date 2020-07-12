@@ -94,6 +94,8 @@ class MrbWrapDoc
 	end
 
 	def generate_doc(destination)
+		Dir.mkdir(destination) unless File.exists?(destination)
+
 		@classes.each_key do |class_name|
 			filename = destination + FILE_TEMPLATE + class_name + FILE_ENDING
 			File.open(filename, "w") do |f|

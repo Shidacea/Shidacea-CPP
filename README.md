@@ -53,6 +53,17 @@ Also make sure to avoid path names with spaces in them, as mruby might fail to c
 
 Alternatively, you can use pre-compiled Windows binaries for each Shidacea release version.
 
+# Documentation
+
+The documentation for the default build of this project can be found unter https://shidacea.github.io/Shidacea.
+
+If you want to generate your documentation locally, you need to install Ruby, the YARD gem and then run the following scripts:
+```
+ruby utility/document_engine.rb
+yard -o docs lib engine_docs
+```
+This will generate the YARD documentation in the ```docs``` folder.
+
 # Usage
 
 There are two main ways to use Shidacea.
