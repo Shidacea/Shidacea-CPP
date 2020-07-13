@@ -2,6 +2,7 @@
 # TODO: Add class methods
 # TODO: Add module methods
 # TODO: Add constants
+# TODO: Class and module documentation
 
 class MrbWrapDoc
 
