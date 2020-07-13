@@ -2,7 +2,8 @@
 # TODO: Add class methods
 # TODO: Add module methods
 # TODO: Add constants
-# TODO: Class and module documentation
+# TODO: Module documentation
+# TODO: Support empty classes
 
 class MrbWrapDoc
 
@@ -10,6 +11,8 @@ class MrbWrapDoc
 
 	COMMAND_INSTANCE_METHOD = "MRBWRAPDOC_IM"
 	COMMAND_ATTRIBUTE = "MRBWRAPDOC_ATTR"
+	COMMAND_CLASS = "MRBWRAPDOC_CLASS"
+	COMMAND_MODULE = "MRBWRAPDOC_MODULE"
 
 	PARSE_MODE_NONE = 0
 	PARSE_MODE_YARD = 1
@@ -19,10 +22,13 @@ class MrbWrapDoc
 
 	TAG_METHOD = 0
 	TAG_ATTRIBUTE = 1
+	TAG_CLASS = 2
+	TAG_MODULE = 3
 
 	def initialize(top_module: nil)
 		@classes = {}
 		@modules = {}
+		@module_docs = {}
 		@top_module = top_module
 	end
 
@@ -48,6 +54,12 @@ class MrbWrapDoc
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
 						elsif command[0] == COMMAND_ATTRIBUTE
+							current_command = command
+							parse_mode = PARSE_MODE_YARD
+						elsif command[0] == COMMAND_CLASS
+							current_command = command
+							parse_mode = PARSE_MODE_YARD
+						elsif command[0] == COMMAND_MODULE
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
 						else
@@ -85,6 +97,12 @@ class MrbWrapDoc
 					@classes[class_name] = {} unless @classes[class_name]
 					@classes[class_name][attribute_name] = [TAG_ATTRIBUTE, comment_line_list, attribute_type, attribute_property ? "rw" : attribute_property]
 
+				elsif current_command[0] == COMMAND_CLASS
+					class_name = current_command[1]
+					inherited_name = current_command[2]
+
+					@module_docs[class_name] = [TAG_CLASS, comment_line_list, inherited_name]
+
 				end
 
 				parse_mode = PARSE_MODE_NONE
@@ -101,6 +119,22 @@ class MrbWrapDoc
 			filename = destination + FILE_TEMPLATE + class_name + FILE_ENDING
 			File.open(filename, "w") do |f|
 				f.puts "module #{@top_module}" if @top_module
+
+				if class_doc = @module_docs[class_name]
+					class_doc[1].each do |line|
+						f.puts "# #{line}"
+					end
+
+					# YARD seems to get confused by declaring methods in class A < B blocks
+					# Therefore, just declare the inheritance once, close the block, and reopen it again
+					# This is not the most elegant way, but it works perfectly fine
+
+					f.puts "class #{class_name}" + (class_doc[2] ? " < #{class_doc[2]}" : "")
+					f.puts
+					f.puts "end"
+					f.puts
+				end
+					
 				f.puts "class #{class_name}"
 				f.puts
 				

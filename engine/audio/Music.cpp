@@ -2,8 +2,6 @@
 
 void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_music_class = MrbWrap::define_data_class_under(mrb, "Music", ruby_module);
-
 	MrbWrap::wrap_class_under<sf::Music>(mrb, "Music", ruby_module);
 
 	// @@@ MRBWRAPDOC_IM Music initialize
