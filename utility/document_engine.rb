@@ -7,5 +7,6 @@ m.parse_file("engine/audio/Sound.cpp")
 m.parse_file("engine/audio/SoundBuffer.cpp")
 m.parse_file("engine/graphics/Color.cpp")
 m.parse_file("engine/graphics/DrawShape.cpp")
+m.parse_file("engine/graphics/Font.cpp")
 
 m.generate_doc("engine_docs/")

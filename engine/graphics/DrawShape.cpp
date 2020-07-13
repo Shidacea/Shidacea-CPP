@@ -2,6 +2,8 @@
 
 void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
+	// @@@ MRBWRAPDOC_CLASS DrawShape
+	// Abstract drawing shape class
 	MrbWrap::wrap_class_under<sf::Shape>(mrb, "DrawShape", ruby_module);
 
 	auto ruby_draw_shape_class = MrbWrap::get_class_info_ptr<sf::Shape>();
