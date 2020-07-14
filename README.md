@@ -131,12 +131,6 @@ Note that any version below 1.0.0 is a development version and will likely conta
 
 The elements in this roadmap are only for orientation and are likely to change in the future.
 
-## Version 0.2.1 (July 2020)
-* [X] Automated release builds
-* [X] Documentation page
-* [ ] Documentation of wrapped methods
-* [X] Multiple project files in a single folder
-
 ## Version 0.3.0 - Dynamics update (Autumn 2020)
 * [ ] Animations
 * [ ] More transformations (like rotation methods for triangles)
@@ -194,6 +188,12 @@ The elements in this roadmap are only for orientation and are likely to change i
 * Launshi info window with description and (one) screenshot
 * Collision test example
 * Shooter example project
+
+## Version 0.2.1
+* Automated release builds
+* Documentation page
+* Documentation of wrapped methods
+* Multiple project files in a single folder
 
 # Caveats
 
