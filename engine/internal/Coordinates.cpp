@@ -2,13 +2,13 @@
 
 void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS Coordinates
+	// @@@ M_CLASS Coordinates
 	// 2D coordinate vector class for positions
 	MrbWrap::wrap_class_under<sf::Vector2f>(mrb, "Coordinates", ruby_module);
 
 	auto ruby_coordinates_class = MrbWrap::get_class_info_ptr<sf::Vector2f>();
 
-	// @@@ MRBWRAPDOC_IM Coordinates initialize x=0.0 y=0.0
+	// @@@ M_IM Coordinates initialize x=0.0 y=0.0
 	// @return [Coordinates]
 	// @param x [Float]
 	// @param y [Float]
@@ -18,17 +18,17 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	//! TODO: Setters doe not work reliably yet, find out, why
 
-	// @@@ MRBWRAPDOC_ATTR Coordinates x Float rw
+	// @@@ M_ATTR Coordinates x Float rw
 	// Horizontal component of the vector
 	MrbWrap::wrap_getter<sf::Vector2f, &sf::Vector2f::x>(mrb, "x");
 	MrbWrap::wrap_setter<sf::Vector2f, &sf::Vector2f::x, float>(mrb, "x=");
 
-	// @@@ MRBWRAPDOC_ATTR Coordinates y Float rw
+	// @@@ M_ATTR Coordinates y Float rw
 	// Vertical component of the vector
 	MrbWrap::wrap_getter<sf::Vector2f, &sf::Vector2f::y>(mrb, "y");
 	MrbWrap::wrap_setter<sf::Vector2f, &sf::Vector2f::y, float>(mrb, "y=");
 
-	// @@@ MRBWRAPDOC_IM Coordinates + other
+	// @@@ M_IM Coordinates + other
 	// @return [Coordinates]
 	// @param other [Coordinates]
 	// Adds the two vectors to a new vector
@@ -53,7 +53,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_IM Coordinates - other
+	// @@@ M_IM Coordinates - other
 	// @return [Coordinates]
 	// @param other [Coordinates]
 	// Subtracts the two vectors to a new vector
@@ -76,7 +76,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_IM Coordinates * scalar
+	// @@@ M_IM Coordinates * scalar
 	// @return [Coordinates]
 	// @param scalar [Float]
 	// Returns the vector multiplied by the scalar value
@@ -98,7 +98,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_IM Coordinates dot other
+	// @@@ M_IM Coordinates dot other
 	// @return [Float]
 	// @param other [Coordinates]
 	// Returns the scalar product of the two vectors
@@ -113,7 +113,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_IM Coordinates squared_norm
+	// @@@ M_IM Coordinates squared_norm
 	// @return [Float]
 	// Returns the squared norm of the vector
 	MrbWrap::define_member_function(mrb, ruby_coordinates_class, "squared_norm", MRUBY_FUNC {
@@ -124,7 +124,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	// @@@ MRBWRAPDOC_IM Coordinates to_s
+	// @@@ M_IM Coordinates to_s
 	// @return [String]
 	// Puts the coordinates in a string
 	MrbWrap::define_member_function(mrb, ruby_coordinates_class, "to_s", MRUBY_FUNC {
@@ -138,7 +138,7 @@ void setup_ruby_class_coordinates(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
-	// @@@ MRBWRAPDOC_IM Coordinates inspect
+	// @@@ M_IM Coordinates inspect
 	// @return [String]
 	// Returns the vector in a easily readable string format
 	MrbWrap::define_member_function(mrb, ruby_coordinates_class, "inspect", MRUBY_FUNC {

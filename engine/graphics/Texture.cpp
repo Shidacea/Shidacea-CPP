@@ -2,17 +2,17 @@
 
 void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS Texture
+	// @@@ M_CLASS Texture
 	// Texture objects which can be referenced by sprites
 	MrbWrap::wrap_class_under<sf::Texture>(mrb, "Texture", ruby_module);
 	auto ruby_texture_class = MrbWrap::get_class_info_ptr<sf::Texture>();
 
-	// @@@ MRBWRAPDOC_IM Texture initialize
+	// @@@ M_IM Texture initialize
 	// @return [Texture]
 	// Creates an empty texture
 	MrbWrap::wrap_constructor<sf::Texture>(mrb);
 
-	// @@@ MRBWRAPDOC_ATTR Texture size Coordinates r
+	// @@@ M_ATTR Texture size Coordinates r
 	// Size vector of the texture
 	MrbWrap::define_member_function(mrb, ruby_texture_class, "size", MRUBY_FUNC {
 
@@ -30,7 +30,7 @@ void setup_ruby_class_texture(mrb_state* mrb, RClass* ruby_module) {
 
 	});
 
-	// @@@ MRBWRAPDOC_IM Texture load_from_file filename rectangle=nil
+	// @@@ M_IM Texture load_from_file filename rectangle=nil
 	// @return [Boolean]
 	// @param filename [String]
 	// @param rectangle [IntRect|nil]

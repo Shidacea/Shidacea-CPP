@@ -2,16 +2,16 @@
 
 void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS Sprite
+	// @@@ M_CLASS Sprite
 	// A sprite class to serve as a wrapper for linked textures with more properties
 	MrbWrap::wrap_class_under<sf::Sprite>(mrb, "Sprite", ruby_module);
 
-	// @@@ MRBWRAPDOC_IM Sprite initialize
+	// @@@ M_IM Sprite initialize
 	// @return [Sprite]
 	// Creates an empty sprite object
 	MrbWrap::wrap_constructor<sf::Sprite>(mrb);
 
-	// @@@ MRBWRAPDOC_IM Sprite link_texture texture
+	// @@@ M_IM Sprite link_texture texture
 	// @return [true]
 	// @param texture [Texture]
 	// Links a texture to this sprite
@@ -29,38 +29,38 @@ void setup_ruby_class_sprite(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_ATTR Sprite position Coordinates rw
+	// @@@ M_ATTR Sprite position Coordinates rw
 	// Position of the sprite
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getPosition>(mrb, "position");
 	MrbWrap::wrap_setter<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::setPosition), sf::Vector2f>(mrb, "position=");
 
-	// @@@ MRBWRAPDOC_ATTR Sprite scale Coordinates rw
+	// @@@ M_ATTR Sprite scale Coordinates rw
 	// Scale vector of the sprite
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getScale>(mrb, "scale");
 	MrbWrap::wrap_setter<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::setScale), sf::Vector2f>(mrb, "scale=");
 
-	// @@@ MRBWRAPDOC_ATTR Sprite texture_rect IntRect rw
+	// @@@ M_ATTR Sprite texture_rect IntRect rw
 	// Texture rectangle of the sprite
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getTextureRect>(mrb, "texture_rect");
 	MrbWrap::wrap_setter<sf::Sprite, &sf::Sprite::setTextureRect, sf::IntRect>(mrb, "texture_rect=");
 
-	// @@@ MRBWRAPDOC_IM Sprite move difference
+	// @@@ M_IM Sprite move difference
 	// @return [nil]
 	// @param difference [Coordinates]
 	// Moves the sprite by the given difference
 	MrbWrap::wrap_member_function<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::move), sf::Vector2f>(mrb, "move");
 
-	// @@@ MRBWRAPDOC_ATTR Sprite rotation Float rw
+	// @@@ M_ATTR Sprite rotation Float rw
 	// Rotation angle of the sprite in degrees
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getRotation>(mrb, "rotation");
 	MrbWrap::wrap_setter<sf::Sprite, &sf::Sprite::setRotation, float>(mrb, "rotation=");
 
-	// @@@ MRBWRAPDOC_ATTR Sprite origin Coordinates rw
+	// @@@ M_ATTR Sprite origin Coordinates rw
 	// Origin vector of the sprite
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getOrigin>(mrb, "origin");
 	MrbWrap::wrap_setter<sf::Sprite, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Sprite::setOrigin), sf::Vector2f>(mrb, "origin=");
 
-	// @@@ MRBWRAPDOC_ATTR Sprite color Color rw
+	// @@@ M_ATTR Sprite color Color rw
 	// Color hue of the sprite
 	MrbWrap::wrap_getter<sf::Sprite, &sf::Sprite::getColor>(mrb, "color");
 	MrbWrap::wrap_setter<sf::Sprite, &sf::Sprite::setColor, sf::Color>(mrb, "color=");

@@ -22,7 +22,7 @@ m.parse_file("engine/internal/Coordinates.cpp")
 # m.parse_file("engine/internal/Events.cpp")
 m.parse_file("engine/internal/FloatRect.cpp")
 m.parse_file("engine/internal/IntRect.cpp")
-# m.parse_file("engine/internal/Shape.cpp")
+m.parse_file("engine/internal/Shape.cpp")
 
 m.parse_file("engine/map/MapLayer.cpp")
 m.parse_file("engine/map/Tile.cpp")

@@ -19,10 +19,11 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	shape_ruby_module = ruby_module;
 
+	// @@@ M_MODULE Collider
+	// Module for collision test methods
 	auto module_collider = mrb_define_module_under(mrb, ruby_module, "Collider");
 
 	MrbWrap::wrap_class_under<Shape>(mrb, "CollisionShape", ruby_module);
-
 	auto ruby_shape_class = MrbWrap::get_class_info_ptr<Shape>();
 
 	MrbWrap::wrap_class_under<ShapePoint>(mrb, "CollisionShapePoint", ruby_module, ruby_shape_class);
@@ -186,6 +187,13 @@ void setup_ruby_collider(mrb_state* mrb, RClass* ruby_module) {
 
 	MrbWrap::define_default_copy_init<ShapeEllipse>(mrb);
 
+	// @@@ M_METHOD Collider test shape_1 shape_2 offset_1 offset_2
+	// @return [Boolean]
+	// @param shape_1 [CollisionShape]
+	// @param shape_2 [CollisionShape]
+	// @param offset_1 [Coordinates]
+	// @param offset_2 [Coordinates]
+	// Tests whether shape_1 and shape_2 collide, with respective offsets
 	MrbWrap::define_module_function(mrb, module_collider, "test", MRUBY_FUNC {
 
 		mrb_value ruby_shape_1;

@@ -2,12 +2,12 @@
 
 void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS View
+	// @@@ M_CLASS View
 	// A view class capable of giving a transformed view of drawable contents
 	MrbWrap::wrap_class_under<sf::View>(mrb, "View", ruby_module);
 	auto ruby_view_class = MrbWrap::get_class_info_ptr<sf::View>();
 
-	// @@@ MRBWRAPDOC_IM View initialize arg_1=nil arg_2=nil
+	// @@@ M_IM View initialize arg_1=nil arg_2=nil
 	// @return [View]
 	// @param arg_1 [FloatRect|Coordinates|nil]
 	// @param arg_2 [Coordinates|nil]
@@ -42,7 +42,7 @@ void setup_ruby_class_view(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_OPT(2));
 
-	// @@@ MRBWRAPDOC_IM View set_viewport rectangle
+	// @@@ M_IM View set_viewport rectangle
 	// @return [nil]
 	// @param rectangle FloatRect
 	// Sets the rectangle of the view to the given rectangle

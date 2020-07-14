@@ -180,12 +180,12 @@ void MapLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS MapLayer
+	// @@@ M_CLASS MapLayer
 	// Single layer of a map
 	MrbWrap::wrap_class_under<MapLayer>(mrb, "MapLayer", ruby_module);
 	auto ruby_map_layer_class = MrbWrap::get_class_info_ptr<MapLayer>();
 
-	// @@@ MRBWRAPDOC_IM MapLayer initialize width height view_width view_height tile_width tile_height
+	// @@@ M_IM MapLayer initialize width height view_width view_height tile_width tile_height
 	// @return [MapLayer]
 	// @param width [Integer]
 	// @param height [Integer]
@@ -196,7 +196,7 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 	// Creates a map layer with given size, the view field size and the tile size
 	MrbWrap::wrap_constructor<MapLayer, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int>(mrb);
 
-	// @@@ MRBWRAPDOC_IM MapLayer reload
+	// @@@ M_IM MapLayer reload
 	// @return [true]
 	// Reloads the map
 	MrbWrap::define_member_function(mrb, ruby_map_layer_class, "reload", MRUBY_FUNC {
@@ -211,12 +211,12 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_IM MapLayer load_test_map
+	// @@@ M_IM MapLayer load_test_map
 	// @return [nil]
 	// Loads a simple test map
 	MrbWrap::wrap_member_function<MapLayer, &MapLayer::load_test_map>(mrb, "load_test_map");
 
-	// @@@ MRBWRAPDOC_IM MapLayer link_tileset tileset
+	// @@@ M_IM MapLayer link_tileset tileset
 	// @return [nil]
 	// @param tileset [Tileset]
 	// Links the given tileset to the map layer
@@ -237,19 +237,19 @@ void setup_ruby_class_map_layer(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_ATTR MapLayer collision_active Boolean rw
+	// @@@ M_ATTR MapLayer collision_active Boolean rw
 	// Tests collisions if set to true
 	MrbWrap::wrap_getter<MapLayer, &MapLayer::is_collision_active>(mrb, "collision_active");
 	MrbWrap::wrap_setter<MapLayer, &MapLayer::set_collision_active, bool>(mrb, "collision_active=");
 
-	// @@@ MRBWRAPDOC_IM MapLayer [] x y
+	// @@@ M_IM MapLayer [] x y
 	// @return [Tile]
 	// @param x Integer
 	// @param y Integer
 	// Gives the tile at the given indices on the map
 	MrbWrap::wrap_member_function<MapLayer, &MapLayer::get_tile, unsigned int, unsigned int>(mrb, "[]");
 
-	// @@@ MRBWRAPDOC_ATTR MapLayer tileset Tileset r
+	// @@@ M_ATTR MapLayer tileset Tileset r
 	// The tileset of the map
 	MrbWrap::define_member_function(mrb, ruby_map_layer_class, "tileset", MRUBY_FUNC {
 

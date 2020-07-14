@@ -2,16 +2,16 @@
 
 void setup_ruby_class_sound(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS Sound
+	// @@@ M_CLASS Sound
 	// Sound class holding a sound buffer
 	MrbWrap::wrap_class_under<sf::Sound>(mrb, "Sound", ruby_module);
 
-	// @@@ MRBWRAPDOC_IM Sound initialize
+	// @@@ M_IM Sound initialize
 	// @return [Sound]
 	// Creates a sound (without content)
 	MrbWrap::wrap_constructor<sf::Sound>(mrb);
 
-	// @@@ MRBWRAPDOC_IM Sound link_sound_buffer sound_buffer
+	// @@@ M_IM Sound link_sound_buffer sound_buffer
 	// @return [true]
 	// @param sound_buffer [SoundBuffer]
 	// Links a sound buffer to this sound
@@ -29,27 +29,27 @@ void setup_ruby_class_sound(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
-	// @@@ MRBWRAPDOC_IM Sound play
+	// @@@ M_IM Sound play
 	// @return [nil]
 	// Plays the sound from the beginning or resumes it if paused
 	MrbWrap::wrap_member_function<sf::Sound, &sf::Sound::play>(mrb, "play");
 
-	// @@@ MRBWRAPDOC_IM Sound play
+	// @@@ M_IM Sound play
 	// @return [nil]
 	// Pauses the sound if running
 	MrbWrap::wrap_member_function<sf::Sound, &sf::Sound::pause>(mrb, "pause");
 
-	// @@@ MRBWRAPDOC_IM Sound stop
+	// @@@ M_IM Sound stop
 	// @return [nil]
 	// Stops the sound if running
 	MrbWrap::wrap_member_function<sf::Sound, &sf::Sound::stop>(mrb, "stop");
 
-	// @@@ MRBWRAPDOC_ATTR Sound volume Float rw
+	// @@@ M_ATTR Sound volume Float rw
 	// Volume of the sound, ranging from 0 to 100 (default)
 	MrbWrap::wrap_getter<sf::Sound, &sf::Sound::getVolume>(mrb, "volume");
 	MrbWrap::wrap_setter<sf::Sound, &sf::Sound::setVolume, float>(mrb, "volume=");
 
-	// @@@ MRBWRAPDOC_ATTR Sound pitch Float rw
+	// @@@ M_ATTR Sound pitch Float rw
 	// Pitch of the sound, with default 1.0
 	MrbWrap::wrap_getter<sf::Sound, &sf::Sound::getPitch>(mrb, "pitch");
 	MrbWrap::wrap_setter<sf::Sound, &sf::Sound::setPitch, float>(mrb, "pitch=");

@@ -10,10 +10,11 @@ class MrbWrapDoc
 
 	START_SEQUENCE = "@@@"
 
-	COMMAND_INSTANCE_METHOD = "MRBWRAPDOC_IM"
-	COMMAND_ATTRIBUTE = "MRBWRAPDOC_ATTR"
-	COMMAND_CLASS = "MRBWRAPDOC_CLASS"
-	COMMAND_MODULE = "MRBWRAPDOC_MODULE"
+	COMMAND_INSTANCE_METHOD = "M_IM"
+	COMMAND_ATTRIBUTE = "M_ATTR"
+	COMMAND_CLASS = "M_CLASS"
+	COMMAND_MODULE = "M_MODULE"
+	COMMAND_METHOD = "M_METHOD"
 
 	PARSE_MODE_NONE = 0
 	PARSE_MODE_YARD = 1
@@ -27,7 +28,6 @@ class MrbWrapDoc
 	TAG_MODULE = 3
 
 	def initialize(top_module: nil)
-		@classes = {}
 		@modules = {}
 		@module_docs = {}
 		@top_module = top_module
@@ -51,6 +51,9 @@ class MrbWrapDoc
 				if parse_mode == PARSE_MODE_NONE
 					if start_sequence_index = stripped_line.index(START_SEQUENCE)
 						command = stripped_line[start_sequence_index..-1].delete_prefix(START_SEQUENCE).strip.split
+
+						# TODO: Clean up
+
 						if command[0] == COMMAND_INSTANCE_METHOD
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
@@ -61,6 +64,9 @@ class MrbWrapDoc
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
 						elsif command[0] == COMMAND_MODULE
+							current_command = command
+							parse_mode = PARSE_MODE_YARD
+						elsif command[0] == COMMAND_METHOD
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
 						else
@@ -82,27 +88,40 @@ class MrbWrapDoc
 
 			elsif parse_mode == PARSE_MODE_YARD
 				if current_command[0] == COMMAND_INSTANCE_METHOD
-					class_name = current_command[1]
+					module_name = current_command[1]
 					method_name = current_command[2]
 					args = current_command[3..-1]
 
-					@classes[class_name] = {} unless @classes[class_name]
-					@classes[class_name][method_name] = [TAG_METHOD, comment_line_list, args]
+					@modules[module_name] = {} unless @modules[module_name]
+					@modules[module_name][method_name] = [TAG_METHOD, comment_line_list, args]
 
 				elsif current_command[0] == COMMAND_ATTRIBUTE
-					class_name = current_command[1]
+					module_name = current_command[1]
 					attribute_name = current_command[2]
 					attribute_type = current_command[3]
 					attribute_property = current_command[4]
 
-					@classes[class_name] = {} unless @classes[class_name]
-					@classes[class_name][attribute_name] = [TAG_ATTRIBUTE, comment_line_list, attribute_type, attribute_property ? "rw" : attribute_property]
+					@modules[module_name] = {} unless @modules[module_name]
+					@modules[module_name][attribute_name] = [TAG_ATTRIBUTE, comment_line_list, attribute_type, attribute_property ? "rw" : attribute_property]
 
 				elsif current_command[0] == COMMAND_CLASS
-					class_name = current_command[1]
+					module_name = current_command[1]
 					inherited_name = current_command[2]
 
-					@module_docs[class_name] = [TAG_CLASS, comment_line_list, inherited_name]
+					@module_docs[module_name] = [TAG_CLASS, comment_line_list, inherited_name]
+
+				elsif current_command[0] == COMMAND_MODULE
+					module_name = current_command[1]
+					
+					@module_docs[module_name] = [TAG_MODULE, comment_line_list]
+
+				elsif current_command[0] == COMMAND_METHOD
+					module_name = current_command[1]
+					method_name = current_command[2]
+					args = current_command[3..-1]
+
+					@modules[module_name] = {} unless @modules[module_name]
+					@modules[module_name]["/self." + method_name] = [TAG_METHOD, comment_line_list, args]
 
 				end
 
@@ -116,31 +135,42 @@ class MrbWrapDoc
 	def generate_doc(destination)
 		Dir.mkdir(destination) unless File.exists?(destination)
 
-		@classes.each_key do |class_name|
-			filename = destination + FILE_TEMPLATE + class_name + FILE_ENDING
+		@modules.each_key do |module_name|
+			filename = destination + FILE_TEMPLATE + module_name + FILE_ENDING
 			File.open(filename, "w") do |f|
 				f.puts "module #{@top_module}" if @top_module
 
-				if class_doc = @module_docs[class_name]
-					class_doc[1].each do |line|
+				if module_doc = @module_docs[module_name]
+					module_doc[1].each do |line|
 						f.puts "# #{line}"
 					end
 
-					# YARD seems to get confused by declaring methods in class A < B blocks
-					# Therefore, just declare the inheritance once, close the block, and reopen it again
-					# This is not the most elegant way, but it works perfectly fine
+					if module_doc[0] == TAG_CLASS
+						# YARD seems to get confused by declaring methods in class A < B blocks
+						# Therefore, just declare the inheritance once, close the block, and reopen it again
+						# This is not the most elegant way, but it works perfectly fine
 
-					f.puts "class #{class_name}" + (class_doc[2] ? " < #{class_doc[2]}" : "")
+						f.puts "class #{module_name}" + (module_doc[2] ? " < #{module_doc[2]}" : "")
+						f.puts
+						f.puts "end"
+						f.puts
+						f.puts "class #{module_name}"
+						f.puts
+
+					elsif module_doc[0] == TAG_MODULE
+						f.puts "module #{module_name}"
+						f.puts
+
+					end
+
+				else
+					f.puts "class #{module_name}"
 					f.puts
-					f.puts "end"
-					f.puts
+
 				end
-					
-				f.puts "class #{class_name}"
-				f.puts
 				
-				@classes[class_name].each_key do |method_name|
-					method_args = @classes[class_name][method_name]
+				@modules[module_name].each_key do |method_name|
+					method_args = @modules[module_name][method_name]
 
 					method_tag = method_args[0]
 					method_lines = method_args[1]
@@ -148,13 +178,28 @@ class MrbWrapDoc
 					if method_tag == TAG_METHOD
 						args = method_args[2]
 
-						if args
-							f.puts "\t# @!method #{method_name}(#{args.join(", ")})"
-						else
-							f.puts "\t# @!method #{method_name}"
-						end
+						if method_name.start_with?("/self.")
+							cropped_name = method_name.delete_prefix("/self.")
 
-						f.puts "\t# @!scope instance"
+							if args
+								f.puts "\t# @!method self.#{cropped_name}(#{args.join(", ")})"
+							else
+								f.puts "\t# @!method self.#{cropped_name}"
+							end
+
+							f.puts "\t# @!scope class"
+
+						else
+
+							if args
+								f.puts "\t# @!method #{method_name}(#{args.join(", ")})"
+							else
+								f.puts "\t# @!method #{method_name}"
+							end
+
+							f.puts "\t# @!scope instance"
+
+						end
 
 					elsif method_tag == TAG_ATTRIBUTE
 						attribute_type = method_args[2]

@@ -2,53 +2,53 @@
 
 void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
-	// @@@ MRBWRAPDOC_CLASS DrawShape
+	// @@@ M_CLASS DrawShape
 	// Abstract drawing shape class
 	MrbWrap::wrap_class_under<sf::Shape>(mrb, "DrawShape", ruby_module);
 
 	auto ruby_draw_shape_class = MrbWrap::get_class_info_ptr<sf::Shape>();
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape fill_color Color rw
+	// @@@ M_ATTR DrawShape fill_color Color rw
 	// Fill color of the shape
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getFillColor>(mrb, "fill_color");
 	MrbWrap::wrap_setter<sf::Shape, &sf::Shape::setFillColor, sf::Color>(mrb, "fill_color=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape outline_thickness Float rw
+	// @@@ M_ATTR DrawShape outline_thickness Float rw
 	// Thickness of the shape outline
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getOutlineThickness>(mrb, "outline_thickness");
 	MrbWrap::wrap_setter<sf::Shape, &sf::Shape::setOutlineThickness, float>(mrb, "outline_thickness=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape outline_color Color rw
+	// @@@ M_ATTR DrawShape outline_color Color rw
 	// Outline color of the shape
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getOutlineColor>(mrb, "outline_color");
 	MrbWrap::wrap_setter<sf::Shape, &sf::Shape::setOutlineColor, sf::Color>(mrb, "outline_color=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape texture_rect IntRect rw
+	// @@@ M_ATTR DrawShape texture_rect IntRect rw
 	// Rectangle defining the texture area to be drawn
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getTextureRect>(mrb, "texture_rect");
 	MrbWrap::wrap_setter<sf::Shape, &sf::Shape::setTextureRect, sf::IntRect>(mrb, "texture_rect=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape position Coordinates rw
+	// @@@ M_ATTR DrawShape position Coordinates rw
 	// Position of the shape
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getPosition>(mrb, "position");
 	MrbWrap::wrap_setter<sf::Shape, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Shape::setPosition), sf::Vector2f>(mrb, "position=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape scale Coordinates rw
+	// @@@ M_ATTR DrawShape scale Coordinates rw
 	// Scale vector of the shape
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getScale>(mrb, "scale");
 	MrbWrap::wrap_setter<sf::Shape, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Shape::setScale), sf::Vector2f>(mrb, "scale=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape rotation Float rw
+	// @@@ M_ATTR DrawShape rotation Float rw
 	// Rotation angle of the shape in degrees
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getRotation>(mrb, "rotation");
 	MrbWrap::wrap_setter<sf::Shape, &sf::Shape::setRotation, float>(mrb, "rotation=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShape origin Coordinates rw
+	// @@@ M_ATTR DrawShape origin Coordinates rw
 	// Origin point of the shape
 	MrbWrap::wrap_getter<sf::Shape, &sf::Shape::getOrigin>(mrb, "origin");
 	MrbWrap::wrap_setter<sf::Shape, MrbWrap::specify<sf::Transformable, void, const sf::Vector2f&>(&sf::Shape::setOrigin), sf::Vector2f>(mrb, "origin=");
 
-	// @@@ MRBWRAPDOC_IM DrawShape link_texture texture
+	// @@@ M_IM DrawShape link_texture texture
 	// @return [true]
 	// @param texture Texture
 	// Links an existing texture to the shape
@@ -70,16 +70,16 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
 	//! Point
 
-	// @@@ MRBWRAPDOC_CLASS DrawShapePoint DrawShape
+	// @@@ M_CLASS DrawShapePoint DrawShape
 	// Drawing shape class for a single point
 	MrbWrap::wrap_class_under<PointShape>(mrb, "DrawShapePoint", ruby_module, ruby_draw_shape_class);
 
-	// @@@ MRBWRAPDOC_IM DrawShapePoint initialize
+	// @@@ M_IM DrawShapePoint initialize
 	// @return [DrawShapePoint]
 	// Creates an empty point shape
 	MrbWrap::wrap_constructor<PointShape>(mrb);
 
-	// @@@ MRBWRAPDOC_IM DrawShapePoint get_from collision_shape
+	// @@@ M_IM DrawShapePoint get_from collision_shape
 	// @return [nil]
 	// @param collision_shape CollisionShapePoint
 	// Copies properties from the given shape to this shape
@@ -103,21 +103,21 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
 	//! Line
 
-	// @@@ MRBWRAPDOC_CLASS DrawShapeLine DrawShape
+	// @@@ M_CLASS DrawShapeLine DrawShape
 	// Drawing shape class for a line
 	MrbWrap::wrap_class_under<LineShape>(mrb, "DrawShapeLine", ruby_module, ruby_draw_shape_class);
 
-	// @@@ MRBWRAPDOC_IM DrawShapeLine initialize
+	// @@@ M_IM DrawShapeLine initialize
 	// @return [DrawShapeLine]
 	// Creates an empty line shape
 	MrbWrap::wrap_constructor<LineShape>(mrb);
 
-	// @@@ MRBWRAPDOC_ATTR DrawShapeLine line Coordinates rw
+	// @@@ M_ATTR DrawShapeLine line Coordinates rw
 	// Line parameter vector
 	MrbWrap::wrap_getter<LineShape, &LineShape::getEndPoint>(mrb, "line");
 	MrbWrap::wrap_setter<LineShape, &LineShape::setEndPoint, sf::Vector2f>(mrb, "line=");
 
-	// @@@ MRBWRAPDOC_IM DrawShapeLine get_from collision_shape
+	// @@@ M_IM DrawShapeLine get_from collision_shape
 	// @return [nil]
 	// @param collision_shape CollisionShapeLine
 	// Copies properties from the given shape to this shape
@@ -142,21 +142,21 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
 	//! Box
 
-	// @@@ MRBWRAPDOC_CLASS DrawShapeRectangle DrawShape
+	// @@@ M_CLASS DrawShapeRectangle DrawShape
 	// Drawing shape class for a rectangle
 	MrbWrap::wrap_class_under<sf::RectangleShape>(mrb, "DrawShapeRectangle", ruby_module, ruby_draw_shape_class);
 
-	// @@@ MRBWRAPDOC_IM DrawShapeRectangle initialize
+	// @@@ M_IM DrawShapeRectangle initialize
 	// @return [DrawShapeRectangle]
 	// Creates an empty rectangle shape
 	MrbWrap::wrap_constructor<sf::RectangleShape>(mrb);
 
-	// @@@ MRBWRAPDOC_ATTR DrawShapeRectangle size Coordinates rw
+	// @@@ M_ATTR DrawShapeRectangle size Coordinates rw
 	// Size vector of the rectangle
 	MrbWrap::wrap_getter<sf::RectangleShape, &sf::RectangleShape::getSize>(mrb, "size");
 	MrbWrap::wrap_setter<sf::RectangleShape, &sf::RectangleShape::setSize, sf::Vector2f>(mrb, "size=");
 
-	// @@@ MRBWRAPDOC_IM DrawShapeRectangle get_from collision_shape
+	// @@@ M_IM DrawShapeRectangle get_from collision_shape
 	// @return [nil]
 	// @param collision_shape CollisionShapeRectangle
 	// Copies properties from the given shape to this shape
@@ -179,21 +179,21 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
 	//! Circle
 
-	// @@@ MRBWRAPDOC_CLASS DrawShapeCircle DrawShape
+	// @@@ M_CLASS DrawShapeCircle DrawShape
 	// Drawing shape class for a circle
 	MrbWrap::wrap_class_under<sf::CircleShape>(mrb, "DrawShapeCircle", ruby_module, ruby_draw_shape_class);
 
-	// @@@ MRBWRAPDOC_IM DrawShapeCircle initialize
+	// @@@ M_IM DrawShapeCircle initialize
 	// @return [DrawShapeCircle]
 	// Creates an empty circle shape
 	MrbWrap::wrap_constructor<sf::CircleShape>(mrb);
 
-	// @@@ MRBWRAPDOC_ATTR DrawShapeCircle radius Float rw
+	// @@@ M_ATTR DrawShapeCircle radius Float rw
 	// Radius of the circle
 	MrbWrap::wrap_getter<sf::CircleShape, &sf::CircleShape::getRadius>(mrb, "radius");
 	MrbWrap::wrap_setter<sf::CircleShape, &sf::CircleShape::setRadius, float>(mrb, "radius=");
 
-	// @@@ MRBWRAPDOC_IM DrawShapeCircle get_from collision_shape
+	// @@@ M_IM DrawShapeCircle get_from collision_shape
 	// @return [nil]
 	// @param collision_shape CollisionShapeCircle
 	// Copies properties from the given shape to this shape
@@ -216,26 +216,26 @@ void setup_ruby_class_draw_shape(mrb_state* mrb, RClass* ruby_module) {
 
 	//! Triangle
 
-	// @@@ MRBWRAPDOC_CLASS DrawShapeTriangle DrawShape
+	// @@@ M_CLASS DrawShapeTriangle DrawShape
 	// Drawing shape class for a triangle
 	MrbWrap::wrap_class_under<TriangleShape>(mrb, "DrawShapeTriangle", ruby_module, ruby_draw_shape_class);
 
-	// @@@ MRBWRAPDOC_IM DrawShapeTriangle initialize
+	// @@@ M_IM DrawShapeTriangle initialize
 	// @return [DrawShapeTriangle]
 	// Creates an empty triangle shape
 	MrbWrap::wrap_constructor<TriangleShape>(mrb);
 
-	// @@@ MRBWRAPDOC_ATTR DrawShapeTriangle side_1 Coordinates rw
+	// @@@ M_ATTR DrawShapeTriangle side_1 Coordinates rw
 	// First triangle side vector
 	MrbWrap::wrap_getter<TriangleShape, &TriangleShape::getSide1>(mrb, "side_1");
 	MrbWrap::wrap_setter<TriangleShape, &TriangleShape::setSide1, sf::Vector2f>(mrb, "side_1=");
 
-	// @@@ MRBWRAPDOC_ATTR DrawShapeTriangle side_2 Coordinates rw
+	// @@@ M_ATTR DrawShapeTriangle side_2 Coordinates rw
 	// Second triangle side vector
 	MrbWrap::wrap_getter<TriangleShape, &TriangleShape::getSide2>(mrb, "side_2");
 	MrbWrap::wrap_setter<TriangleShape, &TriangleShape::setSide2, sf::Vector2f>(mrb, "side_2=");
 
-	// @@@ MRBWRAPDOC_IM DrawShapeTriangle get_from collision_shape
+	// @@@ M_IM DrawShapeTriangle get_from collision_shape
 	// @return [nil]
 	// @param collision_shape CollisionShapeTriangle
 	// Copies properties from the given shape to this shape
