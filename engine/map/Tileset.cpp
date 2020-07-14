@@ -38,10 +38,14 @@ void Tileset::add_tile(Tile* tile) {
 
 void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_tileset_class = MrbWrap::define_data_class_under(mrb, "Tileset", ruby_module);
-
+	// @@@ MRBWRAPDOC_CLASS Tileset
+	// Map tileset class
 	MrbWrap::wrap_class_under<Tileset>(mrb, "Tileset", ruby_module);
+	auto ruby_tileset_class = MrbWrap::get_class_info_ptr<Tileset>();
 
+	// @@@ MRBWRAPDOC_IM Tileset initialize
+	// @return [Tileset]
+	// Creates an empty tileset
 	MrbWrap::define_member_function(mrb, ruby_tileset_class, "initialize", MRUBY_FUNC {
 
 		MrbWrap::convert_to_object<Tileset>(mrb, self);
@@ -54,6 +58,10 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
+	// @@@ MRBWRAPDOC_IM Tileset link_texture texture
+	// @return [true]
+	// @param texture [Texture]
+	// Links the given tileset texture to the tileset
 	MrbWrap::define_member_function(mrb, ruby_tileset_class, "link_texture", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_raw_args<sf::Texture>(mrb);
@@ -68,9 +76,17 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ MRBWRAPDOC_ATTR Tileset size Integer r
+	// Total number of tiles in the tileset
 	MrbWrap::wrap_getter<Tileset, &Tileset::size>(mrb, "size");
 
+	// @@@ MRBWRAPDOC_IM Tileset add_tile tile
+	// @return [true]
+	// @param tile [Tile]
+	// Adds a tile to the tileset
 	MrbWrap::define_member_function(mrb, ruby_tileset_class, "add_tile", MRUBY_FUNC {
+
+		//! TODO: Return index of the new tile
 
 		auto args = MrbWrap::get_raw_args<Tile>(mrb);
 		auto ruby_tile = std::get<0>(args);
@@ -89,6 +105,8 @@ void setup_ruby_class_tileset(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ MRBWRAPDOC_ATTR Tileset tiles Array<Tile> r
+	// Returns an array of the tiles
 	MrbWrap::define_member_function(mrb, ruby_tileset_class, "tiles", MRUBY_FUNC {
 
 		static auto tile_array_sym = mrb_intern_static(mrb, "@tiles", strlen("@tiles"));

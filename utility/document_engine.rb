@@ -24,10 +24,11 @@ m.parse_file("engine/internal/FloatRect.cpp")
 m.parse_file("engine/internal/IntRect.cpp")
 # m.parse_file("engine/internal/Shape.cpp")
 
-# m.parse_file("engine/map/MapLayer.cpp")
-# m.parse_file("engine/map/Tile.cpp")
-# m.parse_file("engine/map/Tileset.cpp")
+m.parse_file("engine/map/MapLayer.cpp")
+m.parse_file("engine/map/Tile.cpp")
+m.parse_file("engine/map/Tileset.cpp")
 
+# TODO: Planned for a later update
 # m.parse_file("engine/network/Listener.cpp")
 # m.parse_file("engine/network/Socket.cpp")
 

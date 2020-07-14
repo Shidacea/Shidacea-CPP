@@ -53,12 +53,17 @@ unsigned int Tile::get_animation_frame(unsigned int frame_counter) {
 
 void setup_ruby_class_tile(mrb_state* mrb, RClass* ruby_module) {
 
-	auto ruby_tile_class = MrbWrap::define_data_class_under(mrb, "Tile", ruby_module);
-
+	// @@@ MRBWRAPDOC_CLASS Tile
+	// Map tile data class
 	MrbWrap::wrap_class_under<Tile>(mrb, "Tile", ruby_module);
 
+	// @@@ MRBWRAPDOC_IM Tile initialize
+	// @return [Tile]
+	// Creates an empty tile
 	MrbWrap::wrap_constructor<Tile>(mrb);
 
+	// @@@ MRBWRAPDOC_ATTR Tile solid Boolean rw
+	// Property determining whether the tile is passable
 	MrbWrap::wrap_getter<Tile, &Tile::is_solid>(mrb, "solid");
 	MrbWrap::wrap_setter<Tile, &Tile::set_as_solid, bool>(mrb, "solid=");
 
