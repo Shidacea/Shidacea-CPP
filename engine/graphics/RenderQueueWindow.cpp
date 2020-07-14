@@ -55,7 +55,7 @@ void RenderQueueWindow::draw_object(sf::RenderStates render_states, mrb_state* m
 	if (render_queue.invalid) {
 
 		char buffer[128];
-		sprintf(buffer, "Maximum render queue level of %d reached at z group %d for z = %f.", max_elements_per_group, render_queue.get_z_group(z), z);
+		sprintf(buffer, "Maximum render queue level of %zu reached at z group %zu for z = %f.", max_elements_per_group, render_queue.get_z_group(z), z);
 		mrb_raise(mrb, E_RUNTIME_ERROR, buffer);
 
 	}

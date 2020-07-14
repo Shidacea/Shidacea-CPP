@@ -2,6 +2,8 @@
 
 void setup_ruby_class_sound(mrb_state* mrb, RClass* ruby_module) {
 
+	// @@@ MRBWRAPDOC_CLASS Sound
+	// Sound class holding a sound buffer
 	MrbWrap::wrap_class_under<sf::Sound>(mrb, "Sound", ruby_module);
 
 	// @@@ MRBWRAPDOC_IM Sound initialize
