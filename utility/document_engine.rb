@@ -19,7 +19,7 @@ m.parse_file("engine/graphics/View.cpp")
 m.parse_file("engine/graphics/Window.cpp")
 
 m.parse_file("engine/internal/Coordinates.cpp")
-# m.parse_file("engine/internal/Events.cpp")
+m.parse_file("engine/internal/Events.cpp")
 m.parse_file("engine/internal/FloatRect.cpp")
 m.parse_file("engine/internal/IntRect.cpp")
 m.parse_file("engine/internal/Shape.cpp")
@@ -33,3 +33,7 @@ m.parse_file("engine/map/Tileset.cpp")
 # m.parse_file("engine/network/Socket.cpp")
 
 m.generate_doc("engine_docs/")
+
+# TODO:
+# - Add dup methods
+# - Add proper class attribute documentation

@@ -1,7 +1,9 @@
 # TODO: Add C-style comments
-# TODO: Add constants
 # TODO: Support empty classes
 # TODO: Multiple methods of the same name (maybe using suffixes)
+# TODO: Class and module attributes
+# TODO: Error handling
+# TODO: Add grouping (maybe using something before or after the @@@, or a separate tag)
 
 class MrbWrapDoc
 
@@ -12,6 +14,7 @@ class MrbWrapDoc
 	COMMAND_CLASS = "M_CLASS"
 	COMMAND_MODULE = "M_MODULE"
 	COMMAND_METHOD = "M_METHOD"
+	COMMAND_CONSTANT = "M_CONSTANT"
 
 	PARSE_MODE_NONE = 0
 	PARSE_MODE_YARD = 1
@@ -23,6 +26,7 @@ class MrbWrapDoc
 	TAG_ATTRIBUTE = 1
 	TAG_CLASS = 2
 	TAG_MODULE = 3
+	TAG_CONSTANT = 4
 
 	def initialize(top_module: nil)
 		@modules = {}
@@ -64,6 +68,9 @@ class MrbWrapDoc
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
 						elsif command[0] == COMMAND_METHOD
+							current_command = command
+							parse_mode = PARSE_MODE_YARD
+						elsif command[0] == COMMAND_CONSTANT
 							current_command = command
 							parse_mode = PARSE_MODE_YARD
 						else
@@ -119,6 +126,14 @@ class MrbWrapDoc
 
 					@modules[module_name] = {} unless @modules[module_name]
 					@modules[module_name]["/self." + method_name] = [TAG_METHOD, comment_line_list, args]
+
+				elsif current_command[0] == COMMAND_CONSTANT
+					module_name = current_command[1]
+					constant_name = current_command[2]
+					constant_value = current_command[3]
+
+					@modules[module_name] = {} unless @modules[module_name]
+					@modules[module_name][constant_name] = [TAG_CONSTANT, comment_line_list, constant_value]
 
 				end
 
@@ -204,6 +219,10 @@ class MrbWrapDoc
 
 						f.puts "\t# @!attribute [#{attribute_property}] #{method_name}"
 						f.puts "\t# @return [#{attribute_type}]"
+
+					elsif method_tag == TAG_CONSTANT
+						value = method_args[2]
+						f.puts "\t# @!parse #{method_name} = #{value}"
 
 					end
 
