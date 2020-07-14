@@ -65,13 +65,10 @@ src="https://github.com/Shidacea/Shidacea/workflows/BuildUbuntu/badge.svg">
 <img
 src="https://github.com/Shidacea/Shidacea/workflows/BuildWindows/badge.svg"></p>
 
-<p>&lt;img src=“<a
-href="https://img.shields.io/github/v/release/Shidacea/Shidacea">img.shields.io/github/v/release/Shidacea/Shidacea</a>”&gt;
-&lt;img src=“<a
-href="https://img.shields.io/github/release-date/Shidacea/Shidacea">img.shields.io/github/release-date/Shidacea/Shidacea</a>”&gt;</p>
+<p><img src="https://img.shields.io/github/v/release/Shidacea/Shidacea"> <img
+src="https://img.shields.io/github/release-date/Shidacea/Shidacea"></p>
 
-<p>&lt;img src=“<a
-href="https://img.shields.io/github/license/Shidacea/Shidacea">img.shields.io/github/license/Shidacea/Shidacea</a>”&gt;</p>
+<p><img src="https://img.shields.io/github/license/Shidacea/Shidacea"></p>
 
 <p>What you see is the game engine Shidacea, decoupled from my game Inuhh
 Shinvasion 2. It can be used for rapid development and full applications.</p>
@@ -142,6 +139,17 @@ with spaces in them, as mruby might fail to compile otherwise.</p>
 
 <p>Alternatively, you can use pre-compiled Windows binaries for each Shidacea
 release version.</p>
+
+<h1 id="label-Documentation">Documentation</h1>
+
+<p>The documentation for the default build of this project can be found unter
+<a
+href="https://shidacea.github.io/Shidacea">shidacea.github.io/Shidacea</a>.</p>
+
+<p>If you want to generate your documentation locally, you need to install
+Ruby, the YARD gem and then run the following scripts: <code> ruby
+utility/document_engine.rb yard -o docs lib engine_docs </code> This will
+generate the YARD documentation in the <code>docs</code> folder.</p>
 
 <h1 id="label-Usage">Usage</h1>
 
@@ -225,20 +233,11 @@ contain breaking changes.</p>
 <p>The elements in this roadmap are only for orientation and are likely to
 change in the future.</p>
 
-<h2 id="label-Version+0.2.1+-28Summer+2020-29">Version 0.2.1 (Summer 2020)</h2>
-<ul><li>
-<p>[ ] Automated release builds</p>
-</li><li>
-<p>[ ] Documentation page</p>
-</li></ul>
-
-<h2 id="label-Version+0.3.0+-+Dynamics+update+-28Late+summer+2020-29">Version 0.3.0 - Dynamics update (Late summer 2020)</h2>
+<h2 id="label-Version+0.3.0+-+Dynamics+update+-28Autumn+2020-29">Version 0.3.0 - Dynamics update (Autumn 2020)</h2>
 <ul><li>
 <p>[ ] Animations</p>
 </li><li>
 <p>[ ] More transformations (like rotation methods for triangles)</p>
-</li><li>
-<p>[ ] Basic GUI methods</p>
 </li><li>
 <p>[ ] Sound looping</p>
 </li><li>
@@ -248,28 +247,43 @@ change in the future.</p>
 </li><li>
 <p>[ ] Particle system</p>
 </li><li>
-<p>[ ] Installation script</p>
-</li><li>
-<p>[ ] Dedicated file specifying asset folders</p>
+<p>[ ] Basic GUI methods</p>
+</li></ul>
+
+<h2 id="label-Version+0.3.1+-28Late+2020-29">Version 0.3.1 (Late 2020)</h2>
+<ul><li>
+<p>[ ] Easy CMake configuration system</p>
 </li><li>
 <p>[ ] Keyword filters for Launshi</p>
 </li><li>
 <p>[ ] Better mod support</p>
 </li></ul>
 
-<h2 id="label-Version+0.4.0+-+Map+update+-28Late+2020-29">Version 0.4.0 - Map update (Late 2020)</h2>
+<h2 id="label-Version+0.4.0+-+Hyashi+update+-28Early+2021-29">Version 0.4.0 - Hyashi update (Early 2021)</h2>
 <ul><li>
+<p>[ ] A special game and level editor written using this engine (will be
+called Hyashi)</p>
+</li><li>
 <p>[ ] Full map support</p>
 </li><li>
-<p>[ ] A special level editor written using this engine (will be called
-Hyashi)</p>
+<p>[ ] Plugin support</p>
 </li><li>
-<p>[ ] Hyashi plugin support</p>
+<p>[ ] Script objects</p>
+</li><li>
+<p>[ ] Event objects</p>
+</li><li>
+<p>[ ] Game templates</p>
+</li><li>
+<p>[ ] Compatibility with Shidacea and Shipectral</p>
 </li></ul>
 
-<h2 id="label-Version+0.5.0+-+Network+update+-28Early+2021-29">Version 0.5.0 - Network update (Early 2021)</h2>
+<h2 id="label-Version+0.5.0+-+Feature+update+-28Summer+2021-29">Version 0.5.0 - Feature update (Summer 2021)</h2>
 <ul><li>
 <p>[ ] Actually useful network support</p>
+</li><li>
+<p>[ ] Missing SFML features</p>
+</li><li>
+<p>[ ] Missing imgui features</p>
 </li></ul>
 
 <h2 id="label-Version+1.0.0+-+Full+release">Version 1.0.0 - Full release</h2>
@@ -277,17 +291,19 @@ Hyashi)</p>
 <p>[ ] Full release</p>
 </li><li>
 <p>[ ] More example projects</p>
+</li><li>
+<p>[ ] Full documentation</p>
+</li><li>
+<p>[ ] Website</p>
 </li></ul>
 
 <h2 id="label-Possible+features+in+future+versions">Possible features in future versions</h2>
 <ul><li>
-<p>[ ] WYSIWYG-type game editor feature for Hyashi</p>
-</li><li>
-<p>[ ] Crystal implementation named Shipectral, compatible with Hyashi</p>
-</li><li>
 <p>[ ] Resource packages</p>
 </li><li>
 <p>[ ] Shader support</p>
+</li><li>
+<p>[ ] Direct vertex array wrappers</p>
 </li><li>
 <p>[ ] Support for arbitrary shape transformations for collisions</p>
 </li></ul>
@@ -323,6 +339,17 @@ Hyashi)</p>
 <p>Collision test example</p>
 </li><li>
 <p>Shooter example project</p>
+</li></ul>
+
+<h2 id="label-Version+0.2.1">Version 0.2.1</h2>
+<ul><li>
+<p>Automated release builds</p>
+</li><li>
+<p>Documentation page</p>
+</li><li>
+<p>Documentation of wrapped methods</p>
+</li><li>
+<p>Multiple project files in a single folder</p>
 </li></ul>
 
 <h1 id="label-Caveats">Caveats</h1>
@@ -389,7 +416,7 @@ platforms as possible, so please help reaching this goal.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Mon Jul  6 19:27:47 2020 by
+  Generated on Tue Jul 14 21:51:00 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.5.1).
 </div>

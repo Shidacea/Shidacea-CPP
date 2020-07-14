@@ -241,7 +241,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Debug.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_log'>log</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
-	<span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Script</span><span class='period'>.</span><span class='id identifier rubyid_debug?'>debug?</span>
+	<span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Script.html" title="SDC::Script (module)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug?'><span class='object_link'><a href="Script.html#debug%3F-class_method" title="SDC::Script.debug? (method)">debug?</a></span></span>
 	<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_message'>message</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -276,7 +276,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Debug.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_log_time'>log_time</span><span class='lparen'>(</span><span class='id identifier rubyid_msg'>msg</span><span class='rparen'>)</span>
-	<span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Script</span><span class='period'>.</span><span class='id identifier rubyid_debug?'>debug?</span>
+	<span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Script.html" title="SDC::Script (module)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug?'><span class='object_link'><a href="Script.html#debug%3F-class_method" title="SDC::Script.debug? (method)">debug?</a></span></span>
 	<span class='id identifier rubyid_t'>t</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_measure_time'>measure_time</span> <span class='kw'>do</span>
 		<span class='kw'>yield</span>
 	<span class='kw'>end</span>
@@ -313,7 +313,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Debug.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_measure_time'>measure_time</span>
-	<span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Script</span><span class='period'>.</span><span class='id identifier rubyid_debug?'>debug?</span>
+	<span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Script.html" title="SDC::Script (module)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug?'><span class='object_link'><a href="Script.html#debug%3F-class_method" title="SDC::Script.debug? (method)">debug?</a></span></span>
 	<span class='id identifier rubyid_t0'>t0</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
 	<span class='kw'>yield</span>
 	<span class='kw'>return</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>-</span> <span class='id identifier rubyid_t0'>t0</span>
@@ -347,7 +347,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Debug.rb', line 4</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_on_debug'>on_debug</span>
-	<span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Script</span><span class='period'>.</span><span class='id identifier rubyid_debug?'>debug?</span>
+	<span class='kw'>return</span> <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Script.html" title="SDC::Script (module)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug?'><span class='object_link'><a href="Script.html#debug%3F-class_method" title="SDC::Script.debug? (method)">debug?</a></span></span>
 	<span class='kw'>yield</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -379,7 +379,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Debug.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_on_release'>on_release</span>
-	<span class='kw'>return</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Script</span><span class='period'>.</span><span class='id identifier rubyid_debug?'>debug?</span>
+	<span class='kw'>return</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Script.html" title="SDC::Script (module)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug?'><span class='object_link'><a href="Script.html#debug%3F-class_method" title="SDC::Script.debug? (method)">debug?</a></span></span>
 	<span class='kw'>yield</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -392,7 +392,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jul  6 19:27:47 2020 by
+  Generated on Tue Jul 14 21:51:00 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.5.1).
 </div>

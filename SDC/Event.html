@@ -94,14 +94,363 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/core/Event.rb</dd>
+    <dd>engine_docs/automatic_doc_Event.rb<span class="defines">,<br />
+  lib/core/Event.rb,<br /> engine_docs/automatic_doc_Event.rb</span>
+</dd>
   </dl>
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Event container class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key_code-instance_method" title="#key_code (instance method)">#<strong>key_code</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Key value of the event if it is a key press.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_button_code-instance_method" title="#mouse_button_code (instance method)">#<strong>mouse_button_code</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse button value of the event if it is a mouse button press.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_button_x-instance_method" title="#mouse_button_x (instance method)">#<strong>mouse_button_x</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse x coordinate in pixels, relative to the owning window, when a button
+was pressed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_button_y-instance_method" title="#mouse_button_y (instance method)">#<strong>mouse_button_y</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse y coordinate in pixels, relative to the owning window, when a button
+was pressed.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_move_x-instance_method" title="#mouse_move_x (instance method)">#<strong>mouse_move_x</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse x coordinate in pixels, relative to the owning window, when the mouse
+was moved.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_move_y-instance_method" title="#mouse_move_y (instance method)">#<strong>mouse_move_y</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse y coordinate in pixels, relative to the owning window, when the mouse
+was moved.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_scroll_delta-instance_method" title="#mouse_scroll_delta (instance method)">#<strong>mouse_scroll_delta</strong>  &#x21d2; Float </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse wheel scrolling distance.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_scroll_wheel-instance_method" title="#mouse_scroll_wheel (instance method)">#<strong>mouse_scroll_wheel</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse wheel scrolled if a mouse scrolling event was triggered (0 for
+vertical, 1 for horizontal).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_scroll_x-instance_method" title="#mouse_scroll_x (instance method)">#<strong>mouse_scroll_x</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse x motion in pixels, relative to the owning window, when a wheel was
+scrolled.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mouse_scroll_y-instance_method" title="#mouse_scroll_y (instance method)">#<strong>mouse_scroll_y</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mouse y motion in pixels, relative to the owning window, when a wheel was
+scrolled.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text_unicode-instance_method" title="#text_unicode (instance method)">#<strong>text_unicode</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Inputted text if an input happened.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#type-instance_method" title="#type (instance method)">#<strong>type</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Type of the event.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
 
 
 
@@ -139,6 +488,80 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; Event </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates an empty event object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key_alt%3F-instance_method" title="#key_alt? (instance method)">#<strong>key_alt?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true if an alt key is pressed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key_control%3F-instance_method" title="#key_control? (instance method)">#<strong>key_control?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true if a ctrl key is pressed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#key_pressed%3F-instance_method" title="#key_pressed? (instance method)">#<strong>key_pressed?</strong>(key)  &#x21d2; Boolean </a>
     
 
@@ -154,6 +577,54 @@
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key_shift%3F-instance_method" title="#key_shift? (instance method)">#<strong>key_shift?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true if a shift key is pressed.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key_system%3F-instance_method" title="#key_system? (instance method)">#<strong>key_system?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true if a system key is pressed.</p>
+</div></span>
   
 </li>
 
@@ -337,6 +808,704 @@
     </ul>
   
 
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="SDC::Event (class)">Event</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates an empty event object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 9</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="key_code=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="key_code-instance_method">
+  
+    #<strong>key_code</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Key value of the event if it is a key press</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="EventKey.html" title="SDC::EventKey (module)">SDC::EventKey</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 19</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_button_code=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_button_code-instance_method">
+  
+    #<strong>mouse_button_code</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse button value of the event if it is a mouse button press</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="EventMouse.html" title="SDC::EventMouse (module)">SDC::EventMouse</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 44</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_button_x=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_button_x-instance_method">
+  
+    #<strong>mouse_button_x</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse x coordinate in pixels, relative to the owning window, when a button
+was pressed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 49</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_button_y=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_button_y-instance_method">
+  
+    #<strong>mouse_button_y</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse y coordinate in pixels, relative to the owning window, when a button
+was pressed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 53</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_move_x=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_move_x-instance_method">
+  
+    #<strong>mouse_move_x</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse x coordinate in pixels, relative to the owning window, when the mouse
+was moved</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 57</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_move_y=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_move_y-instance_method">
+  
+    #<strong>mouse_move_y</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse y coordinate in pixels, relative to the owning window, when the mouse
+was moved</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 61</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_scroll_delta=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_scroll_delta-instance_method">
+  
+    #<strong>mouse_scroll_delta</strong>  &#x21d2; <tt>Float</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse wheel scrolling distance</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 69</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_scroll_wheel=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_scroll_wheel-instance_method">
+  
+    #<strong>mouse_scroll_wheel</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse wheel scrolled if a mouse scrolling event was triggered (0 for
+vertical, 1 for horizontal)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 65</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_scroll_x=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_scroll_x-instance_method">
+  
+    #<strong>mouse_scroll_x</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse x motion in pixels, relative to the owning window, when a wheel was
+scrolled</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 73</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="mouse_scroll_y=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="mouse_scroll_y-instance_method">
+  
+    #<strong>mouse_scroll_y</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mouse y motion in pixels, relative to the owning window, when a wheel was
+scrolled</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 77</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="text_unicode=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="text_unicode-instance_method">
+  
+    #<strong>text_unicode</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Inputted text if an input happened</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 81</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="type-instance_method">
+  
+    #<strong>type</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Type of the event</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="EventType.html" title="SDC::EventType (module)">SDC::EventType</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 14</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -388,8 +1557,108 @@
       <pre class="code"><span class="info file"># File 'lib/core/Event.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_type?'>has_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_event_type'>event_type</span><span class='rparen'>)</span>
-	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>EventType</span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_event_type'>event_type</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EventType.html" title="SDC::EventType (module)">EventType</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_event_type'>event_type</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="key_alt?-instance_method">
+  
+    #<strong>key_alt?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns true if an alt key is pressed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 24</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="key_control?-instance_method">
+  
+    #<strong>key_control?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns true if a ctrl key is pressed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 29</span>
+
+</pre>
     </td>
   </tr>
 </table>
@@ -442,6 +1711,106 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_key_pressed?'>key_pressed?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
 	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_key_code'>key_code</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="../SDC.html#key-class_method" title="SDC.key (method)">key</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="key_shift?-instance_method">
+  
+    #<strong>key_shift?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns true if a shift key is pressed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 34</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="key_system?-instance_method">
+  
+    #<strong>key_system?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns true if a system key is pressed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'engine_docs/automatic_doc_Event.rb', line 39</span>
+
+</pre>
     </td>
   </tr>
 </table>
@@ -522,7 +1891,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Event.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mouse_coordinates'>mouse_coordinates</span>
-	<span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_button_x'>mouse_button_x</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_button_y'>mouse_button_y</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Coordinates.html" title="SDC::Coordinates (class)">Coordinates</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Coordinates.html#initialize-instance_method" title="SDC::Coordinates#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_button_x'>mouse_button_x</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_button_y'>mouse_button_y</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -678,7 +2047,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Event.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mouse_scrolled_down?'>mouse_scrolled_down?</span>
-	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_wheel'>mouse_scroll_wheel</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>EventMouse</span><span class='op'>::</span><span class='const'>VerticalWheel</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_delta'>mouse_scroll_delta</span> <span class='op'>&lt;</span> <span class='float'>0.0</span>
+	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_wheel'>mouse_scroll_wheel</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EventMouse.html" title="SDC::EventMouse (module)">EventMouse</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EventMouse.html#VerticalWheel-constant" title="SDC::EventMouse::VerticalWheel (constant)">VerticalWheel</a></span></span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_delta'>mouse_scroll_delta</span> <span class='op'>&lt;</span> <span class='float'>0.0</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -730,7 +2099,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Event.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mouse_scrolled_up?'>mouse_scrolled_up?</span>
-	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_wheel'>mouse_scroll_wheel</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>EventMouse</span><span class='op'>::</span><span class='const'>VerticalWheel</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_delta'>mouse_scroll_delta</span> <span class='op'>&gt;</span> <span class='float'>0.0</span>
+	<span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_wheel'>mouse_scroll_wheel</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EventMouse.html" title="SDC::EventMouse (module)">EventMouse</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EventMouse.html#VerticalWheel-constant" title="SDC::EventMouse::VerticalWheel (constant)">VerticalWheel</a></span></span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_scroll_delta'>mouse_scroll_delta</span> <span class='op'>&gt;</span> <span class='float'>0.0</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -760,7 +2129,7 @@
       <pre class="code"><span class="info file"># File 'lib/core/Event.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_mouse_coordinates'>new_mouse_coordinates</span>
-	<span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'>Coordinates</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_move_x'>mouse_move_x</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_move_y'>mouse_move_y</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span>
+	<span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../SDC.html" title="SDC (module)">SDC</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Coordinates.html" title="SDC::Coordinates (class)">Coordinates</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Coordinates.html#initialize-instance_method" title="SDC::Coordinates#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_move_x'>mouse_move_x</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_mouse_move_y'>mouse_move_y</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -802,7 +2171,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jul  6 19:27:47 2020 by
+  Generated on Tue Jul 14 21:51:00 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.5.1).
 </div>
