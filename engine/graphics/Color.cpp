@@ -2,6 +2,8 @@
 
 void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
+	// @@@ MRBWRAPDOC_CLASS Color
+	// RGBA color class
 	MrbWrap::wrap_class_under<sf::Color>(mrb, "Color", ruby_module);
 	auto ruby_class_color = MrbWrap::get_class_info_ptr<sf::Color>();
 

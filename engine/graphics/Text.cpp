@@ -2,8 +2,16 @@
 
 void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
+	// @@@ MRBWRAPDOC_CLASS Text
+	// Drawable text class
 	MrbWrap::wrap_class_under<sf::Text>(mrb, "Text", ruby_module);
 
+	// @@@ MRBWRAPDOC_IM Text initialize content font character_size=30
+	// @return [Text]
+	// @param content [String]
+	// @param font [Font]
+	// @param character_size [Integer]
+	// Creates a text object with the given content, font and character size
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::Text>(), "initialize", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_raw_args<const char*, sf::Font, MRBW_OPT<unsigned int, 30>>(mrb);
@@ -24,12 +32,18 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_ARG(2, 1));
 
+	// @@@ MRBWRAPDOC_ATTR Text character_size Integer rw
+	// Character size of the text in pixels
 	MrbWrap::wrap_getter<sf::Text, &sf::Text::getCharacterSize>(mrb, "character_size");
 	MrbWrap::wrap_setter<sf::Text, &sf::Text::setCharacterSize, unsigned int>(mrb, "character_size=");
 
+	// @@@ MRBWRAPDOC_ATTR Text fill_color Color rw
+	// Fill color of the text
 	MrbWrap::wrap_getter<sf::Text, &sf::Text::getFillColor>(mrb, "fill_color");
 	MrbWrap::wrap_setter<sf::Text, &sf::Text::setFillColor, sf::Color>(mrb, "fill_color=");
 
+	// @@@ MRBWRAPDOC_ATTR Text outline_color Color rw
+	// Outline color of the text
 	MrbWrap::wrap_getter<sf::Text, &sf::Text::getOutlineColor>(mrb, "outline_color");
 	MrbWrap::wrap_setter<sf::Text, &sf::Text::setOutlineColor, sf::Color>(mrb, "outline_color=");
 
@@ -38,6 +52,8 @@ void setup_ruby_class_text(mrb_state* mrb, RClass* ruby_module) {
 	//! However, the Ruby string class is perfectly sufficient for these tasks
 	//! Replacing it with an SFML class would be overkill
 
+	// @@@ MRBWRAPDOC_ATTR Text string String rw
+	// Content of the text
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<sf::Text>(), "string", MRUBY_FUNC {
 
 		auto text = MrbWrap::convert_from_object<sf::Text>(mrb, self);

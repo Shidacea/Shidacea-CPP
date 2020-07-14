@@ -4,6 +4,7 @@
 # TODO: Add constants
 # TODO: Module documentation
 # TODO: Support empty classes
+# TODO: Multiple methods of the same name
 
 class MrbWrapDoc
 
