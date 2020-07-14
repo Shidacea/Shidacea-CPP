@@ -1,10 +1,7 @@
 # TODO: Add C-style comments
-# TODO: Add class methods
-# TODO: Add module methods
 # TODO: Add constants
-# TODO: Module documentation
 # TODO: Support empty classes
-# TODO: Multiple methods of the same name
+# TODO: Multiple methods of the same name (maybe using suffixes)
 
 class MrbWrapDoc
 

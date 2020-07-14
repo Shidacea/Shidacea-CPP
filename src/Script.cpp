@@ -2,11 +2,17 @@
 
 void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
+	// @@@ M_MODULE Script
+	// Module for script utilities
 	auto script_module = mrb_define_module_under(mrb, ruby_module, "Script");
 
 	//! TODO: Change this depending on compilation parameters
 	mrb_mod_cv_set(mrb, script_module, mrb_intern_static(mrb, "@@_path", strlen("@@_path")), mrb_str_new_cstr(mrb, FRONTEND_DIRECTORY));
 
+	// @@@ M_METHOD Sript load filename
+	// @return [true]
+	// @param filename [String]
+	// Loads and executes the script with the given filename
 	MrbWrap::define_module_function(mrb, script_module, "load", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<MRBW_FILE>(mrb);
@@ -18,6 +24,10 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ M_METHOD Sript load_recursively path
+	// @return [true]
+	// @param path [String]
+	// Loads and executes all scripts in the given path name
 	MrbWrap::define_module_function(mrb, script_module, "load_recursively", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_converted_args<MRBW_FILE>(mrb);
@@ -29,6 +39,9 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ M_METHOD Script path
+	// @return [String]
+	// Returns the current script loading path
 	MrbWrap::define_module_function(mrb, script_module, "path", MRUBY_FUNC {
 
 		//! TODO: Remove SDC module reference, maybe via a global function
@@ -40,6 +53,10 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ M_METHOD Script path=(new_path)
+	// @return [String]
+	// @param new_path [String]
+	// Sets the script loading path
 	MrbWrap::define_module_function(mrb, script_module, "path=", MRUBY_FUNC {
 
 		auto args = MrbWrap::get_raw_args<std::string>(mrb);
@@ -54,6 +71,9 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_REQ(1));
 
+	// @@@ M_METHOD Script debug?
+	// @return [Boolean]
+	// Returns true if debug routines are enabled
 	MrbWrap::define_module_function(mrb, script_module, "debug?", MRUBY_FUNC {
 
 #ifdef NDEBUG
@@ -64,6 +84,9 @@ void setup_ruby_script_module(mrb_state* mrb, RClass* ruby_module) {
 
 	}, MRB_ARGS_NONE());
 
+	// @@@ M_METHOD Script version
+	// @return [String]
+	// Returns the current version of Shidacea
 	MrbWrap::define_module_function(mrb, script_module, "version", MRUBY_FUNC{
 
 		auto converted_string = mrb_str_new_cstr(mrb, SHIDACEA_VERSION);

@@ -2,7 +2,7 @@ require "./utility/MrbWrapDoc.rb"
 
 m = MrbWrapDoc.new(top_module: "SDC")
 
-# m.parse_file("src/Script.cpp")
+m.parse_file("src/Script.cpp")
 
 m.parse_file("engine/audio/Music.cpp")
 m.parse_file("engine/audio/Sound.cpp")
