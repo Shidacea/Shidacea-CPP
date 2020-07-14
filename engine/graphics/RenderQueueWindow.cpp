@@ -38,7 +38,8 @@ void RenderQueueWindow::draw_object(sf::RenderStates render_states, mrb_state* m
 
 	} else {
 
-		//! TODO: Error message
+		//! More details
+		mrb_raise(mrb, E_RUNTIME_ERROR, "Invalid type given for drawing.");
 
 	}
 

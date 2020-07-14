@@ -45,7 +45,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	// @@@ MRBWRAPDOC_IM Color + other
 	// @return [Color]
-	// @param other Color
+	// @param other [Color]
 	// Adds the two color values by components to a new value
 	MrbWrap::define_member_function(mrb, ruby_class_color, "+", MRUBY_FUNC {
 	
@@ -68,7 +68,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	// @@@ MRBWRAPDOC_IM Color - other
 	// @return [Color]
-	// @param other Color
+	// @param other [Color]
 	// Subtracts the two color values by components to a new value
 	MrbWrap::define_member_function(mrb, ruby_class_color, "-", MRUBY_FUNC {
 	
@@ -91,7 +91,7 @@ void setup_ruby_class_color(mrb_state* mrb, RClass* ruby_module) {
 
 	// @@@ MRBWRAPDOC_IM Color * other
 	// @return [Color]
-	// @param other Color
+	// @param other [Color]
 	// Multiplies the two color values by components to a new value
 	MrbWrap::define_member_function(mrb, ruby_class_color, "*", MRUBY_FUNC {
 	

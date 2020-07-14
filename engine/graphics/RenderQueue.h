@@ -10,16 +10,16 @@ constexpr size_t max_elements_per_group = 4096;
 
 struct RenderCall {
 
-	sf::Drawable* obj;
+	sf::Drawable* obj = nullptr;
 	sf::RenderStates states;
 	sf::View view;
 	
 	sf::Vector2f origin;
 	sf::Vector2f position;
 	sf::Vector2f scale;
-	float rotation;
+	float rotation = 0.0;
 
-	float z;
+	float z = 0.0;
 
 };
 

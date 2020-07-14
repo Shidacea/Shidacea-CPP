@@ -107,7 +107,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	// @@@ MRBWRAPDOC_IM Window use_view view
 	// @return [nil]
 	// @param view [View]
-	// @yield nil
+	// @yield [nil]
 	// Sets the window view to the given value for the given block
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "use_view", MRUBY_FUNC {
 
@@ -159,7 +159,7 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	// @@@ MRBWRAPDOC_IM Window draw object z render_states=nil
 	// @return [true]
 	// @param object [Sprite|Text|DrawShape|MapLayer]
-	// @param z Float
+	// @param z [Float]
 	// @param render_states [RenderStates|nil]
 	// Draws the given object to the window at the given z position
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "draw", MRUBY_FUNC {
@@ -184,8 +184,8 @@ void setup_ruby_class_window(mrb_state* mrb, RClass* ruby_module) {
 	// @@@ MRBWRAPDOC_IM Window draw_translated object z offset render_states=nil
 	// @return [true]
 	// @param object [Sprite|Text|DrawShape|MapLayer]
-	// @param z Float
-	// @param offset Coordinates
+	// @param z [Float]
+	// @param offset [Coordinates]
 	// @param render_states [RenderStates|nil]
 	// Draws the given object to the window at the given z position with the given offset
 	MrbWrap::define_member_function(mrb, MrbWrap::get_class_info_ptr<RenderQueueWindow>(), "draw_translated", MRUBY_FUNC {
