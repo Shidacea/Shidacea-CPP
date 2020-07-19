@@ -272,6 +272,7 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/projects)
 # Source files
 
 set(AUDIO_SOURCES
+	engine/audio/TimeSpan.cpp
 	engine/audio/Music.cpp
 	engine/audio/SoundBuffer.cpp
 	engine/audio/Sound.cpp

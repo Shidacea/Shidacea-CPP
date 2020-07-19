@@ -52,6 +52,7 @@
 #include "Music.h"
 #include "SoundBuffer.h"
 #include "Sound.h"
+#include "TimeSpan.h"
 
 #ifndef SHIDACEA_EXCLUDE_IMGUI
 #include "ImGuiWrapper.h"

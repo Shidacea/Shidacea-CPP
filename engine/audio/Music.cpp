@@ -49,6 +49,11 @@ void setup_ruby_class_music(mrb_state* mrb, RClass* ruby_module) {
 	// Loads the music track from file, returning true if loading was successful, else false.
 	MrbWrap::wrap_member_function<sf::Music, &sf::Music::openFromFile, MRBW_FILE>(mrb, "open_from_file");
 
+	// @@@ M_ATTR Music loop_points TimeSpan rw
+	// Time span defining the music looping points
+	MrbWrap::wrap_getter<sf::Music, &sf::Music::getLoopPoints>(mrb, "loop_points");
+	MrbWrap::wrap_setter<sf::Music, &sf::Music::setLoopPoints, sf::Music::TimeSpan>(mrb, "loop_points=");
+
 	// TODO: Loops like music->setLoopPoints(sf::Music::Span(sf::milliseconds(2 * 1000 * 4), sf::milliseconds(2 * 1000 * 4)));
 
 }
