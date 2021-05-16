@@ -1,12 +1,12 @@
 # Shidacea 2D Game Engine
 
-![BuildUbuntu](https://github.com/Shidacea/Shidacea/workflows/BuildUbuntu/badge.svg)
-![BuildWindows](https://github.com/Shidacea/Shidacea/workflows/BuildWindows/badge.svg)
+![BuildUbuntu](https://github.com/Shidacea/Shidacea-CPP/workflows/BuildUbuntu/badge.svg)
+![BuildWindows](https://github.com/Shidacea/Shidacea-CPP/workflows/BuildWindows/badge.svg)
 
-![Release](https://img.shields.io/github/v/release/Shidacea/Shidacea)
-![ReleaseDate](https://img.shields.io/github/release-date/Shidacea/Shidacea)
+![Release](https://img.shields.io/github/v/release/Shidacea/Shidacea-CPP)
+![ReleaseDate](https://img.shields.io/github/release-date/Shidacea/Shidacea-CPP)
 
-![License](https://img.shields.io/github/license/Shidacea/Shidacea)
+![License](https://img.shields.io/github/license/Shidacea/Shidacea-CPP)
 
 What you see is the game engine Shidacea, decoupled from my game Inuhh Shinvasion 2. It can be used for rapid development and full applications.
 
