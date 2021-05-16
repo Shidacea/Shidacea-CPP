@@ -125,13 +125,16 @@ Disadvantages:
 * Fast collision detection routines
 * Wrapped ImGui methods for debugging
 
-# Roadmap
+# Old roadmap
+
+NOTE: The roadmap and further development of this Shidacea implementation are obsolete.
+The project Shipectral will reimplement Shidacea.
 
 Note that any version below 1.0.0 is a development version and will likely contain breaking changes.
 
 The elements in this roadmap are only for orientation and are likely to change in the future.
 
-## Version 0.3.0 - Dynamics update (Autumn 2020)
+## Version 0.3.0 - Dynamics update
 * [ ] Animations
 * [ ] More transformations (like rotation methods for triangles)
 * [ ] Sound looping
@@ -140,12 +143,12 @@ The elements in this roadmap are only for orientation and are likely to change i
 * [ ] Particle system
 * [ ] Basic GUI methods
 
-## Version 0.3.1 (Late 2020)
+## Version 0.3.1
 * [ ] Easy CMake configuration system
 * [ ] Keyword filters for Launshi
 * [ ] Better mod support
 
-## Version 0.4.0 - Hyashi update (Early 2021)
+## Version 0.4.0 - Hyashi update
 * [ ] A special game and level editor written using this engine (will be called Hyashi)
 * [ ] Full map support
 * [ ] Plugin support
@@ -154,7 +157,7 @@ The elements in this roadmap are only for orientation and are likely to change i
 * [ ] Game templates
 * [ ] Compatibility with Shidacea and Shipectral
 
-## Version 0.5.0 - Feature update (Summer 2021)
+## Version 0.5.0 - Feature update
 * [ ] Actually useful network support
 * [ ] Missing SFML features
 * [ ] Missing imgui features
