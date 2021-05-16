@@ -1,4 +1,4 @@
-# Shidacea 2D Game Engine
+# Shidacea 2D Game Engine (Shidacea-CPP implementation)
 
 ![BuildUbuntu](https://github.com/Shidacea/Shidacea-CPP/workflows/BuildUbuntu/badge.svg)
 ![BuildWindows](https://github.com/Shidacea/Shidacea-CPP/workflows/BuildWindows/badge.svg)
